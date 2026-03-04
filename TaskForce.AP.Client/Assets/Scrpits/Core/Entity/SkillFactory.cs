@@ -48,12 +48,12 @@ namespace TaskForce.AP.Client.Core.Entity
                 return skill;
             }
 
-            var attributeBlock = new AttributeBlock(_gameDataStore, _logger);
+            var attributeMediator = new AttributeMediator(_gameDataStore, _logger);
 
-            attributeBlock.SetBaseAttributes(_gameDataStore.GetSkillBaseAttributes(skillID));
-            attributeBlock.SetGrowthFormulas(_gameDataStore.GetSkillGrowthFormulas(skillID));
+            attributeMediator.SetBaseAttributes(_gameDataStore.GetSkillBaseAttributes(skillID));
+            attributeMediator.SetGrowthFormulas(_gameDataStore.GetSkillGrowthFormulas(skillID));
 
-            return new Entity.CommonSkill(skillID, skillData, _textStore, attributeBlock);
+            return new Entity.CommonSkill(skillID, skillData, _textStore, attributeMediator);
         }
     }
 }

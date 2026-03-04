@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace TaskForce.AP.Client.Core.Entity
 {
-    public class AttributeBlock
+    public class AttributeMediator
     {
         private readonly GameDataStore _gameDataStore;
         private readonly Core.ILogger _logger;
@@ -13,7 +13,7 @@ namespace TaskForce.AP.Client.Core.Entity
         private readonly List<GameData.GrowthFormula> _growthFormulas;
         private int _level;
 
-        public AttributeBlock(GameDataStore gameDataStore, ILogger logger)
+        public AttributeMediator(GameDataStore gameDataStore, ILogger logger)
         {
             _attributeStore = new AttributeStore();
             _modifyAttributeEffects = new List<IModifyAttributeEffect>();

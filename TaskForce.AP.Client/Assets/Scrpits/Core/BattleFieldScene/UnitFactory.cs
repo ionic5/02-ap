@@ -114,8 +114,8 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
                 return null;
             }
 
-            var attributeBlock = new AttributeBlock(_gameDataStore, _logger);
-            var entity = new Entity.Unit(_gameDataStore, attributeBlock);
+            var attributeMediator = new AttributeMediator(_gameDataStore, _logger);
+            var entity = new Entity.Unit(_gameDataStore, attributeMediator);
 
             var gdBaseAttributes = _gameDataStore.GetUnitBaseAttributes().Where(entry => entry.ID == gdUnit.BaseAttributeID);
             if (gdBaseAttributes.Count() == 0)

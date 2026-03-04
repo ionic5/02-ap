@@ -23,31 +23,31 @@ namespace TaskForce.AP.Client.Core.Entity
         private bool _isPlayerSide;
         private Vector2 _position;
         private string _defaultSkillID;
-        private readonly AttributeBlock _attributeBlock;
+        private readonly AttributeMediator _attributeMediator;
 
         private readonly Dictionary<string, IActiveSkill> _skills;
 
-        public Unit(GameDataStore gameDataStore, AttributeBlock attributeBlock)
+        public Unit(GameDataStore gameDataStore, AttributeMediator attributeMediator)
         {
             _gameDataStore = gameDataStore;
 
             _skills = new Dictionary<string, IActiveSkill>();
-            _attributeBlock = attributeBlock;
+            _attributeMediator = attributeMediator;
         }
 
         public void SetAttributeGrowthFormulas(IEnumerable<GameData.GrowthFormula> formulas)
         {
-            _attributeBlock.SetGrowthFormulas(formulas);
+            _attributeMediator.SetGrowthFormulas(formulas);
         }
 
         public void SetBaseAttributes(IReadOnlyDictionary<string, Attribute> baseAttributes)
         {
-            _attributeBlock.SetBaseAttributes(baseAttributes);
+            _attributeMediator.SetBaseAttributes(baseAttributes);
         }
 
         public Attribute GetAttribute(string id)
         {
-            return _attributeBlock.GetAttribute(id);
+            return _attributeMediator.GetAttribute(id);
         }
 
         public int GetHP()
@@ -144,7 +144,7 @@ namespace TaskForce.AP.Client.Core.Entity
         public void SetLevel(int level)
         {
             _level = level;
-            _attributeBlock.SetLevel(_level);
+            _attributeMediator.SetLevel(_level);
         }
 
         public void SetHP(int hp)
@@ -163,12 +163,12 @@ namespace TaskForce.AP.Client.Core.Entity
 
         public void AddModifyAttributeEffects(IEnumerable<IModifyAttributeEffect> effects)
         {
-            _attributeBlock.AddModifyAttributeEffects(effects);
+            _attributeMediator.AddModifyAttributeEffects(effects);
         }
 
         public void AddModifyAttributeEffect(IModifyAttributeEffect effect)
         {
-            _attributeBlock.AddModifyAttributeEffect(effect);
+            _attributeMediator.AddModifyAttributeEffect(effect);
         }
 
         /// <summary>

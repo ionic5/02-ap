@@ -3,7 +3,6 @@
     public class AssetID
     {
         public const string Constants = "CONSTANTS";
-        public const string BattleFieldScene = "BATTLE_FIELD_SCENE";
         public const string Text = "TEXT";
         public const string Coefficient = "COEFFICIENT";
         public const string SkillBaseAttribute = "SKILL_BASE_ATTRIBUTE";

@@ -7,9 +7,14 @@ namespace TaskForce.AP.Client.UnityWorld
     {
         [SerializeField]
         private Screen _screen;
+        [SerializeField]
+        private GameObject _loadingBlind;
 
         private void Start()
         {
+            DontDestroyOnLoad(_screen.gameObject);
+            DontDestroyOnLoad(_loadingBlind.gameObject);
+
             StartAsync();
         }
 

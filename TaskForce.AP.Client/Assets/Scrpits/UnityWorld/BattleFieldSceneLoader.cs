@@ -36,9 +36,9 @@ namespace TaskForce.AP.Client.UnityWorld
         public async void Load()
         {
             await _screen.ShowLoadingBlind();
-            _screen.DestroyLastScene();
+            await _screen.DestroyLastScene();
 
-            var instance = await _screen.AttachNewScene(AssetID.BattleFieldScene);
+            var instance = await _screen.AttachNewScene(SceneID.BattleFieldScene);
 
             var scene = instance.GetComponent<View.Scenes.BattleFieldScene>();
 

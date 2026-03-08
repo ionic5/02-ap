@@ -19,85 +19,59 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
         private float _spawnRadius;
         [SerializeField]
         private float _unitMaxRadius;
-        [SerializeField]
-        private float _maxSpawnPositionAttempts;
-        [SerializeField]
-        private LayerMask _collisionTileLayerMask;
 
         public Core.Random Random;
 
-        private List<Vector2> _spawnPositions;
+        private List<Vector3> _spawnPositions;
 
         private void Awake()
         {
-            _spawnPositions = new List<Vector2>();
+            _spawnPositions = new List<Vector3>();
             for (int i = 0; i < _spawnPositionSet.transform.childCount; i++)
             {
-                var transform = _spawnPositionSet.transform.GetChild(i);
-                for (int j = 0; j < transform.childCount; j++)
-                    _spawnPositions.Add(transform.GetChild(j).position);
+                var parentTransform = _spawnPositionSet.transform.GetChild(i);
+                for (int j = 0; j < parentTransform.childCount; j++)
+                    _spawnPositions.Add(parentTransform.GetChild(j).position);
             }
         }
 
         public System.Numerics.Vector2 GetWarpPoint()
         {
-            return GetRandomSpawnPosition();
+            Vector3 pos = GetRandomSpawnPosition();
+            return new System.Numerics.Vector2(pos.x, pos.z);
         }
 
         public bool IsOutOfCameraView(System.Numerics.Vector2 position)
         {
-            Rect viewPortRect = GetCameraViewportRect();
-            return !viewPortRect.Contains(new Vector2(position.X, position.Y));
+            return IsOutOfCameraView(new Vector3(position.X, 0, position.Y));
         }
 
-        private System.Numerics.Vector2 GetRandomSpawnPosition()
+        private bool IsOutOfCameraView(Vector3 worldPos)
         {
-            var centerPosList = GetSpawnPositions();
+            Vector3 viewportPos = _camera.WorldToViewportPoint(worldPos);
 
-            var centerPos = centerPosList.ElementAt(Random.Next(centerPosList.Count()));
-            for (int i = 0; i < _maxSpawnPositionAttempts; i++)
-            {
-                var pos = Random.NextPosition(new System.Numerics.Vector2(centerPos.x, centerPos.y), _spawnRadius);
-                if (Physics2D.OverlapCircle(new Vector2(pos.X, pos.Y), _unitMaxRadius, _collisionTileLayerMask) == null)
-                    return pos;
-                centerPos = centerPosList.ElementAt(Random.Next(centerPosList.Count()));
-            }
-
-            return new System.Numerics.Vector2(centerPos.x, centerPos.y);
+            return viewportPos.x < 0 || viewportPos.x > 1 || viewportPos.y < 0 || viewportPos.y > 1 || viewportPos.z < 0;
         }
 
-
-        private Rect GetCameraViewportRect()
+        private Vector3 GetRandomSpawnPosition()
         {
-            Vector3 bottomLeft = _camera.ViewportToWorldPoint(new Vector3(0, 0, _camera.nearClipPlane));
-            Vector3 topRight = _camera.ViewportToWorldPoint(new Vector3(1, 1, _camera.nearClipPlane));
+            var centerPosList = GetAvailableSpawnPositions().ToList();
+            if (centerPosList.Count == 0) return _playerUnitSpawnPosition.transform.position;
 
-            var viewPortRect = new Rect(
-                bottomLeft.x,
-                bottomLeft.y,
-                topRight.x - bottomLeft.x,
-                topRight.y - bottomLeft.y
-            );
-            return viewPortRect;
+            Vector3 centerPos = centerPosList[Random.Next(centerPosList.Count)];
+
+            var randomOffset = Random.NextPosition(System.Numerics.Vector2.Zero, _spawnRadius);
+            Vector3 spawnPos = new Vector3(centerPos.x + randomOffset.X, centerPos.y, centerPos.z + randomOffset.Y);
+
+            return spawnPos;
         }
 
-        private IEnumerable<Vector2> GetSpawnPositions()
+        private IEnumerable<Vector3> GetAvailableSpawnPositions()
         {
-            Rect viewPortRect = GetCameraViewportRect();
-
-            var areaRect = new Rect(viewPortRect.x - _spawnAreaWidth, viewPortRect.y - _spawnAreaWidth,
-                viewPortRect.width + _spawnAreaWidth * 2, viewPortRect.height + _spawnAreaWidth * 2);
-
-            var positions = new List<Vector2>();
-
-            foreach (var position in _spawnPositions)
-            {
-                bool insideArea = areaRect.Contains(position);
-                bool insideRect = viewPortRect.Contains(position);
-
-                if (insideArea && !insideRect)
-                    positions.Add(position);
-            }
+            var positions = new List<Vector3>();
+            foreach (var pos in _spawnPositions)
+                if (IsOutOfCameraView(pos))
+                    positions.Add(pos);
 
             return positions;
         }
@@ -105,7 +79,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
         public System.Numerics.Vector2 GetPlayerUnitSpawnPosition()
         {
             var pos = _playerUnitSpawnPosition.transform.position;
-            return new System.Numerics.Vector2(pos.x, pos.y);
+            return new System.Numerics.Vector2(pos.x, pos.z);
         }
     }
 }

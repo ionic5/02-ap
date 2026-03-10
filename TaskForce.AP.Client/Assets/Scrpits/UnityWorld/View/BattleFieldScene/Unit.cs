@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using TaskForce.AP.Client.Core;
 using TaskForce.AP.Client.Core.BattleFieldScene;
 using TaskForce.AP.Client.Core.View.BattleFieldScene;
-using TaskForce.AP.Client.UnityWorld.BattleFieldScene;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
 {
@@ -14,61 +14,46 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
         public event EventHandler MoveDirectionChangedEvent;
 
         [SerializeField]
-        private Rigidbody2D _rigidbody2D;
-        [SerializeField]
-        private float _arrivalThreshold;
+        private NavMeshAgent _agent;
         [SerializeField]
         private Animator _animator;
         [SerializeField]
-        private SpriteRenderer _spriteRenderer;
-        [SerializeField]
         private GameObject _effectAreaCenter;
         [SerializeField]
-        private float _pathUpdateThreshold;
-        [SerializeField]
-        private float _pathUpdateCooltime;
+        private float _pathUpdateThreshold = 0.2f;
 
-        public PathFinder PathFinder;
         public Func<FloatingTextAnimator> CreateFloatingTextAnimator;
         public Core.Timer Timer;
 
-        private Vector2 _velocity;
-        private float _speed;
         private System.Numerics.Vector2 _position;
         private System.Numerics.Vector2 _direction;
         private System.Numerics.Vector2 _moveDirection;
 
-        private int _pathIndex;
-        private Vector3 _pathPoint;
         private Vector3 _destination;
-        private bool _updatePathRequired;
-        private List<Vector2> _path;
         private bool _isDestinationSetted;
 
         private IReadOnlyDictionary<UnitMotionID, string> _clipNameMap;
-
-        private string[] State = {
+        private readonly string[] State = {
             "attack",
             "idle",
             "die",
             "walk",
             "cast"
-        };        
+        };
 
         private void Awake()
         {
-            _velocity = new Vector2();
-            _destination = Vector3.zero;
-            _path = new List<Vector2>();
-            _pathPoint = new Vector3();
-            _position = new System.Numerics.Vector2();
-            _pathIndex = 0;
-            _speed = 0.0f;
-            _updatePathRequired = false;
-            _isDestinationSetted = false;
-            _isDestroyed = false;
+            if (_agent == null)
+                _agent = GetComponent<NavMeshAgent>();
 
-            var clipNameMap = new Dictionary<UnitMotionID, string>
+            _agent.updateRotation = true;
+            _agent.updateUpAxis = true;
+
+            _destination = Vector3.zero;
+            _position = new System.Numerics.Vector2();
+            _isDestinationSetted = false;
+
+            _clipNameMap = new Dictionary<UnitMotionID, string>
             {
                 { UnitMotionID.Attack, State[0] },
                 { UnitMotionID.Stand, State[1] },
@@ -76,186 +61,92 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
                 { UnitMotionID.Move, State[3] },
                 { UnitMotionID.Cast, State[4] }
             };
-            _clipNameMap = clipNameMap;
+        }
+
+        private void Update()
+        {
+            if (!_isDestinationSetted) return;
+
+            if (!_agent.pathPending && _agent.remainingDistance <= _agent.stoppingDistance)
+            {
+                if (!_agent.hasPath || _agent.velocity.sqrMagnitude == 0f)
+                {
+                    Stop();
+                }
+            }
+            else
+            {
+                UpdateMoveDirectionFromAgent();
+            }
         }
 
         public void MoveTo(System.Numerics.Vector2 position, float speed)
         {
-            StopMove();
+            Vector3 targetPos = new Vector3(position.X, transform.position.y, position.Y);
 
-            var destination = new Vector3(position.X, position.Y, transform.position.z);
-            if (!_isDestinationSetted)
+            if (!_isDestinationSetted || Vector3.Distance(_destination, targetPos) > _pathUpdateThreshold)
             {
+                _destination = targetPos;
                 _isDestinationSetted = true;
-                _destination = destination;
-
-                UpdatePath();
+                _agent.isStopped = false;
+                _agent.speed = speed;
+                _agent.SetDestination(_destination);
             }
-            else if (Vector3.Distance(_destination, destination) > _pathUpdateThreshold)
-            {
-                _destination = destination;
-
-                if (Timer.IsRunning(0))
-                    _updatePathRequired = true;
-                else
-                    UpdatePath();
-            }
-
-            _speed = speed;
-
-            _rigidbody2D.constraints &= ~RigidbodyConstraints2D.FreezePosition;
-        }
-
-        private void UpdatePath()
-        {
-            Timer.Stop(0);
-            Timer.Start(0, _pathUpdateCooltime, () =>
-            {
-                if (!_updatePathRequired)
-                    return;
-                UpdatePath();
-            });
-
-            _path = PathFinder.FindPath(_rigidbody2D.position, _destination);
-            _pathIndex = 0;
         }
 
         public void Move(System.Numerics.Vector2 velocity)
         {
             StopMoveTo();
-
-            _velocity.x = velocity.X;
-            _velocity.y = velocity.Y;
-
-            _rigidbody2D.constraints &= ~RigidbodyConstraints2D.FreezePosition;
-        }
-
-        private void StopMoveTo()
-        {
-            _destination = Vector3.zero;
-            if(_path?.Count > 0)
-            {
-            _path.Clear();
-            }
-            _pathIndex = 0;
-            _speed = 0.0f;
-            _pathPoint = new Vector3();
-            _updatePathRequired = false;
-            _isDestinationSetted = false;
-            Timer.Stop(0);
-        }
-
-        private void StopMove()
-        {
-            _velocity = Vector2.zero;
+            _agent.isStopped = false;
+            _agent.velocity = new Vector3(velocity.X, 0f, velocity.Y);
         }
 
         public void Stop()
         {
-            StopMove();
-            StopMoveTo();
-
-            _rigidbody2D.constraints |= RigidbodyConstraints2D.FreezePosition;
-        }
-
-        private void FixedUpdate()
-        {
-            if (_path?.Count > 0)
-                FollowPath();
-            else if (_velocity != Vector2.zero)
-                ApplyVelocity(_velocity);
-        }
-
-        private void FollowPath()
-        {
-            if (_pathIndex >= _path.Count)
-                return;
-
-            Vector2 pathPoint = _path[_pathIndex];
-            _pathPoint.x = pathPoint.x;
-            _pathPoint.y = pathPoint.y;
-            _pathPoint.z = transform.position.z;
-
-            Vector2 direction = (_pathPoint - transform.position).normalized;
-            ApplyVelocity(direction * _speed);
-
-            if (Vector3.Distance(transform.position, _pathPoint) <= _arrivalThreshold)
+            if (_agent.isOnNavMesh)
             {
-                _pathIndex++;
-                if (_pathIndex >= _path.Count)
-                    if (_updatePathRequired)
-                        UpdatePath();
-                    else
-                        Stop();
+                _agent.isStopped = true;
+                _agent.velocity = Vector3.zero;
             }
+            _isDestinationSetted = false;
+            PlayMotion(UnitMotionID.Stand);
         }
 
-        private void ApplyVelocity(Vector2 velocity)
+        private void StopMoveTo()
         {
-            if (_rigidbody2D.linearVelocity.normalized != velocity.normalized)
+            _isDestinationSetted = false;
+        }
+
+        private void UpdateMoveDirectionFromAgent()
+        {
+            if (_agent.velocity.sqrMagnitude < 0.01f) return;
+
+            Vector3 vel = _agent.velocity.normalized;
+            System.Numerics.Vector2 currentDir = new System.Numerics.Vector2(vel.x, vel.z);
+
+            if (System.Numerics.Vector2.Distance(_moveDirection, currentDir) > 0.1f)
+            {
+                _moveDirection = currentDir;
+                SetDirection(_moveDirection);
                 MoveDirectionChangedEvent?.Invoke(this, EventArgs.Empty);
-
-            _rigidbody2D.linearVelocity = velocity;
-        }
-
-        private void PlayAnimation(string clipName, float duration = 1.0f, bool forceRestart = false)
-        {
-            AnimatorStateInfo currentState = _animator.GetCurrentAnimatorStateInfo(0);
-
-            bool isSameClip = currentState.IsName(clipName);
-            if (isSameClip && !forceRestart)
-                return;
-
-            ApplyDirection(_animator, _direction);
-
-            _animator.speed = 1.0f / duration;
-            _animator.Play(clipName, 0, 0f);
+            }
         }
 
         public System.Numerics.Vector2 GetPosition()
         {
-            _position.X = _rigidbody2D.position.x;
-            _position.Y = _rigidbody2D.position.y;
-
+            _position.X = transform.position.x;
+            _position.Y = transform.position.z;
             return _position;
-        }
-
-        public void PlayDamageAnimation(int damage)
-        {
-            var animator = CreateFloatingTextAnimator.Invoke();
-            var offset = _effectAreaCenter.transform.localPosition;
-            animator.Follow(this, new System.Numerics.Vector2(offset.x, offset.y));
-            animator.PlayDamageAnimation(damage);
-            animator.BringToTop();
-
-            EventHandler hdlr = null;
-            hdlr = (sender, args) =>
-            {
-                animator.AnimationFinishedEvent -= hdlr;
-                animator.Destroy();
-            };
-            animator.AnimationFinishedEvent += hdlr;
-        }
-
-        protected override void CleanUp()
-        {
-            base.CleanUp();
-
-            DieAnimationFinishedEvent = null;
-            PathFinder = null;
-            CreateFloatingTextAnimator = null;
-            Timer.Destroy();
-            Timer = null;
-        }
-
-        public void OnDieAnimationFinished()
-        {
-            DieAnimationFinishedEvent?.Invoke(this, EventArgs.Empty);
         }
 
         public void SetPosition(System.Numerics.Vector2 position)
         {
-            _rigidbody2D.position = new Vector2(position.X, position.Y);
+            Vector3 newPos = new Vector3(position.X, transform.position.y, position.Y);
+
+            if (_agent.enabled)
+                _agent.Warp(newPos);
+            else
+                transform.position = newPos;
         }
 
         public System.Numerics.Vector2 GetDirection()
@@ -263,28 +154,9 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
             return _direction;
         }
 
-        public System.Numerics.Vector2 GetMoveDirection()
-        {
-            var velocity = _rigidbody2D.linearVelocity;
-            float length = MathF.Sqrt(velocity.x * velocity.x + velocity.y * velocity.y);
-
-            if (length > 0f)
-            {
-                _moveDirection.X = velocity.x / length;
-                _moveDirection.Y = velocity.y / length;
-            }
-            else
-            {
-                _moveDirection = System.Numerics.Vector2.Zero;
-            }
-
-            return _moveDirection;
-        }
-
         public void SetDirection(System.Numerics.Vector2 direction)
         {
             _direction = direction;
-
             ApplyDirection(_animator, _direction);
         }
 
@@ -310,9 +182,44 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
             PlayMotion(motionID, _direction, 1.0f, false);
         }
 
-        public string GetObjectID()
+        private void PlayAnimation(string clipName, float duration = 1.0f, bool forceRestart = false)
         {
-            return gameObject.name;
+            if (_animator.GetCurrentAnimatorStateInfo(0).IsName(clipName) && !forceRestart) return;
+            _animator.speed = 1.0f / duration;
+            _animator.Play(clipName, 0, 0f);
+        }
+
+        public System.Numerics.Vector2 GetMoveDirection()
+        {
+            Vector3 velocity = _agent.velocity;
+            if (velocity.sqrMagnitude > 0f)
+            {
+                Vector3 normalized = velocity.normalized;
+                _moveDirection.X = normalized.x;
+                _moveDirection.Y = normalized.y;
+            }
+            else
+            {
+                _moveDirection = System.Numerics.Vector2.Zero;
+            }
+            return _moveDirection;
+        }
+
+        public void PlayDamageAnimation(int damage)
+        {
+            var animator = CreateFloatingTextAnimator.Invoke();
+            var offset = _effectAreaCenter.transform.localPosition;
+            animator.Follow(this, new System.Numerics.Vector2(offset.x, offset.y));
+            animator.PlayDamageAnimation(damage);
+            animator.BringToTop();
+
+            EventHandler hdlr = null;
+            hdlr = (sender, args) =>
+            {
+                animator.AnimationFinishedEvent -= hdlr;
+                animator.Destroy();
+            };
+            animator.AnimationFinishedEvent += hdlr;
         }
 
         public void PlayHealAnimation(int healAmount)
@@ -330,6 +237,28 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
                 animator.Destroy();
             };
             animator.AnimationFinishedEvent += hdlr;
+        }
+
+        protected override void CleanUp()
+        {
+            base.CleanUp();
+            DieAnimationFinishedEvent = null;
+            CreateFloatingTextAnimator = null;
+            if (Timer != null)
+            {
+                Timer.Destroy();
+                Timer = null;
+            }
+        }
+
+        public void OnDieAnimationFinished()
+        {
+            DieAnimationFinishedEvent?.Invoke(this, EventArgs.Empty);
+        }
+
+        public string GetObjectID()
+        {
+            return gameObject.name;
         }
     }
 }

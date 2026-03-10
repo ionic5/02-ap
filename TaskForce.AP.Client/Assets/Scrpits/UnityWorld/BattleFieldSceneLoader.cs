@@ -64,7 +64,6 @@ namespace TaskForce.AP.Client.UnityWorld
                 var unit = go.GetComponent<UnityWorld.View.BattleFieldScene.Unit>();
 
                 unit.gameObject.name = Guid.NewGuid().ToString();
-                unit.PathFinder = pathFinder;
                 unit.CreateFloatingTextAnimator = createFloatingTextAnimator;
                 unit.Timer = createTimer();
             };

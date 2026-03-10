@@ -1615,6 +1615,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1315473190}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &641601193
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 641601194}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &641601194
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 641601193}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &653121302
 GameObject:
   m_ObjectHideFlags: 0
@@ -2242,10 +2273,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.World
   _playerUnitSpawnPosition: {fileID: 1857701689}
   _spawnPositionSet: {fileID: 106213494}
-  _camera: {fileID: 0}
-  _spawnAreaWidth: 0
-  _spawnRadius: 0
-  _unitMaxRadius: 0
+  _camera: {fileID: 1505725952}
+  _spawnAreaWidth: 15
+  _spawnRadius: 5
+  _unitMaxRadius: 1
 --- !u!1 &1281986949
 GameObject:
   m_ObjectHideFlags: 0
@@ -2328,8 +2359,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c20fa1dad2e75f5428bd7e9acad8363f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.ObjectFactory
-  _defaultRoot: {fileID: 0}
-  _prefabContainers: []
+  _defaultRoot: {fileID: 641601193}
+  _prefabContainers:
+  - ObjectID: WARRIOR_0
+    Prefab: {fileID: 4100691256331878749, guid: e3a38605975592247972a3697f9f1550, type: 3}
+    Root: {fileID: 0}
 --- !u!1 &1315473189
 GameObject:
   m_ObjectHideFlags: 0
@@ -5827,11 +5861,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _loop: {fileID: 3256930550389254383}
   _joystick: {fileID: 2956758214172053094}
-  _playerUnitSpawnPosition: {fileID: 0}
+  _playerUnitSpawnPosition: {fileID: 1857701689}
   _grid: {fileID: 0}
   ObjectFactory: {fileID: 1314303626}
   _followCamera: {fileID: 5859210630480646120}
-  _world: {fileID: 0}
+  _world: {fileID: 1158287981}
   _expBar: {fileID: 9100869285200045937}
   _levelText: {fileID: 794517679709294661}
   _windowStack: {fileID: 9086206883646347551}
@@ -8573,3 +8607,4 @@ SceneRoots:
   - {fileID: 1158287980}
   - {fileID: 1857701690}
   - {fileID: 106213495}
+  - {fileID: 641601194}

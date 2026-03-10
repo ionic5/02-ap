@@ -11,12 +11,12 @@ namespace TaskForce.AP.Client.UnityWorld
         [SerializeField]
         private GameObject _targetProxy;
 
-        private Vector2 _position;
+        private Vector3 _position;
         private Core.BattleFieldScene.IFollowable _target;
 
         private void Awake()
         {
-            _position = new Vector2();
+            _position = new Vector3();
             _target = null;
         }
 
@@ -43,7 +43,7 @@ namespace TaskForce.AP.Client.UnityWorld
             {
                 System.Numerics.Vector2 position = _target.GetPosition();
                 _position.x = position.X;
-                _position.y = position.Y;
+                _position.z = position.Y;
             }
 
             _targetProxy.transform.position = _position;

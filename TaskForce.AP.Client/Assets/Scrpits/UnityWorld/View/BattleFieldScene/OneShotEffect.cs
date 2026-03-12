@@ -19,7 +19,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
 
         public void SetPosition(System.Numerics.Vector2 pos)
         {
-            transform.position = new Vector3(pos.X, pos.Y, transform.position.z);
+            transform.position = new Vector3(pos.X, 0, pos.Y);
         }
 
         public void OnAnimationFinished()

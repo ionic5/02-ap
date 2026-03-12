@@ -41,7 +41,7 @@ namespace TaskForce.AP.Client.UnityWorld.View
                 return;
 
             System.Numerics.Vector2 pos = _target.GetPosition();
-            transform.position = new Vector3(pos.X + _offset.X, pos.Y + _offset.Y, transform.position.z);
+            transform.position = new Vector3(pos.X + _offset.X, 0, pos.Y + _offset.Y);
         }
 
         public void OnDestroy()

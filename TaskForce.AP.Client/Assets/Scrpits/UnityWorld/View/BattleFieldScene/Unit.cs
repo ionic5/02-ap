@@ -157,18 +157,6 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
         public void SetDirection(System.Numerics.Vector2 direction)
         {
             _direction = direction;
-            ApplyDirection(_animator, _direction);
-        }
-
-        private void ApplyDirection(Animator animator, System.Numerics.Vector2 direction)
-        {
-            float dim2X = (float)Math.Round(direction.X);
-            float dim2Y = (float)Math.Round(direction.Y);
-            animator.SetFloat("dim2X", dim2X);
-            animator.SetFloat("dim2Y", dim2Y);
-
-            float dim1X = (float)Math.Round((direction.X + 1f) * 0.5f);
-            animator.SetFloat("dim1X", dim1X);
         }
 
         public void PlayMotion(UnitMotionID motionID, System.Numerics.Vector2 direction, float playTime, bool forceRestart)
@@ -186,6 +174,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
         {
             if (_animator.GetCurrentAnimatorStateInfo(0).IsName(clipName) && !forceRestart) return;
             _animator.speed = 1.0f / duration;
+
             _animator.Play(clipName, 0, 0f);
         }
 

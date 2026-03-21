@@ -18,7 +18,6 @@ namespace TaskForce.AP.Client.Core.Entity
         private int _level;
         private int _exp;
         private int _hp;
-        private string _unitBodyID;
         private string _unitLogicID;
         private bool _isPlayerSide;
         private Vector2 _position;
@@ -33,16 +32,6 @@ namespace TaskForce.AP.Client.Core.Entity
 
             _skills = new Dictionary<string, IActiveSkill>();
             _attributeMediator = attributeMediator;
-        }
-
-        public void SetAttributeGrowthFormulas(IEnumerable<GameData.GrowthFormula> formulas)
-        {
-            _attributeMediator.SetGrowthFormulas(formulas);
-        }
-
-        public void SetBaseAttributes(IReadOnlyDictionary<string, Attribute> baseAttributes)
-        {
-            _attributeMediator.SetBaseAttributes(baseAttributes);
         }
 
         public Attribute GetAttribute(string id)
@@ -85,7 +74,7 @@ namespace TaskForce.AP.Client.Core.Entity
 
         public string GetUnitBodyID()
         {
-            return _unitBodyID;
+            return GetAttribute(AttributeID.UnitBodyID).AsString();
         }
 
         public string GetUnitLogicID()
@@ -126,11 +115,6 @@ namespace TaskForce.AP.Client.Core.Entity
             return _level;
         }
 
-        public void SetUnitBodyID(string id)
-        {
-            _unitBodyID = id;
-        }
-
         public void SetUnitLogicID(string id)
         {
             _unitLogicID = id;
@@ -144,6 +128,8 @@ namespace TaskForce.AP.Client.Core.Entity
         public void SetLevel(int level)
         {
             _level = level;
+
+            // TODO 테이블에서 세팅을 해줘야 한다.
             _attributeMediator.SetLevel(_level);
         }
 

@@ -3,6 +3,5 @@
     public class Unit
     {
         public string ID;
-        public string UnitBodyID;
     }
 }

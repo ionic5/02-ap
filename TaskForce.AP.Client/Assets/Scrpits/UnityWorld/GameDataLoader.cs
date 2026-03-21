@@ -50,8 +50,7 @@ namespace TaskForce.AP.Client.UnityWorld
                     MaxEnemyUnitCount = int.Parse(row["maxEnemyUnitCount"])
                 }, gameDataStore.AddStage),
                 LoadTable(AssetID.Unit, row => new Core.GameData.Unit {
-                    ID = row["id"],
-                    UnitBodyID = row["unitBodyID"]
+                    ID = row["id"]
                 }, gameDataStore.AddUnit),
                 LoadTable(AssetID.NonPlayerUnitLogic, row => new NonPlayerUnitLogic {
                     UnitID = row["unitID"],
@@ -83,7 +82,8 @@ namespace TaskForce.AP.Client.UnityWorld
                 }, gameDataStore.AddLevelUpRewardSkill),
                 LoadTable(AssetID.UnitAttribute, row => new Core.GameData.UnitAttribute {
                     UnitID = row["unitID"],
-                    AttributeID = row["attributeID"]
+                    AttributeID = row["attributeID"],
+                    LevelAttributeID = row["levelAttributeID"]
                 }, gameDataStore.AddUnitAttribute),
                 LoadTable(AssetID.LevelAttribute, row => new Core.GameData.LevelAttribute {
                     ID = row["id"],
@@ -91,6 +91,11 @@ namespace TaskForce.AP.Client.UnityWorld
                     AttributeID = row["attributeID"],
                     Value = new Core.Attribute(row["value"])
                 }, gameDataStore.AddLevelAttribute),
+                LoadTable(AssetID.Attribute, row => new Core.GameData.Attribute {
+                    ID = row["id"],
+                    AttributeID = row["attributeID"],
+                    Value = new Core.Attribute(row["value"])
+                }, gameDataStore.AddAttribute),
                 LoadTable(AssetID.AttributeSet, row => new Core.GameData.AttributeSet {
                     ID = row["id"],
                     AttributeID = row["attributeID"]

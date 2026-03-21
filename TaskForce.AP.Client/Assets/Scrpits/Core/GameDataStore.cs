@@ -25,6 +25,7 @@ namespace TaskForce.AP.Client.Core
         private readonly List<CoefficientFormulaSet> _coefficientFormulaSets;
         private readonly List<UnitDefaultActiveSkill> _unitDefaultActiveSkill;
         private readonly List<GameData.LevelAttribute> _levelAttributes;
+        private readonly List<GameData.Attribute> _attributes;
         private readonly List<UnitAttribute> _unitAttributes;
         private float _soulDropRate;
 
@@ -58,6 +59,7 @@ namespace TaskForce.AP.Client.Core
             _coefficientFormulasBySetID = new Dictionary<string, Dictionary<string, Formula>>();
             _unitDefaultActiveSkill = new List<UnitDefaultActiveSkill>();
             _unitAttributes = new List<UnitAttribute>();
+            _attributes = new List<GameData.Attribute>();
         }
 
         public void Bake()
@@ -86,6 +88,11 @@ namespace TaskForce.AP.Client.Core
         public void AddLevelAttribute(GameData.LevelAttribute entry)
         {
             _levelAttributes.Add(entry);
+        }
+
+        public void AddAttribute(GameData.Attribute entry)
+        {
+            _attributes.Add(entry);
         }
 
         public void AddLevelUpRewardSkill(LevelUpRewardSkill entry)

@@ -4,5 +4,6 @@
     {
         public string UnitID;
         public string AttributeID;
+        public string LevelAttributeID;
     }
 }

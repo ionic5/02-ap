@@ -117,7 +117,6 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             var attributeMediator = new AttributeMediator(_gameDataStore, _logger);
             var entity = new Entity.Unit(_gameDataStore, attributeMediator);
 
-            entity.SetUnitBodyID(gdUnit.UnitBodyID);
             entity.SetLevel(level);
 
             entity.SetHP(entity.GetAttribute(AttributeID.MaxHP).AsInt());

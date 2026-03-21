@@ -24,6 +24,8 @@ namespace TaskForce.AP.Client.Core
         private readonly List<ModifyAttributeSkill> _modifyAttributeSkills;
         private readonly List<CoefficientFormulaSet> _coefficientFormulaSets;
         private readonly List<UnitDefaultActiveSkill> _unitDefaultActiveSkill;
+        private readonly List<GameData.Attribute> _attributes;
+        private readonly List<UnitAttribute> _unitAttributes;
         private float _soulDropRate;
 
         private Dictionary<string, Formula> _formulasByID;
@@ -50,10 +52,12 @@ namespace TaskForce.AP.Client.Core
             _levelUpRewardSkills = new List<LevelUpRewardSkill>();
             _coefficientFormulaSets = new List<CoefficientFormulaSet>();
             _attributeSets = new List<AttributeSet>();
+            _attributes = new List<GameData.Attribute>();
             _modifyAttributeSkills = new List<ModifyAttributeSkill>();
             _modifyAttributeSkillsBySkillID = new Dictionary<string, IEnumerable<ModifyAttributeSkill>>();
             _coefficientFormulasBySetID = new Dictionary<string, Dictionary<string, Formula>>();
             _unitDefaultActiveSkill = new List<UnitDefaultActiveSkill>();
+            _unitAttributes = new List<UnitAttribute>();
         }
 
         public void Bake()
@@ -72,6 +76,16 @@ namespace TaskForce.AP.Client.Core
                 group => group.ToDictionary(
                     entry => entry.TargetCoefficientKey,
                     entry => GetFormulaByID(entry.FormulaID)));
+        }
+
+        public void AddUnitAttribute(UnitAttribute entry)
+        {
+            _unitAttributes.Add(entry);
+        }
+
+        public void AddAttribute(GameData.Attribute entry)
+        {
+            _attributes.Add(entry);
         }
 
         public void AddLevelUpRewardSkill(LevelUpRewardSkill entry)

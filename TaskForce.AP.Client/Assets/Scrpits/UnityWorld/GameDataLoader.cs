@@ -81,6 +81,16 @@ namespace TaskForce.AP.Client.UnityWorld
                 LoadTable(AssetID.LevelUpRewardSkill, row => new LevelUpRewardSkill {
                     SkillID = row["skillID"]
                 }, gameDataStore.AddLevelUpRewardSkill),
+                LoadTable(AssetID.UnitAttribute, row => new Core.GameData.UnitAttribute {
+                    UnitID = row["unitID"],
+                    AttributeID = row["attributeID"]
+                }, gameDataStore.AddUnitAttribute),
+                LoadTable(AssetID.Attribute, row => new Core.GameData.Attribute {
+                    ID = row["id"],
+                    Level = int.Parse(row["level"]),
+                    AttributeID = row["attributeID"],
+                    Value = new Core.Attribute(row["value"])
+                }, gameDataStore.AddAttribute),
                 LoadTable(AssetID.AttributeSet, row => new Core.GameData.AttributeSet {
                     ID = row["id"],
                     AttributeID = row["attributeID"]

@@ -1,8 +1,9 @@
 ﻿namespace TaskForce.AP.Client.Core.GameData
 {
-    public class SkillBaseAttribute
+    public class Attribute
     {
-        public string SkillID;
+        public string ID;
+        public int Level;
         public string AttributeID;
         public Core.Attribute Value;
     }

@@ -330,5 +330,20 @@ namespace TaskForce.AP.Client.Core
         {
             return _unitDefaultActiveSkill.FirstOrDefault(entry => entry.UnitID == unitID);
         }
+
+        public UnitAttribute GetUnitAttributeByUnitID(string unitID)
+        {
+            return _unitAttributes.FirstOrDefault(entry => entry.UnitID == unitID);
+        }
+
+        public IEnumerable<GameData.Attribute> GetAttributes(string attributeID)
+        {
+            return _attributes.Where(entry => entry.ID == attributeID);
+        }
+
+        public IEnumerable<LevelAttribute> GetLevelAttributes(string levelAttributeID)
+        {
+            return _levelAttributes.Where(entry => entry.ID == levelAttributeID);
+        }
     }
 }

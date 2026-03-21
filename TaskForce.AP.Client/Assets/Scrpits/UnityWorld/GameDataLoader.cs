@@ -89,12 +89,12 @@ namespace TaskForce.AP.Client.UnityWorld
                     ID = row["id"],
                     Level = int.Parse(row["level"]),
                     AttributeID = row["attributeID"],
-                    Value = new Core.Attribute(row["value"])
+                    Value = CreateAttribute(row["value"])
                 }, gameDataStore.AddLevelAttribute),
                 LoadTable(AssetID.Attribute, row => new Core.GameData.Attribute {
                     ID = row["id"],
                     AttributeID = row["attributeID"],
-                    Value = new Core.Attribute(row["value"])
+                    Value = CreateAttribute(row["value"])
                 }, gameDataStore.AddAttribute),
                 LoadTable(AssetID.AttributeSet, row => new Core.GameData.AttributeSet {
                     ID = row["id"],
@@ -118,6 +118,13 @@ namespace TaskForce.AP.Client.UnityWorld
             await Task.WhenAll(loadTasks);
 
             gameDataStore.Bake();
+        }
+
+        private Core.Attribute CreateAttribute(string value)
+        {
+            if (float.TryParse(value, out var number))
+                return new Core.Attribute(number);
+            return new Core.Attribute(value);
         }
 
         private async Task LoadTable<T>(string assetId, Func<Dictionary<string, string>, T> parser, Action<T> adder)

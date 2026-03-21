@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using TaskForce.AP.Client.Core.GameData;
 
 namespace TaskForce.AP.Client.Core.Entity
 {
@@ -22,21 +23,28 @@ namespace TaskForce.AP.Client.Core.Entity
         private bool _isPlayerSide;
         private Vector2 _position;
         private string _defaultSkillID;
-        private readonly AttributeMediator _attributeMediator;
 
+        private readonly AttributeStore _attributeStore;
         private readonly Dictionary<string, IActiveSkill> _skills;
+        private readonly IEnumerable<GameData.Attribute> _attributes;
+        private readonly IEnumerable<GameData.LevelAttribute> _levelAttributes;
+        private readonly List<IModifyAttributeEffect> _modifyAttributeEffects;
 
-        public Unit(GameDataStore gameDataStore, AttributeMediator attributeMediator)
+        public Unit(GameDataStore gameDataStore, IEnumerable<GameData.Attribute> attributes, IEnumerable<LevelAttribute> levelAttributes)
         {
             _gameDataStore = gameDataStore;
 
             _skills = new Dictionary<string, IActiveSkill>();
-            _attributeMediator = attributeMediator;
+
+            _attributes = attributes;
+            _levelAttributes = levelAttributes;
+            _attributeStore = new AttributeStore();
+            _modifyAttributeEffects = new List<IModifyAttributeEffect>();
         }
 
         public Attribute GetAttribute(string id)
         {
-            return _attributeMediator.GetAttribute(id);
+            return _attributeStore.Get(id);
         }
 
         public int GetHP()
@@ -129,8 +137,7 @@ namespace TaskForce.AP.Client.Core.Entity
         {
             _level = level;
 
-            // TODO 테이블에서 세팅을 해줘야 한다.
-            _attributeMediator.SetLevel(_level);
+            UpdateAttributes();
         }
 
         public void SetHP(int hp)
@@ -149,12 +156,16 @@ namespace TaskForce.AP.Client.Core.Entity
 
         public void AddModifyAttributeEffects(IEnumerable<IModifyAttributeEffect> effects)
         {
-            _attributeMediator.AddModifyAttributeEffects(effects);
+            _modifyAttributeEffects.AddRange(effects);
+
+            UpdateAttributes();
         }
 
         public void AddModifyAttributeEffect(IModifyAttributeEffect effect)
         {
-            _attributeMediator.AddModifyAttributeEffect(effect);
+            _modifyAttributeEffects.Add(effect);
+
+            UpdateAttributes();
         }
 
         /// <summary>
@@ -210,9 +221,36 @@ namespace TaskForce.AP.Client.Core.Entity
             SetHP(0);
         }
 
-        internal void RemoveModifyAttributeEffects(List<IModifyAttributeEffect> effects)
+        public void RemoveModifyAttributeEffects(IEnumerable<IModifyAttributeEffect> effects)
         {
-            throw new NotImplementedException();
+            var effectsToRemove = new HashSet<IModifyAttributeEffect>(effects);
+            _modifyAttributeEffects.RemoveAll(e => effectsToRemove.Contains(e));
+
+            UpdateAttributes();
+        }
+
+        private void UpdateAttributes()
+        {
+            _attributeStore.Clear();
+
+            foreach (var entry in _attributes)
+                _attributeStore.Set(entry.AttributeID, entry.Value);
+            foreach (var entry in _levelAttributes.Where(entry => entry.Level == _level))
+                _attributeStore.Set(entry.AttributeID, entry.Value);
+
+            var mergedEffects = new List<IModifyAttributeEffect>();
+            foreach (var entry in _modifyAttributeEffects)
+            {
+                var existing = mergedEffects.FirstOrDefault(m => m.CanMerge(entry));
+                if (existing == null)
+                    mergedEffects.Add(entry.Clone());
+                else
+                    existing.Merge(entry);
+            }
+            mergedEffects.Sort((a, b) => a.GetApplyOrder().CompareTo(b.GetApplyOrder()));
+
+            foreach (var entry in mergedEffects)
+                entry.Apply(_attributeStore);
         }
     }
 }

@@ -26,8 +26,8 @@ namespace TaskForce.AP.Client.Core.Entity
                 return null;
             }
 
-            var attributeMediator = new AttributeMediator(_gameDataStore, _logger);
-            var entity = new Entity.Unit(_gameDataStore, attributeMediator);
+            var unitAttr = _gameDataStore.GetUnitAttributeByUnitID(unitID);
+            var entity = new Entity.Unit(_gameDataStore, _gameDataStore.GetAttributes(unitAttr.AttributeID), _gameDataStore.GetLevelAttributes(unitAttr.LevelAttributeID));
 
             entity.SetLevel(1);
 

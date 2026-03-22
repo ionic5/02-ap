@@ -208,9 +208,22 @@ namespace TaskForce.AP.Client.Core
             return _modifyAttributeSkillsBySkillID.GetValueOrDefault(skillID);
         }
 
-        public IEnumerable<SkillBaseAttribute> GetSkillBaseAttributes()
+        public IEnumerable<BaseAttribute> GetSkillBaseAttributes(string skillID)
         {
-            return _skillBaseAttributes;
+            var attr = _skillBaseAttributes.FirstOrDefault(entry => entry.SkillID == skillID);
+            if (attr == null)
+                return Enumerable.Empty<BaseAttribute>();
+
+            return _baseAttributes.Where(entry => entry.ID == attr.BaseAttributeID);
+        }
+
+        public IEnumerable<LevelAttribute> GetSkillLevelAttributes(string skillID)
+        {
+            var attr = _skillLevelAttributes.FirstOrDefault(entry => entry.SkillID == skillID);
+            if (attr == null)
+                return Enumerable.Empty<LevelAttribute>();
+
+            return _levelAttributes.Where(entry => entry.ID == attr.LevelAttributeID);
         }
 
         public IEnumerable<Coefficient> GetCoefficients()

@@ -1,9 +1,14 @@
-﻿namespace TaskForce.AP.Client.Core.Entity
+﻿using System.Collections.Generic;
+using TaskForce.AP.Client.Core.GameData;
+
+namespace TaskForce.AP.Client.Core.Entity
 {
     public class MeleeAttackSkill : ActiveSkill, IActiveSkill
     {
-        public MeleeAttackSkill(string skillID, GameData.Skill skillData,
-            TextStore textStore) : base(skillID, skillData, textStore)
+        public MeleeAttackSkill(string skillID, TextStore textStore,
+            IEnumerable<BaseAttribute> baseAttributes,
+            IEnumerable<LevelAttribute> levelAttributes)
+            : base(skillID, textStore, baseAttributes, levelAttributes)
         {
         }
 

@@ -15,6 +15,12 @@ namespace TaskForce.AP.Client.Core
 
         public string GetText(string textID)
         {
+            if (string.IsNullOrEmpty(textID))
+            {
+                _logger.Warn($"'{textID}' is null or empty.");
+                return string.Empty;
+            }
+
             if (_texts.TryGetValue(textID, out var value))
                 return value;
             _logger.Warn($"TextID '{textID}' not found.");

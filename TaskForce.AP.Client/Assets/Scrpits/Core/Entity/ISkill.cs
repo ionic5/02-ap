@@ -10,5 +10,6 @@
         void SetOwner(Unit unit);
         void AddToOwner();
         void LevelUp();
+        Attribute GetAttribute(string attributeID);
     }
 }

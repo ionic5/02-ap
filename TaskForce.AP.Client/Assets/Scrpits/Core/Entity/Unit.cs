@@ -235,8 +235,7 @@ namespace TaskForce.AP.Client.Core.Entity
 
             foreach (var entry in _baseAttributes)
                 _attributeStore.Set(entry.AttributeID, entry.Value);
-            foreach (var entry in _levelAttributes.Where(entry => entry.Level == _level))
-                _attributeStore.Set(entry.AttributeID, entry.Value);
+            SetLevelAttributes();
 
             var mergedEffects = new List<IModifyAttributeEffect>();
             foreach (var entry in _modifyAttributeEffects)
@@ -251,6 +250,16 @@ namespace TaskForce.AP.Client.Core.Entity
 
             foreach (var entry in mergedEffects)
                 entry.Apply(_attributeStore);
+        }
+
+        private void SetLevelAttributes()
+        {
+            var closestGroup = _levelAttributes.GroupBy(e => e.Level)
+                .Where(g => g.Key <= _level)
+                .OrderByDescending(g => g.Key).FirstOrDefault();
+            if (closestGroup != null)
+                foreach (var entry in closestGroup)
+                    _attributeStore.Set(entry.AttributeID, entry.Value);
         }
     }
 }

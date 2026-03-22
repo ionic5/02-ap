@@ -9,10 +9,12 @@ namespace TaskForce.AP.Client.Core.Entity
         private readonly IEnumerable<GameData.ModifyAttributeSkill> _effectDatas;
         private readonly Func<string, int, IModifyAttributeEffect> _createEffect;
 
-        public ModifyAttributeSkill(string skillID, GameData.Skill skillData,
-            TextStore textStore, IEnumerable<GameData.ModifyAttributeSkill> effectDatas,
+        public ModifyAttributeSkill(string skillID, TextStore textStore,
+            IEnumerable<GameData.BaseAttribute> baseAttributes,
+            IEnumerable<GameData.LevelAttribute> levelAttributes,
+            IEnumerable<GameData.ModifyAttributeSkill> effectDatas,
             Func<string, int, IModifyAttributeEffect> createEffect)
-            : base(skillID, skillData, textStore)
+            : base(skillID, textStore, baseAttributes, levelAttributes)
         {
             _effectDatas = effectDatas;
             _createEffect = createEffect;

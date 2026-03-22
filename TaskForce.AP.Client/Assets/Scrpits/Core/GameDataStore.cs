@@ -19,20 +19,18 @@ namespace TaskForce.AP.Client.Core
         private readonly List<UnitDefaultSkill> _unitDefaultSkills;
         private readonly List<Skill> _skills;
         private readonly List<LevelUpRewardSkill> _levelUpRewardSkills;
-        private readonly List<AttributeSet> _attributeSets;
         private readonly List<ModifyAttributeSkill> _modifyAttributeSkills;
-        private readonly List<CoefficientFormulaSet> _coefficientFormulaSets;
         private readonly List<UnitDefaultActiveSkill> _unitDefaultActiveSkill;
         private readonly List<GameData.LevelAttribute> _levelAttributes;
         private readonly List<GameData.BaseAttribute> _baseAttributes;
         private readonly List<SkillLevelAttribute> _skillLevelAttributes;
+        private readonly List<LevelCoefficient> _levelCoefficients;
         private float _soulDropRate;
 
         private Dictionary<string, Formula> _formulasByID;
         private Dictionary<string, Skill> _skillsByID;
         private Dictionary<string, Dictionary<string, float>> _coefficientsByFormulaID;
         private Dictionary<string, IEnumerable<ModifyAttributeSkill>> _modifyAttributeSkillsBySkillID;
-        private Dictionary<string, Dictionary<string, Formula>> _coefficientFormulasBySetID;
 
         public GameDataStore()
         {
@@ -47,15 +45,13 @@ namespace TaskForce.AP.Client.Core
             _unitDefaultSkills = new List<UnitDefaultSkill>();
             _skills = new List<Skill>();
             _levelUpRewardSkills = new List<LevelUpRewardSkill>();
-            _coefficientFormulaSets = new List<CoefficientFormulaSet>();
-            _attributeSets = new List<AttributeSet>();
             _levelAttributes = new List<GameData.LevelAttribute>();
             _modifyAttributeSkills = new List<ModifyAttributeSkill>();
             _modifyAttributeSkillsBySkillID = new Dictionary<string, IEnumerable<ModifyAttributeSkill>>();
-            _coefficientFormulasBySetID = new Dictionary<string, Dictionary<string, Formula>>();
             _unitDefaultActiveSkill = new List<UnitDefaultActiveSkill>();
             _baseAttributes = new List<GameData.BaseAttribute>();
             _skillLevelAttributes = new List<SkillLevelAttribute>();
+            _levelCoefficients = new List<LevelCoefficient>();
         }
 
         public void Bake()
@@ -68,11 +64,6 @@ namespace TaskForce.AP.Client.Core
             _modifyAttributeSkillsBySkillID = _modifyAttributeSkills.GroupBy(entry => entry.SkillID).ToDictionary(
                 group => group.Key,
                 group => group.AsEnumerable());
-            _coefficientFormulasBySetID = _coefficientFormulaSets.GroupBy(entry => entry.ID).ToDictionary(
-                group => group.Key,
-                group => group.ToDictionary(
-                    entry => entry.TargetCoefficientKey,
-                    entry => GetFormulaByID(entry.FormulaID)));
         }
 
         public void AddLevelAttribute(GameData.LevelAttribute entry)
@@ -128,6 +119,11 @@ namespace TaskForce.AP.Client.Core
         public void AddStageEnemyUnit(StageEnemyUnit entry)
         {
             _stageEnemyUnits.Add(entry);
+        }
+
+        public void AddLevelCoefficient(LevelCoefficient entry)
+        {
+            _levelCoefficients.Add(entry);
         }
 
         public void AddSkillBaseAttribute(SkillBaseAttribute entry)
@@ -262,29 +258,14 @@ namespace TaskForce.AP.Client.Core
             return _levelUpRewardSkills;
         }
 
-        public void AddAttributeSet(AttributeSet entry)
-        {
-            _attributeSets.Add(entry);
-        }
-
         public void AddModifyAttributeSkill(ModifyAttributeSkill entry)
         {
             _modifyAttributeSkills.Add(entry);
         }
 
-        public void AddCoeffcientFomulaSet(CoefficientFormulaSet entry)
-        {
-            _coefficientFormulaSets.Add(entry);
-        }
-
         public void AddUnitDefaultActiveSkill(UnitDefaultActiveSkill entry)
         {
             _unitDefaultActiveSkill.Add(entry);
-        }
-
-        public IReadOnlyDictionary<string, Formula> GetCoefficientFormulasBySetID(string setID)
-        {
-            return _coefficientFormulasBySetID[setID];
         }
 
         public UnitDefaultActiveSkill GetUnitDefaultActiveSkillByUnitID(string unitID)
@@ -300,6 +281,11 @@ namespace TaskForce.AP.Client.Core
         public IEnumerable<LevelAttribute> GetLevelAttributes(string levelAttributeID)
         {
             return _levelAttributes.Where(entry => entry.ID == levelAttributeID);
+        }
+
+        public IEnumerable<LevelCoefficient> GetLevelCoefficients(string lvCoeffID)
+        {
+            return _levelCoefficients.Where(entry => entry.ID == lvCoeffID);
         }
     }
 }

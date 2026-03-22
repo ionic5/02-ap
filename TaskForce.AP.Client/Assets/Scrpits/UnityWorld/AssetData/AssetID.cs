@@ -19,12 +19,11 @@
         public const string Skill = "SKILL";
 
         public const string LevelUpRewardSkill = "LEVEL_UP_REWARD_SKILL";
-        public const string AttributeSet = "ATTRIBUTE_SET";
         public const string ModifyAttributeSkill = "MODIFY_ATTRIBUTE_SKILL";
-        public const string CoefficientFormulaSet = "COEFFICIENT_FORMULA_SET";
 
         public const string UnitDefaultActiveSkill = "UNIT_DEFAULT_ACTIVE_SKILL";
         public const string LevelAttribute = "LEVEL_ATTRIBUTE";
         public const string BaseAttribute = "BASE_ATTRIBUTE";
+        public const string LevelCoefficient = "LEVEL_COEFFICIENT";
     }
 }

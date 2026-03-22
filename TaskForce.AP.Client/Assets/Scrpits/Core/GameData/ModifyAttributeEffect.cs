@@ -4,9 +4,8 @@
     {
         public string ID;
         public int ApplyOrder;
-        public string AttributeSetID;
+        public string AttributeID;
         public string CalculationType;
-        public string CoefficientFormulaSetID;
-
+        public string LevelCoefficientID;
     }
 }

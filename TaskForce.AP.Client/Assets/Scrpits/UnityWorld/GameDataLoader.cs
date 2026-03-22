@@ -38,10 +38,16 @@ namespace TaskForce.AP.Client.UnityWorld
                 LoadTable(AssetID.ModifyAttributeEffect, row => new Core.GameData.ModifyAttributeEffect {
                     ID = row["id"],
                     ApplyOrder = int.Parse(row["applyOrder"]),
-                    AttributeSetID = row["attributeSetID"],
+                    AttributeID = row["attributeID"],
                     CalculationType = row["calculationType"],
-                    CoefficientFormulaSetID = row["coeffcientFormulaSetID"]
+                    LevelCoefficientID = row["levelCoefficientID"]
                 }, gameDataStore.AddModifyAttributeEffect),
+                LoadTable(AssetID.LevelCoefficient, row => new Core.GameData.LevelCoefficient {
+                    ID = row["id"],
+                    Level = int.Parse(row["level"]),
+                    Key = row["key"],
+                    Value = float.Parse(row["value"])
+                }, gameDataStore.AddLevelCoefficient),
                 LoadTable(AssetID.StageEnemyUnit, row => new StageEnemyUnit {
                     StageLevel = int.Parse(row["stageLevel"]),
                     UnitID = row["unitID"],
@@ -87,19 +93,10 @@ namespace TaskForce.AP.Client.UnityWorld
                     AttributeID = row["attributeID"],
                     Value = CreateAttribute(row["value"])
                 }, gameDataStore.AddBaseAttribute),
-                LoadTable(AssetID.AttributeSet, row => new Core.GameData.AttributeSet {
-                    ID = row["id"],
-                    AttributeID = row["attributeID"]
-                }, gameDataStore.AddAttributeSet),
                 LoadTable(AssetID.ModifyAttributeSkill, row => new Core.GameData.ModifyAttributeSkill {
                     SkillID = row["skillID"],
                     ModifyAttributeEffectID = row["modifyAttributeEffectID"]
                 }, gameDataStore.AddModifyAttributeSkill),
-                LoadTable(AssetID.CoefficientFormulaSet, row => new Core.GameData.CoefficientFormulaSet {
-                    ID = row["id"],
-                    TargetCoefficientKey = row["targetCoefficientKey"],
-                    FormulaID = row["formulaID"]
-                }, gameDataStore.AddCoeffcientFomulaSet),
                 LoadTable(AssetID.UnitDefaultActiveSkill, row => new Core.GameData.UnitDefaultActiveSkill {
                     UnitID = row["unitID"],
                     SkillID = row["skillID"]

@@ -14,7 +14,6 @@
         public const string Unit = "UNIT";
 
         public const string NonPlayerUnitLogic = "NON_PLAYER_UNIT_LOGIC";
-        public const string GrowthFormula = "GROWTH_FORMULA";
         public const string Formula = "FORMULA";
         public const string UnitDefaultSkill = "UNIT_DEFAULT_SKILL";
         public const string Skill = "SKILL";

@@ -61,11 +61,6 @@ namespace TaskForce.AP.Client.UnityWorld
                     UnitID = row["unitID"],
                     UnitLogicID = row["unitLogicID"]
                 }, gameDataStore.AddNonPlayerUnitLogic),
-                LoadTable(AssetID.GrowthFormula, row => new GrowthFormula {
-                    ID = row["id"],
-                    TargetID = row["targetAttributeID"],
-                    FormulaID = row["formulaID"]
-                }, gameDataStore.AddUnitAttributeGrowthFormula),
                 LoadTable(AssetID.Formula, row => new Formula {
                     ID = row["id"],
                     CalculationType = row["calculationType"]

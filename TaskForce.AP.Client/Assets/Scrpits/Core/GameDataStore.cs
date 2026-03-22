@@ -15,7 +15,6 @@ namespace TaskForce.AP.Client.Core
         private readonly List<Unit> _units;
         private readonly List<NonPlayerUnitLogic> _nonPlayerUnitLogics;
         private readonly List<ModifyAttributeEffect> _modifyAttributeEffects;
-        private readonly List<GrowthFormula> _growthFormulas;
         private readonly List<Formula> _formulas;
         private readonly List<UnitDefaultSkill> _unitDefaultSkills;
         private readonly List<Skill> _skills;
@@ -30,7 +29,6 @@ namespace TaskForce.AP.Client.Core
         private float _soulDropRate;
 
         private Dictionary<string, Formula> _formulasByID;
-        private ILookup<string, GrowthFormula> _growthFormulasByID;
         private Dictionary<string, Skill> _skillsByID;
         private Dictionary<string, Dictionary<string, float>> _coefficientsByFormulaID;
         private Dictionary<string, IEnumerable<ModifyAttributeSkill>> _modifyAttributeSkillsBySkillID;
@@ -45,7 +43,6 @@ namespace TaskForce.AP.Client.Core
             _stages = new List<Stage>();
             _units = new List<Unit>();
             _nonPlayerUnitLogics = new List<NonPlayerUnitLogic>();
-            _growthFormulas = new List<GrowthFormula>();
             _formulas = new List<Formula>();
             _unitDefaultSkills = new List<UnitDefaultSkill>();
             _skills = new List<Skill>();
@@ -68,7 +65,6 @@ namespace TaskForce.AP.Client.Core
             _coefficientsByFormulaID = _coefficients.GroupBy(entry => entry.FormulaID).ToDictionary(
                 group => group.Key,
                 group => group.ToDictionary(entry => entry.Key, entry => entry.Value));
-            _growthFormulasByID = _growthFormulas.ToLookup(entry => entry.ID);
             _modifyAttributeSkillsBySkillID = _modifyAttributeSkills.GroupBy(entry => entry.SkillID).ToDictionary(
                 group => group.Key,
                 group => group.AsEnumerable());
@@ -112,11 +108,6 @@ namespace TaskForce.AP.Client.Core
         public void AddFormula(Formula entry)
         {
             _formulas.Add(entry);
-        }
-
-        public void AddUnitAttributeGrowthFormula(GrowthFormula entry)
-        {
-            _growthFormulas.Add(entry);
         }
 
         public void AddNonPlayerUnitLogic(NonPlayerUnitLogic entry)
@@ -167,11 +158,6 @@ namespace TaskForce.AP.Client.Core
         public IReadOnlyDictionary<string, float> GetCoefficientByFormulaID(string id)
         {
             return _coefficientsByFormulaID[id];
-        }
-
-        public IEnumerable<GrowthFormula> GetGrowthFormulaByID(string id)
-        {
-            return _growthFormulasByID[id];
         }
 
         public Formula GetFormulaByID(string id)
@@ -254,16 +240,6 @@ namespace TaskForce.AP.Client.Core
         public IEnumerable<NonPlayerUnitLogic> GetNonPlayerUnitLogics()
         {
             return _nonPlayerUnitLogics;
-        }
-
-        public IEnumerable<GrowthFormula> GetGrowthFormulas()
-        {
-            return _growthFormulas;
-        }
-
-        public IEnumerable<GrowthFormula> GetGrowthFormulas(string id)
-        {
-            return _growthFormulas.Where(entry => entry.ID == id);
         }
 
         public IEnumerable<Formula> GetFormulas()

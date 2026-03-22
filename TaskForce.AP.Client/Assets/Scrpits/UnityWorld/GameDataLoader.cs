@@ -29,16 +29,25 @@ namespace TaskForce.AP.Client.UnityWorld
                 }, gameDataStore.AddCoefficient),
                 LoadTable(AssetID.SkillBaseAttribute, row => new SkillBaseAttribute {
                     SkillID = row["skillID"],
-                    AttributeID = row["attributeID"],
-                    Value = new Core.Attribute(float.Parse(row["value"]))
-                }, gameDataStore.AddSkillAttribute),
+                    BaseAttributeID = row["baseAttributeID"]
+                }, gameDataStore.AddSkillBaseAttribute),
+                LoadTable(AssetID.SkillLevelAttribute, row => new SkillLevelAttribute {
+                    SkillID = row["skillID"],
+                    LevelAttributeID = row["levelAttributeID"]
+                }, gameDataStore.AddSkillLevelAtrribute),
                 LoadTable(AssetID.ModifyAttributeEffect, row => new Core.GameData.ModifyAttributeEffect {
                     ID = row["id"],
                     ApplyOrder = int.Parse(row["applyOrder"]),
-                    AttributeSetID = row["attributeSetID"],
+                    AttributeID = row["attributeID"],
                     CalculationType = row["calculationType"],
-                    CoefficientFormulaSetID = row["coeffcientFormulaSetID"]
+                    LevelCoefficientID = row["levelCoefficientID"]
                 }, gameDataStore.AddModifyAttributeEffect),
+                LoadTable(AssetID.LevelCoefficient, row => new Core.GameData.LevelCoefficient {
+                    ID = row["id"],
+                    Level = int.Parse(row["level"]),
+                    Key = row["key"],
+                    Value = float.Parse(row["value"])
+                }, gameDataStore.AddLevelCoefficient),
                 LoadTable(AssetID.StageEnemyUnit, row => new StageEnemyUnit {
                     StageLevel = int.Parse(row["stageLevel"]),
                     UnitID = row["unitID"],
@@ -49,26 +58,15 @@ namespace TaskForce.AP.Client.UnityWorld
                     Time = float.Parse(row["time"]),
                     MaxEnemyUnitCount = int.Parse(row["maxEnemyUnitCount"])
                 }, gameDataStore.AddStage),
-                LoadTable(AssetID.UnitBaseAttribute, row => new UnitBaseAttribute {
-                    ID = row["id"],
-                    AttributeID = row["attributeID"],
-                    Value = new Core.Attribute(float.Parse(row["value"]))
-                }, gameDataStore.AddUnitBaseAttribute),
                 LoadTable(AssetID.Unit, row => new Core.GameData.Unit {
                     ID = row["id"],
                     BaseAttributeID = row["baseAttributeID"],
-                    UnitBodyID = row["unitBodyID"],
-                    AttributeGrowthFormulaID = row["growthFormulaID"]
+                    LevelAttributeID = row["levelAttributeID"]
                 }, gameDataStore.AddUnit),
                 LoadTable(AssetID.NonPlayerUnitLogic, row => new NonPlayerUnitLogic {
                     UnitID = row["unitID"],
                     UnitLogicID = row["unitLogicID"]
                 }, gameDataStore.AddNonPlayerUnitLogic),
-                LoadTable(AssetID.GrowthFormula, row => new GrowthFormula {
-                    ID = row["id"],
-                    TargetID = row["targetAttributeID"],
-                    FormulaID = row["formulaID"]
-                }, gameDataStore.AddUnitAttributeGrowthFormula),
                 LoadTable(AssetID.Formula, row => new Formula {
                     ID = row["id"],
                     CalculationType = row["calculationType"]
@@ -81,26 +79,24 @@ namespace TaskForce.AP.Client.UnityWorld
                     ID = row["id"],
                     NameTextID = row["nameTextID"]
                 }, gameDataStore.AddSkill),
-                LoadTable(AssetID.SkillGrowthFormula, row => new SkillGrowthFormula {
-                    SkillID = row["skillID"],
-                    GrowthFormulaID = row["growthFormulaID"]
-                }, gameDataStore.AddSkillGrowthFormula),
                 LoadTable(AssetID.LevelUpRewardSkill, row => new LevelUpRewardSkill {
                     SkillID = row["skillID"]
                 }, gameDataStore.AddLevelUpRewardSkill),
-                LoadTable(AssetID.AttributeSet, row => new Core.GameData.AttributeSet {
+                LoadTable(AssetID.LevelAttribute, row => new Core.GameData.LevelAttribute {
                     ID = row["id"],
-                    AttributeID = row["attributeID"]
-                }, gameDataStore.AddAttributeSet),
+                    Level = int.Parse(row["level"]),
+                    AttributeID = row["attributeID"],
+                    Value = CreateAttribute(row["value"])
+                }, gameDataStore.AddLevelAttribute),
+                LoadTable(AssetID.BaseAttribute, row => new Core.GameData.BaseAttribute {
+                    ID = row["id"],
+                    AttributeID = row["attributeID"],
+                    Value = CreateAttribute(row["value"])
+                }, gameDataStore.AddBaseAttribute),
                 LoadTable(AssetID.ModifyAttributeSkill, row => new Core.GameData.ModifyAttributeSkill {
                     SkillID = row["skillID"],
                     ModifyAttributeEffectID = row["modifyAttributeEffectID"]
                 }, gameDataStore.AddModifyAttributeSkill),
-                LoadTable(AssetID.CoefficientFormulaSet, row => new Core.GameData.CoefficientFormulaSet {
-                    ID = row["id"],
-                    TargetCoefficientKey = row["targetCoefficientKey"],
-                    FormulaID = row["formulaID"]
-                }, gameDataStore.AddCoeffcientFomulaSet),
                 LoadTable(AssetID.UnitDefaultActiveSkill, row => new Core.GameData.UnitDefaultActiveSkill {
                     UnitID = row["unitID"],
                     SkillID = row["skillID"]
@@ -110,6 +106,13 @@ namespace TaskForce.AP.Client.UnityWorld
             await Task.WhenAll(loadTasks);
 
             gameDataStore.Bake();
+        }
+
+        private Core.Attribute CreateAttribute(string value)
+        {
+            if (float.TryParse(value, out var number))
+                return new Core.Attribute(number);
+            return new Core.Attribute(value);
         }
 
         private async Task LoadTable<T>(string assetId, Func<Dictionary<string, string>, T> parser, Action<T> adder)

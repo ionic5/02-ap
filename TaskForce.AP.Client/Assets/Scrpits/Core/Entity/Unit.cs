@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using TaskForce.AP.Client.Core.GameData;
 
 namespace TaskForce.AP.Client.Core.Entity
 {
@@ -18,36 +19,32 @@ namespace TaskForce.AP.Client.Core.Entity
         private int _level;
         private int _exp;
         private int _hp;
-        private string _unitBodyID;
         private string _unitLogicID;
         private bool _isPlayerSide;
         private Vector2 _position;
         private string _defaultSkillID;
-        private readonly AttributeMediator _attributeMediator;
 
+        private readonly AttributeStore _attributeStore;
         private readonly Dictionary<string, IActiveSkill> _skills;
+        private readonly IEnumerable<GameData.BaseAttribute> _baseAttributes;
+        private readonly IEnumerable<GameData.LevelAttribute> _levelAttributes;
+        private readonly List<IModifyAttributeEffect> _modifyAttributeEffects;
 
-        public Unit(GameDataStore gameDataStore, AttributeMediator attributeMediator)
+        public Unit(GameDataStore gameDataStore, IEnumerable<GameData.BaseAttribute> attributes, IEnumerable<LevelAttribute> levelAttributes)
         {
             _gameDataStore = gameDataStore;
 
             _skills = new Dictionary<string, IActiveSkill>();
-            _attributeMediator = attributeMediator;
-        }
 
-        public void SetAttributeGrowthFormulas(IEnumerable<GameData.GrowthFormula> formulas)
-        {
-            _attributeMediator.SetGrowthFormulas(formulas);
-        }
-
-        public void SetBaseAttributes(IReadOnlyDictionary<string, Attribute> baseAttributes)
-        {
-            _attributeMediator.SetBaseAttributes(baseAttributes);
+            _baseAttributes = attributes;
+            _levelAttributes = levelAttributes;
+            _attributeStore = new AttributeStore();
+            _modifyAttributeEffects = new List<IModifyAttributeEffect>();
         }
 
         public Attribute GetAttribute(string id)
         {
-            return _attributeMediator.GetAttribute(id);
+            return _attributeStore.Get(id);
         }
 
         public int GetHP()
@@ -85,7 +82,7 @@ namespace TaskForce.AP.Client.Core.Entity
 
         public string GetUnitBodyID()
         {
-            return _unitBodyID;
+            return GetAttribute(AttributeID.UnitBodyID).AsString();
         }
 
         public string GetUnitLogicID()
@@ -126,11 +123,6 @@ namespace TaskForce.AP.Client.Core.Entity
             return _level;
         }
 
-        public void SetUnitBodyID(string id)
-        {
-            _unitBodyID = id;
-        }
-
         public void SetUnitLogicID(string id)
         {
             _unitLogicID = id;
@@ -144,7 +136,8 @@ namespace TaskForce.AP.Client.Core.Entity
         public void SetLevel(int level)
         {
             _level = level;
-            _attributeMediator.SetLevel(_level);
+
+            UpdateAttributes();
         }
 
         public void SetHP(int hp)
@@ -163,12 +156,16 @@ namespace TaskForce.AP.Client.Core.Entity
 
         public void AddModifyAttributeEffects(IEnumerable<IModifyAttributeEffect> effects)
         {
-            _attributeMediator.AddModifyAttributeEffects(effects);
+            _modifyAttributeEffects.AddRange(effects);
+
+            UpdateAttributes();
         }
 
         public void AddModifyAttributeEffect(IModifyAttributeEffect effect)
         {
-            _attributeMediator.AddModifyAttributeEffect(effect);
+            _modifyAttributeEffects.Add(effect);
+
+            UpdateAttributes();
         }
 
         /// <summary>
@@ -224,9 +221,45 @@ namespace TaskForce.AP.Client.Core.Entity
             SetHP(0);
         }
 
-        internal void RemoveModifyAttributeEffects(List<IModifyAttributeEffect> effects)
+        public void RemoveModifyAttributeEffects(IEnumerable<IModifyAttributeEffect> effects)
         {
-            throw new NotImplementedException();
+            var effectsToRemove = new HashSet<IModifyAttributeEffect>(effects);
+            _modifyAttributeEffects.RemoveAll(e => effectsToRemove.Contains(e));
+
+            UpdateAttributes();
+        }
+
+        private void UpdateAttributes()
+        {
+            _attributeStore.Clear();
+
+            foreach (var entry in _baseAttributes)
+                _attributeStore.Set(entry.AttributeID, entry.Value);
+            SetLevelAttributes();
+
+            var mergedEffects = new List<IModifyAttributeEffect>();
+            foreach (var entry in _modifyAttributeEffects)
+            {
+                var existing = mergedEffects.FirstOrDefault(m => m.CanMerge(entry));
+                if (existing == null)
+                    mergedEffects.Add(entry.Clone());
+                else
+                    existing.Merge(entry);
+            }
+            mergedEffects.Sort((a, b) => a.GetApplyOrder().CompareTo(b.GetApplyOrder()));
+
+            foreach (var entry in mergedEffects)
+                entry.Apply(_attributeStore);
+        }
+
+        private void SetLevelAttributes()
+        {
+            var closestGroup = _levelAttributes.GroupBy(e => e.Level)
+                .Where(g => g.Key <= _level)
+                .OrderByDescending(g => g.Key).FirstOrDefault();
+            if (closestGroup != null)
+                foreach (var entry in closestGroup)
+                    _attributeStore.Set(entry.AttributeID, entry.Value);
         }
     }
 }

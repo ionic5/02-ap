@@ -1,8 +1,8 @@
 ﻿namespace TaskForce.AP.Client.Core.GameData
 {
-    public class SkillGrowthFormula
+    public class SkillLevelAttribute
     {
         public string SkillID;
-        public string GrowthFormulaID;
+        public string LevelAttributeID;
     }
 }

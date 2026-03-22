@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using log4net.Core;
+using System.Collections.Generic;
 using System.Linq;
+using TaskForce.AP.Client.Core.GameData;
 
 namespace TaskForce.AP.Client.Core.Entity
 {
@@ -17,26 +19,17 @@ namespace TaskForce.AP.Client.Core.Entity
         public IModifyAttributeEffect Create(string effectID, int level)
         {
             var effectData = _gameDataStore.GetModifyAttributeEffects().FirstOrDefault(entry => entry.ID == effectID);
-            var coeffcients = CreateCoeffcients(level, effectData);
 
-            return new ModifyAttributeEffect(effectData.ApplyOrder, effectData.AttributeSetID,
-                effectData.CalculationType, coeffcients, _formulaCalculator);
-        }
+            var lvCoeffs = _gameDataStore.GetLevelCoefficients(effectData.LevelCoefficientID);
+            var closestGroup = lvCoeffs.GroupBy(e => e.Level)
+                .Where(g => g.Key <= level).OrderByDescending(g => g.Key).FirstOrDefault();
+            var coeffs = new Dictionary<string, float>();
+            if (closestGroup != null)
+                foreach (var entry in closestGroup)
+                    coeffs.Add(entry.Key, entry.Value);
 
-        private Dictionary<string, float> CreateCoeffcients(int level, GameData.ModifyAttributeEffect effectData)
-        {
-            var formulas = _gameDataStore.GetCoefficientFormulasBySetID(effectData.CoefficientFormulaSetID);
-            var coeffcients = new Dictionary<string, float>();
-            foreach (var entry in formulas)
-                coeffcients[entry.Key] = CalculateCoeffcient(entry.Value, level);
-            return coeffcients;
-        }
-
-        private float CalculateCoeffcient(GameData.Formula formula, int level)
-        {
-            var coeffs = _gameDataStore.GetCoefficientByFormulaID(formula.ID);
-            var value = _formulaCalculator.Calculate(formula.CalculationType, coeffs, level);
-            return value;
+            return new ModifyAttributeEffect(effectData.ApplyOrder, effectData.AttributeID,
+                effectData.CalculationType, coeffs, _formulaCalculator);
         }
     }
 }

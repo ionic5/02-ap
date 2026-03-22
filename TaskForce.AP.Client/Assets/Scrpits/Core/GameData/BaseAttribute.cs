@@ -1,9 +1,9 @@
 ﻿namespace TaskForce.AP.Client.Core.GameData
 {
-    public class UnitBaseAttribute
+    public class BaseAttribute
     {
         public string ID;
         public string AttributeID;
-        public Attribute Value;
+        public Core.Attribute Value;
     }
 }

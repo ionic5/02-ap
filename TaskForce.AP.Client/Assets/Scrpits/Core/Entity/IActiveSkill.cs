@@ -2,6 +2,5 @@
 {
     public interface IActiveSkill : ISkill
     {
-        Attribute GetAttribute(string attributeID);
     }
 }

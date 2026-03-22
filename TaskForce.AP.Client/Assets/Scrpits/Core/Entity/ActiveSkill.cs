@@ -1,8 +1,10 @@
-﻿namespace TaskForce.AP.Client.Core.Entity
+﻿using System.Collections.Generic;
+
+namespace TaskForce.AP.Client.Core.Entity
 {
-    public abstract class ActiveSkill : Skill, IActiveSkill
+    public class ActiveSkill : Skill, IActiveSkill
     {
-        protected ActiveSkill(string skillID, GameData.Skill skillData, TextStore textStore) : base(skillID, skillData, textStore)
+        public ActiveSkill(string skillID, TextStore textStore, IEnumerable<GameData.BaseAttribute> baseAttributes, IEnumerable<GameData.LevelAttribute> levelAttributes) : base(skillID, textStore, baseAttributes, levelAttributes)
         {
         }
 
@@ -10,7 +12,5 @@
         {
             GetOwner().AddSkill(this);
         }
-
-        public abstract Attribute GetAttribute(string attributeID);
     }
 }

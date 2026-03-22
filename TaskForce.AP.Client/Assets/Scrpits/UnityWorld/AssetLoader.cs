@@ -43,7 +43,13 @@ namespace TaskForce.AP.Client.UnityWorld
         {
             AsyncOperationHandle handle = _loadedHandles.GetOrAdd(path, (key) =>
             {
-                return Addressables.LoadAssetAsync<T>(key);
+                var h = Addressables.LoadAssetAsync<T>(key);
+                h.Completed += (op) =>
+                {
+                    if (op.Status == AsyncOperationStatus.Failed)
+                        _logger.Fatal($"Asset load failed: {path}. Error: {op.OperationException}");
+                };
+                return h;
             });
 
             try

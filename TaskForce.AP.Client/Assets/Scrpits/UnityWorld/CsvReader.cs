@@ -22,11 +22,14 @@ namespace TaskForce.AP.Client.UnityWorld
             }
 
             var lines = SplitCsvLines(rawCsvData);
-            if (lines.Count < 2)
+            if (lines.Count == 0)
             {
-                _logger.Fatal("CSV has no header or data.");
+                _logger.Fatal("CSV has no header.");
                 return result;
             }
+
+            if (lines.Count == 1)
+                return result;
 
             var headers = ParseCsvLine(lines[0]);
             for (int i = 1; i < lines.Count; i++)

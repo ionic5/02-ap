@@ -48,6 +48,12 @@ namespace TaskForce.AP.Client.UnityWorld
 
         public T Create<T>(string objectID) where T : UnityWorld.Object
         {
+            if (string.IsNullOrEmpty(objectID))
+            {
+                Logger.Fatal("Object ID is null or empty.");
+                return null;
+            }
+
             var newObj = GetNewObject<T>(objectID) ?? CreateNewObject<T>(objectID);
 
             if (newObj != null && _prepareHandlers.TryGetValue(objectID, out var handler))

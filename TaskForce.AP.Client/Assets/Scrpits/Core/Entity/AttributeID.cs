@@ -29,5 +29,8 @@
         public const string DetectRange = "DETECT_RANGE";
         public const string MaxHP = "MAX_HP";
         public const string Range = "RANGE";
+        public const string UnitBodyID = "UNIT_BODY_ID";
+        public const string NameTextID = "NAME_TEXT_ID";
+        public const string IconID = "ICON_ID";
     }
 }

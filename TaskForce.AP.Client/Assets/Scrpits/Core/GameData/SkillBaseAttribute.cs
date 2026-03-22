@@ -3,7 +3,6 @@
     public class SkillBaseAttribute
     {
         public string SkillID;
-        public string AttributeID;
-        public Core.Attribute Value;
+        public string BaseAttributeID;
     }
 }

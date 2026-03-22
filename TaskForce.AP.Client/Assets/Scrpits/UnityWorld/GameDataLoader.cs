@@ -29,8 +29,7 @@ namespace TaskForce.AP.Client.UnityWorld
                 }, gameDataStore.AddCoefficient),
                 LoadTable(AssetID.SkillBaseAttribute, row => new SkillBaseAttribute {
                     SkillID = row["skillID"],
-                    AttributeID = row["attributeID"],
-                    Value = new Core.Attribute(float.Parse(row["value"]))
+                    BaseAttributeID = row["baseAttributeID"]
                 }, gameDataStore.AddSkillAttribute),
                 LoadTable(AssetID.ModifyAttributeEffect, row => new Core.GameData.ModifyAttributeEffect {
                     ID = row["id"],

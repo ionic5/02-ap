@@ -278,17 +278,6 @@ namespace TaskForce.AP.Client.Core
             return GetGrowthFormulas(growthFormulaID);
         }
 
-        public IReadOnlyDictionary<string, Attribute> GetSkillBaseAttributes(string skillID)
-        {
-            var result = new Dictionary<string, Attribute>();
-            var attributes = GetSkillBaseAttributes().Where(entry => entry.SkillID == skillID);
-            if (!attributes.Any())
-                return result;
-            foreach (var entry in attributes)
-                result[entry.AttributeID] = entry.Value;
-            return result;
-        }
-
         public IEnumerable<LevelUpRewardSkill> GetLevelUpRewardSkills()
         {
             return _levelUpRewardSkills;

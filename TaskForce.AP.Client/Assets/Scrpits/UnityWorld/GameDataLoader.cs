@@ -88,6 +88,14 @@ namespace TaskForce.AP.Client.UnityWorld
                     AttributeID = row["attributeID"],
                     Value = CreateAttribute(row["value"])
                 }, gameDataStore.AddLevelAttribute),
+                LoadTable(AssetID.RequireExp, row => new Core.GameData.RequireExp {
+                    Level = int.Parse(row["level"]),
+                    Exp = int.Parse(row["exp"]),
+                }, gameDataStore.AddRequireExp),
+                LoadTable(AssetID.SoulExp, row => new Core.GameData.SoulExp {
+                    Level = int.Parse(row["level"]),
+                    Exp = int.Parse(row["exp"]),
+                }, gameDataStore.AddSoulExp),
                 LoadTable(AssetID.BaseAttribute, row => new Core.GameData.BaseAttribute {
                     ID = row["id"],
                     AttributeID = row["attributeID"],

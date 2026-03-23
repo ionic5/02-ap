@@ -25,5 +25,7 @@
         public const string LevelAttribute = "LEVEL_ATTRIBUTE";
         public const string BaseAttribute = "BASE_ATTRIBUTE";
         public const string LevelCoefficient = "LEVEL_COEFFICIENT";
+        public const string RequireExp = "REQUIRE_EXP";
+        public const string SoulExp = "SOUL_EXP";
     }
 }

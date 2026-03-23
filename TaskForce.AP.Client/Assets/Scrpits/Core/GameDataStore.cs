@@ -25,6 +25,8 @@ namespace TaskForce.AP.Client.Core
         private readonly List<GameData.BaseAttribute> _baseAttributes;
         private readonly List<SkillLevelAttribute> _skillLevelAttributes;
         private readonly List<LevelCoefficient> _levelCoefficients;
+        private readonly List<RequireExp> _requireExps;
+        private readonly List<SoulExp> _soulExps;
         private float _soulDropRate;
 
         private Dictionary<string, Formula> _formulasByID;
@@ -52,6 +54,8 @@ namespace TaskForce.AP.Client.Core
             _baseAttributes = new List<GameData.BaseAttribute>();
             _skillLevelAttributes = new List<SkillLevelAttribute>();
             _levelCoefficients = new List<LevelCoefficient>();
+            _requireExps = new List<RequireExp>();
+            _soulExps = new List<SoulExp>();
         }
 
         public void Bake()
@@ -64,6 +68,16 @@ namespace TaskForce.AP.Client.Core
             _modifyAttributeSkillsBySkillID = _modifyAttributeSkills.GroupBy(entry => entry.SkillID).ToDictionary(
                 group => group.Key,
                 group => group.AsEnumerable());
+        }
+
+        public void AddRequireExp(GameData.RequireExp entry)
+        {
+            _requireExps.Add(entry);
+        }
+
+        public void AddSoulExp(GameData.SoulExp entry)
+        {
+            _soulExps.Add(entry);
         }
 
         public void AddLevelAttribute(GameData.LevelAttribute entry)

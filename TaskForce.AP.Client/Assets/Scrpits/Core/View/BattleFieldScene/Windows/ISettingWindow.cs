@@ -1,0 +1,12 @@
+﻿using System;
+
+namespace TaskForce.AP.Client.Core.View.BattleFieldScene.Windows
+{
+    public interface ISettingWindow
+    {
+        event EventHandler<ValueChangedEventArgs> BGMVolumeChangedEvent;
+        event EventHandler<ValueChangedEventArgs> SFXVolumeChangedEvent;
+        event EventHandler LobbyButtonClickedEvent;
+        event EventHandler ContinueButtonClickedEvent;
+    }
+}

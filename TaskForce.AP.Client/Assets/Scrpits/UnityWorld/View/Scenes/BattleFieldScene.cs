@@ -1,3 +1,4 @@
+using System;
 using TaskForce.AP.Client.Core.View.Scenes;
 using TaskForce.AP.Client.UnityWorld.BattleFieldScene;
 using TaskForce.AP.Client.UnityWorld.View.BattleFieldScene;
@@ -29,6 +30,8 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
         [SerializeField]
         private View.BattleFieldScene.WindowStack _windowStack;
 
+        public event EventHandler PauseButtonClickedEvent;
+
         public TilemapGrid TileMapGrid => _grid;
         public Loop Loop => _loop;
         public World World => _world;
@@ -52,6 +55,18 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
         public void SetRequireExp(int v)
         {
             _expBar.SetMaxValue(v);
+        }
+
+        public void OnPauseButtonClicked()
+        {
+            PauseButtonClickedEvent?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+
+            PauseButtonClickedEvent = null;
         }
     }
 }

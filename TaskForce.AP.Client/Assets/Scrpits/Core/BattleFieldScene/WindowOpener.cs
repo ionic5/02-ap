@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TaskForce.AP.Client.Core.View.BattleFieldScene;
 
 namespace TaskForce.AP.Client.Core.BattleFieldScene
@@ -21,6 +22,11 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             var window = _windowStack.OpenSkillSelectionWindow();
             var ctrl = new SkillSelectionWindowController(window, skills, unit, _textStore);
             ctrl.Start();
+        }
+
+        public void OpenSettingWindow()
+        {
+            var window = _windowStack.OpenSettingWindow();
         }
     }
 }

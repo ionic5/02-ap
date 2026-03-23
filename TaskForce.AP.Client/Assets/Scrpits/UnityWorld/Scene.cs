@@ -13,7 +13,7 @@ namespace TaskForce.AP.Client.UnityWorld
             Destroy(gameObject);
         }
 
-        private void OnDestroy()
+        protected virtual void OnDestroy()
         {
             DestroyEvent?.Invoke(this, new DestroyEventArgs(this));
             DestroyEvent = null;

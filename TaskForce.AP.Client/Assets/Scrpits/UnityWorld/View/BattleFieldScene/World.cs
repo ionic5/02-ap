@@ -7,6 +7,9 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
 {
     public class World : MonoBehaviour, Core.View.BattleFieldScene.IWorld
     {
+        public event EventHandler PausedEvent;
+        public event EventHandler ResumedEvent;
+
         [SerializeField]
         private GameObject _playerUnitSpawnPosition;
         [SerializeField]
@@ -23,6 +26,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
         public Core.Random Random;
 
         private List<Vector3> _spawnPositions;
+        private bool _isPaused;
 
         private void Awake()
         {
@@ -33,6 +37,30 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
                 for (int j = 0; j < parentTransform.childCount; j++)
                     _spawnPositions.Add(parentTransform.GetChild(j).position);
             }
+        }
+
+        public void Pause()
+        {
+            if (_isPaused)
+                return;
+
+            _isPaused = true;
+            UnityEngine.Time.timeScale = 0f;
+            AudioListener.pause = true;
+
+            PausedEvent?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void Resume()
+        {
+            if (!_isPaused)
+                return;
+
+            _isPaused = false;
+            UnityEngine.Time.timeScale = 1f;
+            AudioListener.pause = false;
+
+            ResumedEvent?.Invoke(this, EventArgs.Empty);
         }
 
         public System.Numerics.Vector2 GetWarpPoint()

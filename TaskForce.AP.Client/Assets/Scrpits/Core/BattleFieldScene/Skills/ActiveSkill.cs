@@ -4,10 +4,10 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
 {
     public abstract class ActiveSkill : ISkill
     {
-        private readonly Entity.IActiveSkill _skillEntity;
+        private readonly Entity.ISkill _skillEntity;
         private IUnit _owner;
 
-        public ActiveSkill(Core.Entity.IActiveSkill skillEntity)
+        public ActiveSkill(Core.Entity.ISkill skillEntity)
         {
             _skillEntity = skillEntity;
         }

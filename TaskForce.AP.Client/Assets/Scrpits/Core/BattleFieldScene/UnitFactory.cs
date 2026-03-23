@@ -15,13 +15,13 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private readonly Func<string, View.BattleFieldScene.IUnit> _createUnitView;
         private readonly Core.ILogger _logger;
         private readonly GameDataStore _gameDataStore;
-        private readonly Func<Entity.IActiveSkill, Skills.ISkill> _createSkill;
+        private readonly Func<Entity.ISkill, Skills.ISkill> _createSkill;
         private readonly Func<string, ISkill> _createSkillEntity;
         private readonly Func<IControllableUnit, string, IUnitLogic> _createUnitLogic;
 
         public UnitFactory(Random random, Func<Timer> createTimer, ITargetFinder targetFinder,
             Func<string, View.BattleFieldScene.IUnit> createUnitView,
-            ILogger logger, Func<Entity.IActiveSkill, Skills.ISkill> createSkill, GameDataStore gameDataStore,
+            ILogger logger, Func<Entity.ISkill, Skills.ISkill> createSkill, GameDataStore gameDataStore,
             Func<IControllableUnit, string, IUnitLogic> createUnitLogic, Func<string, ISkill> createSkillEntity)
         {
             _random = random;

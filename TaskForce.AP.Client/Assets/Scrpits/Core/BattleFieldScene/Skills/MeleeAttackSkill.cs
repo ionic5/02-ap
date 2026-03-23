@@ -25,7 +25,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
             public const int Impact = 1;
         }
 
-        public MeleeAttackSkill(Timer timer, Entity.IActiveSkill skillEntity, Random random) : base(skillEntity)
+        public MeleeAttackSkill(Timer timer, Entity.ISkill skillEntity, Random random) : base(skillEntity)
         {
             _timer = timer;
             _random = random;

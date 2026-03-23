@@ -13,7 +13,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
         private readonly Func<IUnit, int, int, float, Dynamite> _createDynamite;
 
         public DynamiteSkill(Random random, RepeatTimer repeatTimer, Timer timer,
-            Func<IUnit, int, int, float, Dynamite> createDynamite, Core.Entity.IActiveSkill skillEntity) : base(skillEntity)
+            Func<IUnit, int, int, float, Dynamite> createDynamite, Core.Entity.ISkill skillEntity) : base(skillEntity)
         {
             _random = random;
             _repeatTimer = repeatTimer;

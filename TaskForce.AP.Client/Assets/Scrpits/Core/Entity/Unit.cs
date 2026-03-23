@@ -25,7 +25,7 @@ namespace TaskForce.AP.Client.Core.Entity
         private string _defaultSkillID;
 
         private readonly AttributeStore _attributeStore;
-        private readonly Dictionary<string, IActiveSkill> _skills;
+        private readonly Dictionary<string, ISkill> _skills;
         private readonly IEnumerable<GameData.BaseAttribute> _baseAttributes;
         private readonly IEnumerable<GameData.LevelAttribute> _levelAttributes;
         private readonly List<IModifyAttributeEffect> _modifyAttributeEffects;
@@ -34,7 +34,7 @@ namespace TaskForce.AP.Client.Core.Entity
         {
             _gameDataStore = gameDataStore;
 
-            _skills = new Dictionary<string, IActiveSkill>();
+            _skills = new Dictionary<string, ISkill>();
 
             _baseAttributes = attributes;
             _levelAttributes = levelAttributes;
@@ -145,7 +145,7 @@ namespace TaskForce.AP.Client.Core.Entity
             _hp = hp;
         }
 
-        public void AddSkill(IActiveSkill skill)
+        public void AddSkill(ISkill skill)
         {
             if (_skills.ContainsKey(skill.GetSkillID()))
                 return;
@@ -172,13 +172,13 @@ namespace TaskForce.AP.Client.Core.Entity
         /// Retrieves a skill currently owned by the unit.
         /// </summary>
         /// <param name="skillID">The unique identifier of the skill to find.</param>
-        /// <returns>The <see cref="IActiveSkill"/> instance if found; otherwise, <c>null</c>.</returns>
-        public IActiveSkill GetSkill(string skillID)
+        /// <returns>The <see cref="ISkill"/> instance if found; otherwise, <c>null</c>.</returns>
+        public ISkill GetSkill(string skillID)
         {
             return _skills.TryGetValue(skillID, out var skill) ? skill : null;
         }
 
-        public IReadOnlyCollection<IActiveSkill> GetSkills()
+        public IReadOnlyCollection<ISkill> GetSkills()
         {
             return _skills.Values;
         }

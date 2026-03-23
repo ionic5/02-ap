@@ -14,7 +14,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
         private readonly Func<int, int, SheepMissile> _createSheepMissile;
 
         public SheepMissileSkill(Random random, RepeatTimer repeatTimer, Timer timer,
-            Func<int, int, SheepMissile> createSheepMissile, Core.Entity.IActiveSkill skillEntity) : base(skillEntity)
+            Func<int, int, SheepMissile> createSheepMissile, Core.Entity.ISkill skillEntity) : base(skillEntity)
         {
             _random = random;
             _repeatTimer = repeatTimer;

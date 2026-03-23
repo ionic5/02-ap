@@ -18,7 +18,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
             public const int Casting = 2;
         }
 
-        public HealSkill(Timer timer, Func<IOneShotEffect> createHealEffect, Core.Entity.IActiveSkill skill) : base(skill)
+        public HealSkill(Timer timer, Func<IOneShotEffect> createHealEffect, Core.Entity.ISkill skill) : base(skill)
         {
             _timer = timer;
             _createHealEffect = createHealEffect;

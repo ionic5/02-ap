@@ -10,7 +10,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
         private readonly Core.Timer _timer;
         private readonly Func<IUnit, int, int, float, float, float, PowderKeg> _createPowderKeg;
 
-        public PowderKegSkill(Core.Entity.IActiveSkill skillEntity,
+        public PowderKegSkill(Core.Entity.ISkill skillEntity,
             Timer timer, Func<IUnit, int, int, float, float, float, PowderKeg> createPowderKeg) : base(skillEntity)
         {
             _timer = timer;

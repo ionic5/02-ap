@@ -2,7 +2,7 @@
 {
     public abstract class InstantSkill : ActiveSkill
     {
-        protected InstantSkill(Entity.IActiveSkill skillEntity) : base(skillEntity)
+        protected InstantSkill(Entity.ISkill skillEntity) : base(skillEntity)
         {
         }
 

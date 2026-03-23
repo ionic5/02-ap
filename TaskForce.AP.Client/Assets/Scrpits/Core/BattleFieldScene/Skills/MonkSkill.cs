@@ -9,7 +9,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
         private int _summonCount;
         private readonly Func<string, int, IUnit> _createUnit;
 
-        public MonkSkill(Entity.IActiveSkill skillEntity, Func<string, int, IUnit> createUnit) : base(skillEntity)
+        public MonkSkill(Entity.ISkill skillEntity, Func<string, int, IUnit> createUnit) : base(skillEntity)
         {
             _createUnit = createUnit;
             _summonCount = 0;

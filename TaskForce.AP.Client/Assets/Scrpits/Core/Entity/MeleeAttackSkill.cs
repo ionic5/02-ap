@@ -3,7 +3,7 @@ using TaskForce.AP.Client.Core.GameData;
 
 namespace TaskForce.AP.Client.Core.Entity
 {
-    public class MeleeAttackSkill : ActiveSkill, IActiveSkill
+    public class MeleeAttackSkill : ActiveSkill, ISkill
     {
         public MeleeAttackSkill(string skillID, TextStore textStore,
             IEnumerable<BaseAttribute> baseAttributes,

@@ -21,7 +21,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private readonly Core.ILogger _logger;
         private readonly Dictionary<string, Skills.ISkill> _skills;
         private readonly ITargetFinder _targetFinder;
-        private readonly Func<Entity.IActiveSkill, Skills.ISkill> _createSkill;
+        private readonly Func<Entity.ISkill, Skills.ISkill> _createSkill;
         private readonly Func<IControllableUnit, string, IUnitLogic> _createUnitLogic;
 
         private bool _isDestroyed;
@@ -30,7 +30,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
 
         public Unit(Core.View.BattleFieldScene.IUnit unitView, Entity.Unit unitEntity,
             ITargetFinder targetFinder, ITargetIdentifier targetIdentifier,
-            ILogger logger, Func<Core.Entity.IActiveSkill, Skills.ISkill> createSkill,
+            ILogger logger, Func<Core.Entity.ISkill, Skills.ISkill> createSkill,
             Func<IControllableUnit, string, IUnitLogic> createUnitLogic)
         {
             _unitView = unitView;
@@ -233,7 +233,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             AddSkill(_unitEntity.GetSkill(args.SkillID));
         }
 
-        public void AddSkill(Entity.IActiveSkill skillEntity)
+        public void AddSkill(Entity.ISkill skillEntity)
         {
             var skill = _createSkill(skillEntity);
             if (skill == null)
@@ -261,7 +261,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             return _unitEntity.GetLevel();
         }
 
-        public Core.Entity.IActiveSkill GetSkill(string id)
+        public Core.Entity.ISkill GetSkill(string id)
         {
             return _unitEntity.GetSkill(id);
         }

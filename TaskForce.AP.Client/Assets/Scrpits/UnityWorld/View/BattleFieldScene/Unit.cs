@@ -32,6 +32,8 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
         private Vector3 _destination;
         private bool _isDestinationSetted;
 
+        HPBarController _hpBarController;
+
         private IReadOnlyDictionary<UnitMotionID, string> _clipNameMap;
         private readonly string[] State = {
             "attack",
@@ -61,6 +63,8 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
                 { UnitMotionID.Move, State[3] },
                 { UnitMotionID.Cast, State[4] }
             };
+
+            _hpBarController = GetComponent<HPBarController>();
         }
 
         private void Update()
@@ -231,6 +235,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
         protected override void CleanUp()
         {
             base.CleanUp();
+            _hpBarController.SetActiveHPBar(false);
             DieAnimationFinishedEvent = null;
             CreateFloatingTextAnimator = null;
             if (Timer != null)

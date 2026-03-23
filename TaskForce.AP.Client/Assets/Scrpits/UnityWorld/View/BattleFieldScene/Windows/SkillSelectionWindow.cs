@@ -21,10 +21,6 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.Windows
 
         public ISkillPanel AddSkillPanel()
         {
-            // 일시 정지
-            if (PauseManager.Instance != null && !PauseManager.Instance.IsPaused())
-                PauseManager.Instance.TogglePause();
-
             for (var i = 0; i < SkillPanels.Count(); i++)
             {
                 var panel = SkillPanels[i];

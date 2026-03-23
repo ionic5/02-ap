@@ -164,7 +164,9 @@ namespace TaskForce.AP.Client.UnityWorld
                 panel.Logger = _logger;
             }
 
-            var winOpener = new WindowOpener(windowStack, _textStore, _logger);
+            // TODO: 실제 SoundPlayer 구현체로 교체 필요
+            var mockSoundPlayer = new MockSoundPlayer();
+            var winOpener = new WindowOpener(windowStack, _textStore, mockSoundPlayer, _logger);
 
             var sceneCtrl = new BattleFieldSceneController(scene, world, followCamera, winOpener,
                 unitFactory.CreatePlayerUnit, _gameDataStore, _random, _logger,

@@ -8,12 +8,14 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
     {
         private readonly IWindowStack _windowStack;
         private readonly TextStore _textStore;
+        private readonly ISoundPlayer _soundPlayer;
         private readonly ILogger _logger;
 
-        public WindowOpener(IWindowStack windowStack, TextStore textStore, ILogger logger)
+        public WindowOpener(IWindowStack windowStack, TextStore textStore, ISoundPlayer soundPlayer, ILogger logger)
         {
             _windowStack = windowStack;
             _textStore = textStore;
+            _soundPlayer = soundPlayer;
             _logger = logger;
         }
 
@@ -27,6 +29,8 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         public void OpenSettingWindow()
         {
             var window = _windowStack.OpenSettingWindow();
+            var ctrl = new SettingWindowController(window, _soundPlayer);
+            ctrl.Start();
         }
     }
 }

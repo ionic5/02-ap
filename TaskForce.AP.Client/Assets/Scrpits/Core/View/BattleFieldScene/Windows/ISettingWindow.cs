@@ -8,5 +8,9 @@ namespace TaskForce.AP.Client.Core.View.BattleFieldScene.Windows
         event EventHandler<ValueChangedEventArgs> SFXVolumeChangedEvent;
         event EventHandler LobbyButtonClickedEvent;
         event EventHandler ContinueButtonClickedEvent;
+
+        void SetBGMVolume(float volume);
+        void SetSFXVolume(float volume);
+        void Close();
     }
 }

@@ -53,7 +53,9 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
 
         public void SetActiveHPBar(bool active)
         {
-            _hpBar.gameObject.SetActive(active);
+            // TODO HP 바 구현 재검토 필요
+            if (_hpBar != null)
+                _hpBar.gameObject.SetActive(active);
         }
 
         public void SetHp(float hp)

@@ -235,7 +235,11 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
         protected override void CleanUp()
         {
             base.CleanUp();
-            _hpBarController.SetActiveHPBar(false);
+
+            // TODO HP 바 구현 재검토 필요
+            if (_hpBarController != null)
+                _hpBarController.SetActiveHPBar(false);
+            
             DieAnimationFinishedEvent = null;
             CreateFloatingTextAnimator = null;
             if (Timer != null)

@@ -1,9 +1,10 @@
 ﻿using System;
 using UnityEngine;
+using TaskForce.AP.Client.Core.View.BattleFieldScene.Windows;
 
 namespace TaskForce.AP.Client.UnityWorld.View
 {
-    public class Window : MonoBehaviour
+    public class Window : MonoBehaviour, IWindow
     {
         public event EventHandler ClosedEvent;
 

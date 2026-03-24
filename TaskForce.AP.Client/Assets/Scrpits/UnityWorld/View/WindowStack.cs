@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TaskForce.AP.Client.Core.View.BattleFieldScene;
 using UnityEngine;
 
 namespace TaskForce.AP.Client.UnityWorld.View
@@ -32,6 +33,11 @@ namespace TaskForce.AP.Client.UnityWorld.View
             };
 
             return window;
+        }
+
+        public int GetOpenedWindowCount()
+        {
+            return _windows.Count;
         }
 
         private void UpdateWindowBackground()

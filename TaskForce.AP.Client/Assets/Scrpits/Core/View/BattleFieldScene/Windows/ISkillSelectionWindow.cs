@@ -3,12 +3,11 @@ using TaskForce.AP.Client.Core.View.BattleFieldScene.SkillSelectionWindow;
 
 namespace TaskForce.AP.Client.Core.View.BattleFieldScene.Windows
 {
-    public interface ISkillSelectionWindow
+    public interface ISkillSelectionWindow : IWindow
     {
         event EventHandler OKButtonClickedEvent;
 
         ISkillPanel AddSkillPanel();
-        void Close();
         int GetSelectedSkillIndex();
     }
 }

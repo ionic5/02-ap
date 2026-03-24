@@ -2,7 +2,7 @@
 
 namespace TaskForce.AP.Client.Core.View.BattleFieldScene.Windows
 {
-    public interface ISettingWindow
+    public interface ISettingWindow : IWindow
     {
         event EventHandler<ValueChangedEventArgs> BGMVolumeChangedEvent;
         event EventHandler<ValueChangedEventArgs> SFXVolumeChangedEvent;
@@ -11,6 +11,5 @@ namespace TaskForce.AP.Client.Core.View.BattleFieldScene.Windows
 
         void SetBGMVolume(float volume);
         void SetSFXVolume(float volume);
-        void Close();
     }
 }

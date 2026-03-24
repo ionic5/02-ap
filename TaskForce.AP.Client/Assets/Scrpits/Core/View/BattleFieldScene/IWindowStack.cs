@@ -6,5 +6,6 @@ namespace TaskForce.AP.Client.Core.View.BattleFieldScene
     {
         ISettingWindow OpenSettingWindow();
         ISkillSelectionWindow OpenSkillSelectionWindow();
+        int GetOpenedWindowCount();
     }
 }

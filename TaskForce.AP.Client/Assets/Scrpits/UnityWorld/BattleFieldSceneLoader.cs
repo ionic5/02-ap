@@ -42,7 +42,6 @@ namespace TaskForce.AP.Client.UnityWorld
 
             var scene = instance.GetComponent<View.Scenes.BattleFieldScene>();
 
-            var pathFinder = new PathFinder(scene.TileMapGrid, LayerMask.GetMask("CollisionTile"));
             var objFac = scene.ObjectFactory;
             var loop = scene.Loop;
             var world = scene.World;
@@ -167,6 +166,10 @@ namespace TaskForce.AP.Client.UnityWorld
             // TODO: 실제 SoundPlayer 구현체로 교체 필요
             var mockSoundPlayer = new MockSoundPlayer();
             var winOpener = new WindowOpener(windowStack, world, _textStore, mockSoundPlayer, _logger);
+            
+            var pausePanel = scene.PausePanel;
+            var pausePanelCtrl = new PausePanelController(pausePanel, world);
+            pausePanelCtrl.Start();
 
             var sceneCtrl = new BattleFieldSceneController(scene, world, followCamera, winOpener,
                 unitFactory.CreatePlayerUnit, _gameDataStore, _random, _logger,

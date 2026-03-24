@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using TaskForce.AP.Client.Core.View.BattleFieldScene;
-using TaskForce.AP.Client.Core.View.BattleFieldScene.Windows;
 
 namespace TaskForce.AP.Client.Core.BattleFieldScene
 {
@@ -25,7 +23,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         public void OpenPerkSelectionWindow(Entity.Unit unit, IEnumerable<Entity.ISkill> skills)
         {
             var window = _windowStack.OpenSkillSelectionWindow();
-            OnWindowOpened(window);
+            TryPauseWorld();
 
             var ctrl = new SkillSelectionWindowController(window, skills, unit, _textStore);
             ctrl.Start();
@@ -34,27 +32,17 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         public void OpenSettingWindow()
         {
             var window = _windowStack.OpenSettingWindow();
-            OnWindowOpened(window);
+            TryPauseWorld();
 
             var ctrl = new SettingWindowController(window, _soundPlayer);
             ctrl.Start();
         }
 
-        private void OnWindowOpened(IWindow window)
+        private void TryPauseWorld()
         {
-            if (_windowStack.GetOpenedWindowCount() == 1)
-                _world.Pause();
-
-            EventHandler handler = null;
-            handler = (sender, e) =>
-            {
-                window.ClosedEvent -= handler;
-
-                if (_windowStack.GetOpenedWindowCount() == 0)
-                    _world.Resume();
-            };
-
-            window.ClosedEvent += handler;
+            if (_windowStack.GetOpenedWindowCount() != 1)
+                return;
+            _world.Pause();
         }
     }
 }

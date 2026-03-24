@@ -16,8 +16,6 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
         [SerializeField]
         private GameObject _playerUnitSpawnPosition;
         [SerializeField]
-        private TilemapGrid _grid;
-        [SerializeField]
         public ObjectFactory ObjectFactory;
         [SerializeField]
         private FollowCamera _followCamera;
@@ -29,10 +27,11 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
         private TMP_Text _levelText;
         [SerializeField]
         private View.BattleFieldScene.WindowStack _windowStack;
+        [SerializeField]
+        private PausePanel _pausePanel;
 
         public event EventHandler PauseButtonClickedEvent;
 
-        public TilemapGrid TileMapGrid => _grid;
         public Loop Loop => _loop;
         public World World => _world;
         public Joystick Joystick => _joystick;
@@ -41,6 +40,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
         public GaugeBar ExpBar => _expBar;
         public TMP_Text LevelText => _levelText;
         public View.BattleFieldScene.WindowStack WindowStack => _windowStack;
+        public PausePanel PausePanel => _pausePanel;
 
         public void SetExp(int v)
         {

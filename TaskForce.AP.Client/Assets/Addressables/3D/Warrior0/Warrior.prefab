@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1288284448683860148}
   - component: {fileID: 989379258974220007}
   - component: {fileID: 844288190291977979}
+  - component: {fileID: 9012583436262087594}
   m_Layer: 0
   m_Name: Warrior
   m_TagString: Untagged
@@ -178,6 +179,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &9012583436262087594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4100691256331878749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b2a267e2ba7df844947a9ac64c0a2a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.HPBarController
+  hpBarPrefab: {fileID: 5955824981586541282, guid: 573c80ffca3129e419019b33723bc1ff, type: 3}
+  _hpBar: {fileID: 0}
 --- !u!1 &6435713948913690689
 GameObject:
   m_ObjectHideFlags: 0

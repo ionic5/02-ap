@@ -21,6 +21,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private readonly Core.Timer _timer;
         private readonly Action _onRestartGame;
         private readonly BattleLog _battleLog;
+        private readonly UserDataStore _userDataStore;
 
         private bool _isDestroyed;
         private IUnit _unit;
@@ -31,7 +32,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             GameDataStore gameDataStore, Random random, ILogger logger,
             Func<Entity.Unit, string, int, Entity.ISkill> createSkillEntity,
             Func<string, Entity.Unit> createUnitEntity, Core.Timer timer,
-            Action onRestartGame, BattleLog battleLog)
+            Action onRestartGame, BattleLog battleLog, UserDataStore userDataStore)
         {
             _scene = scene;
             _world = world;
@@ -47,12 +48,14 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             _timer = timer;
             _onRestartGame = onRestartGame;
             _battleLog = battleLog;
+            _userDataStore = userDataStore;
         }
 
         public void Update()
         {
             _scene.SetBattleTime(_battleLog.BattleTime);
             _scene.SetKillCount(_battleLog.KillCount);
+            UpdateGold();
         }
 
         public void Start()
@@ -65,9 +68,10 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             UpdateLevel();
             UpdateRequireExp();
             UpdateExp();
+            UpdateGold();
 
-            _unit.RequireExpChangedEvent += OnRequireExpChnagedEvent;
-            _unit.ExpChangedEvent += OnExpChnagedEvent;
+            _unit.RequireExpChangedEvent += OnRequireExpChangedEvent;
+            _unit.ExpChangedEvent += OnExpChangedEvent;
             _unit.LevelUpEvent += OnLevelUpEvent;
             _unit.DestroyEvent += OnUnitDestroyEvent;
             _unitEntity.DiedEvent += OnUnitEntityDiedEvent; // Subscribe to Core.Entity.Unit's DiedEvent
@@ -102,12 +106,12 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             _windowOpener.OpenPerkSelectionWindow(_unitEntity, newSkills);
         }
 
-        private void OnExpChnagedEvent(object sender, EventArgs e)
+        private void OnExpChangedEvent(object sender, EventArgs e)
         {
             UpdateExp();
         }
 
-        private void OnRequireExpChnagedEvent(object sender, EventArgs e)
+        private void OnRequireExpChangedEvent(object sender, EventArgs e)
         {
             UpdateRequireExp();
         }
@@ -125,6 +129,11 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private void UpdateRequireExp()
         {
             _scene.SetRequireExp(_unit.GetRequireExp());
+        }
+
+        private void UpdateGold()
+        {
+            _scene.SetGold(_userDataStore.GetGold());
         }
 
         private void OnDestroySceneEvent(object sender, EventArgs e)
@@ -145,8 +154,8 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
 
             _followCamera.UnsetTarget();
 
-            _unit.RequireExpChangedEvent -= OnRequireExpChnagedEvent;
-            _unit.ExpChangedEvent -= OnExpChnagedEvent;
+            _unit.RequireExpChangedEvent -= OnRequireExpChangedEvent;
+            _unit.ExpChangedEvent -= OnExpChangedEvent;
             _unit.LevelUpEvent -= OnLevelUpEvent;
             _unit.DestroyEvent -= OnUnitDestroyEvent;
             _unitEntity.DiedEvent -= OnUnitEntityDiedEvent; // Unsubscribe from Core.Entity.Unit's DiedEvent
@@ -167,7 +176,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private void OnUnitDeathAnimationCompletedEvent(object sender, EventArgs e)
         {
             // Death animation finished, show the death popup
-            _windowOpener.OpenDeathWindow(OnRestartGame, OnReviveUnit);
+            _windowOpener.OpenDeathWindow(_unit.GetLevel(), _battleLog.KillCount, _battleLog.BattleTime, OnRestartGame, OnReviveUnit);
         }
 
         private void OnRestartGame()

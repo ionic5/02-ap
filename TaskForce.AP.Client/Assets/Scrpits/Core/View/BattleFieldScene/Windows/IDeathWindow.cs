@@ -9,6 +9,6 @@ namespace TaskForce.AP.Client.Core.View.BattleFieldScene.Windows
 
         void SetLevelText(int level);
         void SetKillsText(int kills);
-        void SetSurvivalTimeText(string time);
+        void SetSurvivalTimeText(float time);
     }
 }

@@ -46,12 +46,12 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             _world.Pause();
         }
 
-        public void OpenDeathWindow(Action onRestart, Action onRevive)
+        public void OpenDeathWindow(int level, int kills, float survivalTime, Action onRestart, Action onRevive)
         {
             var window = _windowStack.OpenDeathWindow();
             TryPauseWorld();
 
-            var ctrl = new DeathWindowController(window, onRestart, onRevive);
+            var ctrl = new DeathWindowController(window, level, kills, survivalTime, onRestart, onRevive);
             ctrl.Start();
         }
     }

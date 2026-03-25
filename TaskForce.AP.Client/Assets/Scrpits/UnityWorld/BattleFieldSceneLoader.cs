@@ -80,7 +80,7 @@ namespace TaskForce.AP.Client.UnityWorld
 
             var effectFactory = new TaskForce.AP.Client.Core.Entity.ModifyAttributeEffectFactory(_gameDataStore, formulaCalculator);
             var skillFactory = new SkillFactory();
-            var unitLogicFactory = new UnitLogicFactroy(joystick, world, createTimer, loop, soulFinder, _gameDataStore, _logger);
+            var unitLogicFactory = new UnitLogicFactory(joystick, world, createTimer, loop, soulFinder, _gameDataStore, _logger);
             var soulFactory = new SoulFactory(() => objFac.Create<View.BattleFieldScene.Soul>(ObjectID.Soul));
             var dropHandler = new DropHandler(soulFactory, _random, _gameDataStore);
             var skillEntityFactory = new TaskForce.AP.Client.Core.Entity.SkillFactory(_gameDataStore, _logger, _textStore, effectFactory);
@@ -177,7 +177,7 @@ namespace TaskForce.AP.Client.UnityWorld
                 unitFactory.CreatePlayerUnit, _gameDataStore, _random, _logger,
                 skillEntityFactory.CreateSkillEntity,
                 unitEntityFactory.CreateUnitEntity, createTimer(),
-                () => this.Load(), battleLog);
+                () => this.Load(), battleLog, _userDataStore);
             sceneCtrl.Start();
             loop.Add(sceneCtrl);
 
@@ -191,7 +191,7 @@ namespace TaskForce.AP.Client.UnityWorld
 
                 loop.Remove(battleLogRecorder);
                 loop.Remove(sceneCtrl);
-                targetFinder.Destory();
+                targetFinder.Destroy();
 
                 scene.DestroyEvent -= hdlr;
             };

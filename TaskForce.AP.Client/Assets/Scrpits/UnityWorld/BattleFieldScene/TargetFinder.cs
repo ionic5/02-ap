@@ -70,7 +70,7 @@ namespace TaskForce.AP.Client.UnityWorld.BattleFieldScene
             });
         }
 
-        public void Destory()
+        public void Destroy()
         {
             for (int i = _targets.Count - 1; i >= 0; i--)
                 RemoveTarget(_targets[i]);

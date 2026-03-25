@@ -50,23 +50,23 @@ namespace TaskForce.AP.Client.UnityWorld.BattleFieldScene
             var soul = args.CreatedObject;
 
             _souls.Add(soul);
-            soul.DestroyEvent += OnDestorySoulEvent;
+            soul.DestroyEvent += OnDestroySoulEvent;
         }
 
-        private void OnDestorySoulEvent(object sender, DestroyEventArgs args)
+        private void OnDestroySoulEvent(object sender, DestroyEventArgs args)
         {
             var soul = _souls.FirstOrDefault(entry => entry == args.TargetObject);
             if (soul == null)
                 return;
 
-            soul.DestroyEvent -= OnDestorySoulEvent;
+            soul.DestroyEvent -= OnDestroySoulEvent;
             _souls.Remove(soul);
         }
 
         public void Destroy()
         {
             foreach (var soul in _souls)
-                soul.DestroyEvent -= OnDestorySoulEvent;
+                soul.DestroyEvent -= OnDestroySoulEvent;
 
             _souls.Clear();
         }

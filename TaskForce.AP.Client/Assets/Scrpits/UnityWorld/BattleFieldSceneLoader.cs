@@ -13,6 +13,7 @@ namespace TaskForce.AP.Client.UnityWorld
     public class BattleFieldSceneLoader
     {
         private readonly Screen _screen;
+        private readonly UserDataStore _userDataStore;
         private readonly GameDataStore _gameDataStore;
         private readonly Core.Random _random;
         private readonly Time _time;
@@ -22,7 +23,7 @@ namespace TaskForce.AP.Client.UnityWorld
 
         public BattleFieldSceneLoader(Screen screen, GameDataStore gameDataStore,
             Core.Random random, Time time, TextStore textStore,
-            AssetLoader assetLoader, Core.ILogger logger)
+            AssetLoader assetLoader, Core.ILogger logger, UserDataStore userDataStore)
         {
             _screen = screen;
             _gameDataStore = gameDataStore;
@@ -31,6 +32,7 @@ namespace TaskForce.AP.Client.UnityWorld
             _textStore = textStore;
             _assetLoader = assetLoader;
             _logger = logger;
+            _userDataStore = userDataStore;
         }
 
         public async void Load()

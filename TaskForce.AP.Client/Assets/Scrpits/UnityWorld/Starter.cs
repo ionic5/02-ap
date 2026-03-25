@@ -20,6 +20,7 @@ namespace TaskForce.AP.Client.UnityWorld
 
         private async void StartAsync()
         {
+            var userDataStore = new UserDataStore();
             var application = new EditorApplication();
             var logger = new DebugLogger(application);
             var time = new Time();
@@ -44,7 +45,7 @@ namespace TaskForce.AP.Client.UnityWorld
 
             Destroy(gameObject);
 
-            var loader = new BattleFieldSceneLoader(_screen, gameDataStore, random, time, textStore, assetLoader, logger);
+            var loader = new BattleFieldSceneLoader(_screen, gameDataStore, random, time, textStore, assetLoader, logger, userDataStore);
             loader.Load();
         }
     }

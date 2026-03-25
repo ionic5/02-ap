@@ -37,7 +37,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
 
             _followTarget = followTarget;
 
-            _followTarget.DestroyEvent += OnDestoryUnitEvent;
+            _followTarget.DestroyEvent += OnDestroyUnitEvent;
             _soulView.MoveTo(_followTarget, speed);
         }
 
@@ -46,11 +46,11 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             if (_followTarget == null)
                 return;
 
-            _followTarget.DestroyEvent -= OnDestoryUnitEvent;
+            _followTarget.DestroyEvent -= OnDestroyUnitEvent;
             _followTarget = null;
         }
 
-        private void OnDestoryUnitEvent(object sender, DestroyEventArgs args)
+        private void OnDestroyUnitEvent(object sender, DestroyEventArgs args)
         {
             if (args.TargetObject != _followTarget)
                 return;

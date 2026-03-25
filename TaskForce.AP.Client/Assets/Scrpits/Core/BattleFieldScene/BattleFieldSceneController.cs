@@ -70,8 +70,8 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             UpdateExp();
             UpdateGold();
 
-            _unit.RequireExpChangedEvent += OnRequireExpChnagedEvent;
-            _unit.ExpChangedEvent += OnExpChnagedEvent;
+            _unit.RequireExpChangedEvent += OnRequireExpChangedEvent;
+            _unit.ExpChangedEvent += OnExpChangedEvent;
             _unit.LevelUpEvent += OnLevelUpEvent;
             _unit.DestroyEvent += OnUnitDestroyEvent;
             _unitEntity.DiedEvent += OnUnitEntityDiedEvent; // Subscribe to Core.Entity.Unit's DiedEvent
@@ -106,12 +106,12 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             _windowOpener.OpenPerkSelectionWindow(_unitEntity, newSkills);
         }
 
-        private void OnExpChnagedEvent(object sender, EventArgs e)
+        private void OnExpChangedEvent(object sender, EventArgs e)
         {
             UpdateExp();
         }
 
-        private void OnRequireExpChnagedEvent(object sender, EventArgs e)
+        private void OnRequireExpChangedEvent(object sender, EventArgs e)
         {
             UpdateRequireExp();
         }
@@ -154,8 +154,8 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
 
             _followCamera.UnsetTarget();
 
-            _unit.RequireExpChangedEvent -= OnRequireExpChnagedEvent;
-            _unit.ExpChangedEvent -= OnExpChnagedEvent;
+            _unit.RequireExpChangedEvent -= OnRequireExpChangedEvent;
+            _unit.ExpChangedEvent -= OnExpChangedEvent;
             _unit.LevelUpEvent -= OnLevelUpEvent;
             _unit.DestroyEvent -= OnUnitDestroyEvent;
             _unitEntity.DiedEvent -= OnUnitEntityDiedEvent; // Unsubscribe from Core.Entity.Unit's DiedEvent

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace TaskForce.AP.Client.Core.BattleFieldScene
 {
-    public class UnitLogicFactroy
+    public class UnitLogicFactory
     {
         private readonly IJoystick _joystick;
         private readonly ISoulFinder _soulFinder;
@@ -14,7 +14,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private readonly ILogger _logger;
         private readonly Func<Core.Timer> _createTimer;
 
-        public UnitLogicFactroy(IJoystick joystick, View.BattleFieldScene.IWorld world,
+        public UnitLogicFactory(IJoystick joystick, View.BattleFieldScene.IWorld world,
             Func<Timer> createTimer, ILoop loop, ISoulFinder soulFinder, GameDataStore gameDataStore, ILogger logger)
         {
             _joystick = joystick;

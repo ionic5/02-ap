@@ -94,10 +94,10 @@ namespace TaskForce.AP.Client.UnityWorld
             skillFactory.AddCreator(Core.Entity.SkillID.SheepMissile, (skill) =>
             {
                 return new SheepMissileSkill(_random, new RepeatTimer(createTimer()),
-                    createTimer(), (int minDmg, int maxDmg) =>
+                    createTimer(), (IUnit caster, int minDmg, int maxDmg) =>
                     {
                         var view = objFac.Create<Sheep>(ObjectID.SheepMissile);
-                        return new SheepMissile(_random, view, minDmg, maxDmg, targetFinder);
+                        return new SheepMissile(_random, view, caster, minDmg, maxDmg, targetFinder);
                     }, skill);
             });
             skillFactory.AddCreator(Core.Entity.SkillID.Dynamite, (skill) =>
@@ -137,9 +137,21 @@ namespace TaskForce.AP.Client.UnityWorld
                 return new Core.BattleFieldScene.Skills.MeleeAttackSkill(createTimer(), skill, _random);
             });
 
+            var battleLog = new BattleLog();
+            var battleLogRecorder = new BattleLogRecorder(battleLog, _time);
+            loop.Add(battleLogRecorder);
+
             soulFactory.SoulCreatedEvent += soulFinder.OnSoulCreatedEvent;
             unitFactory.UnitCreatedEvent += targetFinder.OnTargetCreatedEvent;
             unitFactory.UnitCreatedEvent += dropHandler.OnUnitCreatedEvent;
+            EventHandler<CreatedEventArgs<Core.BattleFieldScene.Unit>> battleLogRecorderHdlr = (sender, e) =>
+            {
+                if (e.CreatedObject.IsPlayerSide())
+                    return;
+                e.CreatedObject.DiedEvent += battleLogRecorder.OnUnitDied;
+                e.CreatedObject.DestroyEvent += (s, args) => e.CreatedObject.DiedEvent -= battleLogRecorder.OnUnitDied;
+            };
+            unitFactory.UnitCreatedEvent += battleLogRecorderHdlr;
 
             EventHandler<DestroyEventArgs> hdlr = null;
             hdlr = (sender, args) =>
@@ -147,7 +159,9 @@ namespace TaskForce.AP.Client.UnityWorld
                 soulFactory.SoulCreatedEvent -= soulFinder.OnSoulCreatedEvent;
                 unitFactory.UnitCreatedEvent -= targetFinder.OnTargetCreatedEvent;
                 unitFactory.UnitCreatedEvent -= dropHandler.OnUnitCreatedEvent;
+                unitFactory.UnitCreatedEvent -= battleLogRecorderHdlr;
 
+                loop.Remove(battleLogRecorder);
                 targetFinder.Destory();
 
                 scene.DestroyEvent -= hdlr;

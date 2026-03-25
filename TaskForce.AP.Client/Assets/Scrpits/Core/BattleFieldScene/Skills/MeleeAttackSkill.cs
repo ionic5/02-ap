@@ -122,7 +122,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
             foreach (var entry in targets)
             {
                 var damage = _random.Next(minDmg, maxDmg);
-                entry.Hit(damage);
+                entry.Hit(user, damage);
             }
         }
 

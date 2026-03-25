@@ -11,10 +11,10 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
         private readonly Core.Random _random;
         private readonly RepeatTimer _repeatTimer;
         private readonly Core.Timer _timer;
-        private readonly Func<int, int, SheepMissile> _createSheepMissile;
+        private readonly Func<IUnit, int, int, SheepMissile> _createSheepMissile;
 
         public SheepMissileSkill(Random random, RepeatTimer repeatTimer, Timer timer,
-            Func<int, int, SheepMissile> createSheepMissile, Core.Entity.ISkill skillEntity) : base(skillEntity)
+            Func<IUnit, int, int, SheepMissile> createSheepMissile, Core.Entity.ISkill skillEntity) : base(skillEntity)
         {
             _random = random;
             _repeatTimer = repeatTimer;
@@ -67,7 +67,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
 
             var minDmg = GetAttribute(AttributeID.MinDamage).AsInt();
             var maxDmg = GetAttribute(AttributeID.MinDamage).AsInt();
-            var missile = _createSheepMissile.Invoke(minDmg, maxDmg);
+            var missile = _createSheepMissile.Invoke(user, minDmg, maxDmg);
             missile.SetPosition(shooterPos);
 
             var missleSpd = GetAttribute(AttributeID.MissileSpeed).AsFloat();

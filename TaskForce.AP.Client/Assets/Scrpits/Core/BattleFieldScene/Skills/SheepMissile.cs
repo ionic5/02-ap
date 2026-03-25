@@ -8,16 +8,18 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
     {
         private readonly Core.Random _random;
         private readonly IMissile _sheep;
+        private readonly IUnit _caster;
         private readonly int _minDamage;
         private readonly int _maxDamage;
         private readonly ITargetFinder _targetFinder;
         private bool _isDestroyed;
 
-        public SheepMissile(Random random, IMissile sheep, int minDamage, int maxDamage, ITargetFinder targetFinder)
+        public SheepMissile(Random random, IMissile sheep, IUnit caster, int minDamage, int maxDamage, ITargetFinder targetFinder)
         {
             _isDestroyed = false;
             _random = random;
             _sheep = sheep;
+            _caster = caster;
             _sheep.ArrivedDestinationEvent += OnArrivedDestinationEvent;
             _sheep.DestroyEvent += OnDestroyEvent;
             _sheep.HitEvent += OnHitEvent;
@@ -63,7 +65,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
             if (target == null)
                 return;
 
-            target.Hit(_random.Next(_minDamage, _maxDamage));
+            target.Hit(_caster, _random.Next(_minDamage, _maxDamage));
         }
     }
 }

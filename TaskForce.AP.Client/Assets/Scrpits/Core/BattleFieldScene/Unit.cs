@@ -121,7 +121,15 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             DiedEvent?.Invoke(this, new DiedEventArgs(this));
         }
 
-        public void Hit(int damage)
+        private void OnKilled(IUnit killer)
+        {
+            _unitView.Stop();
+            _unitView.PlayMotion(UnitMotionID.Die);
+
+            DiedEvent?.Invoke(this, new DiedEventArgs(this, killer));
+        }
+
+        public void Hit(IUnit attacker, int damage)
         {
             if (IsDead())
                 return;
@@ -131,7 +139,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             _unitView.PlayDamageAnimation(damage);
 
             if (IsDead())
-                OnDie();
+                OnKilled(attacker);
         }
 
         public Vector2 GetDirection()

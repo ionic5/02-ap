@@ -1,5 +1,6 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
+using System.Collections; // [REVIVE_EFFECT_TEST]
 using TaskForce.AP.Client.Core;
 using TaskForce.AP.Client.Core.BattleFieldScene;
 using TaskForce.AP.Client.Core.View.BattleFieldScene;
@@ -12,6 +13,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
     {
         public event EventHandler DieAnimationFinishedEvent;
         public event EventHandler MoveDirectionChangedEvent;
+        public event EventHandler DeathAnimationCompletedEvent; // New event
 
         [SerializeField]
         private NavMeshAgent _agent;
@@ -33,6 +35,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
         private bool _isDestinationSetted;
 
         HPBarController _hpBarController;
+        Core.ILogger _logger;
 
         private IReadOnlyDictionary<UnitMotionID, string> _clipNameMap;
         private readonly string[] State = {
@@ -64,7 +67,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
                 { UnitMotionID.Cast, State[4] }
             };
 
-            _hpBarController = GetComponent<HPBarController>();
+            _hpBarController = GetComponent<HPBarController>();            
         }
 
         private void Update()
@@ -252,11 +255,75 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
         public void OnDieAnimationFinished()
         {
             DieAnimationFinishedEvent?.Invoke(this, EventArgs.Empty);
+            // Instead of immediate deactivation, signal that death animation is complete
+            DeathAnimationCompletedEvent?.Invoke(this, EventArgs.Empty);
+            if (_hpBarController != null)
+                _hpBarController.SetActiveHPBar(false); // Ensure HP bar is hidden
+
+            
+        }
+
+        public void SetActive(bool active)
+        {
+            gameObject.SetActive(active);
         }
 
         public string GetObjectID()
         {
             return gameObject.name;
         }
+
+        public void Die()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetHPBarVisible(bool visible)
+        {
+            if (_hpBarController != null)
+                _hpBarController.SetActiveHPBar(visible);
+        }
+
+        public void SetHpRatio(float ratio)
+        {
+            if (_hpBarController != null)
+                _hpBarController.SetHp(ratio);
+        }
+
+        // [REVIVE_EFFECT_TEST] START
+        public void PlayReviveEffect(Action onCompleted)
+        {
+            StartCoroutine(ReviveEffectCoroutine(onCompleted));
+        }
+
+        private IEnumerator ReviveEffectCoroutine(Action onCompleted)
+        {
+            float duration = 2.0f; // 깜빡이는 총 시간
+            float blinkInterval = 0.1f; // 깜빡이는 주기
+            float elapsed = 0f;
+
+            Vector3 originalScale = transform.localScale;
+            transform.localScale = originalScale * 1.3f; // 1.3배 확대
+
+            Renderer[] renderers = GetComponentsInChildren<Renderer>();
+
+            while (elapsed < duration)
+            {
+                // 사용자가 화면을 클릭하여 일시정지가 해제되면 깜빡임 연출 즉시 중단
+                if (UnityEngine.Time.timeScale > 0f)
+                    break;
+
+                foreach (var r in renderers) { r.enabled = !r.enabled; }
+                yield return new WaitForSecondsRealtime(blinkInterval);
+                elapsed += blinkInterval;
+            }
+
+            // 크기 및 렌더러 복구
+            foreach (var r in renderers) { r.enabled = true; }
+            transform.localScale = originalScale;
+
+            onCompleted?.Invoke();
+        }
+        // [REVIVE_EFFECT_TEST] END
     }
 }

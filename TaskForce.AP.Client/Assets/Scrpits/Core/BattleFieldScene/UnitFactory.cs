@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using TaskForce.AP.Client.Core.Entity;
@@ -65,6 +65,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
 
             var unit = Create(entity);
             unit.SetUnitLogic("PLAYER");
+            unit.SetHPBarVisible(true);
 
             return unit;
         }
@@ -83,6 +84,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
 
             var unit = Create(entity);
             unit.SetUnitLogic(gdNonPlayerUnitLogic.UnitLogicID);
+            unit.SetHPBarVisible(false);
 
             return unit;
         }
@@ -101,6 +103,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
 
             var unit = Create(entity);
             unit.SetUnitLogic(gdNonPlayerUnitLogic.UnitLogicID);
+            unit.SetHPBarVisible(false);
 
             return unit;
         }

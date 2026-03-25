@@ -133,7 +133,8 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private void Wait()
         {
             SetState(UnitState.Wait);
-            GetControlTarget().Wait();
+            if(GetControlTarget() != null)
+                GetControlTarget().Wait();
         }
 
         private void SetState(UnitState state)

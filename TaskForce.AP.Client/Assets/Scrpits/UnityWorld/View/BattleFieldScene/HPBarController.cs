@@ -14,8 +14,8 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
         private RectTransform _hpBarRectTransform;
         private Vector3 _offset;
 
-        private Coroutine _hideHPBarCoroutine;
-        private WaitForSeconds _waitSeconds = new WaitForSeconds(1.0f);
+        private bool _isHpBarEnabled = true;
+        private float _currentHpRatio = 1.0f;
 
         private void Start()
         {
@@ -36,66 +36,60 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
             }
             else
             {
-                Debug.Log("GetComponent Canvas is not null");
                 _canvas = canvasObject.GetComponent<Canvas>();
-                
             }
             
-
-            // _canvas = GameManager.Instance.Canvas;
             _hpBar = Instantiate(hpBarPrefab, _canvas.transform).GetComponent<HPBar>();
             _hpBarRectTransform = _hpBar.GetComponent<RectTransform>();
             _hpBar.transform.SetAsFirstSibling();
             _offset = new Vector3(0, 1.5f, 0);
 
-            SetActiveHPBar(true);            
+            _hpBar.SetHPGauge(_currentHpRatio);
+            _hpBar.gameObject.SetActive(_isHpBarEnabled);
         }
 
         public void SetActiveHPBar(bool active)
         {
-            // TODO HP 바 구현 재검토 필요
+            _isHpBarEnabled = active;
             if (_hpBar != null)
                 _hpBar.gameObject.SetActive(active);
         }
 
         public void SetHp(float hp)
         {
-            _hpBar.SetHPGauge(hp);
-            SetActiveHPBar(true);
-
-            if (_hideHPBarCoroutine != null)
+            _currentHpRatio = hp;
+            if (_hpBar != null)
             {
-                StopCoroutine(_hideHPBarCoroutine);
-            }
-            else
-            {
-                _hideHPBarCoroutine = StartCoroutine(HideHPBarAfterDelay());
+                _hpBar.SetHPGauge(hp);
             }
         }
 
-        IEnumerator HideHPBarAfterDelay()
+        private void OnDestroy()
         {
-            yield return _waitSeconds;
-            SetActiveHPBar(false);
-
-            _hideHPBarCoroutine = null;
+            if (_hpBar != null)
+                Destroy(_hpBar.gameObject);
         }
 
         private void LateUpdate()
         {
+            if (_camera == null || _hpBar == null) return;
+
             var screenPosition = _camera.WorldToScreenPoint(transform.position + _offset);
 
             bool isVisible = screenPosition.z > 0
-                && screenPosition.x > 0 && screenPosition.x < UnityEngine.Screen.width
-                && screenPosition.y > 0 && screenPosition.y < UnityEngine.Screen.height;
+                && screenPosition.x > -50 && screenPosition.x < _camera.pixelWidth + 50
+                && screenPosition.y > -50 && screenPosition.y < _camera.pixelHeight + 50;
             
             if (isVisible)
             {
                 _hpBarRectTransform.position = screenPosition;
+                if (_isHpBarEnabled && !_hpBar.gameObject.activeSelf)
+                    _hpBar.gameObject.SetActive(true);
             }
             else
             {
-                SetActiveHPBar(true);
+                if (_hpBar.gameObject.activeSelf)
+                    _hpBar.gameObject.SetActive(false);
             }
         }
     }

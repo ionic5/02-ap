@@ -9,5 +9,7 @@ namespace TaskForce.AP.Client.Core.View.Scenes
         void SetExp(int v);
         void SetLevel(string v);
         void SetRequireExp(int v);
+        void SetKillCount(int v);
+        void SetBattleTime(float v);
     }
 }

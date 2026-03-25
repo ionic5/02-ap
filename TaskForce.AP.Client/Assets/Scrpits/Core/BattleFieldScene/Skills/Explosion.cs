@@ -39,7 +39,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
         {
             var targets = _caster.FindTargets(args.ObjectIDs);
             for (int i = targets.Count() - 1; i >= 0; i--)
-                targets.ElementAt(i).Hit(_random.Next(_minDamage, _maxDamage));
+                targets.ElementAt(i).Hit(_caster, _random.Next(_minDamage, _maxDamage));
         }
 
         private void OnExplosionFinishedEvent(object sender, EventArgs e)

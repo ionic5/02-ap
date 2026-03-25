@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
 using TaskForce.AP.Client.Core.Entity;
@@ -14,6 +14,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         public event EventHandler LevelUpEvent;
         public event EventHandler<DestroyEventArgs> DestroyEvent;
         public event EventHandler<DiedEventArgs> DiedEvent;
+        public event EventHandler DeathAnimationCompletedEvent;
 
         private readonly Core.View.BattleFieldScene.IUnit _unitView;
         private readonly Entity.Unit _unitEntity;
@@ -27,6 +28,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private bool _isDestroyed;
         private IUnit _master;
         private IUnitLogic _unitLogic;
+        private bool _isInvincible;
 
         public Unit(Core.View.BattleFieldScene.IUnit unitView, Entity.Unit unitEntity,
             ITargetFinder targetFinder, ITargetIdentifier targetIdentifier,
@@ -46,12 +48,15 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
 
             _unitView.MoveDirectionChangedEvent += OnMoveDirectionChangedEvent;
             _unitView.DieAnimationFinishedEvent += OnDieAnimationFinishedEvent;
+            _unitView.DeathAnimationCompletedEvent += OnDeathAnimationCompletedEvent;
             _unitView.DestroyEvent += OnDestroyEvent;
 
             _targetIdentifier = targetIdentifier;
             _logger = logger;
             _createSkill = createSkill;
             _createUnitLogic = createUnitLogic;
+
+            _unitView.SetHpRatio(1.0f);
         }
 
         public bool IsDead()
@@ -95,7 +100,16 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
 
         private void OnDieAnimationFinishedEvent(object sender, EventArgs e)
         {
+            // 주인공은 사망 판정 팝업이 떠야 하므로 바로 파괴하지 않습니다.
+            if (_unitEntity.GetUnitBodyID() == "WARRIOR_0")
+                return;
+
             Destroy();
+        }
+
+        private void OnDeathAnimationCompletedEvent(object sender, EventArgs e)
+        {
+            DeathAnimationCompletedEvent?.Invoke(this, e);
         }
 
         private void OnDestroyEvent(object sender, DestroyEventArgs e)
@@ -121,17 +135,29 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             DiedEvent?.Invoke(this, new DiedEventArgs(this));
         }
 
-        public void Hit(int damage)
+        private void OnKilled(IUnit killer)
         {
-            if (IsDead())
+            _unitView.Stop();
+            _unitView.PlayMotion(UnitMotionID.Die);
+
+            DiedEvent?.Invoke(this, new DiedEventArgs(this, killer));
+        }
+
+        public void Hit(IUnit attacker, int damage)
+        {
+            if (IsDead() || _isInvincible)
                 return;
 
             _unitEntity.ApplyDamage(damage);
 
             _unitView.PlayDamageAnimation(damage);
 
+            float maxHp = _unitEntity.GetAttribute(AttributeID.MaxHP).AsInt();
+            float currentHp = _unitEntity.GetHP();
+            _unitView.SetHpRatio(currentHp / maxHp);
+
             if (IsDead())
-                OnDie();
+                OnKilled(attacker);
         }
 
         public Vector2 GetDirection()
@@ -174,6 +200,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
 
             _unitView.MoveDirectionChangedEvent -= OnMoveDirectionChangedEvent;
             _unitView.DieAnimationFinishedEvent -= OnDieAnimationFinishedEvent;
+            _unitView.DeathAnimationCompletedEvent -= OnDeathAnimationCompletedEvent;
             _unitView.DestroyEvent -= OnDestroyEvent;
 
             _unitView.Destroy();
@@ -352,6 +379,10 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             _unitEntity.ApplyHeal(healAmount);
 
             _unitView.PlayHealAnimation(healAmount);
+
+            float maxHp = _unitEntity.GetAttribute(AttributeID.MaxHP).AsInt();
+            float currentHp = _unitEntity.GetHP();
+            _unitView.SetHpRatio(currentHp / maxHp);
         }
 
         public IEnumerable<ITarget> FindTargetsInSector(Vector2 center, Vector2 direction, float angle, float range)
@@ -395,6 +426,35 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
 
             _unitLogic?.Destroy();
             _unitLogic = null;
+        }
+
+        public void SetActive(bool active)
+        {
+            _unitView.SetActive(active);
+        }
+
+        public void SetHPBarVisible(bool visible)
+        {
+            _unitView.SetHPBarVisible(visible);
+        }
+
+        public void SetInvincible(bool isInvincible)
+        {
+            _isInvincible = isInvincible;
+        }
+
+        public void RecoverFullHP()
+        {
+            float maxHp = _unitEntity.GetAttribute(AttributeID.MaxHP).AsInt();
+            _unitEntity.SetHP((int)maxHp);
+            _unitView.SetHpRatio(1.0f);
+            _unitView.SetHPBarVisible(true);
+        }
+
+        // [REVIVE_EFFECT_TEST]
+        public void PlayReviveEffect(Action onCompleted)
+        {
+            _unitView.PlayReviveEffect(onCompleted);
         }
     }
 }

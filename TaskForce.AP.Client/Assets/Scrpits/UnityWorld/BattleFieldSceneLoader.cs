@@ -13,6 +13,7 @@ namespace TaskForce.AP.Client.UnityWorld
     public class BattleFieldSceneLoader
     {
         private readonly Screen _screen;
+        private readonly UserDataStore _userDataStore;
         private readonly GameDataStore _gameDataStore;
         private readonly Core.Random _random;
         private readonly Time _time;
@@ -22,7 +23,7 @@ namespace TaskForce.AP.Client.UnityWorld
 
         public BattleFieldSceneLoader(Screen screen, GameDataStore gameDataStore,
             Core.Random random, Time time, TextStore textStore,
-            AssetLoader assetLoader, Core.ILogger logger)
+            AssetLoader assetLoader, Core.ILogger logger, UserDataStore userDataStore)
         {
             _screen = screen;
             _gameDataStore = gameDataStore;
@@ -31,6 +32,7 @@ namespace TaskForce.AP.Client.UnityWorld
             _textStore = textStore;
             _assetLoader = assetLoader;
             _logger = logger;
+            _userDataStore = userDataStore;
         }
 
         public async void Load()
@@ -94,10 +96,10 @@ namespace TaskForce.AP.Client.UnityWorld
             skillFactory.AddCreator(Core.Entity.SkillID.SheepMissile, (skill) =>
             {
                 return new SheepMissileSkill(_random, new RepeatTimer(createTimer()),
-                    createTimer(), (int minDmg, int maxDmg) =>
+                    createTimer(), (IUnit caster, int minDmg, int maxDmg) =>
                     {
                         var view = objFac.Create<Sheep>(ObjectID.SheepMissile);
-                        return new SheepMissile(_random, view, minDmg, maxDmg, targetFinder);
+                        return new SheepMissile(_random, view, caster, minDmg, maxDmg, targetFinder);
                     }, skill);
             });
             skillFactory.AddCreator(Core.Entity.SkillID.Dynamite, (skill) =>
@@ -137,22 +139,21 @@ namespace TaskForce.AP.Client.UnityWorld
                 return new Core.BattleFieldScene.Skills.MeleeAttackSkill(createTimer(), skill, _random);
             });
 
+            var battleLog = new BattleLog();
+            var battleLogRecorder = new BattleLogRecorder(battleLog, _time);
+            loop.Add(battleLogRecorder);
+
             soulFactory.SoulCreatedEvent += soulFinder.OnSoulCreatedEvent;
             unitFactory.UnitCreatedEvent += targetFinder.OnTargetCreatedEvent;
             unitFactory.UnitCreatedEvent += dropHandler.OnUnitCreatedEvent;
-
-            EventHandler<DestroyEventArgs> hdlr = null;
-            hdlr = (sender, args) =>
+            EventHandler<CreatedEventArgs<Core.BattleFieldScene.Unit>> battleLogRecorderHdlr = (sender, e) =>
             {
-                soulFactory.SoulCreatedEvent -= soulFinder.OnSoulCreatedEvent;
-                unitFactory.UnitCreatedEvent -= targetFinder.OnTargetCreatedEvent;
-                unitFactory.UnitCreatedEvent -= dropHandler.OnUnitCreatedEvent;
-
-                targetFinder.Destory();
-
-                scene.DestroyEvent -= hdlr;
+                if (e.CreatedObject.IsPlayerSide())
+                    return;
+                e.CreatedObject.DiedEvent += battleLogRecorder.OnUnitDied;
+                e.CreatedObject.DestroyEvent += (s, args) => e.CreatedObject.DiedEvent -= battleLogRecorder.OnUnitDied;
             };
-            scene.DestroyEvent += hdlr;
+            unitFactory.UnitCreatedEvent += battleLogRecorderHdlr;
 
             var windowStack = scene.WindowStack;
 
@@ -162,11 +163,12 @@ namespace TaskForce.AP.Client.UnityWorld
                 panel.AssetLoader = _assetLoader;
                 panel.Logger = _logger;
             }
+            var deathPopup = windowStack.deathWindow;
 
             // TODO: 실제 SoundPlayer 구현체로 교체 필요
             var mockSoundPlayer = new MockSoundPlayer();
             var winOpener = new WindowOpener(windowStack, world, _textStore, mockSoundPlayer, _logger);
-            
+
             var pausePanel = scene.PausePanel;
             var pausePanelCtrl = new PausePanelController(pausePanel, world);
             pausePanelCtrl.Start();
@@ -174,8 +176,26 @@ namespace TaskForce.AP.Client.UnityWorld
             var sceneCtrl = new BattleFieldSceneController(scene, world, followCamera, winOpener,
                 unitFactory.CreatePlayerUnit, _gameDataStore, _random, _logger,
                 skillEntityFactory.CreateSkillEntity,
-                unitEntityFactory.CreateUnitEntity);
+                unitEntityFactory.CreateUnitEntity, createTimer(),
+                () => this.Load(), battleLog);
             sceneCtrl.Start();
+            loop.Add(sceneCtrl);
+
+            EventHandler<DestroyEventArgs> hdlr = null;
+            hdlr = (sender, args) =>
+            {
+                soulFactory.SoulCreatedEvent -= soulFinder.OnSoulCreatedEvent;
+                unitFactory.UnitCreatedEvent -= targetFinder.OnTargetCreatedEvent;
+                unitFactory.UnitCreatedEvent -= dropHandler.OnUnitCreatedEvent;
+                unitFactory.UnitCreatedEvent -= battleLogRecorderHdlr;
+
+                loop.Remove(battleLogRecorder);
+                loop.Remove(sceneCtrl);
+                targetFinder.Destory();
+
+                scene.DestroyEvent -= hdlr;
+            };
+            scene.DestroyEvent += hdlr;
 
             var spawner = new EnemyUnitSpawner(world, _gameDataStore, new Core.Timer(_time, loop),
                 _logger, _random, unitFactory.CreateEnemyUnit);

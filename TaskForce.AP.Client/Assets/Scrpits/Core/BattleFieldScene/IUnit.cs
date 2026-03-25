@@ -9,6 +9,11 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         event EventHandler ExpChangedEvent;
         event EventHandler RequireExpChangedEvent;
         event EventHandler LevelUpEvent;
+        event EventHandler DeathAnimationCompletedEvent; // Add new event
+        void Die(); // Add new method
+        void SetActive(bool active);
+        void SetInvincible(bool isInvincible);
+        void PlayReviveEffect(Action onCompleted); // [REVIVE_EFFECT_TEST]
 
         Attribute GetAttribute(string attributeID);
         int GetExp();
@@ -16,6 +21,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         int GetLevel();
         Vector2 GetDirection();
         Skills.ISkill GetDefaultSkill();
+        bool IsPlayerSide();
         bool IsEnemy(ITarget target);
         IEnumerable<ITarget> FindAllies(float range);
         IEnumerable<ITarget> FindTargets(float range);
@@ -28,5 +34,6 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         void Wait();
         void SetUnitLogic(string logicID);
         void SetMaster(IUnit summoner);
+        void RecoverFullHP();
     }
 }

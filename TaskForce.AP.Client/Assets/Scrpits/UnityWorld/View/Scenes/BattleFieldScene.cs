@@ -71,7 +71,13 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
 
         public void SetBattleTime(float battleTime)
         {
-            _battleTimeText.text = ((int)battleTime).ToString();
+            int totalSeconds = (int)battleTime;
+            int minutes = totalSeconds / 60;
+            int seconds = totalSeconds % 60;
+            var text = $"{minutes:D2}:{seconds:D2}";
+            if (_battleTimeText.text == text)
+                return;
+            _battleTimeText.text = text;
         }
 
         public void OnPauseButtonClicked()

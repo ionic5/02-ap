@@ -33,6 +33,12 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
         private TMP_Text _killCountText;
         [SerializeField]
         private TMP_Text _battleTimeText;
+        [SerializeField]
+        private TMP_Text _goldText;
+
+        private int _lastKillCount = -1;
+        private int _lastBattleTimeSeconds = -1;
+        private int _lastGold = -1;
 
         public event EventHandler PauseButtonClickedEvent;
 
@@ -63,21 +69,27 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
 
         public void SetKillCount(int killCount)
         {
-            var text = killCount.ToString();
-            if (_killCountText.text == text)
+            if (_lastKillCount == killCount)
                 return;
-            _killCountText.text = text;
+            _lastKillCount = killCount;
+            _killCountText.text = killCount.ToString();
         }
 
         public void SetBattleTime(float battleTime)
         {
             int totalSeconds = (int)battleTime;
-            int minutes = totalSeconds / 60;
-            int seconds = totalSeconds % 60;
-            var text = $"{minutes:D2}:{seconds:D2}";
-            if (_battleTimeText.text == text)
+            if (_lastBattleTimeSeconds == totalSeconds)
                 return;
-            _battleTimeText.text = text;
+            _lastBattleTimeSeconds = totalSeconds;
+            _battleTimeText.text = $"{totalSeconds / 60:D2}:{totalSeconds % 60:D2}";
+        }
+
+        public void SetGold(int gold)
+        {
+            if (_lastGold == gold)
+                return;
+            _lastGold = gold;
+            _goldText.text = gold.ToString();
         }
 
         public void OnPauseButtonClicked()

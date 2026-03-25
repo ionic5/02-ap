@@ -6,10 +6,11 @@ namespace TaskForce.AP.Client.Core.View.Scenes
     {
         event EventHandler PauseButtonClickedEvent;
 
-        void SetExp(int v);
-        void SetLevel(string v);
-        void SetRequireExp(int v);
-        void SetKillCount(int v);
-        void SetBattleTime(float v);
+        void SetExp(int exp);
+        void SetLevel(string level);
+        void SetRequireExp(int requireExp);
+        void SetKillCount(int killCount);
+        void SetBattleTime(float battleTime);
+        void SetGold(int gold);
     }
 }

@@ -21,6 +21,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private readonly Core.Timer _timer;
         private readonly Action _onRestartGame;
         private readonly BattleLog _battleLog;
+        private readonly UserDataStore _userDataStore;
 
         private bool _isDestroyed;
         private IUnit _unit;
@@ -31,7 +32,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             GameDataStore gameDataStore, Random random, ILogger logger,
             Func<Entity.Unit, string, int, Entity.ISkill> createSkillEntity,
             Func<string, Entity.Unit> createUnitEntity, Core.Timer timer,
-            Action onRestartGame, BattleLog battleLog)
+            Action onRestartGame, BattleLog battleLog, UserDataStore userDataStore)
         {
             _scene = scene;
             _world = world;
@@ -47,12 +48,14 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             _timer = timer;
             _onRestartGame = onRestartGame;
             _battleLog = battleLog;
+            _userDataStore = userDataStore;
         }
 
         public void Update()
         {
             _scene.SetBattleTime(_battleLog.BattleTime);
             _scene.SetKillCount(_battleLog.KillCount);
+            UpdateGold();
         }
 
         public void Start()
@@ -65,6 +68,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             UpdateLevel();
             UpdateRequireExp();
             UpdateExp();
+            UpdateGold();
 
             _unit.RequireExpChangedEvent += OnRequireExpChnagedEvent;
             _unit.ExpChangedEvent += OnExpChnagedEvent;
@@ -125,6 +129,11 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private void UpdateRequireExp()
         {
             _scene.SetRequireExp(_unit.GetRequireExp());
+        }
+
+        private void UpdateGold()
+        {
+            _scene.SetGold(_userDataStore.GetGold());
         }
 
         private void OnDestroySceneEvent(object sender, EventArgs e)

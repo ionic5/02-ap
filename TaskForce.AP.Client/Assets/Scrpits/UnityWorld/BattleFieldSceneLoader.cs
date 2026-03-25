@@ -177,7 +177,7 @@ namespace TaskForce.AP.Client.UnityWorld
                 unitFactory.CreatePlayerUnit, _gameDataStore, _random, _logger,
                 skillEntityFactory.CreateSkillEntity,
                 unitEntityFactory.CreateUnitEntity, createTimer(),
-                () => this.Load(), battleLog);
+                () => this.Load(), battleLog, _userDataStore);
             sceneCtrl.Start();
             loop.Add(sceneCtrl);
 

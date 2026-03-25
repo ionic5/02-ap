@@ -153,21 +153,6 @@ namespace TaskForce.AP.Client.UnityWorld
             };
             unitFactory.UnitCreatedEvent += battleLogRecorderHdlr;
 
-            EventHandler<DestroyEventArgs> hdlr = null;
-            hdlr = (sender, args) =>
-            {
-                soulFactory.SoulCreatedEvent -= soulFinder.OnSoulCreatedEvent;
-                unitFactory.UnitCreatedEvent -= targetFinder.OnTargetCreatedEvent;
-                unitFactory.UnitCreatedEvent -= dropHandler.OnUnitCreatedEvent;
-                unitFactory.UnitCreatedEvent -= battleLogRecorderHdlr;
-
-                loop.Remove(battleLogRecorder);
-                targetFinder.Destory();
-
-                scene.DestroyEvent -= hdlr;
-            };
-            scene.DestroyEvent += hdlr;
-
             var windowStack = scene.WindowStack;
 
             var window = windowStack.SkillSelectionWindow;
@@ -181,7 +166,7 @@ namespace TaskForce.AP.Client.UnityWorld
             // TODO: 실제 SoundPlayer 구현체로 교체 필요
             var mockSoundPlayer = new MockSoundPlayer();
             var winOpener = new WindowOpener(windowStack, world, _textStore, mockSoundPlayer, _logger);
-            
+
             var pausePanel = scene.PausePanel;
             var pausePanelCtrl = new PausePanelController(pausePanel, world);
             pausePanelCtrl.Start();
@@ -190,8 +175,25 @@ namespace TaskForce.AP.Client.UnityWorld
                 unitFactory.CreatePlayerUnit, _gameDataStore, _random, _logger,
                 skillEntityFactory.CreateSkillEntity,
                 unitEntityFactory.CreateUnitEntity, createTimer(),
-                () => this.Load());
+                () => this.Load(), battleLog);
             sceneCtrl.Start();
+            loop.Add(sceneCtrl);
+
+            EventHandler<DestroyEventArgs> hdlr = null;
+            hdlr = (sender, args) =>
+            {
+                soulFactory.SoulCreatedEvent -= soulFinder.OnSoulCreatedEvent;
+                unitFactory.UnitCreatedEvent -= targetFinder.OnTargetCreatedEvent;
+                unitFactory.UnitCreatedEvent -= dropHandler.OnUnitCreatedEvent;
+                unitFactory.UnitCreatedEvent -= battleLogRecorderHdlr;
+
+                loop.Remove(battleLogRecorder);
+                loop.Remove(sceneCtrl);
+                targetFinder.Destory();
+
+                scene.DestroyEvent -= hdlr;
+            };
+            scene.DestroyEvent += hdlr;
 
             var spawner = new EnemyUnitSpawner(world, _gameDataStore, new Core.Timer(_time, loop),
                 _logger, _random, unitFactory.CreateEnemyUnit);

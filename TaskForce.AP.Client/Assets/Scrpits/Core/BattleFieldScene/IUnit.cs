@@ -21,6 +21,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         int GetLevel();
         Vector2 GetDirection();
         Skills.ISkill GetDefaultSkill();
+        bool IsPlayerSide();
         bool IsEnemy(ITarget target);
         IEnumerable<ITarget> FindAllies(float range);
         IEnumerable<ITarget> FindTargets(float range);

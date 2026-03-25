@@ -29,6 +29,10 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
         private View.BattleFieldScene.WindowStack _windowStack;
         [SerializeField]
         private PausePanel _pausePanel;
+        [SerializeField]
+        private TMP_Text _killCountText;
+        [SerializeField]
+        private TMP_Text _battleTimeText;
 
         public event EventHandler PauseButtonClickedEvent;
 
@@ -55,6 +59,19 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
         public void SetRequireExp(int v)
         {
             _expBar.SetMaxValue(v);
+        }
+
+        public void SetKillCount(int killCount)
+        {
+            var text = killCount.ToString();
+            if (_killCountText.text == text)
+                return;
+            _killCountText.text = text;
+        }
+
+        public void SetBattleTime(float battleTime)
+        {
+            _battleTimeText.text = ((int)battleTime).ToString();
         }
 
         public void OnPauseButtonClicked()

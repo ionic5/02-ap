@@ -6,7 +6,7 @@ using TaskForce.AP.Client.Core.View.Scenes;
 
 namespace TaskForce.AP.Client.Core.BattleFieldScene
 {
-    public class BattleFieldSceneController
+    public class BattleFieldSceneController : IUpdatable
     {
         private readonly IBattleFieldScene _scene;
         private readonly IWorld _world;
@@ -20,6 +20,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private readonly Func<Entity.Unit, string, int, Entity.ISkill> _createSkillEntity;
         private readonly Core.Timer _timer;
         private readonly Action _onRestartGame;
+        private readonly BattleLog _battleLog;
 
         private bool _isDestroyed;
         private IUnit _unit;
@@ -30,7 +31,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             GameDataStore gameDataStore, Random random, ILogger logger,
             Func<Entity.Unit, string, int, Entity.ISkill> createSkillEntity,
             Func<string, Entity.Unit> createUnitEntity, Core.Timer timer,
-            Action onRestartGame)
+            Action onRestartGame, BattleLog battleLog)
         {
             _scene = scene;
             _world = world;
@@ -45,6 +46,13 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             _createUnitEntity = createUnitEntity;
             _timer = timer;
             _onRestartGame = onRestartGame;
+            _battleLog = battleLog;
+        }
+
+        public void Update()
+        {
+            _scene.SetBattleTime(_battleLog.BattleTime);
+            _scene.SetKillCount(_battleLog.KillCount);
         }
 
         public void Start()

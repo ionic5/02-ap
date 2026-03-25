@@ -32,7 +32,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.Windows
         {
             SetLevelText(0);
             SetKillsText(0);
-            SetSurvivalTimeText("");
+            SetSurvivalTimeText(0f);
         }
 
         public void OnClickRestart()
@@ -57,10 +57,10 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.Windows
                 _killsText.text = UpdateUI(LabelType.Kills, kills.ToString());
         }
 
-        public void SetSurvivalTimeText(string time)
+        public void SetSurvivalTimeText(float time)
         {
             if (_survivalTimeText != null)
-                _survivalTimeText.text = UpdateUI(LabelType.SurvivalTime, time);
+                _survivalTimeText.text = UpdateTime(LabelType.SurvivalTime, time);
         }
 
        public string UpdateUI(LabelType type, string value)
@@ -69,6 +69,15 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.Windows
             string label = labels[(int)type]; 
 
             return $"{label}: {value}";
+        }
+
+        public string UpdateTime(LabelType type, float battleTime)
+        {
+            // Enum을 int로 형변환해서 인덱스로 사용
+            string label = labels[(int)type];
+            
+            int totalSeconds = (int)battleTime;
+            return $"{label}: {totalSeconds / 60:D2}:{totalSeconds % 60:D2}";
         }
     }
 }

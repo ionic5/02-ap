@@ -176,7 +176,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private void OnUnitDeathAnimationCompletedEvent(object sender, EventArgs e)
         {
             // Death animation finished, show the death popup
-            _windowOpener.OpenDeathWindow(OnRestartGame, OnReviveUnit);
+            _windowOpener.OpenDeathWindow(_unit.GetLevel(), _battleLog.KillCount, _battleLog.BattleTime, OnRestartGame, OnReviveUnit);
         }
 
         private void OnRestartGame()

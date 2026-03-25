@@ -1,4 +1,5 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System;
 using TaskForce.AP.Client.Core.View.BattleFieldScene;
 
 namespace TaskForce.AP.Client.Core.BattleFieldScene
@@ -43,6 +44,15 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             if (_windowStack.GetOpenedWindowCount() != 1)
                 return;
             _world.Pause();
+        }
+
+        public void OpenDeathWindow(Action onRestart, Action onRevive)
+        {
+            var window = _windowStack.OpenDeathWindow();
+            TryPauseWorld();
+
+            var ctrl = new DeathWindowController(window, onRestart, onRevive);
+            ctrl.Start();
         }
     }
 }

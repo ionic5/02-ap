@@ -7,6 +7,12 @@ namespace TaskForce.AP.Client.Core.View.BattleFieldScene
     {
         event EventHandler DieAnimationFinishedEvent;
         event EventHandler MoveDirectionChangedEvent;
+        event EventHandler DeathAnimationCompletedEvent; // Add new event
+        void Die(); // Add new method
+        void SetActive(bool active); // Add new method
+        void SetHpRatio(float ratio);
+        void SetHPBarVisible(bool visible);
+        void PlayReviveEffect(Action onCompleted); // [REVIVE_EFFECT_TEST]
 
         string GetObjectID();
         void PlayMotion(UnitMotionID motionID, Vector2 direction, float playTime, bool forceRestart);

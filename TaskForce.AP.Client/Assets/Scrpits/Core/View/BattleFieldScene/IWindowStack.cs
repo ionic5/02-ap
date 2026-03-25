@@ -1,4 +1,5 @@
-﻿using TaskForce.AP.Client.Core.View.BattleFieldScene.Windows;
+﻿using TaskForce.AP.Client.Core.BattleFieldScene;
+using TaskForce.AP.Client.Core.View.BattleFieldScene.Windows;
 
 namespace TaskForce.AP.Client.Core.View.BattleFieldScene
 {
@@ -6,6 +7,7 @@ namespace TaskForce.AP.Client.Core.View.BattleFieldScene
     {
         ISettingWindow OpenSettingWindow();
         ISkillSelectionWindow OpenSkillSelectionWindow();
+        IDeathWindow OpenDeathWindow();
         int GetOpenedWindowCount();
     }
 }

@@ -7,6 +7,12 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
     {
         public Windows.SkillSelectionWindow SkillSelectionWindow;
         public Windows.SettingWindow SettingWindow;
+        public Windows.DeathWindow deathWindow;
+
+        public IDeathWindow OpenDeathWindow()
+        {
+            return OpenWindow(deathWindow);
+        }
 
         public ISettingWindow OpenSettingWindow()
         {

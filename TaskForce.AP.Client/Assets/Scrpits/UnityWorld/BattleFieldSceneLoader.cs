@@ -162,6 +162,7 @@ namespace TaskForce.AP.Client.UnityWorld
                 panel.AssetLoader = _assetLoader;
                 panel.Logger = _logger;
             }
+            var deathPopup = windowStack.deathWindow;
 
             // TODO: 실제 SoundPlayer 구현체로 교체 필요
             var mockSoundPlayer = new MockSoundPlayer();
@@ -174,7 +175,8 @@ namespace TaskForce.AP.Client.UnityWorld
             var sceneCtrl = new BattleFieldSceneController(scene, world, followCamera, winOpener,
                 unitFactory.CreatePlayerUnit, _gameDataStore, _random, _logger,
                 skillEntityFactory.CreateSkillEntity,
-                unitEntityFactory.CreateUnitEntity);
+                unitEntityFactory.CreateUnitEntity, createTimer(),
+                () => this.Load());
             sceneCtrl.Start();
 
             var spawner = new EnemyUnitSpawner(world, _gameDataStore, new Core.Timer(_time, loop),

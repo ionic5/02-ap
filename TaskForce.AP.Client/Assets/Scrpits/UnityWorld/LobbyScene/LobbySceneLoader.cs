@@ -1,0 +1,76 @@
+using System;
+using TaskForce.AP.Client.Core;
+using TaskForce.AP.Client.Core.BattleFieldScene;
+using TaskForce.AP.Client.Core.LobbyScene;
+using TaskForce.AP.Client.UnityWorld.BattleFieldScene;
+
+namespace TaskForce.AP.Client.UnityWorld.LobbyScene
+{
+    public class LobbySceneLoader
+    {
+        private readonly Screen _screen;
+        private readonly UserDataStore _userDataStore;
+        private readonly GameDataStore _gameDataStore;
+        private readonly Core.Random _random;
+        private readonly Time _time;
+        private readonly TextStore _textStore;
+        private readonly AssetLoader _assetLoader;
+        private readonly Core.ILogger _logger;
+
+        public LobbySceneLoader(Screen screen, GameDataStore gameDataStore,
+            Core.Random random, Time time, TextStore textStore,
+            AssetLoader assetLoader, Core.ILogger logger, UserDataStore userDataStore)
+        {
+            _screen = screen;
+            _gameDataStore = gameDataStore;
+            _random = random;
+            _time = time;
+            _textStore = textStore;
+            _assetLoader = assetLoader;
+            _logger = logger;
+            _userDataStore = userDataStore;
+        }
+
+        public async void Load()
+        {
+            await _screen.ShowLoadingBlind();
+            await _screen.DestroyLastScene();
+            
+            var instance = await _screen.AttachNewScene(SceneID.LobbyScene);
+            
+            var scene = instance.GetComponent<View.Scenes.LobbyScene>();
+            
+            var loop = scene.Loop;
+            var lobbyWorld = scene.LobbyWorld;
+            
+            Func<Timer> createTimer = () => new Timer(_time, loop);
+            // lobbyWorld.Random = _random;  // TODO: JW: 실제 객채로 대체
+            
+            var windowStack = scene.WindowStack;
+            
+            // TODO: 실제 SoundPlayer 구현체로 교체 필요
+            var mockSoundPlayer = new MockSoundPlayer();
+            var winOpener = new WindowOpener(windowStack, lobbyWorld, _textStore, mockSoundPlayer, _logger);
+
+            // TODO: JW: pause panel 기능 검토
+            // var pausePanel = scene.PausePanel;
+            // var pausePanelCtrl = new PausePanelController(pausePanel, world);
+            // pausePanelCtrl.Start();
+
+            var sceneCtrl = new LobbySceneController(scene, lobbyWorld, winOpener, _gameDataStore, _random, _logger, createTimer(), _userDataStore);
+            sceneCtrl.Start();
+            loop.Add(sceneCtrl);
+
+            EventHandler<DestroyEventArgs> hdlr = null;
+            hdlr = (sender, args) =>
+            {
+                loop.Remove(sceneCtrl);
+
+                scene.DestroyEvent -= hdlr;
+            };
+            scene.DestroyEvent += hdlr;
+
+            _screen.HideLoadingBlind();
+        }
+    }
+}

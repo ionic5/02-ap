@@ -20,10 +20,12 @@ namespace TaskForce.AP.Client.UnityWorld
         private readonly TextStore _textStore;
         private readonly AssetLoader _assetLoader;
         private readonly Core.ILogger _logger;
+        private readonly Action _onGoToLobbyEvent;
 
         public BattleFieldSceneLoader(Screen screen, GameDataStore gameDataStore,
             Core.Random random, Time time, TextStore textStore,
-            AssetLoader assetLoader, Core.ILogger logger, UserDataStore userDataStore)
+            AssetLoader assetLoader, Core.ILogger logger, UserDataStore userDataStore,
+            Action onGoToLobbyEvent)
         {
             _screen = screen;
             _gameDataStore = gameDataStore;
@@ -33,10 +35,14 @@ namespace TaskForce.AP.Client.UnityWorld
             _assetLoader = assetLoader;
             _logger = logger;
             _userDataStore = userDataStore;
+            _onGoToLobbyEvent = onGoToLobbyEvent;
         }
 
         public async void Load()
         {
+            UnityEngine.Time.timeScale = 1f;
+            AudioListener.pause = false;
+
             await _screen.ShowLoadingBlind();
             await _screen.DestroyLastScene();
 
@@ -177,7 +183,7 @@ namespace TaskForce.AP.Client.UnityWorld
                 unitFactory.CreatePlayerUnit, _gameDataStore, _random, _logger,
                 skillEntityFactory.CreateSkillEntity,
                 unitEntityFactory.CreateUnitEntity, createTimer(),
-                () => this.Load(), battleLog, _userDataStore);
+                _onGoToLobbyEvent, battleLog, _userDataStore);
             sceneCtrl.Start();
             loop.Add(sceneCtrl);
 

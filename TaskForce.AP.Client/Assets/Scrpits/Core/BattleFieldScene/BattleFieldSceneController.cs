@@ -199,8 +199,6 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
                 
                 if (_unit != null)
                 {
-                    _world.Pause(); // WindowOpener의 창 닫힘으로 인해 풀린 일시정지를 부활 연출을 위해 잠시 다시 유지
-
                     _unit.RecoverFullHP(); // Restore full HP and update UI
                     _unit.SetActive(true); // Reactivate GameObject
                     _unit.Wait(); // Reset unit's visual state to idle animation

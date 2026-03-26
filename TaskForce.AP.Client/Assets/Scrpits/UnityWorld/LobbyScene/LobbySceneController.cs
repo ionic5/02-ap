@@ -55,15 +55,19 @@ namespace TaskForce.AP.Client.Core.LobbyScene
 
         public void Start()
         {
-            UpdateGold();
+            // UpdateGold();
             
             _scene.DestroyEvent += OnDestroySceneEvent;
             _scene.PauseButtonClickedEvent += OnPauseButtonClickedEvent;
             _scene.PlayButtonClickedEvent += OnPlayButtonClickedEvent;
+            _scene.UpdateUserDataStoreEvent += OnUpdateUserDataStoreEvent;
+            
+            _scene.LobbySceneControllerStarted();
         }
 
         private void OnPauseButtonClickedEvent(object sender, EventArgs e)
         {
+            // TODO: JW: 참조용 코드 추후 삭제
             // _windowOpener.OpenSettingWindow();
         }
 
@@ -73,9 +77,23 @@ namespace TaskForce.AP.Client.Core.LobbyScene
             _battleFieldSceneLoadEvent?.Invoke();
         }
 
+        public void OnUpdateUserDataStoreEvent(int gold, int energy)
+        {
+            _userDataStore.SetGold(gold);
+            _userDataStore.SetEnergy(energy);
+            _logger.Info($"{_userDataStore.GetGold()}, {_userDataStore.GetEnergy()}");
+            UpdateGold();
+            UpdateEnerge();
+        }
+
         private void UpdateGold()
         {
             _scene.SetGold(_userDataStore.GetGold());
+        }
+
+        private void UpdateEnerge()
+        {
+            _scene.SetEnergy(_userDataStore.GetEnergy());
         }
 
         private void OnDestroySceneEvent(object sender, EventArgs e)
@@ -90,6 +108,7 @@ namespace TaskForce.AP.Client.Core.LobbyScene
             _isDestroyed = true;
             
             _scene.PlayButtonClickedEvent -= OnPlayButtonClickedEvent;
+            _scene.UpdateUserDataStoreEvent -= OnUpdateUserDataStoreEvent;
         }
 
         // TODO: JW: 윈도우 기능 참조

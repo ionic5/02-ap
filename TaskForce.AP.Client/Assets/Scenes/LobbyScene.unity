@@ -1810,7 +1810,7 @@ GameObject:
   - component: {fileID: 222153295}
   - component: {fileID: 222153294}
   m_Layer: 5
-  m_Name: CoinButton
+  m_Name: EnergyBuyButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2142,7 +2142,7 @@ GameObject:
   - component: {fileID: 261564633}
   - component: {fileID: 261564632}
   m_Layer: 5
-  m_Name: CoinText
+  m_Name: EnergyText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2187,7 +2187,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '5 / 5 '
+  m_text: '0 '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2788,7 +2788,7 @@ GameObject:
   - component: {fileID: 367565089}
   - component: {fileID: 367565088}
   m_Layer: 5
-  m_Name: CoinText
+  m_Name: GoldText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3125,54 +3125,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 435383142}
   m_CullTransparentMesh: 1
---- !u!1 &445105603
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 445105605}
-  - component: {fileID: 445105604}
-  m_Layer: 0
-  m_Name: LobbySceneManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &445105604
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 445105603}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30bdabb1076634e8d9f1bcc0323e051f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LobbySceneManager
-  goldText: {fileID: 0}
-  radioText: {fileID: 0}
-  gradeImage: {fileID: 0}
-  skillSlots: []
---- !u!4 &445105605
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 445105603}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &459903193
 GameObject:
   m_ObjectHideFlags: 0
@@ -3185,7 +3137,7 @@ GameObject:
   - component: {fileID: 459903196}
   - component: {fileID: 459903195}
   m_Layer: 5
-  m_Name: RadioImage
+  m_Name: EnergyImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6474,7 +6426,7 @@ GameObject:
   - component: {fileID: 1094957310}
   - component: {fileID: 1094957309}
   m_Layer: 5
-  m_Name: CoinButton
+  m_Name: GoldBuyButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8097,7 +8049,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1417004239}
   m_Layer: 5
-  m_Name: RadioPanel
+  m_Name: EnergyPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9949,7 +9901,7 @@ GameObject:
   - component: {fileID: 1651200795}
   - component: {fileID: 1651200794}
   m_Layer: 5
-  m_Name: CoinImage
+  m_Name: GoldImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10842,9 +10794,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.View.Scenes.LobbyScene
   _loop: {fileID: 981360151}
-  _lobbyWorld: {fileID: 0}
+  _lobbyWorld: {fileID: 719294009}
   _windowStack: {fileID: 1426769695}
   _pausePanel: {fileID: 1597585403}
+  goldText: {fileID: 367565088}
+  energyText: {fileID: 261564632}
 --- !u!4 &1860852704
 Transform:
   m_ObjectHideFlags: 0
@@ -11907,7 +11861,6 @@ SceneRoots:
   - {fileID: 1993486045}
   - {fileID: 1647663893}
   - {fileID: 1889295619}
-  - {fileID: 445105605}
   - {fileID: 1860852704}
   - {fileID: 981360152}
   - {fileID: 719294008}

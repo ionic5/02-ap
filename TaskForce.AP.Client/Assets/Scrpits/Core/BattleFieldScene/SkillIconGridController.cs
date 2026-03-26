@@ -20,14 +20,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
                 AddIcon(skill);
 
             _unit.SkillAddedEvent += OnSkillAdded;
-        }
-
-        public void Stop()
-        {
-            _unit.SkillAddedEvent -= OnSkillAdded;
-
-            foreach (var skill in _unit.GetSkills())
-                skill.LevelChangedEvent -= OnLevelChanged;
+            _grid.DestroyedEvent += OnGridDestroyed;
         }
 
         private void AddIcon(ISkill skill)
@@ -37,6 +30,15 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             icon.SetLevel(skill.GetLevel());
 
             skill.LevelChangedEvent += OnLevelChanged;
+        }
+
+        private void OnGridDestroyed(object sender, System.EventArgs e)
+        {
+            _grid.DestroyedEvent -= OnGridDestroyed;
+            _unit.SkillAddedEvent -= OnSkillAdded;
+
+            foreach (var skill in _unit.GetSkills())
+                skill.LevelChangedEvent -= OnLevelChanged;
         }
 
         private void OnSkillAdded(object sender, SkillAddedEventArgs args)

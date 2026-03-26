@@ -6,6 +6,8 @@ namespace TaskForce.AP.Client.Core.View.Scenes
     {
         event EventHandler PauseButtonClickedEvent;
         
+        event EventHandler PlayButtonClickedEvent;
+        
         void SetGold(int gold);
     }
 }

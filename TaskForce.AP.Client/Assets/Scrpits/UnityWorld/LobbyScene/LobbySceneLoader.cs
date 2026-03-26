@@ -16,10 +16,12 @@ namespace TaskForce.AP.Client.UnityWorld.LobbyScene
         private readonly TextStore _textStore;
         private readonly AssetLoader _assetLoader;
         private readonly Core.ILogger _logger;
+        
+        private event Action _battleFieldSceneLoadEvent;
 
         public LobbySceneLoader(Screen screen, GameDataStore gameDataStore,
             Core.Random random, Time time, TextStore textStore,
-            AssetLoader assetLoader, Core.ILogger logger, UserDataStore userDataStore)
+            AssetLoader assetLoader, Core.ILogger logger, UserDataStore userDataStore, Action battleFieldSceneLoadEvent)
         {
             _screen = screen;
             _gameDataStore = gameDataStore;
@@ -29,6 +31,7 @@ namespace TaskForce.AP.Client.UnityWorld.LobbyScene
             _assetLoader = assetLoader;
             _logger = logger;
             _userDataStore = userDataStore;
+            _battleFieldSceneLoadEvent = battleFieldSceneLoadEvent;
         }
 
         public async void Load()
@@ -57,7 +60,7 @@ namespace TaskForce.AP.Client.UnityWorld.LobbyScene
             // var pausePanelCtrl = new PausePanelController(pausePanel, world);
             // pausePanelCtrl.Start();
 
-            var sceneCtrl = new LobbySceneController(scene, lobbyWorld, winOpener, _gameDataStore, _random, _logger, createTimer(), _userDataStore);
+            var sceneCtrl = new LobbySceneController(scene, lobbyWorld, winOpener, _gameDataStore, _random, _logger, createTimer(), _userDataStore, _battleFieldSceneLoadEvent);
             sceneCtrl.Start();
             loop.Add(sceneCtrl);
 

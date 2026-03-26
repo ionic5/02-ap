@@ -17,6 +17,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
         [SerializeField]
         private PausePanel _pausePanel;
         public event EventHandler PauseButtonClickedEvent;
+        public event EventHandler PlayButtonClickedEvent;
 
         public Loop Loop => _loop;
         public LobbyWorld LobbyWorld => _lobbyWorld;
@@ -26,6 +27,11 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
         public void OnPauseButtonClicked()
         {
             PauseButtonClickedEvent?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void OnPlayButtonClicked()
+        {
+            PlayButtonClickedEvent?.Invoke(this, EventArgs.Empty);
         }
         
         public void SetGold(int gold)
@@ -37,6 +43,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
             base.OnDestroy();
         
             PauseButtonClickedEvent = null;
+            PlayButtonClickedEvent = null;
         }
     }
 }

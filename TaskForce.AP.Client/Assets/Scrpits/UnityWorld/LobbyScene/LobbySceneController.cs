@@ -25,22 +25,24 @@ namespace TaskForce.AP.Client.Core.LobbyScene
         private bool _isDestroyed;
         private IUnit _unit;
 
+        private event Action _battleFieldSceneLoadEvent;
+
         public LobbySceneController(ILobbyScene scene, IWorld world, 
             WindowOpener windowOpener, GameDataStore gameDataStore, Random random, 
-            ILogger logger, Core.Timer timer, UserDataStore userDataStore)
+            ILogger logger, Core.Timer timer, UserDataStore userDataStore, Action battleFieldSceneLoadEvent)
         {
             _scene = scene;
             _world = world;
-            
             _windowOpener = windowOpener;
-            _isDestroyed = false;
             _gameDataStore = gameDataStore;
             _random = random;
             _logger = logger;
             _timer = timer;
-     
-        
             _userDataStore = userDataStore;
+
+            _battleFieldSceneLoadEvent = battleFieldSceneLoadEvent;
+            
+            _isDestroyed = false;
         }
 
         public void Update()
@@ -57,11 +59,18 @@ namespace TaskForce.AP.Client.Core.LobbyScene
             
             _scene.DestroyEvent += OnDestroySceneEvent;
             _scene.PauseButtonClickedEvent += OnPauseButtonClickedEvent;
+            _scene.PlayButtonClickedEvent += OnPlayButtonClickedEvent;
         }
 
         private void OnPauseButtonClickedEvent(object sender, EventArgs e)
         {
             // _windowOpener.OpenSettingWindow();
+        }
+
+        private void OnPlayButtonClickedEvent(object sender, EventArgs e)
+        {
+            // BattleFieldScene으로 이동 
+            _battleFieldSceneLoadEvent?.Invoke();
         }
 
         private void UpdateGold()
@@ -79,6 +88,8 @@ namespace TaskForce.AP.Client.Core.LobbyScene
             if (_isDestroyed)
                 return;
             _isDestroyed = true;
+            
+            _scene.PlayButtonClickedEvent -= OnPlayButtonClickedEvent;
         }
 
         // TODO: JW: 윈도우 기능 참조

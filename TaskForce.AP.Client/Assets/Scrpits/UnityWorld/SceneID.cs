@@ -4,5 +4,6 @@
     {
         public const string BattleFieldScene = "BattleFieldScene";
         public const string EmptyScene = "EmptyScene";
+        public const string LobbyScene = "LobbyScene";
     }
 }

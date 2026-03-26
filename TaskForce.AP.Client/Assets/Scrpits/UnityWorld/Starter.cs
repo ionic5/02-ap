@@ -1,4 +1,5 @@
 ﻿using TaskForce.AP.Client.Core;
+using TaskForce.AP.Client.UnityWorld.LobbyScene;
 using UnityEngine;
 
 namespace TaskForce.AP.Client.UnityWorld
@@ -45,7 +46,12 @@ namespace TaskForce.AP.Client.UnityWorld
 
             Destroy(gameObject);
 
-            var loader = new BattleFieldSceneLoader(_screen, gameDataStore, random, time, textStore, assetLoader, logger, userDataStore);
+            var battleFieldSceneloader = new BattleFieldSceneLoader(_screen, gameDataStore, random, time, textStore, assetLoader, logger, userDataStore);
+            var loader = new LobbySceneLoader(_screen, gameDataStore, random, time, textStore, assetLoader, logger, userDataStore,
+                () =>
+                {
+                    battleFieldSceneloader.Load();
+                });
             loader.Load();
         }
     }

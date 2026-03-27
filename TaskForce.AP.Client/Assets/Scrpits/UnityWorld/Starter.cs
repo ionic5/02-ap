@@ -1,6 +1,7 @@
 ﻿using System;
 using TaskForce.AP.Client.Core;
 using TaskForce.AP.Client.UnityWorld.LobbyScene;
+using TaskForce.AP.Client.UnityWorld.TitleScene;
 using UnityEngine;
 
 namespace TaskForce.AP.Client.UnityWorld
@@ -49,14 +50,16 @@ namespace TaskForce.AP.Client.UnityWorld
 
             LobbySceneLoader lobbySceneLoader = null;
             BattleFieldSceneLoader battleFieldSceneLoader = null;
+            TitleSceneLoader titleSceneLoader = null;
 
             Action goToLobbyAction = () => lobbySceneLoader.Load();
             Action goToBattleAction = () => battleFieldSceneLoader.Load();
 
+            titleSceneLoader = new TitleSceneLoader(_screen, goToLobbyAction);
             lobbySceneLoader = new LobbySceneLoader(_screen, gameDataStore, random, time, textStore, assetLoader, logger, userDataStore, goToBattleAction);
             battleFieldSceneLoader = new BattleFieldSceneLoader(_screen, gameDataStore, random, time, textStore, assetLoader, logger, userDataStore, goToLobbyAction);
-            
-            lobbySceneLoader.Load();
+
+            titleSceneLoader.Load();
         }
     }
 }

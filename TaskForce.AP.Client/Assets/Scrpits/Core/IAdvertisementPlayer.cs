@@ -1,12 +1,13 @@
-﻿using System;
+using System;
 
 namespace TaskForce.AP.Client.Core
 {
     public interface IAdvertisementPlayer
     {
-        event EventHandler InterstitialAdvertisementClosedEvent;
         bool CanPlayInterstitialAdvertisement();
-        void PlayInterstitialAdvertisement();
+        void PlayInterstitialAdvertisement(Action onClosed);
+        bool CanPlayRewardedAdvertisement();
+        void PlayRewardedAdvertisement(Action onRewarded, Action onClosed);
         void EnablePersonalizedAds(bool isPersonalizedAdsAllowed);
     }
 }

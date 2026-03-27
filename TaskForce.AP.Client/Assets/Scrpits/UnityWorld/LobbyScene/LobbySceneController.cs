@@ -1,7 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using TaskForce.AP.Client.Core.BattleFieldScene;
 using TaskForce.AP.Client.Core.View.BattleFieldScene;
 using TaskForce.AP.Client.Core.View.Scenes;
 using IUnit = TaskForce.AP.Client.Core.View.BattleFieldScene.IUnit;
@@ -12,7 +9,6 @@ namespace TaskForce.AP.Client.Core.LobbyScene
     {
         private readonly ILobbyScene _scene;
         private readonly IWorld _world;
-       
         private readonly WindowOpener _windowOpener;
         private readonly GameDataStore _gameDataStore;
         private readonly Core.Random _random;
@@ -55,37 +51,48 @@ namespace TaskForce.AP.Client.Core.LobbyScene
 
         public void Start()
         {
-            // UpdateGold();
-            
             _scene.DestroyEvent += OnDestroySceneEvent;
-            _scene.PauseButtonClickedEvent += OnPauseButtonClickedEvent;
             _scene.PlayButtonClickedEvent += OnPlayButtonClickedEvent;
             _scene.UpdateUserDataStoreEvent += OnUpdateUserDataStoreEvent;
+            _scene.EnergyGetButtonClickedEvent += OnEnergyGetButtonClickedEvent;
+            _scene.CommonWindowOpenedEvent += OnCommonWindowOpenedEvent;
+            _scene.RankUpWindowOpenedEvent += OnRankUpWindowOpenedEvent;
             
             _scene.LobbySceneControllerStarted();
         }
-
-        private void OnPauseButtonClickedEvent(object sender, EventArgs e)
-        {
-            // TODO: JW: 참조용 코드 추후 삭제
-            // _windowOpener.OpenSettingWindow();
-        }
-
+        
         private void OnPlayButtonClickedEvent(object sender, EventArgs e)
         {
             // BattleFieldScene으로 이동 
             _battleFieldSceneLoadEvent?.Invoke();
         }
 
-        public void OnUpdateUserDataStoreEvent(int gold, int energy)
+        public void OnUpdateUserDataStoreEvent(int gold, int energy, int rank)
         {
             _userDataStore.SetGold(gold);
             _userDataStore.SetEnergy(energy);
-            _logger.Info($"{_userDataStore.GetGold()}, {_userDataStore.GetEnergy()}");
+            _userDataStore.SetRank(rank);
+            _logger.Info($"{_userDataStore.GetGold()}, {_userDataStore.GetEnergy()}, {_userDataStore.GetRank()}");
             UpdateGold();
             UpdateEnerge();
+            UpdateRank();
         }
 
+        public void OnEnergyGetButtonClickedEvent(object sender, EventArgs e)
+        {
+            _windowOpener.OpenEnergyGetWindow();
+        }
+        
+        public void OnCommonWindowOpenedEvent(object sender, EventArgs e)
+        {
+            _windowOpener.OpenCommonWindow();
+        }
+        
+        public void OnRankUpWindowOpenedEvent(object sender, EventArgs e)
+        {
+            _windowOpener.OpenRankUpWindow();
+        }
+        
         private void UpdateGold()
         {
             _scene.SetGold(_userDataStore.GetGold());
@@ -94,6 +101,11 @@ namespace TaskForce.AP.Client.Core.LobbyScene
         private void UpdateEnerge()
         {
             _scene.SetEnergy(_userDataStore.GetEnergy());
+        }
+        
+        private void UpdateRank()
+        {
+            _scene.SetRank(_userDataStore.GetRank());
         }
 
         private void OnDestroySceneEvent(object sender, EventArgs e)
@@ -109,6 +121,9 @@ namespace TaskForce.AP.Client.Core.LobbyScene
             
             _scene.PlayButtonClickedEvent -= OnPlayButtonClickedEvent;
             _scene.UpdateUserDataStoreEvent -= OnUpdateUserDataStoreEvent;
+            _scene.EnergyGetButtonClickedEvent -= OnEnergyGetButtonClickedEvent;
+            _scene.CommonWindowOpenedEvent -= OnCommonWindowOpenedEvent;
+            _scene.RankUpWindowOpenedEvent -= OnRankUpWindowOpenedEvent;
         }
 
         // TODO: JW: 윈도우 기능 참조

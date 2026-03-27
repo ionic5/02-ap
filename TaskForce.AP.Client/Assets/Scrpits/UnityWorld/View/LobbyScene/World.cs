@@ -6,8 +6,7 @@ using Vector2 = System.Numerics.Vector2;
 
 namespace TaskForce.AP.Client.UnityWorld.View.LobbyScene
 {
-    // TODO: JW: IWorld 를 범용으로 사용해도 괜찮을지 결정
-    public class LobbyWorld : MonoBehaviour, Core.View.BattleFieldScene.IWorld 
+    public class World : MonoBehaviour, Core.View.BattleFieldScene.IWorld 
     {
         public event EventHandler PausedEvent;
         public event EventHandler ResumedEvent;

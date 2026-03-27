@@ -4,6 +4,7 @@ using TaskForce.AP.Client.Core.BattleFieldScene;
 using TaskForce.AP.Client.Core.LobbyScene;
 using TaskForce.AP.Client.UnityWorld.BattleFieldScene;
 using WindowOpener = TaskForce.AP.Client.Core.LobbyScene.WindowOpener;
+using UnityEngine;
 
 namespace TaskForce.AP.Client.UnityWorld.LobbyScene
 {
@@ -37,6 +38,9 @@ namespace TaskForce.AP.Client.UnityWorld.LobbyScene
 
         public async void Load()
         {
+            UnityEngine.Time.timeScale = 1f;
+            AudioListener.pause = false;
+
             await _screen.ShowLoadingBlind();
             await _screen.DestroyLastScene();
             

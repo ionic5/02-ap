@@ -25,16 +25,19 @@ namespace TaskForce.AP.Client.Core.Entity
         private string _defaultSkillID;
 
         private readonly AttributeStore _attributeStore;
-        private readonly Dictionary<string, ISkill> _skills;
+        private readonly List<ISkill> _skills;
         private readonly IEnumerable<GameData.BaseAttribute> _baseAttributes;
         private readonly IEnumerable<GameData.LevelAttribute> _levelAttributes;
         private readonly List<IModifyAttributeEffect> _modifyAttributeEffects;
+
+        private int _maxSkillCount;
+        private int _skillCountLimit;
 
         public Unit(GameDataStore gameDataStore, IEnumerable<GameData.BaseAttribute> attributes, IEnumerable<LevelAttribute> levelAttributes)
         {
             _gameDataStore = gameDataStore;
 
-            _skills = new Dictionary<string, ISkill>();
+            _skills = new List<ISkill>();
 
             _baseAttributes = attributes;
             _levelAttributes = levelAttributes;
@@ -147,11 +150,34 @@ namespace TaskForce.AP.Client.Core.Entity
 
         public void AddSkill(ISkill skill)
         {
-            if (_skills.ContainsKey(skill.GetSkillID()))
+            if (_skills.Any(s => s.GetSkillID() == skill.GetSkillID()))
                 return;
 
-            _skills.Add(skill.GetSkillID(), skill);
+            if (_maxSkillCount > 0 && _skills.Count >= _maxSkillCount)
+                return;
+
+            _skills.Add(skill);
             SkillAddedEvent?.Invoke(this, new SkillAddedEventArgs { SkillID = skill.GetSkillID() });
+        }
+
+        public void SetMaxSkillCount(int count)
+        {
+            _maxSkillCount = count;
+        }
+
+        public int GetMaxSkillCount()
+        {
+            return _maxSkillCount;
+        }
+
+        public void SetSkillCountLimit(int limit)
+        {
+            _skillCountLimit = limit;
+        }
+
+        public int GetSkillCountLimit()
+        {
+            return _skillCountLimit;
         }
 
         public void AddModifyAttributeEffects(IEnumerable<IModifyAttributeEffect> effects)
@@ -175,12 +201,12 @@ namespace TaskForce.AP.Client.Core.Entity
         /// <returns>The <see cref="ISkill"/> instance if found; otherwise, <c>null</c>.</returns>
         public ISkill GetSkill(string skillID)
         {
-            return _skills.TryGetValue(skillID, out var skill) ? skill : null;
+            return _skills.FirstOrDefault(s => s.GetSkillID() == skillID);
         }
 
-        public IReadOnlyCollection<ISkill> GetSkills()
+        public IReadOnlyList<ISkill> GetSkills()
         {
-            return _skills.Values;
+            return _skills;
         }
 
         public void SetPosition(Vector2 position)
@@ -205,7 +231,7 @@ namespace TaskForce.AP.Client.Core.Entity
 
         public void SetDefaultSkill(string skillID)
         {
-            if (!_skills.Any(entry => entry.Value.GetSkillID() == skillID))
+            if (!_skills.Any(s => s.GetSkillID() == skillID))
                 return;
 
             _defaultSkillID = skillID;

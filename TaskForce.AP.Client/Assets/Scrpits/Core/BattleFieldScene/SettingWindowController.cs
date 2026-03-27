@@ -1,42 +1,37 @@
 using System;
-using TaskForce.AP.Client.Core.View.BattleFieldScene.Windows;
+using TaskForce.AP.Client.Core.View.Windows;
 
 namespace TaskForce.AP.Client.Core.BattleFieldScene
 {
     public class SettingWindowController
     {
         private readonly ISettingWindow _window;
-        private readonly ISoundPlayer _soundPlayer;
+        private readonly Action _onGoToLobby;
+        private readonly Core.SettingWindowController _commonCtrl;
 
-        public SettingWindowController(ISettingWindow window, ISoundPlayer soundPlayer)
+        public SettingWindowController(ISettingWindow window, Core.SettingWindowController commonCtrl, Action onGoToLobby)
         {
             _window = window;
-            _soundPlayer = soundPlayer;
+            _onGoToLobby = onGoToLobby;
+            _commonCtrl = commonCtrl;
         }
 
         public void Start()
         {
-            _window.SetBGMVolume(_soundPlayer.GetBGMVolume());
-            _window.SetSFXVolume(_soundPlayer.GetSFXVolume());
+            _commonCtrl.Start();
 
-            _window.BGMVolumeChangedEvent += OnBGMVolumeChanged;
-            _window.SFXVolumeChangedEvent += OnSFXVolumeChanged;
+            _window.SetLobbyButtonVisible(true);
+            _window.SetContinueButtonVisible(true);
+            _window.SetConfirmButtonVisible(false);
+
             _window.LobbyButtonClickedEvent += OnLobbyButtonClicked;
             _window.ContinueButtonClickedEvent += OnContinueButtonClicked;
         }
 
-        private void OnBGMVolumeChanged(object sender, ValueChangedEventArgs e)
-        {
-            _soundPlayer.SetBGMVolume(e.Value);
-        }
-
-        private void OnSFXVolumeChanged(object sender, ValueChangedEventArgs e)
-        {
-            _soundPlayer.SetSFXVolume(e.Value);
-        }
-
         private void OnLobbyButtonClicked(object sender, EventArgs e)
         {
+            _window.Close();
+            _onGoToLobby?.Invoke();
         }
 
         private void OnContinueButtonClicked(object sender, EventArgs e)

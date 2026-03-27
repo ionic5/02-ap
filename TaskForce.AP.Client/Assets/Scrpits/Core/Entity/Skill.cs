@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TaskForce.AP.Client.Core.GameData;
 
@@ -6,6 +7,7 @@ namespace TaskForce.AP.Client.Core.Entity
 {
     public abstract class Skill : ISkill
     {
+        public event EventHandler<LevelChangedEventArgs> LevelChangedEvent;
         private readonly string _skillID;
         private readonly TextStore _textStore;
         private Unit _owner;
@@ -34,6 +36,7 @@ namespace TaskForce.AP.Client.Core.Entity
             _level = value;
 
             UpdateAttributes();
+            LevelChangedEvent?.Invoke(this, new LevelChangedEventArgs(_skillID, _level));
         }
 
         private void UpdateAttributes()
@@ -94,7 +97,8 @@ namespace TaskForce.AP.Client.Core.Entity
 
         public virtual void LevelUp()
         {
-            SetLevel(_level++);
+            _level++;
+            SetLevel(_level);
         }
     }
 }

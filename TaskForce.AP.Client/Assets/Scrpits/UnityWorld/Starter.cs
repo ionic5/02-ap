@@ -1,5 +1,8 @@
-﻿using TaskForce.AP.Client.Core;
+﻿using System;
+using TaskForce.AP.Client.Core;
+using TaskForce.AP.Client.Core.TitleScene;
 using TaskForce.AP.Client.UnityWorld.LobbyScene;
+using TaskForce.AP.Client.UnityWorld.TitleScene;
 using UnityEngine;
 
 namespace TaskForce.AP.Client.UnityWorld
@@ -10,9 +13,20 @@ namespace TaskForce.AP.Client.UnityWorld
         private Screen _screen;
         [SerializeField]
         private GameObject _loadingBlind;
+        [SerializeField]
+        private View.Scenes.TitleScene _titleScene;
+
+        private static bool _initialized = false;
 
         private void Start()
         {
+            if (_initialized)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            _initialized = true;
+
             DontDestroyOnLoad(_screen.gameObject);
             DontDestroyOnLoad(_loadingBlind.gameObject);
 
@@ -46,13 +60,19 @@ namespace TaskForce.AP.Client.UnityWorld
 
             Destroy(gameObject);
 
-            var battleFieldSceneloader = new BattleFieldSceneLoader(_screen, gameDataStore, random, time, textStore, assetLoader, logger, userDataStore);
-            var loader = new LobbySceneLoader(_screen, gameDataStore, random, time, textStore, assetLoader, logger, userDataStore,
-                () =>
-                {
-                    battleFieldSceneloader.Load();
-                });
-            loader.Load();
+            LobbySceneLoader lobbySceneLoader = null;
+            BattleFieldSceneLoader battleFieldSceneLoader = null;
+            TitleSceneLoader titleSceneLoader = null;
+
+            Action goToLobbyAction = () => lobbySceneLoader.Load();
+            Action goToBattleAction = () => battleFieldSceneLoader.Load();
+
+            titleSceneLoader = new TitleSceneLoader(_screen, goToLobbyAction);
+            lobbySceneLoader = new LobbySceneLoader(_screen, gameDataStore, random, time, textStore, assetLoader, logger, userDataStore, goToBattleAction);
+            battleFieldSceneLoader = new BattleFieldSceneLoader(_screen, gameDataStore, random, time, textStore, assetLoader, logger, userDataStore, goToLobbyAction);
+
+            var titleSceneCtrl = new TitleSceneController(_titleScene, goToLobbyAction);
+            titleSceneCtrl.Start();
         }
     }
 }

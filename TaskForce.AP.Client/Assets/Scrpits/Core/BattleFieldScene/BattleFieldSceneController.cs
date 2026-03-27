@@ -19,9 +19,10 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private readonly Func<string, Entity.Unit> _createUnitEntity;
         private readonly Func<Entity.Unit, string, int, Entity.ISkill> _createSkillEntity;
         private readonly Core.Timer _timer;
-        private readonly Action _onRestartGame;
+        private readonly Action _onGoToLobbyEvent;
         private readonly BattleLog _battleLog;
         private readonly UserDataStore _userDataStore;
+        private readonly View.BattleFieldScene.ISkillIconGrid _skillIconGrid;
 
         private bool _isDestroyed;
         private IUnit _unit;
@@ -32,7 +33,8 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             GameDataStore gameDataStore, Random random, ILogger logger,
             Func<Entity.Unit, string, int, Entity.ISkill> createSkillEntity,
             Func<string, Entity.Unit> createUnitEntity, Core.Timer timer,
-            Action onRestartGame, BattleLog battleLog, UserDataStore userDataStore)
+            Action onGoToLobbyEvent, BattleLog battleLog, UserDataStore userDataStore,
+            View.BattleFieldScene.ISkillIconGrid skillIconGrid)
         {
             _scene = scene;
             _world = world;
@@ -46,9 +48,10 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             _createSkillEntity = createSkillEntity;
             _createUnitEntity = createUnitEntity;
             _timer = timer;
-            _onRestartGame = onRestartGame;
+            _onGoToLobbyEvent = onGoToLobbyEvent;
             _battleLog = battleLog;
             _userDataStore = userDataStore;
+            _skillIconGrid = skillIconGrid;
         }
 
         public void Update()
@@ -61,6 +64,8 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         public void Start()
         {
             _unitEntity = _createUnitEntity.Invoke("WARRIOR_0");
+            _unitEntity.SetMaxSkillCount(5);
+            _unitEntity.SetSkillCountLimit(8);
 
             _unit = _createPlayerUnit(_unitEntity);
             _unit.SetPosition(_world.GetPlayerUnitSpawnPosition());
@@ -79,13 +84,18 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
 
             _followCamera.SetTarget(_unit);
 
+            _skillIconGrid.SetIconSlots(_unitEntity.GetMaxSkillCount());
+
+            var skillIconGridCtrl = new SkillIconGridController(_skillIconGrid, _unitEntity);
+            skillIconGridCtrl.Start();
+
             _scene.DestroyEvent += OnDestroySceneEvent;
             _scene.PauseButtonClickedEvent += OnPauseButtonClickedEvent;
         }
 
         private void OnPauseButtonClickedEvent(object sender, EventArgs e)
         {
-            _windowOpener.OpenSettingWindow();
+            _windowOpener.OpenSettingWindow(_onGoToLobbyEvent);
         }
 
         private void OnLevelUpEvent(object sender, EventArgs e)
@@ -176,18 +186,15 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private void OnUnitDeathAnimationCompletedEvent(object sender, EventArgs e)
         {
             // Death animation finished, show the death popup
-            _windowOpener.OpenDeathWindow(_unit.GetLevel(), _battleLog.KillCount, _battleLog.BattleTime, OnRestartGame, OnReviveUnit);
+            _windowOpener.OpenDeathWindow(_unit.GetLevel(), _battleLog.KillCount, _battleLog.BattleTime, GoToLobby, OnReviveUnit);
         }
 
-        private void OnRestartGame()
+        private void GoToLobby()
         {
-            _logger.Info("Player chose to Restart Game."); // Changed to Info
-            // In a real game, this would typically involve reloading the current scene
-            // or transitioning to a game over screen and then restarting.
-            // For now, we simulate by destroying the current scene.
+            _logger.Info("Player chose to go to Lobby.");
             Destroy(); // Destroy current scene controller
             _world.Resume();
-            _onRestartGame?.Invoke(); // Trigger full scene reload
+            _onGoToLobbyEvent?.Invoke(); // Trigger lobby scene load
         }
 
         private void OnReviveUnit()
@@ -222,7 +229,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             else
             {
                 _logger.Info("AdMob ad failed or was skipped. Proceeding to restart game."); // Changed to Info
-                OnRestartGame(); // If ad fails, restart the game
+                GoToLobby(); // If ad fails, go to lobby
             }
         }
     }

@@ -1,7 +1,11 @@
-﻿namespace TaskForce.AP.Client.Core.Entity
+﻿using System;
+
+namespace TaskForce.AP.Client.Core.Entity
 {
     public interface ISkill
     {
+        event EventHandler<LevelChangedEventArgs> LevelChangedEvent;
+
         string GetSkillID();
         string GetIconID();
         string GetName();

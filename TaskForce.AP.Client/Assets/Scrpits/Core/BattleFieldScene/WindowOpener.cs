@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System;
 using TaskForce.AP.Client.Core.View.BattleFieldScene;
+using TaskForce.AP.Client.Core.View.BattleFieldScene.Windows;
+using TaskForce.AP.Client.Core.View.Windows;
 
 namespace TaskForce.AP.Client.Core.BattleFieldScene
 {
@@ -30,12 +32,13 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             ctrl.Start();
         }
 
-        public void OpenSettingWindow()
+        public void OpenSettingWindow(Action onGoToLobby = null)
         {
             var window = _windowStack.OpenSettingWindow();
             TryPauseWorld();
 
-            var ctrl = new SettingWindowController(window, _soundPlayer);
+            var commonCtrl = new Core.SettingWindowController(window, _soundPlayer);
+            var ctrl = new SettingWindowController(window, commonCtrl, onGoToLobby);
             ctrl.Start();
         }
 

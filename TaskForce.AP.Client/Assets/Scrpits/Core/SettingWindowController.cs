@@ -1,3 +1,4 @@
+using TaskForce.AP.Client.Core.BattleFieldScene;
 using TaskForce.AP.Client.Core.View.Windows;
 
 namespace TaskForce.AP.Client.Core

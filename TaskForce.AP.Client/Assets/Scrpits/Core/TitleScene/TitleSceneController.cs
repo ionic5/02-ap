@@ -16,6 +16,7 @@ namespace TaskForce.AP.Client.Core.TitleScene
 
         public void Start()
         {
+            _scene.SetStartButtonVisible(true);
             _scene.StartButtonClickedEvent += OnStartButtonClicked;
             _scene.DestroyEvent += OnDestroyScene;
         }

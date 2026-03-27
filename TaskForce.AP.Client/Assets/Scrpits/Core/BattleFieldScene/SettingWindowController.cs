@@ -7,11 +7,13 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
     {
         private readonly ISettingWindow _window;
         private readonly ISoundPlayer _soundPlayer;
+        private readonly Action _onGoToLobby;
 
-        public SettingWindowController(ISettingWindow window, ISoundPlayer soundPlayer)
+        public SettingWindowController(ISettingWindow window, ISoundPlayer soundPlayer, Action onGoToLobby = null)
         {
             _window = window;
             _soundPlayer = soundPlayer;
+            _onGoToLobby = onGoToLobby;
         }
 
         public void Start()
@@ -37,6 +39,8 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
 
         private void OnLobbyButtonClicked(object sender, EventArgs e)
         {
+            _window.Close();
+            _onGoToLobby?.Invoke();
         }
 
         private void OnContinueButtonClicked(object sender, EventArgs e)

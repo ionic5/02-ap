@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace TaskForce.AP.Client.Core.View.BattleFieldScene.Windows
+namespace TaskForce.AP.Client.Core.View.Windows
 {
     public class ValueChangedEventArgs : EventArgs
     {

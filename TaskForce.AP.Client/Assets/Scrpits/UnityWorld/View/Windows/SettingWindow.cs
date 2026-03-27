@@ -1,9 +1,9 @@
-﻿using System;
-using TaskForce.AP.Client.Core.View.BattleFieldScene.Windows;
+using System;
+using TaskForce.AP.Client.Core.View.Windows;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.Windows
+namespace TaskForce.AP.Client.UnityWorld.View.Windows
 {
     public class SettingWindow : Window, ISettingWindow
     {
@@ -11,11 +11,18 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.Windows
         private Slider _bgmVolumeSlider;
         [SerializeField]
         private Slider _sfxVolumeSlider;
+        [SerializeField]
+        private GameObject _lobbyButton;
+        [SerializeField]
+        private GameObject _continueButton;
+        [SerializeField]
+        private GameObject _confirmButton;
 
         public event EventHandler<ValueChangedEventArgs> BGMVolumeChangedEvent;
         public event EventHandler<ValueChangedEventArgs> SFXVolumeChangedEvent;
         public event EventHandler LobbyButtonClickedEvent;
         public event EventHandler ContinueButtonClickedEvent;
+        public event EventHandler ConfirmButtonClickedEvent;
 
         public void OnBgmVolumeChanged(float value)
         {
@@ -37,6 +44,11 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.Windows
             ContinueButtonClickedEvent?.Invoke(this, EventArgs.Empty);
         }
 
+        public void OnConfirmButtonClicked()
+        {
+            ConfirmButtonClickedEvent?.Invoke(this, EventArgs.Empty);
+        }
+
         public void SetBGMVolume(float volume)
         {
             _bgmVolumeSlider.value = volume;
@@ -47,6 +59,21 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.Windows
             _sfxVolumeSlider.value = volume;
         }
 
+        public void SetLobbyButtonVisible(bool visible)
+        {
+            _lobbyButton.SetActive(visible);
+        }
+
+        public void SetContinueButtonVisible(bool visible)
+        {
+            _continueButton.SetActive(visible);
+        }
+
+        public void SetConfirmButtonVisible(bool visible)
+        {
+            _confirmButton.SetActive(visible);
+        }
+
         public override void Clear()
         {
             base.Clear();
@@ -55,6 +82,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.Windows
             SFXVolumeChangedEvent = null;
             LobbyButtonClickedEvent = null;
             ContinueButtonClickedEvent = null;
+            ConfirmButtonClickedEvent = null;
         }
     }
 }

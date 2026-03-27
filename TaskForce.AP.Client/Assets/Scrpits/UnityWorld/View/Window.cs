@@ -1,6 +1,6 @@
 ﻿using System;
 using UnityEngine;
-using TaskForce.AP.Client.Core.View.BattleFieldScene.Windows;
+using TaskForce.AP.Client.Core.View.Windows;
 
 namespace TaskForce.AP.Client.UnityWorld.View
 {

@@ -23,12 +23,12 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
 
         public override bool IsCooldownFinished()
         {
-            return !_timer.IsRunning(0);
+            return !_timer.IsRunning();
         }
 
         public override void Use(UseSkillArgs args)
         {
-            _timer.Start(0, GetAttribute(AttributeID.CooldownTime).AsFloat());
+            _timer.Start(GetAttribute(AttributeID.CooldownTime).AsFloat());
 
             _repeatTimer.Start(() => ThrowDynamite(GetOwner()),
                 GetAttribute(AttributeID.BurstInterval).AsFloat(),

@@ -24,7 +24,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
 
         public override bool IsCooldownFinished()
         {
-            return !_timer.IsRunning(0);
+            return !_timer.IsRunning();
         }
 
         public override void Use(UseSkillArgs args)
@@ -38,7 +38,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
                 return;
 
             var target = targets.ElementAt(_random.Next(0, targets.Count()));
-            _timer.Start(0, GetAttribute(AttributeID.CooldownTime).AsFloat());
+            _timer.Start(GetAttribute(AttributeID.CooldownTime).AsFloat());
 
             _repeatTimer.Start(() => { FireMissile(user, target.GetPosition()); },
                 GetAttribute(AttributeID.BurstInterval).AsFloat(),

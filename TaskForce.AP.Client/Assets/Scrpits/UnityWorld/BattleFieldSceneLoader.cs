@@ -138,11 +138,11 @@ namespace TaskForce.AP.Client.UnityWorld
             });
             skillFactory.AddCreator(Core.Entity.SkillID.Heal, (skill) =>
             {
-                return new HealSkill(createTimer(), () => objFac.Create<OneShotEffect>(ObjectID.HealEffect), skill);
+                return new HealSkill(createTimer, () => objFac.Create<OneShotEffect>(ObjectID.HealEffect), skill);
             });
             skillFactory.AddCreator(Core.Entity.SkillID.MeleeAttack, (skill) =>
             {
-                return new Core.BattleFieldScene.Skills.MeleeAttackSkill(createTimer(), skill, _random);
+                return new Core.BattleFieldScene.Skills.MeleeAttackSkill(createTimer, skill, _random);
             });
 
             var battleLog = new BattleLog();

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 
 namespace TaskForce.AP.Client.Core
 {
@@ -9,108 +8,53 @@ namespace TaskForce.AP.Client.Core
 
         private readonly ITime _time;
         private readonly ILoop _loop;
-        private readonly Dictionary<int, TimerEntry> _timerEntries;
-        private readonly List<int> _activeIndexes;
-        private readonly List<int> _finishedIndexes;
 
+        private bool _isRunning;
+        private float _remainTime;
+        private Action _timeOutHandler;
         private bool _isDestroyed;
-
-        private struct TimerEntry
-        {
-            public int Index;
-            public float RemainTime;
-            public Action TimeOutHandler;
-        }
 
         public Timer(ITime time, ILoop loop)
         {
             _time = time;
             _loop = loop;
-            _isDestroyed = false;
-
-            _activeIndexes = new List<int>();
-            _timerEntries = new Dictionary<int, TimerEntry>();
-            _finishedIndexes = new List<int>();
         }
 
-        public bool IsRunning(int index)
+        public bool IsRunning()
         {
-            return _timerEntries.ContainsKey(index);
+            return _isRunning;
         }
 
-        public void Start(int index, float time, Action timeOutHandler = null)
+        public void Start(float time, Action timeOutHandler = null)
         {
             if (_isDestroyed) return;
 
-            if (!_timerEntries.ContainsKey(index))
-            {
-                _activeIndexes.Add(index);
+            if (!_isRunning)
+                _loop.Add(this);
 
-                if (_timerEntries.Count == 0)
-                    _loop.Add(this);
-            }
-
-            _timerEntries[index] = new TimerEntry
-            {
-                Index = index,
-                RemainTime = time,
-                TimeOutHandler = timeOutHandler
-            };
+            _isRunning = true;
+            _remainTime = time;
+            _timeOutHandler = timeOutHandler;
         }
 
         public void Stop()
         {
-            _finishedIndexes.AddRange(_timerEntries.Keys);
-            foreach (var idx in _finishedIndexes)
-                RemoveTimerEntry(idx);
-            _finishedIndexes.Clear();
-        }
+            if (!_isRunning) return;
 
-        public void Stop(int index)
-        {
-            RemoveTimerEntry(index);
-        }
-
-        private void RemoveTimerEntry(int index)
-        {
-            if (_timerEntries.Remove(index))
-            {
-                _activeIndexes.Remove(index);
-
-                if (_timerEntries.Count == 0)
-                    _loop.Remove(this);
-            }
+            _isRunning = false;
+            _timeOutHandler = null;
+            _loop.Remove(this);
         }
 
         public void Update()
         {
-            var deltaTime = _time.GetDeltaTime();
+            _remainTime -= _time.GetDeltaTime();
 
-            for (int i = 0; i < _activeIndexes.Count; i++)
+            if (_remainTime <= 0.0f)
             {
-                int key = _activeIndexes[i];
-                var entry = _timerEntries[key];
-
-                entry.RemainTime -= deltaTime;
-
-                if (entry.RemainTime <= 0.0f)
-                    _finishedIndexes.Add(key);
-                else
-                    _timerEntries[key] = entry;
-            }
-
-            if (_finishedIndexes.Count > 0)
-            {
-                for (int i = 0; i < _finishedIndexes.Count; i++)
-                {
-                    int idx = _finishedIndexes[i];
-                    if (_timerEntries.TryGetValue(idx, out var entry))
-                    {
-                        RemoveTimerEntry(idx);
-                        entry.TimeOutHandler?.Invoke();
-                    }
-                }
-                _finishedIndexes.Clear();
+                var handler = _timeOutHandler;
+                Stop();
+                handler?.Invoke();
             }
         }
 
@@ -122,14 +66,11 @@ namespace TaskForce.AP.Client.Core
             DestroyEvent?.Invoke(this, new DestroyEventArgs(this));
             DestroyEvent = null;
 
-            if (_timerEntries.Count > 0)
+            if (_isRunning)
             {
                 _loop.Remove(this);
-                _timerEntries.Clear();
+                _isRunning = false;
             }
-
-            _activeIndexes.Clear();
-            _finishedIndexes.Clear();
         }
     }
 }

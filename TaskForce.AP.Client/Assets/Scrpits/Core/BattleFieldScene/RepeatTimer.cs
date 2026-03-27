@@ -36,7 +36,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             _remainingRepeats--;
 
             if (_remainingRepeats > 0)
-                _timer.Start(0, _intervalSeconds, ExecuteStep);
+                _timer.Start(_intervalSeconds, ExecuteStep);
             else
                 Stop();
         }
@@ -46,7 +46,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             _task = null;
             _intervalSeconds = 0.0f;
             _remainingRepeats = 0;
-            _timer.Stop(0);
+            _timer.Stop();
         }
     }
 }

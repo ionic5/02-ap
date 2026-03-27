@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Numerics;
 using TaskForce.AP.Client.Core.Entity;
 
@@ -6,7 +7,8 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
 {
     public class MeleeAttackSkill : ActiveSkill, ISkill
     {
-        private readonly Core.Timer _timer;
+        private readonly Core.Timer _cooldownTimer;
+        private readonly Core.Timer _impactTimer;
         private readonly Core.Random _random;
         private UseSkillArgs _useSkillArgs;
         private State _state;
@@ -19,22 +21,17 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
             Canceled
         }
 
-        private static class TimerType
+        public MeleeAttackSkill(Func<Timer> createTimer, Entity.ISkill skillEntity, Random random) : base(skillEntity)
         {
-            public const int Cooldown = 0;
-            public const int Impact = 1;
-        }
-
-        public MeleeAttackSkill(Timer timer, Entity.ISkill skillEntity, Random random) : base(skillEntity)
-        {
-            _timer = timer;
+            _cooldownTimer = createTimer();
+            _impactTimer = createTimer();
             _random = random;
             _state = State.Initial;
         }
 
         public override bool IsCooldownFinished()
         {
-            return !_timer.IsRunning(TimerType.Cooldown);
+            return !_cooldownTimer.IsRunning();
         }
 
         public override void Use(UseSkillArgs args)
@@ -47,8 +44,8 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
 
             var attackDirection = Vector2.Normalize(target.GetPosition() - user.GetPosition());
             user.Attack(attackDirection, attackTime);
-            _timer.Start(TimerType.Cooldown, GetAttribute(AttributeID.AttackTime).AsFloat(), OnCooldownFinished);
-            _timer.Start(TimerType.Impact, GetAttribute(AttributeID.AttackImpactTime).AsFloat(), OnAttackImpact);
+            _cooldownTimer.Start(GetAttribute(AttributeID.AttackTime).AsFloat(), OnCooldownFinished);
+            _impactTimer.Start(GetAttribute(AttributeID.AttackImpactTime).AsFloat(), OnAttackImpact);
 
             SetUseSkillArgs(args);
         }
@@ -73,7 +70,8 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
         {
             _state = State.Initial;
 
-            _timer.Stop();
+            _cooldownTimer.Stop();
+            _impactTimer.Stop();
 
             UnsetUseSkillArgs();
         }
@@ -154,8 +152,8 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
 
             UnsetUseSkillArgs();
 
-            if (_timer.IsRunning(TimerType.Cooldown) && _timer.IsRunning(TimerType.Impact))
-                _timer.Stop(TimerType.Cooldown);
+            if (_cooldownTimer.IsRunning() && _impactTimer.IsRunning())
+                _cooldownTimer.Stop();
         }
     }
 }

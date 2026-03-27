@@ -219,7 +219,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
                         _world.Resume(); // Resume game (여기서 몹들이 움직이기 시작함)
                         
                         // 3초 무적 상태 해제는 게임이 재개된 시점부터 3초 뒤에
-                        _timer.Start(0, 3.0f, () => {
+                        _timer.Start(3.0f, () => {
                             if (_unit != null && !_unit.IsDead())
                                 _unit.SetInvincible(false);
                         });

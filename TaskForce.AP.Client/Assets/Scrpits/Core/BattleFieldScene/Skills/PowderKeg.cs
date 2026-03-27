@@ -55,7 +55,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
             _powderKeg.SetPosition(position);
             _powderKeg.Watch(_watchRadius);
 
-            _timer.Start(0, _expireTime, () => { Ignite(); });
+            _timer.Start(_expireTime, () => { Ignite(); });
         }
 
         private void OnObjectDetectedEvent(object sender, BatchObjectDetectedEventArgs args)
@@ -67,7 +67,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
 
         private void Ignite()
         {
-            _timer.Stop(0);
+            _timer.Stop();
 
             _powderKeg.Ignite();
         }

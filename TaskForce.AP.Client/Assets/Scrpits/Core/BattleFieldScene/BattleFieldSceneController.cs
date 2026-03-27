@@ -22,6 +22,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private readonly Action _onRestartGame;
         private readonly BattleLog _battleLog;
         private readonly UserDataStore _userDataStore;
+        private readonly View.BattleFieldScene.ISkillIconGrid _skillIconGrid;
 
         private bool _isDestroyed;
         private IUnit _unit;
@@ -32,7 +33,8 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             GameDataStore gameDataStore, Random random, ILogger logger,
             Func<Entity.Unit, string, int, Entity.ISkill> createSkillEntity,
             Func<string, Entity.Unit> createUnitEntity, Core.Timer timer,
-            Action onRestartGame, BattleLog battleLog, UserDataStore userDataStore)
+            Action onRestartGame, BattleLog battleLog, UserDataStore userDataStore,
+            View.BattleFieldScene.ISkillIconGrid skillIconGrid)
         {
             _scene = scene;
             _world = world;
@@ -49,6 +51,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             _onRestartGame = onRestartGame;
             _battleLog = battleLog;
             _userDataStore = userDataStore;
+            _skillIconGrid = skillIconGrid;
         }
 
         public void Update()
@@ -61,6 +64,8 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         public void Start()
         {
             _unitEntity = _createUnitEntity.Invoke("WARRIOR_0");
+            _unitEntity.SetMaxSkillCount(5);
+            _unitEntity.SetSkillCountLimit(8);
 
             _unit = _createPlayerUnit(_unitEntity);
             _unit.SetPosition(_world.GetPlayerUnitSpawnPosition());
@@ -78,6 +83,11 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             _unit.DeathAnimationCompletedEvent += OnUnitDeathAnimationCompletedEvent; // Subscribe to Unity Unit's death animation completion
 
             _followCamera.SetTarget(_unit);
+
+            _skillIconGrid.SetIconSlots(_unitEntity.GetMaxSkillCount());
+
+            var skillIconGridCtrl = new SkillIconGridController(_skillIconGrid, _unitEntity);
+            skillIconGridCtrl.Start();
 
             _scene.DestroyEvent += OnDestroySceneEvent;
             _scene.PauseButtonClickedEvent += OnPauseButtonClickedEvent;

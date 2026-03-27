@@ -97,7 +97,8 @@ namespace TaskForce.AP.Client.Core.Entity
 
         public virtual void LevelUp()
         {
-            SetLevel(_level++);
+            _level++;
+            SetLevel(_level);
         }
     }
 }

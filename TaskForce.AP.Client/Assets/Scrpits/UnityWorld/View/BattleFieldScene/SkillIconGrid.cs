@@ -13,6 +13,8 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
         [SerializeField]
         private SkillIcon[] _icons;
 
+        public SkillIcon[] Icons => _icons;
+
         private int _nextIndex;
 
         private void Awake()

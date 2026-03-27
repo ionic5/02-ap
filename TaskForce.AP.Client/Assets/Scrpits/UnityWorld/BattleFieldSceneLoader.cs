@@ -169,6 +169,13 @@ namespace TaskForce.AP.Client.UnityWorld
             var mockSoundPlayer = new MockSoundPlayer();
             var winOpener = new WindowOpener(windowStack, world, _textStore, mockSoundPlayer, _logger);
 
+            var skillIconGrid = scene.SkillIconGrid;
+            foreach (var icon in skillIconGrid.Icons)
+            {
+                icon.AssetLoader = _assetLoader;
+                icon.Logger = _logger;
+            }
+
             var pausePanel = scene.PausePanel;
             var pausePanelCtrl = new PausePanelController(pausePanel, world);
             pausePanelCtrl.Start();
@@ -177,7 +184,7 @@ namespace TaskForce.AP.Client.UnityWorld
                 unitFactory.CreatePlayerUnit, _gameDataStore, _random, _logger,
                 skillEntityFactory.CreateSkillEntity,
                 unitEntityFactory.CreateUnitEntity, createTimer(),
-                () => this.Load(), battleLog, _userDataStore);
+                () => this.Load(), battleLog, _userDataStore, skillIconGrid);
             sceneCtrl.Start();
             loop.Add(sceneCtrl);
 

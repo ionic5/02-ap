@@ -30,6 +30,9 @@ namespace TaskForce.AP.Client.Core.Entity
         private readonly IEnumerable<GameData.LevelAttribute> _levelAttributes;
         private readonly List<IModifyAttributeEffect> _modifyAttributeEffects;
 
+        private int _maxSkillCount;
+        private int _skillCountLimit;
+
         public Unit(GameDataStore gameDataStore, IEnumerable<GameData.BaseAttribute> attributes, IEnumerable<LevelAttribute> levelAttributes)
         {
             _gameDataStore = gameDataStore;
@@ -150,8 +153,31 @@ namespace TaskForce.AP.Client.Core.Entity
             if (_skills.Any(s => s.GetSkillID() == skill.GetSkillID()))
                 return;
 
+            if (_maxSkillCount > 0 && _skills.Count >= _maxSkillCount)
+                return;
+
             _skills.Add(skill);
             SkillAddedEvent?.Invoke(this, new SkillAddedEventArgs { SkillID = skill.GetSkillID() });
+        }
+
+        public void SetMaxSkillCount(int count)
+        {
+            _maxSkillCount = count;
+        }
+
+        public int GetMaxSkillCount()
+        {
+            return _maxSkillCount;
+        }
+
+        public void SetSkillCountLimit(int limit)
+        {
+            _skillCountLimit = limit;
+        }
+
+        public int GetSkillCountLimit()
+        {
+            return _skillCountLimit;
         }
 
         public void AddModifyAttributeEffects(IEnumerable<IModifyAttributeEffect> effects)

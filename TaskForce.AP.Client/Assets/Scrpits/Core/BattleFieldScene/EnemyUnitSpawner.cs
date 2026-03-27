@@ -38,7 +38,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             _stageLevel = stageLevel;
 
             var stage = GetStage(stageLevel);
-            _timer.Start(0, stage.Time, OnStageFinished);
+            _timer.Start(stage.Time, OnStageFinished);
             _stageEnemyUnits = _gameDataStore.GetStageEnemyUnits().Where(entry => entry.StageLevel == stageLevel).ToList();
             _maxEnemyUnitCount = stage.MaxEnemyUnitCount;
         }
@@ -62,12 +62,12 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             if (IsStageExist(nextLevel))
                 Start(nextLevel);
             else
-                _timer.Stop(0);
+                _timer.Stop();
         }
 
         public void Update()
         {
-            if (!_timer.IsRunning(0))
+            if (!_timer.IsRunning())
                 return;
 
             if (_activeEnemyUnits.Count >= _maxEnemyUnitCount)

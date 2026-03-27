@@ -19,14 +19,14 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
 
         public override bool IsCooldownFinished()
         {
-            return !_timer.IsRunning(0);
+            return !_timer.IsRunning();
         }
 
         public override void Use(UseSkillArgs args)
         {
             var user = GetOwner();
 
-            _timer.Start(0, GetAttribute(AttributeID.CooldownTime).AsFloat());
+            _timer.Start(GetAttribute(AttributeID.CooldownTime).AsFloat());
 
             var minDmg = GetAttribute(AttributeID.MinDamage).AsInt();
             var maxDmg = GetAttribute(AttributeID.MaxDamage).AsInt();

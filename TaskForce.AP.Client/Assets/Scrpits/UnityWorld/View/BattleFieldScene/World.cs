@@ -109,12 +109,5 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
             var pos = _playerUnitSpawnPosition.transform.position;
             return new System.Numerics.Vector2(pos.x, pos.z);
         }
-
-        private void Update()
-        {
-            // 외부 에서 강제로 pause 를 푸는 상황을 막기 위한 코드
-            if (_isPaused && UnityEngine.Time.timeScale != 0.0f)
-                UnityEngine.Time.timeScale = 0.0f;
-        }
     }
 }

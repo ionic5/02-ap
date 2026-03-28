@@ -33,6 +33,7 @@ namespace TaskForce.AP.Client.UnityWorld
         private Action _interstitialOnClosed;
         private Action _rewardedOnRewarded;
         private Action _rewardedOnClosed;
+        private float _timeScaleBeforeAd;
 
         public Core.ILogger Logger;
         public Core.Timer RetryTimer;
@@ -270,6 +271,7 @@ namespace TaskForce.AP.Client.UnityWorld
 
             SetDelayedLoadRewardedAd();
             _adsBackground.SetActive(false);
+            UnityEngine.Time.timeScale = _timeScaleBeforeAd;
 
             var callback = _rewardedOnClosed;
             _rewardedOnRewarded = null;
@@ -283,6 +285,7 @@ namespace TaskForce.AP.Client.UnityWorld
 
             LoadRewardedAd();
             _adsBackground.SetActive(false);
+            UnityEngine.Time.timeScale = _timeScaleBeforeAd;
 
             var callback = _rewardedOnClosed;
             _rewardedOnRewarded = null;
@@ -303,6 +306,7 @@ namespace TaskForce.AP.Client.UnityWorld
                 return;
             }
 
+            _timeScaleBeforeAd = UnityEngine.Time.timeScale;
             _rewardedOnRewarded = onRewarded;
             _rewardedOnClosed = onClosed;
 

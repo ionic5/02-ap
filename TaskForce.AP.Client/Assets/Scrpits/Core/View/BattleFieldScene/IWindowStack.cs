@@ -7,7 +7,7 @@ namespace TaskForce.AP.Client.Core.View.BattleFieldScene
     public interface IWindowStack
     {
         ISettingWindow OpenSettingWindow();
-        ISkillSelectionWindow OpenSkillSelectionWindow();
+        ILevelUpWindow OpenLevelUpWindow();
         IDeathWindow OpenDeathWindow();
         int GetOpenedWindowCount();
     }

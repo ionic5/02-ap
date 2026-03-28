@@ -6,14 +6,14 @@ using TaskForce.AP.Client.Core.View.BattleFieldScene.Windows;
 
 namespace TaskForce.AP.Client.Core.BattleFieldScene
 {
-    public class SkillSelectionWindowController
+    public class LevelUpWindowController
     {
-        private readonly ISkillSelectionWindow _window;
+        private readonly ILevelUpWindow _window;
         private readonly IEnumerable<ISkill> _skills;
         private readonly TextStore _textStore;
         private readonly Entity.Unit _unit;
 
-        public SkillSelectionWindowController(ISkillSelectionWindow window, IEnumerable<Entity.ISkill> skills,
+        public LevelUpWindowController(ILevelUpWindow window, IEnumerable<Entity.ISkill> skills,
             Entity.Unit unit, TextStore textStore)
         {
             _window = window;

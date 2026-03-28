@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Linq;
-using TaskForce.AP.Client.Core.View.BattleFieldScene.SkillSelectionWindow;
+using TaskForce.AP.Client.Core.View.BattleFieldScene.LevelUpWindow;
 using TaskForce.AP.Client.Core.View.BattleFieldScene.Windows;
-using TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.SkillSelectionWindow;
+using TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.LevelUpWindow;
 using UnityEngine;
 
 namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.Windows
 {
-    public class SkillSelectionWindow : Window, ISkillSelectionWindow
+    public class LevelUpWindow : Window, ILevelUpWindow
     {
         public event EventHandler OKButtonClickedEvent;
 

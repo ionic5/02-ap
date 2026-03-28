@@ -1,4 +1,4 @@
-﻿namespace TaskForce.AP.Client.Core.View.BattleFieldScene.SkillSelectionWindow
+﻿namespace TaskForce.AP.Client.Core.View.BattleFieldScene.LevelUpWindow
 {
     public interface ISkillPanel
     {

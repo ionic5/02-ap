@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading;
-using TaskForce.AP.Client.Core.View.BattleFieldScene.SkillSelectionWindow;
+using TaskForce.AP.Client.Core.View.BattleFieldScene.LevelUpWindow;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.SkillSelectionWindow
+namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.LevelUpWindow
 {
     public class SkillPanel : MonoBehaviour, ISkillPanel
     {

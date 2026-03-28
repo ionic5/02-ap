@@ -25,10 +25,10 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
 
         public void OpenPerkSelectionWindow(Entity.Unit unit, IEnumerable<Entity.ISkill> skills)
         {
-            var window = _windowStack.OpenSkillSelectionWindow();
+            var window = _windowStack.OpenLevelUpWindow();
             TryPauseWorld();
 
-            var ctrl = new SkillSelectionWindowController(window, skills, unit, _textStore);
+            var ctrl = new LevelUpWindowController(window, skills, unit, _textStore);
             ctrl.Start();
         }
 

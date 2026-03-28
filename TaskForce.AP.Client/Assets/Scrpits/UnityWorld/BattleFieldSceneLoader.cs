@@ -163,7 +163,7 @@ namespace TaskForce.AP.Client.UnityWorld
 
             var windowStack = scene.WindowStack;
 
-            var window = windowStack.SkillSelectionWindow;
+            var window = windowStack.LevelUpWindow;
             foreach (var panel in window.SkillPanels)
             {
                 panel.AssetLoader = _assetLoader;

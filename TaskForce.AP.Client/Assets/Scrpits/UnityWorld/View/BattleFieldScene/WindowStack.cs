@@ -7,7 +7,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
 {
     public class WindowStack : View.WindowStack, IWindowStack
     {
-        public Windows.SkillSelectionWindow SkillSelectionWindow;
+        public Windows.LevelUpWindow LevelUpWindow;
         public SettingWindow SettingWindow;
         public Windows.DeathWindow deathWindow;
 
@@ -21,9 +21,9 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
             return OpenWindow(SettingWindow);
         }
 
-        public ISkillSelectionWindow OpenSkillSelectionWindow()
+        public ILevelUpWindow OpenLevelUpWindow()
         {
-            return OpenWindow(SkillSelectionWindow);
+            return OpenWindow(LevelUpWindow);
         }
     }
 }

@@ -10,6 +10,7 @@ namespace TaskForce.AP.Client.Core.View.BattleFieldScene.Windows
         event EventHandler RerollButtonClickedEvent;
 
         ISkillPanel AddSkillPanel();
+        void ClearSkillPanels();
         void SetLevel(int level);
     }
 }

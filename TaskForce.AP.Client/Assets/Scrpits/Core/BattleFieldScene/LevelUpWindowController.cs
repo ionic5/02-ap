@@ -10,26 +10,56 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
     public class LevelUpWindowController
     {
         private readonly ILevelUpWindow _window;
-        private readonly IEnumerable<ISkill> _skills;
         private readonly TextStore _textStore;
         private readonly Entity.Unit _unit;
         private readonly IAdvertisementPlayer _advertisementPlayer;
+        private readonly GameDataStore _gameDataStore;
+        private readonly Random _random;
+        private readonly Func<Entity.Unit, string, int, Entity.ISkill> _createSkillEntity;
         private readonly List<ISkillPanel> _panels = new List<ISkillPanel>();
+        private List<ISkill> _skills;
         private int _index;
 
-        public LevelUpWindowController(ILevelUpWindow window, IEnumerable<Entity.ISkill> skills,
-            Entity.Unit unit, TextStore textStore, IAdvertisementPlayer advertisementPlayer)
+        public LevelUpWindowController(ILevelUpWindow window, Entity.Unit unit, TextStore textStore,
+            IAdvertisementPlayer advertisementPlayer, GameDataStore gameDataStore, Random random,
+            Func<Entity.Unit, string, int, Entity.ISkill> createSkillEntity)
         {
             _window = window;
-            _skills = skills;
             _unit = unit;
             _textStore = textStore;
             _advertisementPlayer = advertisementPlayer;
+            _gameDataStore = gameDataStore;
+            _random = random;
+            _createSkillEntity = createSkillEntity;
         }
 
         public void Start()
         {
             _window.SetLevel(_unit.GetLevel());
+
+            RefreshSkillPanels();
+
+            _window.OKButtonClickedEvent += OnOKButtonClickedEvent;
+            _window.RerollButtonClickedEvent += OnRerollButtonClicked;
+            _window.ClosedEvent += OnWindowClosed;
+        }
+
+        private void RefreshSkillPanels()
+        {
+            foreach (var panel in _panels)
+                panel.ClickedEvent -= OnSkillPanelClicked;
+            _panels.Clear();
+            _window.ClearSkillPanels();
+
+            var skillIDs = _gameDataStore.GetLevelUpRewardSkills().Select(entry => entry.SkillID).ToArray();
+            _random.Shuffle(skillIDs);
+            _skills = new List<ISkill>();
+            foreach (var skillID in skillIDs.Take(3))
+            {
+                var existing = _unit.GetSkill(skillID);
+                var level = existing != null ? existing.GetLevel() + 1 : 1;
+                _skills.Add(_createSkillEntity.Invoke(_unit, skillID, level));
+            }
 
             foreach (var skill in _skills)
             {
@@ -44,9 +74,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
                 _panels.Add(panel);
             }
 
-            _window.OKButtonClickedEvent += OnOKButtonClickedEvent;
-            _window.RerollButtonClickedEvent += OnRerollButtonClicked;
-            _window.ClosedEvent += OnWindowClosed;
+            _index = 0;
         }
 
         private void OnSkillPanelClicked(object sender, SkillPanelClickedEventArgs e)
@@ -59,7 +87,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             if (!_advertisementPlayer.CanPlayRewardedAdvertisement())
                 return;
 
-            _advertisementPlayer.PlayRewardedAdvertisement(null, null);
+            _advertisementPlayer.PlayRewardedAdvertisement(() => { RefreshSkillPanels(); }, null);
         }
 
         private void OnWindowClosed(object sender, EventArgs args)

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System;
+﻿using System;
 using TaskForce.AP.Client.Core.View.BattleFieldScene;
 using TaskForce.AP.Client.Core.View.BattleFieldScene.Windows;
 using TaskForce.AP.Client.Core.View.Windows;
@@ -14,8 +13,12 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private readonly ISoundPlayer _soundPlayer;
         private readonly ILogger _logger;
         private readonly IAdvertisementPlayer _advertisementPlayer;
+        private readonly GameDataStore _gameDataStore;
+        private readonly Random _random;
+        private readonly Func<Entity.Unit, string, int, Entity.ISkill> _createSkillEntity;
 
-        public WindowOpener(IWindowStack windowStack, IWorld world, TextStore textStore, ISoundPlayer soundPlayer, ILogger logger, IAdvertisementPlayer advertisementPlayer)
+        public WindowOpener(IWindowStack windowStack, IWorld world, TextStore textStore, ISoundPlayer soundPlayer, ILogger logger, IAdvertisementPlayer advertisementPlayer,
+            GameDataStore gameDataStore, Random random, Func<Entity.Unit, string, int, Entity.ISkill> createSkillEntity)
         {
             _windowStack = windowStack;
             _world = world;
@@ -23,14 +26,18 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             _soundPlayer = soundPlayer;
             _logger = logger;
             _advertisementPlayer = advertisementPlayer;
+            _gameDataStore = gameDataStore;
+            _random = random;
+            _createSkillEntity = createSkillEntity;
         }
 
-        public void OpenLevelUpWindow(Entity.Unit unit, IEnumerable<Entity.ISkill> skills)
+        public void OpenLevelUpWindow(Entity.Unit unit)
         {
             var window = _windowStack.OpenLevelUpWindow();
             TryPauseWorld();
 
-            var ctrl = new LevelUpWindowController(window, skills, unit, _textStore, _advertisementPlayer);
+            var ctrl = new LevelUpWindowController(window, unit, _textStore, _advertisementPlayer,
+                _gameDataStore, _random, _createSkillEntity);
             ctrl.Start();
         }
 

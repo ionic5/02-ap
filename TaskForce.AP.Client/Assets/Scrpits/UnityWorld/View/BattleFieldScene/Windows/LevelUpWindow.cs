@@ -21,7 +21,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.Windows
 
         private void Awake()
         {
-            ResetSkillPanels();
+            ClearSkillPanels();
         }
 
         public ISkillPanel AddSkillPanel()
@@ -44,13 +44,13 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.Windows
         {
             base.Clear();
 
-            ResetSkillPanels();
+            ClearSkillPanels();
 
             OKButtonClickedEvent = null;
             RerollButtonClickedEvent = null;
         }
 
-        private void ResetSkillPanels()
+        public void ClearSkillPanels()
         {
             foreach (var panel in SkillPanels)
                 panel.gameObject.SetActive(false);

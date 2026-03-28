@@ -12,12 +12,9 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private readonly IWorld _world;
         private readonly IFollowCamera _followCamera;
         private readonly WindowOpener _windowOpener;
-        private readonly GameDataStore _gameDataStore;
         private readonly Func<Entity.Unit, IUnit> _createPlayerUnit;
-        private readonly Core.Random _random;
         private readonly ILogger _logger;
         private readonly Func<string, Entity.Unit> _createUnitEntity;
-        private readonly Func<Entity.Unit, string, int, Entity.ISkill> _createSkillEntity;
         private readonly Core.Timer _timer;
         private readonly Action _onGoToLobbyEvent;
         private readonly BattleLog _battleLog;
@@ -29,9 +26,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private Entity.Unit _unitEntity;
 
         public BattleFieldSceneController(IBattleFieldScene scene, IWorld world, IFollowCamera followCamera,
-            WindowOpener windowOpener, Func<Entity.Unit, IUnit> createUnit,
-            GameDataStore gameDataStore, Random random, ILogger logger,
-            Func<Entity.Unit, string, int, Entity.ISkill> createSkillEntity,
+            WindowOpener windowOpener, Func<Entity.Unit, IUnit> createUnit, ILogger logger,
             Func<string, Entity.Unit> createUnitEntity, Core.Timer timer,
             Action onGoToLobbyEvent, BattleLog battleLog, UserDataStore userDataStore,
             View.BattleFieldScene.ISkillIconGrid skillIconGrid)
@@ -42,10 +37,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             _createPlayerUnit = createUnit;
             _windowOpener = windowOpener;
             _isDestroyed = false;
-            _gameDataStore = gameDataStore;
-            _random = random;
             _logger = logger;
-            _createSkillEntity = createSkillEntity;
             _createUnitEntity = createUnitEntity;
             _timer = timer;
             _onGoToLobbyEvent = onGoToLobbyEvent;
@@ -101,19 +93,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private void OnLevelUpEvent(object sender, EventArgs e)
         {
             UpdateLevel();
-
-            var skillIDs = _gameDataStore.GetLevelUpRewardSkills().Select(entry => entry.SkillID).ToArray();
-            _random.Shuffle(skillIDs);
-            var newSkills = new List<Entity.ISkill>();
-
-            foreach (var skillID in skillIDs.Take(3))
-            {
-                var skill = _unitEntity.GetSkill(skillID);
-                var level = skill != null ? skill.GetLevel() + 1 : 1;
-                newSkills.Add(_createSkillEntity.Invoke(_unitEntity, skillID, level));
-            }
-
-            _windowOpener.OpenLevelUpWindow(_unitEntity, newSkills);
+            _windowOpener.OpenLevelUpWindow(_unitEntity);
         }
 
         private void OnExpChangedEvent(object sender, EventArgs e)

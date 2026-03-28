@@ -170,7 +170,8 @@ namespace TaskForce.AP.Client.UnityWorld
 
             // TODO: 실제 SoundPlayer 구현체로 교체 필요
             var mockSoundPlayer = new MockSoundPlayer();
-            var winOpener = new WindowOpener(windowStack, world, _textStore, mockSoundPlayer, _logger, _advertisementPlayer);
+            var winOpener = new WindowOpener(windowStack, world, _textStore, mockSoundPlayer, _logger, _advertisementPlayer,
+                _gameDataStore, _random, skillEntityFactory.CreateSkillEntity);
 
             var skillIconGrid = scene.SkillIconGrid;
             foreach (var icon in skillIconGrid.Icons)
@@ -184,8 +185,7 @@ namespace TaskForce.AP.Client.UnityWorld
             pausePanelCtrl.Start();
 
             var sceneCtrl = new BattleFieldSceneController(scene, world, followCamera, winOpener,
-                unitFactory.CreatePlayerUnit, _gameDataStore, _random, _logger,
-                skillEntityFactory.CreateSkillEntity,
+                unitFactory.CreatePlayerUnit, _logger,
                 unitEntityFactory.CreateUnitEntity, createTimer(),
                 _onGoToLobbyEvent, battleLog, _userDataStore, skillIconGrid);
             sceneCtrl.Start();

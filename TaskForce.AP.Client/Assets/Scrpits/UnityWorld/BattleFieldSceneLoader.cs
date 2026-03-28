@@ -164,11 +164,6 @@ namespace TaskForce.AP.Client.UnityWorld
             var windowStack = scene.WindowStack;
 
             var window = windowStack.LevelUpWindow;
-            foreach (var panel in window.SkillPanels)
-            {
-                panel.AssetLoader = _assetLoader;
-                panel.Logger = _logger;
-            }
             var deathPopup = windowStack.deathWindow;
 
             // TODO: 실제 SoundPlayer 구현체로 교체 필요

@@ -113,7 +113,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
                 newSkills.Add(_createSkillEntity.Invoke(_unitEntity, skillID, level));
             }
 
-            _windowOpener.OpenPerkSelectionWindow(_unitEntity, newSkills);
+            _windowOpener.OpenLevelUpWindow(_unitEntity, newSkills);
         }
 
         private void OnExpChangedEvent(object sender, EventArgs e)

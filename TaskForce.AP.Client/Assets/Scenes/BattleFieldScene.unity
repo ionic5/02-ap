@@ -209,6 +209,7 @@ GameObject:
   - component: {fileID: 20376111}
   - component: {fileID: 20376110}
   - component: {fileID: 20376109}
+  - component: {fileID: 20376112}
   m_Layer: 0
   m_Name: Skill03
   m_TagString: Untagged
@@ -281,7 +282,20 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 20376110}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 20376112}
+        m_TargetAssemblyTypeName: TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.LevelUpWindow.SkillPanel,
+          Assembly-CSharp
+        m_MethodName: OnClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &20376110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -320,6 +334,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 20376107}
   m_CullTransparentMesh: 0
+--- !u!114 &20376112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 20376107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b842ad7918fd33468fc909d956dd085, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.LevelUpWindow.SkillPanel
+  _descriptionText: {fileID: 1536983549}
+  _nameText: {fileID: 1595877071}
+  _skillIcon: {fileID: 1267675375}
 --- !u!1 &49883757
 GameObject:
   m_ObjectHideFlags: 0
@@ -682,7 +711,20 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 91751351}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 701093516}
+        m_TargetAssemblyTypeName: TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.Windows.LevelUpWindow,
+          Assembly-CSharp
+        m_MethodName: OnRerollButtonClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &91751351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1794,7 +1836,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Rerolling
+  m_text: REROLL
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5764b6974e9d57146a6075e13e63c79c, type: 2}
   m_sharedMaterial: {fileID: 1653631458307283989, guid: 5764b6974e9d57146a6075e13e63c79c, type: 2}
@@ -3839,8 +3881,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Skill NAME
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: dc2cc93475f76427c86a8262bee36b88, type: 2}
-  m_sharedMaterial: {fileID: 2269793554123077917, guid: dc2cc93475f76427c86a8262bee36b88, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3929,6 +3971,7 @@ GameObject:
   - component: {fileID: 637019290}
   - component: {fileID: 637019289}
   - component: {fileID: 637019288}
+  - component: {fileID: 637019291}
   m_Layer: 0
   m_Name: Skill02
   m_TagString: Untagged
@@ -4001,7 +4044,20 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 637019289}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 637019291}
+        m_TargetAssemblyTypeName: TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.LevelUpWindow.SkillPanel,
+          Assembly-CSharp
+        m_MethodName: OnClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &637019289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4040,6 +4096,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 637019286}
   m_CullTransparentMesh: 0
+--- !u!114 &637019291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 637019286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b842ad7918fd33468fc909d956dd085, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.LevelUpWindow.SkillPanel
+  _descriptionText: {fileID: 856468154}
+  _nameText: {fileID: 1009711074}
+  _skillIcon: {fileID: 696111051}
 --- !u!1 &638344143
 GameObject:
   m_ObjectHideFlags: 0
@@ -4413,6 +4484,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 696111050}
+  - component: {fileID: 696111051}
   m_Layer: 0
   m_Name: Skill_Icon
   m_TagString: Untagged
@@ -4440,6 +4512,20 @@ RectTransform:
   m_AnchoredPosition: {x: -540, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &696111051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 696111049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e933124459fbdd4fab86a80a6e88af2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.SkillIcon
+  _iconImage: {fileID: 257342214}
+  _levelText: {fileID: 1507427311}
 --- !u!1 &701093514
 GameObject:
   m_ObjectHideFlags: 0
@@ -4449,8 +4535,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 701093515}
+  - component: {fileID: 701093516}
   m_Layer: 0
-  m_Name: LevelUp
+  m_Name: LevelUpWindow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4477,13 +4564,30 @@ RectTransform:
   - {fileID: 20376108}
   - {fileID: 1839680053}
   - {fileID: 91751348}
-  m_Father: {fileID: 4386422803581815758}
+  m_Father: {fileID: 4919957432388826044}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &701093516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701093514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab9ba7d211db13a43be8834212c534d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.Windows.LevelUpWindow
+  SkillPanels:
+  - {fileID: 2051662479}
+  - {fileID: 637019291}
+  - {fileID: 20376112}
+  _levelText: {fileID: 905953055}
 --- !u!1 &764136045
 GameObject:
   m_ObjectHideFlags: 0
@@ -5742,8 +5846,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Skill NAME
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: dc2cc93475f76427c86a8262bee36b88, type: 2}
-  m_sharedMaterial: {fileID: 2269793554123077917, guid: dc2cc93475f76427c86a8262bee36b88, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -6169,7 +6273,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Continue
+  m_text: CONFIRM
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5764b6974e9d57146a6075e13e63c79c, type: 2}
   m_sharedMaterial: {fileID: 1653631458307283989, guid: 5764b6974e9d57146a6075e13e63c79c, type: 2}
@@ -6582,6 +6686,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1267675374}
+  - component: {fileID: 1267675375}
   m_Layer: 0
   m_Name: Skill_Icon
   m_TagString: Untagged
@@ -6609,6 +6714,20 @@ RectTransform:
   m_AnchoredPosition: {x: -540, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1267675375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1267675373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e933124459fbdd4fab86a80a6e88af2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.SkillIcon
+  _iconImage: {fileID: 2104891701}
+  _levelText: {fileID: 1121635276}
 --- !u!1 &1281986949
 GameObject:
   m_ObjectHideFlags: 0
@@ -8323,8 +8442,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Skill NAME
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: dc2cc93475f76427c86a8262bee36b88, type: 2}
-  m_sharedMaterial: {fileID: 2269793554123077917, guid: dc2cc93475f76427c86a8262bee36b88, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -9027,7 +9146,20 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1839680056}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 701093516}
+        m_TargetAssemblyTypeName: TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.Windows.LevelUpWindow,
+          Assembly-CSharp
+        m_MethodName: OnOKButtonClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1839680056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9075,6 +9207,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1855772966}
+  - component: {fileID: 1855772967}
   m_Layer: 0
   m_Name: Skill_Icon
   m_TagString: Untagged
@@ -9102,6 +9235,20 @@ RectTransform:
   m_AnchoredPosition: {x: -540, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1855772967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1855772965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e933124459fbdd4fab86a80a6e88af2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.SkillIcon
+  _iconImage: {fileID: 463637692}
+  _levelText: {fileID: 481959112}
 --- !u!1 &1857701689
 GameObject:
   m_ObjectHideFlags: 0
@@ -9872,6 +10019,7 @@ GameObject:
   - component: {fileID: 2051662478}
   - component: {fileID: 2051662477}
   - component: {fileID: 2051662476}
+  - component: {fileID: 2051662479}
   m_Layer: 0
   m_Name: Skill01
   m_TagString: Untagged
@@ -9944,7 +10092,20 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2051662477}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2051662479}
+        m_TargetAssemblyTypeName: TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.LevelUpWindow.SkillPanel,
+          Assembly-CSharp
+        m_MethodName: OnClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2051662477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9983,6 +10144,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2051662474}
   m_CullTransparentMesh: 0
+--- !u!114 &2051662479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2051662474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b842ad7918fd33468fc909d956dd085, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.LevelUpWindow.SkillPanel
+  _descriptionText: {fileID: 1656534121}
+  _nameText: {fileID: 571257886}
+  _skillIcon: {fileID: 1855772967}
 --- !u!1 &2077997219
 GameObject:
   m_ObjectHideFlags: 0
@@ -12686,10 +12862,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _descriptionText: {fileID: 6949138235809719211}
-  _levelText: {fileID: 7211375163542737125}
   _nameText: {fileID: 4761526422453270806}
-  _iconImage: {fileID: 4211507801745331333}
-  _toggle: {fileID: 8955762239593096012}
+  _skillIcon: {fileID: 0}
 --- !u!224 &2664790054176553043
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13482,6 +13656,7 @@ MonoBehaviour:
   - {fileID: 2648441715675152094}
   - {fileID: 9210800399233902573}
   - {fileID: 4191575776911607468}
+  _levelText: {fileID: 0}
 --- !u!1 &3795208218783338933
 GameObject:
   m_ObjectHideFlags: 0
@@ -14005,10 +14180,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _descriptionText: {fileID: 8752056843337396335}
-  _levelText: {fileID: 3847758211881668229}
   _nameText: {fileID: 234394846259792128}
-  _iconImage: {fileID: 8132871423367210482}
-  _toggle: {fileID: 4524127878720106679}
+  _skillIcon: {fileID: 0}
 --- !u!114 &4211507801745331333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14217,7 +14390,6 @@ RectTransform:
   - {fileID: 1674618049}
   - {fileID: 4919957432388826044}
   - {fileID: 2141058633}
-  - {fileID: 701093515}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -14853,6 +15025,7 @@ RectTransform:
   - {fileID: 3764684806561990905}
   - {fileID: 4155530233853188633}
   - {fileID: 363801177}
+  - {fileID: 701093515}
   m_Father: {fileID: 4386422803581815758}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -18526,7 +18699,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _windowBackground: {fileID: 7354643714863481518}
-  SkillSelectionWindow: {fileID: 3778708502137546984}
+  LevelUpWindow: {fileID: 701093516}
   SettingWindow: {fileID: 7332426610357792577}
   deathWindow: {fileID: 363801178}
 --- !u!114 &9100869285200045937
@@ -18725,10 +18898,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _descriptionText: {fileID: 4021729424873347752}
-  _levelText: {fileID: 7786859973025977045}
   _nameText: {fileID: 7324805895383504688}
-  _iconImage: {fileID: 1816010938014068472}
-  _toggle: {fileID: 556637848445991875}
+  _skillIcon: {fileID: 0}
 --- !u!224 &9222950803409375824
 RectTransform:
   m_ObjectHideFlags: 0

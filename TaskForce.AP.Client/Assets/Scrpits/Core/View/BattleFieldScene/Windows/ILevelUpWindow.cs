@@ -7,8 +7,9 @@ namespace TaskForce.AP.Client.Core.View.BattleFieldScene.Windows
     public interface ILevelUpWindow : IWindow
     {
         event EventHandler OKButtonClickedEvent;
+        event EventHandler RerollButtonClickedEvent;
 
         ISkillPanel AddSkillPanel();
-        int GetSelectedSkillIndex();
+        void SetLevel(int level);
     }
 }

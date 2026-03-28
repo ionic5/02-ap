@@ -23,7 +23,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             _logger = logger;
         }
 
-        public void OpenPerkSelectionWindow(Entity.Unit unit, IEnumerable<Entity.ISkill> skills)
+        public void OpenLevelUpWindow(Entity.Unit unit, IEnumerable<Entity.ISkill> skills)
         {
             var window = _windowStack.OpenLevelUpWindow();
             TryPauseWorld();

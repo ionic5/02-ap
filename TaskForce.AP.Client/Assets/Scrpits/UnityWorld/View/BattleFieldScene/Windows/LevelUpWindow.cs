@@ -3,6 +3,7 @@ using System.Linq;
 using TaskForce.AP.Client.Core.View.BattleFieldScene.LevelUpWindow;
 using TaskForce.AP.Client.Core.View.BattleFieldScene.Windows;
 using TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.LevelUpWindow;
+using TMPro;
 using UnityEngine;
 
 namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.Windows
@@ -10,9 +11,13 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.Windows
     public class LevelUpWindow : Window, ILevelUpWindow
     {
         public event EventHandler OKButtonClickedEvent;
+        public event EventHandler RerollButtonClickedEvent;
 
         [SerializeField]
         public SkillPanel[] SkillPanels;
+
+        [SerializeField]
+        private TMP_Text _levelText;
 
         private void Awake()
         {
@@ -35,33 +40,35 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.Windows
             return null;
         }
 
-        public int GetSelectedSkillIndex()
-        {
-            for (var i = 0; i < SkillPanels.Count(); i++)
-            {
-                if (SkillPanels[i].IsSelected())
-                    return i;
-            }
-            return -1;
-        }
-
         public override void Clear()
         {
             base.Clear();
 
             ResetSkillPanels();
+
+            OKButtonClickedEvent = null;
+            RerollButtonClickedEvent = null;
         }
 
         private void ResetSkillPanels()
         {
             foreach (var panel in SkillPanels)
                 panel.gameObject.SetActive(false);
-            SkillPanels[0].SetSelected();
         }
 
         public void OnOKButtonClicked()
         {
             OKButtonClickedEvent?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void OnRerollButtonClicked()
+        {
+            RerollButtonClickedEvent?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void SetLevel(int level)
+        {
+            _levelText.text = level.ToString();
         }
     }
 }

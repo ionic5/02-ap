@@ -13,16 +13,18 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private readonly IEnumerable<ISkill> _skills;
         private readonly TextStore _textStore;
         private readonly Entity.Unit _unit;
+        private readonly IAdvertisementPlayer _advertisementPlayer;
         private readonly List<ISkillPanel> _panels = new List<ISkillPanel>();
         private int _index;
 
         public LevelUpWindowController(ILevelUpWindow window, IEnumerable<Entity.ISkill> skills,
-            Entity.Unit unit, TextStore textStore)
+            Entity.Unit unit, TextStore textStore, IAdvertisementPlayer advertisementPlayer)
         {
             _window = window;
             _skills = skills;
             _unit = unit;
             _textStore = textStore;
+            _advertisementPlayer = advertisementPlayer;
         }
 
         public void Start()
@@ -43,12 +45,21 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             }
 
             _window.OKButtonClickedEvent += OnOKButtonClickedEvent;
+            _window.RerollButtonClickedEvent += OnRerollButtonClicked;
             _window.ClosedEvent += OnWindowClosed;
         }
 
         private void OnSkillPanelClicked(object sender, SkillPanelClickedEventArgs e)
         {
             _index = _panels.IndexOf(e.Panel);
+        }
+
+        private void OnRerollButtonClicked(object sender, EventArgs args)
+        {
+            if (!_advertisementPlayer.CanPlayRewardedAdvertisement())
+                return;
+
+            _advertisementPlayer.PlayRewardedAdvertisement(null, null);
         }
 
         private void OnWindowClosed(object sender, EventArgs args)
@@ -58,6 +69,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             _panels.Clear();
 
             _window.OKButtonClickedEvent -= OnOKButtonClickedEvent;
+            _window.RerollButtonClickedEvent -= OnRerollButtonClicked;
             _window.ClosedEvent -= OnWindowClosed;
         }
 

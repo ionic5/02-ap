@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using TaskForce.AP.Client.Core;
 using TaskForce.AP.Client.Core.TitleScene;
 using TaskForce.AP.Client.UnityWorld.LobbyScene;
@@ -12,9 +13,15 @@ namespace TaskForce.AP.Client.UnityWorld
         [SerializeField]
         private Screen _screen;
         [SerializeField]
-        private GameObject _loadingBlind;
-        [SerializeField]
         private View.Scenes.TitleScene _titleScene;
+        [SerializeField]
+        private AdvertisementPlayer _advertisementPlayer;
+        [SerializeField]
+        private Loop _loop;
+        [SerializeField]
+        private GameObject _persistantObject;
+
+        private SynchronizationContext _synchronizationContext;
 
         private static bool _initialized = false;
 
@@ -27,8 +34,9 @@ namespace TaskForce.AP.Client.UnityWorld
             }
             _initialized = true;
 
-            DontDestroyOnLoad(_screen.gameObject);
-            DontDestroyOnLoad(_loadingBlind.gameObject);
+            _synchronizationContext = SynchronizationContext.Current;
+
+            DontDestroyOnLoad(_persistantObject);
 
             StartAsync();
         }
@@ -55,6 +63,12 @@ namespace TaskForce.AP.Client.UnityWorld
             await gameDataLoader.Load(gameDataStore);
             await textStoreLoader.Load("ko", textStore);
 
+            _advertisementPlayer.Logger = logger;
+            _advertisementPlayer.RetryTimer = new Core.Timer(time, _loop);
+            _advertisementPlayer.RewardedRetryTimer = new Core.Timer(time, _loop);
+            _advertisementPlayer.SynchronizationContext = _synchronizationContext;
+            _advertisementPlayer.Initialize();
+
             _screen.AssetLoader = assetLoader;
             _screen.Logger = logger;
 
@@ -69,7 +83,7 @@ namespace TaskForce.AP.Client.UnityWorld
 
             titleSceneLoader = new TitleSceneLoader(_screen, goToLobbyAction);
             lobbySceneLoader = new LobbySceneLoader(_screen, gameDataStore, random, time, textStore, assetLoader, logger, userDataStore, goToBattleAction);
-            battleFieldSceneLoader = new BattleFieldSceneLoader(_screen, gameDataStore, random, time, textStore, assetLoader, logger, userDataStore, goToLobbyAction);
+            battleFieldSceneLoader = new BattleFieldSceneLoader(_screen, gameDataStore, random, time, textStore, assetLoader, logger, userDataStore, goToLobbyAction, _advertisementPlayer);
 
             var titleSceneCtrl = new TitleSceneController(_titleScene, goToLobbyAction);
             titleSceneCtrl.Start();

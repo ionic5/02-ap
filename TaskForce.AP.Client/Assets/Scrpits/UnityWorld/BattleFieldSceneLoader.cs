@@ -21,11 +21,12 @@ namespace TaskForce.AP.Client.UnityWorld
         private readonly AssetLoader _assetLoader;
         private readonly Core.ILogger _logger;
         private readonly Action _onGoToLobbyEvent;
+        private readonly Core.IAdvertisementPlayer _advertisementPlayer;
 
         public BattleFieldSceneLoader(Screen screen, GameDataStore gameDataStore,
             Core.Random random, Time time, TextStore textStore,
             AssetLoader assetLoader, Core.ILogger logger, UserDataStore userDataStore,
-            Action onGoToLobbyEvent)
+            Action onGoToLobbyEvent, Core.IAdvertisementPlayer advertisementPlayer)
         {
             _screen = screen;
             _gameDataStore = gameDataStore;
@@ -36,6 +37,7 @@ namespace TaskForce.AP.Client.UnityWorld
             _logger = logger;
             _userDataStore = userDataStore;
             _onGoToLobbyEvent = onGoToLobbyEvent;
+            _advertisementPlayer = advertisementPlayer;
         }
 
         public async void Load()
@@ -168,7 +170,7 @@ namespace TaskForce.AP.Client.UnityWorld
 
             // TODO: 실제 SoundPlayer 구현체로 교체 필요
             var mockSoundPlayer = new MockSoundPlayer();
-            var winOpener = new WindowOpener(windowStack, world, _textStore, mockSoundPlayer, _logger);
+            var winOpener = new WindowOpener(windowStack, world, _textStore, mockSoundPlayer, _logger, _advertisementPlayer);
 
             var skillIconGrid = scene.SkillIconGrid;
             foreach (var icon in skillIconGrid.Icons)

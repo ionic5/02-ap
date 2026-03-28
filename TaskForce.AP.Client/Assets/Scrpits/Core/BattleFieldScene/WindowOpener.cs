@@ -13,14 +13,16 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private readonly TextStore _textStore;
         private readonly ISoundPlayer _soundPlayer;
         private readonly ILogger _logger;
+        private readonly IAdvertisementPlayer _advertisementPlayer;
 
-        public WindowOpener(IWindowStack windowStack, IWorld world, TextStore textStore, ISoundPlayer soundPlayer, ILogger logger)
+        public WindowOpener(IWindowStack windowStack, IWorld world, TextStore textStore, ISoundPlayer soundPlayer, ILogger logger, IAdvertisementPlayer advertisementPlayer)
         {
             _windowStack = windowStack;
             _world = world;
             _textStore = textStore;
             _soundPlayer = soundPlayer;
             _logger = logger;
+            _advertisementPlayer = advertisementPlayer;
         }
 
         public void OpenLevelUpWindow(Entity.Unit unit, IEnumerable<Entity.ISkill> skills)
@@ -28,7 +30,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             var window = _windowStack.OpenLevelUpWindow();
             TryPauseWorld();
 
-            var ctrl = new LevelUpWindowController(window, skills, unit, _textStore);
+            var ctrl = new LevelUpWindowController(window, skills, unit, _textStore, _advertisementPlayer);
             ctrl.Start();
         }
 

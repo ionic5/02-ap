@@ -9,7 +9,7 @@ namespace TaskForce.AP.Client.UnityWorld
     public class AdvertisementPlayer : MonoBehaviour, IAdvertisementPlayer
     {
         [SerializeField]
-        private string _adUnitID;
+        private string _interstitialAdUnitID;
         [SerializeField]
         private string _rewardedAdUnitID;
         [SerializeField]
@@ -68,8 +68,6 @@ namespace TaskForce.AP.Client.UnityWorld
             LoadRewardedAd();
         }
 
-        // ── Interstitial ────────────────────────────────────────────
-
         private void LoadInterstitialAd()
         {
             if (_isInterstitialLoading || !_isInitialized)
@@ -87,7 +85,7 @@ namespace TaskForce.AP.Client.UnityWorld
 
             var adRequest = BuildAdRequest();
 
-            InterstitialAd.Load(_adUnitID, adRequest,
+            InterstitialAd.Load(_interstitialAdUnitID, adRequest,
                 (InterstitialAd ad, LoadAdError error) =>
                 {
                     SynchronizationContext?.Post(_ =>

@@ -180,6 +180,12 @@ namespace TaskForce.AP.Client.UnityWorld
                 icon.Logger = _logger;
             }
 
+            foreach (var panel in windowStack.LevelUpWindow.SkillPanels)
+            {
+                panel.SkillIcon.AssetLoader = _assetLoader;
+                panel.SkillIcon.Logger = _logger;
+            }
+
             var pausePanel = scene.PausePanel;
             var pausePanelCtrl = new PausePanelController(pausePanel, world);
             pausePanelCtrl.Start();

@@ -15,6 +15,8 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.LevelUpWindow
         [SerializeField]
         private SkillIcon _skillIcon;
 
+        public SkillIcon SkillIcon => _skillIcon;
+
         public event EventHandler<SkillPanelClickedEventArgs> ClickedEvent;
 
         public void OnClicked()

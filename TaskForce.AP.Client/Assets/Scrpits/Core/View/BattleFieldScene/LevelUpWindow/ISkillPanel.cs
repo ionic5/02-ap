@@ -8,5 +8,6 @@ namespace TaskForce.AP.Client.Core.View.BattleFieldScene.LevelUpWindow
         ISkillIcon GetIcon();
         void SetDescription(string v);
         void SetName(string v);
+        void SetActiveNewMark(bool active);
     }
 }

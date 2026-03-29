@@ -14,6 +14,8 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.LevelUpWindow
         private TMP_Text _nameText;
         [SerializeField]
         private SkillIcon _skillIcon;
+        [SerializeField]
+        private GameObject _newMark;
 
         public SkillIcon SkillIcon => _skillIcon;
 
@@ -42,6 +44,11 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.LevelUpWindow
         public void SetName(string value)
         {
             _nameText.text = value;
+        }
+
+        public void SetActiveNewMark(bool active)
+        {
+            _newMark.SetActive(active);
         }
     }
 }

@@ -25,6 +25,7 @@ namespace TaskForce.AP.Client.Core
         private readonly List<LevelCoefficient> _levelCoefficients;
         private readonly List<RequireExp> _requireExps;
         private readonly List<SoulExp> _soulExps;
+        private readonly List<SkillDescription> _skillDescriptions;
         private float _soulDropRate;
 
         private Dictionary<string, Skill> _skillsByID;
@@ -50,6 +51,7 @@ namespace TaskForce.AP.Client.Core
             _levelCoefficients = new List<LevelCoefficient>();
             _requireExps = new List<RequireExp>();
             _soulExps = new List<SoulExp>();
+            _skillDescriptions = new List<SkillDescription>();
         }
 
         public void Bake()
@@ -253,6 +255,16 @@ namespace TaskForce.AP.Client.Core
         public IEnumerable<LevelCoefficient> GetLevelCoefficients(string lvCoeffID)
         {
             return _levelCoefficients.Where(entry => entry.ID == lvCoeffID);
+        }
+
+        public void AddSkillDescription(SkillDescription description)
+        {
+            _skillDescriptions.Add(description);
+        }
+
+        public IEnumerable<SkillDescription> GetSkillDescriptions(string skillID)
+        {
+            return _skillDescriptions.Where(entry => entry.SkillID == skillID);
         }
     }
 }

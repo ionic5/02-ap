@@ -9,6 +9,7 @@ namespace TaskForce.AP.Client.Core.Entity
         string GetSkillID();
         string GetIconID();
         string GetName();
+        string GetDescription();
         int GetLevel();
         void SetLevel(int value);
         void SetOwner(Unit unit);

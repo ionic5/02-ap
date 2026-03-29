@@ -100,6 +100,21 @@ namespace TaskForce.AP.Client.UnityWorld
                     UnitID = row["unitID"],
                     SkillID = row["skillID"]
                 }, gameDataStore.AddUnitDefaultActiveSkill),
+                LoadTable(AssetID.SkillDescription, (row) => {
+                    var parameters = new List<object>();
+                    for(var i= 0;i<2;i++) {
+                        var param = row[$"param{i}"];
+                        if(!string.IsNullOrEmpty(param))
+                            parameters.Add(param);
+                    }
+
+                    return new Core.GameData.SkillDescription {
+                        SkillID = row["skillID"],
+                        Level = int.Parse(row["level"]),
+                        TextID = row["textID"],
+                        Parameters = parameters.ToArray()
+                    };
+                }, gameDataStore.AddSkillDescription)
             };
 
             await Task.WhenAll(loadTasks);

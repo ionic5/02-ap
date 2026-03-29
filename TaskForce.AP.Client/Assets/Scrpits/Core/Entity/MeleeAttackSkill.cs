@@ -7,8 +7,9 @@ namespace TaskForce.AP.Client.Core.Entity
     {
         public MeleeAttackSkill(string skillID, TextStore textStore,
             IEnumerable<BaseAttribute> baseAttributes,
-            IEnumerable<LevelAttribute> levelAttributes)
-            : base(skillID, textStore, baseAttributes, levelAttributes)
+            IEnumerable<LevelAttribute> levelAttributes,
+            IEnumerable<SkillDescription> skillDescriptions)
+            : base(skillID, textStore, baseAttributes, levelAttributes, skillDescriptions)
         {
         }
 

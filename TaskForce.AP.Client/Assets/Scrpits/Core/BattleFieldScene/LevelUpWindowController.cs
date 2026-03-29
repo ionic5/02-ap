@@ -69,7 +69,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
                 icon.SetLevel(skill.GetLevel());
 
                 panel.SetName(skill.GetName());
-                //panel.SetDescription(_textStore.GetText(skill.GetDescTextID()));
+                panel.SetDescription(skill.GetDescription());
                 panel.ClickedEvent += OnSkillPanelClicked;
                 _panels.Add(panel);
             }

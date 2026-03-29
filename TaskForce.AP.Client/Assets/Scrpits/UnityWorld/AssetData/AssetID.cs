@@ -25,5 +25,7 @@
         public const string LevelCoefficient = "LEVEL_COEFFICIENT";
         public const string RequireExp = "REQUIRE_EXP";
         public const string SoulExp = "SOUL_EXP";
+
+        public const string SkillDescription = "SKILL_DESCRIPTION";
     }
 }

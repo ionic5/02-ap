@@ -13,8 +13,9 @@ namespace TaskForce.AP.Client.Core.Entity
             IEnumerable<GameData.BaseAttribute> baseAttributes,
             IEnumerable<GameData.LevelAttribute> levelAttributes,
             IEnumerable<GameData.ModifyAttributeSkill> effectDatas,
-            Func<string, int, IModifyAttributeEffect> createEffect)
-            : base(skillID, textStore, baseAttributes, levelAttributes)
+            Func<string, int, IModifyAttributeEffect> createEffect,
+            IEnumerable<GameData.SkillDescription> skillDescriptions)
+            : base(skillID, textStore, baseAttributes, levelAttributes, skillDescriptions)
         {
             _effectDatas = effectDatas;
             _createEffect = createEffect;

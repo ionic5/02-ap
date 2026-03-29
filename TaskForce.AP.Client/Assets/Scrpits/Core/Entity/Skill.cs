@@ -15,15 +15,18 @@ namespace TaskForce.AP.Client.Core.Entity
         private readonly AttributeStore _attributeStore;
         private readonly IEnumerable<GameData.BaseAttribute> _baseAttributes;
         private readonly IEnumerable<GameData.LevelAttribute> _levelAttributes;
+        private readonly IEnumerable<GameData.SkillDescription> _skillDescriptions;
 
         public Skill(string skillID, TextStore textStore,
-            IEnumerable<GameData.BaseAttribute> baseAttributes, IEnumerable<LevelAttribute> levelAttributes)
+            IEnumerable<GameData.BaseAttribute> baseAttributes, IEnumerable<LevelAttribute> levelAttributes,
+            IEnumerable<GameData.SkillDescription> skillDescriptions)
         {
             _skillID = skillID;
             _textStore = textStore;
             _attributeStore = new AttributeStore();
             _baseAttributes = baseAttributes;
             _levelAttributes = levelAttributes;
+            _skillDescriptions = skillDescriptions;
         }
 
         public string GetSkillID()
@@ -99,6 +102,17 @@ namespace TaskForce.AP.Client.Core.Entity
         {
             _level++;
             SetLevel(_level);
+        }
+
+        public string GetDescription()
+        {
+            var entry = _skillDescriptions
+                .Where(e => e.Level <= _level)
+                .OrderByDescending(e => e.Level)
+                .FirstOrDefault();
+            if (entry == null)
+                return string.Empty;
+            return string.Format(_textStore.GetText(entry.TextID), entry.Parameters);
         }
     }
 }

@@ -32,18 +32,18 @@ namespace TaskForce.AP.Client.Core.Entity
             var skillDescs = _gameDataStore.GetSkillDescriptions(skillID);
 
             if (skillID == SkillID.MeleeAttack)
-                return new Entity.MeleeAttackSkill(skillID, _textStore, baseAttrs, lvAttrs, skillDescs);
+                return new Entity.MeleeAttackSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs);
 
             if (skillID == SkillID.CleavingAttack)
             {
                 var effects = _gameDataStore.GetModifyAttributeSkillEffects(skillID);
-                var skill = new Entity.ModifyAttributeSkill(skillID, _textStore, baseAttrs, lvAttrs,
+                var skill = new Entity.ModifyAttributeSkill(skillData, _textStore, baseAttrs, lvAttrs,
                     effects, _modifyAttributeEffectFactory.Create, skillDescs);
                 skill.SetLevel(1);
                 return skill;
             }
 
-            return new ActiveSkill(skillID, _textStore, baseAttrs, lvAttrs, skillDescs);
+            return new ActiveSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs);
         }
     }
 }

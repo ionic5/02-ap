@@ -8,7 +8,7 @@ namespace TaskForce.AP.Client.Core.Entity
     public abstract class Skill : ISkill
     {
         public event EventHandler<LevelChangedEventArgs> LevelChangedEvent;
-        private readonly string _skillID;
+        private readonly GameData.Skill _skillData;
         private readonly TextStore _textStore;
         private Unit _owner;
         private int _level;
@@ -17,11 +17,11 @@ namespace TaskForce.AP.Client.Core.Entity
         private readonly IEnumerable<GameData.LevelAttribute> _levelAttributes;
         private readonly IEnumerable<GameData.SkillDescription> _skillDescriptions;
 
-        public Skill(string skillID, TextStore textStore,
+        public Skill(GameData.Skill skillData, TextStore textStore,
             IEnumerable<GameData.BaseAttribute> baseAttributes, IEnumerable<LevelAttribute> levelAttributes,
             IEnumerable<GameData.SkillDescription> skillDescriptions)
         {
-            _skillID = skillID;
+            _skillData = skillData;
             _textStore = textStore;
             _attributeStore = new AttributeStore();
             _baseAttributes = baseAttributes;
@@ -31,7 +31,7 @@ namespace TaskForce.AP.Client.Core.Entity
 
         public string GetSkillID()
         {
-            return _skillID;
+            return _skillData.ID;
         }
 
         public virtual void SetLevel(int value)
@@ -39,7 +39,7 @@ namespace TaskForce.AP.Client.Core.Entity
             _level = value;
 
             UpdateAttributes();
-            LevelChangedEvent?.Invoke(this, new LevelChangedEventArgs(_skillID, _level));
+            LevelChangedEvent?.Invoke(this, new LevelChangedEventArgs(_skillData.ID, _level));
         }
 
         private void UpdateAttributes()
@@ -78,12 +78,12 @@ namespace TaskForce.AP.Client.Core.Entity
 
         public string GetIconID()
         {
-            return GetAttribute(AttributeID.IconID).AsString();
+            return _skillData.IconID;
         }
 
         public string GetName()
         {
-            return _textStore.GetText(GetAttribute(AttributeID.NameTextID).AsString());
+            return _textStore.GetText(_skillData.NameTextID);
         }
 
         public int GetLevel()

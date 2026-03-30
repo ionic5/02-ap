@@ -4,5 +4,8 @@
     {
         public string ID;
         public string NameTextID;
+        public string IconID;
+        public string BaseAttributeID;
+        public string LevelAttributeID;
     }
 }

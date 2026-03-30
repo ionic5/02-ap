@@ -8,9 +8,5 @@ namespace TaskForce.AP.Client.Core.Entity
         {
         }
 
-        public override void AddToOwner()
-        {
-            GetOwner().AddSkill(this);
-        }
     }
 }

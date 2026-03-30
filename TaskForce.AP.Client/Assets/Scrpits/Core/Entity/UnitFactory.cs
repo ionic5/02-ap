@@ -37,8 +37,7 @@ namespace TaskForce.AP.Client.Core.Entity
             foreach (var data in skillDatas)
             {
                 var skill = _createSkill.Invoke(data.SkillID);
-                skill.SetOwner(entity);
-                skill.AddToOwner();
+                entity.AddSkill(skill);
             }
 
             var defaultSkillData = _gameDataStore.GetUnitDefaultActiveSkillByUnitID(unitID);

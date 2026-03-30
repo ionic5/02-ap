@@ -15,14 +15,14 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private readonly IAdvertisementPlayer _advertisementPlayer;
         private readonly GameDataStore _gameDataStore;
         private readonly Random _random;
-        private readonly Func<Entity.Unit, string, int, Entity.ISkill> _createSkillEntity;
-        private readonly List<ISkillPanel> _panels = new List<ISkillPanel>();
+        private readonly Func<string, Entity.ISkill> _createSkillEntity;
+        private readonly List<ISkillPanel> _panels;
         private List<ISkill> _skills;
         private int _index;
 
         public LevelUpWindowController(ILevelUpWindow window, Entity.Unit unit, TextStore textStore,
             IAdvertisementPlayer advertisementPlayer, GameDataStore gameDataStore, Random random,
-            Func<Entity.Unit, string, int, Entity.ISkill> createSkillEntity)
+            Func<string, Entity.ISkill> createSkillEntity)
         {
             _window = window;
             _unit = unit;
@@ -31,6 +31,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             _gameDataStore = gameDataStore;
             _random = random;
             _createSkillEntity = createSkillEntity;
+            _panels = new List<ISkillPanel>();
         }
 
         public void Start()
@@ -56,9 +57,11 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             _skills = new List<ISkill>();
             foreach (var skillID in skillIDs.Take(3))
             {
+                var skill = _createSkillEntity.Invoke(skillID);
                 var existing = _unit.GetSkill(skillID);
                 var level = existing != null ? existing.GetLevel() + 1 : 1;
-                _skills.Add(_createSkillEntity.Invoke(_unit, skillID, level));
+                skill.SetLevel(level);
+                _skills.Add(skill);
             }
 
             foreach (var skill in _skills)
@@ -107,14 +110,9 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             var newSKill = _skills.ElementAt(_index);
             var skill = _unit.GetSkill(newSKill.GetSkillID());
             if (skill != null)
-            {
                 skill.LevelUp();
-            }
             else
-            {
-                newSKill.SetOwner(_unit);
-                newSKill.AddToOwner();
-            }
+                _unit.AddSkill(newSKill);
 
             _window.Close();
         }

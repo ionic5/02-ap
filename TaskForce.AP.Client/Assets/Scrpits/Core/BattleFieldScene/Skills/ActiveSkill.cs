@@ -17,7 +17,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
             return _skillEntity.GetSkillID();
         }
 
-        public void SetOwner(IUnit owner)
+        public void OnAddedToUnit(IUnit owner)
         {
             _owner = owner;
         }

@@ -22,14 +22,6 @@ namespace TaskForce.AP.Client.UnityWorld
             var loadTasks = new List<Task>
             {
                 LoadConstants(gameDataStore),
-                LoadTable(AssetID.SkillBaseAttribute, row => new SkillBaseAttribute {
-                    SkillID = row["skillID"],
-                    BaseAttributeID = row["baseAttributeID"]
-                }, gameDataStore.AddSkillBaseAttribute),
-                LoadTable(AssetID.SkillLevelAttribute, row => new SkillLevelAttribute {
-                    SkillID = row["skillID"],
-                    LevelAttributeID = row["levelAttributeID"]
-                }, gameDataStore.AddSkillLevelAtrribute),
                 LoadTable(AssetID.ModifyAttributeEffect, row => new Core.GameData.ModifyAttributeEffect {
                     ID = row["id"],
                     ApplyOrder = int.Parse(row["applyOrder"]),
@@ -68,7 +60,10 @@ namespace TaskForce.AP.Client.UnityWorld
                 }, gameDataStore.AddUnitDefaultSkill),
                 LoadTable(AssetID.Skill, row => new Core.GameData.Skill {
                     ID = row["id"],
-                    NameTextID = row["nameTextID"]
+                    IconID = row["iconID"],
+                    NameTextID = row["nameTextID"],
+                    BaseAttributeID = row["baseAttributeID"],
+                    LevelAttributeID = row["levelAttributeID"]
                 }, gameDataStore.AddSkill),
                 LoadTable(AssetID.LevelUpRewardSkill, row => new LevelUpRewardSkill {
                     SkillID = row["skillID"]

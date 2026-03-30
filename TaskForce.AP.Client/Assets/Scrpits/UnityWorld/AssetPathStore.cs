@@ -19,12 +19,15 @@ namespace TaskForce.AP.Client.UnityWorld
         public string GetAssetPath(string assetID)
         {
             if (string.IsNullOrEmpty(assetID))
-                _logger.Fatal($"Empty asset id used.");
+            {
+                _logger.Warn($"Empty asset id used.");
+                return null;
+            }
 
             if (_assetPaths.ContainsKey(assetID))
                 return _assetPaths[assetID];
 
-            _logger.Fatal($"Failed to find asset path for {assetID}");
+            _logger.Warn($"Failed to find asset path for {assetID}");
             return string.Empty;
         }
 

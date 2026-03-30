@@ -8,7 +8,6 @@ namespace TaskForce.AP.Client.Core
 {
     public class GameDataStore
     {
-        private readonly List<SkillBaseAttribute> _skillBaseAttributes;
         private readonly List<StageEnemyUnit> _stageEnemyUnits;
         private readonly List<Stage> _stages;
         private readonly List<Unit> _units;
@@ -21,7 +20,6 @@ namespace TaskForce.AP.Client.Core
         private readonly List<UnitDefaultActiveSkill> _unitDefaultActiveSkill;
         private readonly List<GameData.LevelAttribute> _levelAttributes;
         private readonly List<GameData.BaseAttribute> _baseAttributes;
-        private readonly List<SkillLevelAttribute> _skillLevelAttributes;
         private readonly List<LevelCoefficient> _levelCoefficients;
         private readonly List<RequireExp> _requireExps;
         private readonly List<SoulExp> _soulExps;
@@ -33,7 +31,6 @@ namespace TaskForce.AP.Client.Core
 
         public GameDataStore()
         {
-            _skillBaseAttributes = new List<SkillBaseAttribute>();
             _modifyAttributeEffects = new List<ModifyAttributeEffect>();
             _stageEnemyUnits = new List<StageEnemyUnit>();
             _stages = new List<Stage>();
@@ -47,7 +44,6 @@ namespace TaskForce.AP.Client.Core
             _modifyAttributeSkillsBySkillID = new Dictionary<string, IEnumerable<ModifyAttributeSkill>>();
             _unitDefaultActiveSkill = new List<UnitDefaultActiveSkill>();
             _baseAttributes = new List<GameData.BaseAttribute>();
-            _skillLevelAttributes = new List<SkillLevelAttribute>();
             _levelCoefficients = new List<LevelCoefficient>();
             _requireExps = new List<RequireExp>();
             _soulExps = new List<SoulExp>();
@@ -92,11 +88,6 @@ namespace TaskForce.AP.Client.Core
             _skills.Add(entry);
         }
 
-        public void AddSkillLevelAtrribute(SkillLevelAttribute entry)
-        {
-            _skillLevelAttributes.Add(entry);
-        }
-
         public void AddUnitDefaultSkill(UnitDefaultSkill entry)
         {
             _unitDefaultSkills.Add(entry);
@@ -125,11 +116,6 @@ namespace TaskForce.AP.Client.Core
         public void AddLevelCoefficient(LevelCoefficient entry)
         {
             _levelCoefficients.Add(entry);
-        }
-
-        public void AddSkillBaseAttribute(SkillBaseAttribute entry)
-        {
-            _skillBaseAttributes.Add(entry);
         }
 
         public void AddModifyAttributeEffect(ModifyAttributeEffect entry)
@@ -171,20 +157,20 @@ namespace TaskForce.AP.Client.Core
 
         public IEnumerable<BaseAttribute> GetSkillBaseAttributes(string skillID)
         {
-            var attr = _skillBaseAttributes.FirstOrDefault(entry => entry.SkillID == skillID);
-            if (attr == null)
+            var skill = GetSkillById(skillID);
+            if (skill == null)
                 return Enumerable.Empty<BaseAttribute>();
 
-            return _baseAttributes.Where(entry => entry.ID == attr.BaseAttributeID);
+            return _baseAttributes.Where(entry => entry.ID == skill.BaseAttributeID);
         }
 
         public IEnumerable<LevelAttribute> GetSkillLevelAttributes(string skillID)
         {
-            var attr = _skillLevelAttributes.FirstOrDefault(entry => entry.SkillID == skillID);
-            if (attr == null)
+            var skill = GetSkillById(skillID);
+            if (skill == null)
                 return Enumerable.Empty<LevelAttribute>();
 
-            return _levelAttributes.Where(entry => entry.ID == attr.LevelAttributeID);
+            return _levelAttributes.Where(entry => entry.ID == skill.LevelAttributeID);
         }
 
         public IEnumerable<ModifyAttributeEffect> GetModifyAttributeEffects()

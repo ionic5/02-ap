@@ -15,10 +15,10 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private readonly IAdvertisementPlayer _advertisementPlayer;
         private readonly GameDataStore _gameDataStore;
         private readonly Random _random;
-        private readonly Func<Entity.Unit, string, int, Entity.ISkill> _createSkillEntity;
+        private readonly Func<string, Entity.ISkill> _createSkillEntity;
 
         public WindowOpener(IWindowStack windowStack, IWorld world, TextStore textStore, ISoundPlayer soundPlayer, ILogger logger, IAdvertisementPlayer advertisementPlayer,
-            GameDataStore gameDataStore, Random random, Func<Entity.Unit, string, int, Entity.ISkill> createSkillEntity)
+            GameDataStore gameDataStore, Random random, Func<string, Entity.ISkill> createSkillEntity)
         {
             _windowStack = windowStack;
             _world = world;

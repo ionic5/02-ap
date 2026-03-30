@@ -51,10 +51,10 @@ namespace TaskForce.AP.Client.Core.Entity
             }
         }
 
-        public override void AddToOwner()
+        public override void OnAddedToUnit(Unit unit)
         {
-            var owner = GetOwner();
-            owner.AddModifyAttributeEffects(_effects);
+            base.OnAddedToUnit(unit);
+            unit.AddModifyAttributeEffects(_effects);
         }
     }
 }

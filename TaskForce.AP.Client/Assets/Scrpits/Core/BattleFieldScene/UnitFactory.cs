@@ -127,8 +127,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             if (gdSkill != null)
             {
                 var skill = _createSkillEntity.Invoke(gdSkill.SkillID);
-                skill.SetOwner(entity);
-                skill.AddToOwner();
+                entity.AddSkill(skill);
 
                 entity.SetDefaultSkill(skill.GetSkillID());
             }

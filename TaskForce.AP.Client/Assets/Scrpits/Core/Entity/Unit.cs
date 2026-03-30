@@ -157,6 +157,7 @@ namespace TaskForce.AP.Client.Core.Entity
                 return;
 
             _skills.Add(skill);
+            skill.OnAddedToUnit(this);
             SkillAddedEvent?.Invoke(this, new SkillAddedEventArgs { SkillID = skill.GetSkillID() });
         }
 

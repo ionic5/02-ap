@@ -18,15 +18,6 @@ namespace TaskForce.AP.Client.Core.Entity
             _modifyAttributeEffectFactory = modifyAttributeEffectFactory;
         }
 
-        public ISkill CreateSkillEntity(Entity.Unit owner, string skillID, int level)
-        {
-            var skill = CreateSkill(skillID);
-            skill.SetOwner(owner);
-            skill.SetLevel(level);
-
-            return skill;
-        }
-
         public ISkill CreateSkill(string skillID)
         {
             var skillData = _gameDataStore.GetSkills().Where(entry => entry.ID == skillID).FirstOrDefault();

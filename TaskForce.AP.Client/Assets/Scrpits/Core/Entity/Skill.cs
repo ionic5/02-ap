@@ -61,19 +61,14 @@ namespace TaskForce.AP.Client.Core.Entity
                     _attributeStore.Set(entry.AttributeID, entry.Value);
         }
 
-        public void SetOwner(Unit owner)
+        public virtual void OnAddedToUnit(Unit unit)
         {
-            _owner = owner;
+            _owner = unit;
         }
 
         protected Unit GetOwner()
         {
             return _owner;
-        }
-
-        protected Attribute GetUserAttribute(string attributeID)
-        {
-            return _owner.GetAttribute(attributeID);
         }
 
         public virtual Attribute GetAttribute(string attributeID)
@@ -95,8 +90,6 @@ namespace TaskForce.AP.Client.Core.Entity
         {
             return _level;
         }
-
-        public abstract void AddToOwner();
 
         public virtual void LevelUp()
         {

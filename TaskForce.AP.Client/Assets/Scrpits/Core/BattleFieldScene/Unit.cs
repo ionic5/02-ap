@@ -268,7 +268,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
                 _logger.Warn($"Failed to add skill : {skillEntity.GetSkillID()}");
                 return;
             }
-            skill.SetOwner(this);
+            skill.OnAddedToUnit(this);
 
             _skills.Add(skill.GetSkillID(), skill);
         }

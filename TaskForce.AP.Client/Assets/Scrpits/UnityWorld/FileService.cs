@@ -8,12 +8,14 @@ public class UserData
     public int gold;
     public int energy;
     public int rank;
+    public long energyUpdateTime;
 
     public UserData()
     {
         gold = -1;     // TODO: JW: 초기값 추후 개선
         energy = -1;
         rank = -1;
+        energyUpdateTime = -1;
     }
 }
 

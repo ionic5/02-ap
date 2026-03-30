@@ -14,7 +14,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.LobbyScene.Windows
         public void EnergyGetCompleted()
         {
             // 광고 보상 에너지 n개 지급하고 닫음 
-            _lobbyScene.AddEnergy(2);   // TODO: JW: 광고 보상 에너지 수치 csv 에서 적용 요
+            _lobbyScene.AddEnergy(_lobbyScene.ENERGY_ADS_REWARD);   // TODO: JW: 광고 보상 에너지 수치 csv 에서 적용 요
             
             Close();
         }

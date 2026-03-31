@@ -5,17 +5,17 @@ namespace TaskForce.AP.Client.Core.Entity
 {
     public class MeleeAttackSkill : ActiveSkill, ISkill
     {
-        public MeleeAttackSkill(string skillID, TextStore textStore,
+        public MeleeAttackSkill(GameData.Skill skillData, TextStore textStore,
             IEnumerable<BaseAttribute> baseAttributes,
             IEnumerable<LevelAttribute> levelAttributes,
             IEnumerable<SkillDescription> skillDescriptions)
-            : base(skillID, textStore, baseAttributes, levelAttributes, skillDescriptions)
+            : base(skillData, textStore, baseAttributes, levelAttributes, skillDescriptions)
         {
         }
 
         public override Attribute GetAttribute(string attributeID)
         {
-            return GetUserAttribute(attributeID);
+            return GetOwner().GetAttribute(attributeID);
         }
     }
 }

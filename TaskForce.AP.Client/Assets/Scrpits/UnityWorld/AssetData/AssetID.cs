@@ -4,8 +4,6 @@
     {
         public const string Constants = "CONSTANTS";
         public const string Text = "TEXT";
-        public const string SkillBaseAttribute = "SKILL_BASE_ATTRIBUTE";
-        public const string SkillLevelAttribute = "SKILL_LEVEL_ATTRIBUTE";
 
         public const string ModifyAttributeEffect = "MODIFY_ATTRIBUTE_EFFECT";
         public const string StageEnemyUnit = "STAGE_ENEMY_UNIT";

@@ -9,7 +9,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
         bool IsTargetInRange(IUnit unit, ITarget target);
         IEnumerable<ITarget> GetTargetsInRange(IUnit unit);
         string GetSkillID();
-        void SetOwner(IUnit owner);
+        void OnAddedToUnit(IUnit owner);
         bool IsCooldownFinished();
         void Use(UseSkillArgs args);
         bool IsCompleted();

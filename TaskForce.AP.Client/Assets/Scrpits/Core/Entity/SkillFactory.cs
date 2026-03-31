@@ -18,15 +18,6 @@ namespace TaskForce.AP.Client.Core.Entity
             _modifyAttributeEffectFactory = modifyAttributeEffectFactory;
         }
 
-        public ISkill CreateSkillEntity(Entity.Unit owner, string skillID, int level)
-        {
-            var skill = CreateSkill(skillID);
-            skill.SetOwner(owner);
-            skill.SetLevel(level);
-
-            return skill;
-        }
-
         public ISkill CreateSkill(string skillID)
         {
             var skillData = _gameDataStore.GetSkills().Where(entry => entry.ID == skillID).FirstOrDefault();
@@ -41,18 +32,18 @@ namespace TaskForce.AP.Client.Core.Entity
             var skillDescs = _gameDataStore.GetSkillDescriptions(skillID);
 
             if (skillID == SkillID.MeleeAttack)
-                return new Entity.MeleeAttackSkill(skillID, _textStore, baseAttrs, lvAttrs, skillDescs);
+                return new Entity.MeleeAttackSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs);
 
             if (skillID == SkillID.CleavingAttack)
             {
                 var effects = _gameDataStore.GetModifyAttributeSkillEffects(skillID);
-                var skill = new Entity.ModifyAttributeSkill(skillID, _textStore, baseAttrs, lvAttrs,
+                var skill = new Entity.ModifyAttributeSkill(skillData, _textStore, baseAttrs, lvAttrs,
                     effects, _modifyAttributeEffectFactory.Create, skillDescs);
                 skill.SetLevel(1);
                 return skill;
             }
 
-            return new ActiveSkill(skillID, _textStore, baseAttrs, lvAttrs, skillDescs);
+            return new ActiveSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs);
         }
     }
 }

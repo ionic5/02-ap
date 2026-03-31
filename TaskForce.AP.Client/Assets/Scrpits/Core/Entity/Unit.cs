@@ -15,6 +15,7 @@ namespace TaskForce.AP.Client.Core.Entity
         public event EventHandler<SkillAddedEventArgs> SkillAddedEvent;
 
         private readonly GameDataStore _gameDataStore;
+        private readonly GameData.Unit _unitData;
 
         private int _level;
         private int _exp;
@@ -26,20 +27,19 @@ namespace TaskForce.AP.Client.Core.Entity
 
         private readonly AttributeStore _attributeStore;
         private readonly List<ISkill> _skills;
-        private readonly IEnumerable<GameData.BaseAttribute> _baseAttributes;
         private readonly IEnumerable<GameData.LevelAttribute> _levelAttributes;
         private readonly List<IModifyAttributeEffect> _modifyAttributeEffects;
 
         private int _maxSkillCount;
         private int _skillCountLimit;
 
-        public Unit(GameDataStore gameDataStore, IEnumerable<GameData.BaseAttribute> attributes, IEnumerable<LevelAttribute> levelAttributes)
+        public Unit(GameData.Unit unitData, GameDataStore gameDataStore, IEnumerable<LevelAttribute> levelAttributes)
         {
+            _unitData = unitData;
             _gameDataStore = gameDataStore;
 
             _skills = new List<ISkill>();
 
-            _baseAttributes = attributes;
             _levelAttributes = levelAttributes;
             _attributeStore = new AttributeStore();
             _modifyAttributeEffects = new List<IModifyAttributeEffect>();
@@ -85,7 +85,7 @@ namespace TaskForce.AP.Client.Core.Entity
 
         public string GetUnitBodyID()
         {
-            return GetAttribute(AttributeID.UnitBodyID).AsString();
+            return _unitData.BodyID;
         }
 
         public string GetUnitLogicID()
@@ -260,8 +260,6 @@ namespace TaskForce.AP.Client.Core.Entity
         {
             _attributeStore.Clear();
 
-            foreach (var entry in _baseAttributes)
-                _attributeStore.Set(entry.AttributeID, entry.Value);
             SetLevelAttributes();
 
             var mergedEffects = new List<IModifyAttributeEffect>();

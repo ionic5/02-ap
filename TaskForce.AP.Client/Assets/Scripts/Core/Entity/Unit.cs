@@ -279,12 +279,15 @@ namespace TaskForce.AP.Client.Core.Entity
 
         private void SetLevelAttributes()
         {
-            var closestGroup = _levelAttributes.GroupBy(e => e.Level)
-                .Where(g => g.Key <= _level)
-                .OrderByDescending(g => g.Key).FirstOrDefault();
-            if (closestGroup != null)
-                foreach (var entry in closestGroup)
-                    _attributeStore.Set(entry.AttributeID, entry.Value);
+            var byAttribute = _levelAttributes
+                .Where(e => e.Level <= _level)
+                .GroupBy(e => e.AttributeID);
+
+            foreach (var group in byAttribute)
+            {
+                var closest = group.OrderByDescending(e => e.Level).First();
+                _attributeStore.Set(closest.AttributeID, closest.Value);
+            }
         }
     }
 }

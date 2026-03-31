@@ -141,7 +141,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             if (IsDestroyed())
                 return;
 
-            _timer.Start(3.0f, OnWarpTimeFinished);
+            _timer.Start(30.0f, OnWarpTimeFinished);
         }
 
         private void OnWarpTimeFinished()

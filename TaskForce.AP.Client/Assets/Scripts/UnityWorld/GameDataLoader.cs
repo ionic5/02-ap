@@ -38,12 +38,13 @@ namespace TaskForce.AP.Client.UnityWorld
                 LoadTable(AssetID.StageEnemyUnit, row => new StageEnemyUnit {
                     StageLevel = int.Parse(row["stageLevel"]),
                     UnitID = row["unitID"],
-                    Level = int.Parse(row["level"])
+                    Level = int.Parse(row["level"]),
+                    SpawnRate = float.Parse(row["spawnRate"])
                 }, gameDataStore.AddStageEnemyUnit),
                 LoadTable(AssetID.Stage, row => new Stage {
                     Level = int.Parse(row["level"]),
                     Time = float.Parse(row["time"]),
-                    MaxEnemyUnitCount = int.Parse(row["maxEnemyUnitCount"])
+                    SpawnGap = float.Parse(row["spawnGap"])
                 }, gameDataStore.AddStage),
                 LoadTable(AssetID.Unit, row => new Core.GameData.Unit {
                     ID = row["id"],
@@ -142,22 +143,22 @@ namespace TaskForce.AP.Client.UnityWorld
             {
                 gameDataStore.SetSoulDropRate(float.Parse(soulDropRate));
             }
-            
+
             if (map.TryGetValue("MAX_ENERGY", out var maxEnergy))
             {
                 gameDataStore.SetMaxEnergy(int.Parse(maxEnergy));
             }
-            
+
             if (map.TryGetValue("MINUTES_ENERGY_CHARGE", out var minutesEnergyCharge))
             {
                 gameDataStore.SetMinutesEnergyCharge(int.Parse(minutesEnergyCharge));
             }
-            
+
             if (map.TryGetValue("ENERGY_FOR_PLAY", out var energyForPlay))
             {
                 gameDataStore.SetEnergyForPlay(int.Parse(energyForPlay));
             }
-            
+
             if (map.TryGetValue("ENERGY_ADS_REWARD", out var energyAdsReward))
             {
                 gameDataStore.SetEnergyAdsReward(int.Parse(energyAdsReward));

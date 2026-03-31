@@ -12,15 +12,17 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private readonly Core.Timer _timer;
         private readonly Core.ILogger _logger;
         private readonly Core.Random _random;
+        private readonly Core.ITime _time;
         private readonly Func<string, int, IUnit> _createUnit;
 
         private List<IUnit> _activeEnemyUnits;
         private IReadOnlyList<StageEnemyUnit> _stageEnemyUnits;
-        private int _maxEnemyUnitCount;
+        private float _spawnGap;
+        private float _spawnElapsed;
         private int _stageLevel;
 
         public EnemyUnitSpawner(View.BattleFieldScene.IWorld world, GameDataStore gameDataStore,
-            Timer timer, ILogger logger, Random random, Func<string, int, IUnit> createUnit)
+            Timer timer, ILogger logger, Random random, ITime time, Func<string, int, IUnit> createUnit)
         {
             _world = world;
             _gameDataStore = gameDataStore;
@@ -28,6 +30,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             _timer = timer;
             _logger = logger;
             _random = random;
+            _time = time;
             _createUnit = createUnit;
         }
 
@@ -40,7 +43,8 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             var stage = GetStage(stageLevel);
             _timer.Start(stage.Time, OnStageFinished);
             _stageEnemyUnits = _gameDataStore.GetStageEnemyUnits().Where(entry => entry.StageLevel == stageLevel).ToList();
-            _maxEnemyUnitCount = stage.MaxEnemyUnitCount;
+            _spawnGap = stage.SpawnGap;
+            _spawnElapsed = 0f;
         }
 
         private Stage GetStage(int stageLevel)
@@ -70,11 +74,27 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             if (!_timer.IsRunning())
                 return;
 
-            if (_activeEnemyUnits.Count >= _maxEnemyUnitCount)
+            _spawnElapsed += _time.GetDeltaTime();
+            if (_spawnElapsed < _spawnGap)
                 return;
 
-            var mob = _stageEnemyUnits[_random.Next(0, _stageEnemyUnits.Count)];
+            _spawnElapsed = 0f;
+            var mob = SelectBySpawnRate();
             Spawn(mob.UnitID, mob.Level);
+        }
+
+        private StageEnemyUnit SelectBySpawnRate()
+        {
+            var totalRate = _stageEnemyUnits.Sum(e => e.SpawnRate);
+            var roll = _random.Next(0f, totalRate);
+            var accumulated = 0f;
+            foreach (var entry in _stageEnemyUnits)
+            {
+                accumulated += entry.SpawnRate;
+                if (roll < accumulated)
+                    return entry;
+            }
+            return _stageEnemyUnits[_stageEnemyUnits.Count - 1];
         }
 
         private void Spawn(string unitID, int level)

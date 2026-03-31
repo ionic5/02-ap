@@ -214,7 +214,7 @@ namespace TaskForce.AP.Client.UnityWorld
             scene.DestroyEvent += hdlr;
 
             var spawner = new EnemyUnitSpawner(world, _gameDataStore, new Core.Timer(_time, loop),
-                _logger, _random, unitFactory.CreateEnemyUnit);
+                _logger, _random, _time, unitFactory.CreateEnemyUnit);
             loop.Add(spawner);
 
             spawner.Start(1);

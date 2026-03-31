@@ -11,12 +11,9 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
     public class LobbyScene : Scene, ILobbyScene  
     {
         // TODO: JW: 임시값 csv에서 적용
-        // private int MINUTES_FOR_ENERGY_PLUS = 1;//20; // TODO: JW: 20분으로 수정 
-        private int ENERGY_FOR_PLAY = 2;     
         private int MIN_RANK = 1;                
         private int MAX_RANK = 10;
         private int GOLD_FOR_RANK_UP = 100;
-        public int ENERGY_ADS_REWARD = 2;
         // "/UserData.json";   // TODO: JW: 파일 경로를 다른 곳에 저장 요
         //
         
@@ -33,10 +30,12 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
         [SerializeField] private TextMeshProUGUI energyTimerText;
         // [SerializeField] private Image rankImage;   // TODO: JW: 랭크 이미지 추후 적용
         [SerializeField] private Image[] skillSlots;    
-        [SerializeField] private int energyChargeMinutes;
         
         public int MaxEnergy { get; set; }
-        
+        public int MinutesEnergyCharge { get; set; }
+        public int EnergyForPlay { get; set; }
+        public int EnergyAdsReward { get; set; }
+
         public event EventHandler PauseButtonClickedEvent;
         public event EventHandler PlayButtonClickedEvent;
         public event Action<int, int, int> UpdateUserDataStoreEvent;
@@ -85,7 +84,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
             if (!_isEnergyTimerEnable)
                 return;
             
-            long timeRemain = energyChargeMinutes * 60 - (DateTimeOffset.UtcNow.ToUnixTimeSeconds() - _userDataCurrent.energyUpdateTime);
+            long timeRemain = MinutesEnergyCharge * 60 - (DateTimeOffset.UtcNow.ToUnixTimeSeconds() - _userDataCurrent.energyUpdateTime);
             long min = timeRemain / 60;
             long sec = timeRemain % 60;
             
@@ -162,12 +161,12 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
                 // 무전기 지급
                 long currentTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
                 long diffSec = currentTime - _userDataCurrent.energyUpdateTime;
-                int energyCount = (int)(diffSec / (energyChargeMinutes * 60f));
+                int energyCount = (int)(diffSec / (MinutesEnergyCharge * 60f));
                 
                 if (energyCount > 0)
                 {
                     _userDataCurrent.energy = Mathf.Min(_userDataCurrent.energy + energyCount, MaxEnergy);
-                    _userDataCurrent.energyUpdateTime += energyCount * energyChargeMinutes * 60;
+                    _userDataCurrent.energyUpdateTime += energyCount * MinutesEnergyCharge * 60;
                     UpdateUserDataStore();
                 }
             }
@@ -201,7 +200,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
         
         public void OnPlayButtonClicked()
         {
-            if (_userDataCurrent.energy < ENERGY_FOR_PLAY)
+            if (_userDataCurrent.energy < EnergyForPlay)
             {
                 // TODO: JW: text assign 방식 변경
                 _commonWindow.SetContentsText("무전기가 부족합니다.");
@@ -211,7 +210,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
                 return; 
             }
 
-            _userDataCurrent.energy -= ENERGY_FOR_PLAY;
+            _userDataCurrent.energy -= EnergyForPlay;
             _userDataCurrent.energyUpdateTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
             SaveUserDataStore(true);
             
@@ -279,6 +278,11 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
             rankText.text = rank.ToString();
         }
 
+        public void AddEnergyForPlay()
+        {
+            AddEnergy(EnergyForPlay);
+        }
+        
         public void AddEnergy(int addEnergy)
         {
             _userDataCurrent.energy += addEnergy;

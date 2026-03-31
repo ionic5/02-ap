@@ -59,6 +59,9 @@ namespace TaskForce.AP.Client.Core.LobbyScene
             _scene.RankUpWindowOpenedEvent += OnRankUpWindowOpenedEvent;
 
             _scene.MaxEnergy = _gameDataStore.GetMaxEnergy();
+            _scene.MinutesEnergyCharge = _gameDataStore.GetMinutesEnergyCharge();
+            _scene.EnergyForPlay = _gameDataStore.GetEnergyForPlay();
+            _scene.EnergyAdsReward = _gameDataStore.GetEnergyAdsReward();
             
             _scene.LobbySceneControllerStarted();
         }
@@ -74,7 +77,7 @@ namespace TaskForce.AP.Client.Core.LobbyScene
             _userDataStore.SetGold(gold);
             _userDataStore.SetEnergy(energy);
             _userDataStore.SetRank(rank);
-            _logger.Info($"{_userDataStore.GetGold()}, {_userDataStore.GetEnergy()}, {_userDataStore.GetRank()}");
+            
             UpdateGold();
             UpdateEnerge();
             UpdateRank();

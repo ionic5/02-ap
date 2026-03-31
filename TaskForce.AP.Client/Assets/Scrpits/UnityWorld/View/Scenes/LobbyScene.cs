@@ -35,14 +35,14 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
         public int MinutesEnergyCharge { get; set; }
         public int EnergyForPlay { get; set; }
         public int EnergyAdsReward { get; set; }
-
-        public event EventHandler PauseButtonClickedEvent;
+        
         public event EventHandler PlayButtonClickedEvent;
         public event Action<int, int, int> UpdateUserDataStoreEvent;
 
         public event EventHandler EnergyGetButtonClickedEvent;
         public event EventHandler CommonWindowOpenedEvent;
         public event EventHandler RankUpWindowOpenedEvent;
+        public event EventHandler PauseButtonClickedEvent;
 
         public Loop Loop => _loop;
         public World World => world;

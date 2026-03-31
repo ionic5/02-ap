@@ -15,6 +15,8 @@ namespace TaskForce.AP.Client.Core.View.Scenes
         event EventHandler EnergyGetButtonClickedEvent;
         event EventHandler CommonWindowOpenedEvent;
         event EventHandler RankUpWindowOpenedEvent;
+        
+        event EventHandler PauseButtonClickedEvent;
 
         void LobbySceneControllerStarted();
         void SetGold(int gold);

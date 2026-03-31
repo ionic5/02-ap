@@ -1,5 +1,7 @@
 using TaskForce.AP.Client.Core.View.LobbyScene.Windows;
+using TaskForce.AP.Client.Core.View.Windows;
 using TaskForce.AP.Client.UnityWorld.View.LobbyScene.Windows;
+using TaskForce.AP.Client.UnityWorld.View.Windows;
 using IWindowStack = TaskForce.AP.Client.Core.View.LobbyScene.IWindowStack;
 
 namespace TaskForce.AP.Client.UnityWorld.View.LobbyScene
@@ -9,6 +11,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.LobbyScene
         public EnergyGetWindow energyGetWindow;
         public CommonWindow commonWindow;
         public RankUpWindow rankUpWindow;
+        public SettingWindow settingWindow;
         
         public IEnergyGetWindow OpenEnergyGetWindow()
         {
@@ -23,6 +26,11 @@ namespace TaskForce.AP.Client.UnityWorld.View.LobbyScene
         public IRankUpWindow OpenRankUpWindow()
         {
             return OpenWindow(rankUpWindow);
+        }
+        
+        public ISettingWindow OpenSettingWindow()
+        {
+            return OpenWindow(settingWindow);
         }
     }
 }

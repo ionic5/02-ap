@@ -6,8 +6,9 @@ namespace TaskForce.AP.Client.Core.View.BattleFieldScene.LevelUpWindow
     {
         event EventHandler<SkillPanelClickedEventArgs> ClickedEvent;
         ISkillIcon GetIcon();
-        void SetDescription(string v);
-        void SetName(string v);
+        void SetDescription(string text);
+        void SetName(string text);
         void SetActiveNewMark(bool active);
+        void SetSelected(bool isSelected);
     }
 }

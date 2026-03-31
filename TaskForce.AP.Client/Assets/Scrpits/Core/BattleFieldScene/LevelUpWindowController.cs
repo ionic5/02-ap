@@ -74,16 +74,29 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
                 panel.SetName(skill.GetName());
                 panel.SetDescription(skill.GetDescription());
                 panel.SetActiveNewMark(skill.GetLevel() == 1);
+                panel.SetSelected(false);
                 panel.ClickedEvent += OnSkillPanelClicked;
                 _panels.Add(panel);
             }
 
             _index = 0;
+            UpdateSelectedPanel();
         }
 
         private void OnSkillPanelClicked(object sender, SkillPanelClickedEventArgs e)
         {
             _index = _panels.IndexOf(e.Panel);
+
+            UpdateSelectedPanel();
+        }
+
+        private void UpdateSelectedPanel()
+        {
+            for (var i = 0; i < _panels.Count; i++)
+            {
+                var panel = _panels.ElementAt(i);
+                panel.SetSelected(i == _index);
+            }
         }
 
         private void OnRerollButtonClicked(object sender, EventArgs args)

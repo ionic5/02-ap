@@ -9,6 +9,10 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.LevelUpWindow
     public class SkillPanel : MonoBehaviour, ISkillPanel
     {
         [SerializeField]
+        private GameObject _background;
+        [SerializeField]
+        private GameObject _selectedMark;
+        [SerializeField]
         private TMP_Text _descriptionText;
         [SerializeField]
         private TMP_Text _nameText;
@@ -49,6 +53,12 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.LevelUpWindow
         public void SetActiveNewMark(bool active)
         {
             _newMark.SetActive(active);
+        }
+
+        public void SetSelected(bool isSelected)
+        {
+            _background.SetActive(!isSelected);
+            _selectedMark.SetActive(isSelected);
         }
     }
 }

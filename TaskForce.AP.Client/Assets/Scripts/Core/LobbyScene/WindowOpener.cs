@@ -44,5 +44,14 @@ namespace TaskForce.AP.Client.Core.LobbyScene
             var ctlr = new RankUpWindowController(window);
             ctlr.Start();
         }
+        
+        public void OpenSettingWindow()
+        {
+            var window = _windowStack.OpenSettingWindow();
+
+            var commonCtrl = new Core.SettingWindowController(window, _soundPlayer);
+            var ctrl = new SettingWindowController(window, commonCtrl);
+            ctrl.Start();
+        }
     }
 }

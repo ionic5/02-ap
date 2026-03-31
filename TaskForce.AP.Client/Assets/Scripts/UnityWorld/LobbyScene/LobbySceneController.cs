@@ -57,6 +57,12 @@ namespace TaskForce.AP.Client.Core.LobbyScene
             _scene.EnergyGetButtonClickedEvent += OnEnergyGetButtonClickedEvent;
             _scene.CommonWindowOpenedEvent += OnCommonWindowOpenedEvent;
             _scene.RankUpWindowOpenedEvent += OnRankUpWindowOpenedEvent;
+            _scene.PauseButtonClickedEvent += OnPauseButtonClickedEvent;
+
+            _scene.MaxEnergy = _gameDataStore.GetMaxEnergy();
+            _scene.MinutesEnergyCharge = _gameDataStore.GetMinutesEnergyCharge();
+            _scene.EnergyForPlay = _gameDataStore.GetEnergyForPlay();
+            _scene.EnergyAdsReward = _gameDataStore.GetEnergyAdsReward();
             
             _scene.LobbySceneControllerStarted();
         }
@@ -67,12 +73,17 @@ namespace TaskForce.AP.Client.Core.LobbyScene
             _battleFieldSceneLoadEvent?.Invoke();
         }
 
+        private void OnPauseButtonClickedEvent(object sender, EventArgs e)
+        {
+            _windowOpener.OpenSettingWindow();
+        }
+
         public void OnUpdateUserDataStoreEvent(int gold, int energy, int rank)
         {
             _userDataStore.SetGold(gold);
             _userDataStore.SetEnergy(energy);
             _userDataStore.SetRank(rank);
-            _logger.Info($"{_userDataStore.GetGold()}, {_userDataStore.GetEnergy()}, {_userDataStore.GetRank()}");
+            
             UpdateGold();
             UpdateEnerge();
             UpdateRank();
@@ -124,6 +135,7 @@ namespace TaskForce.AP.Client.Core.LobbyScene
             _scene.EnergyGetButtonClickedEvent -= OnEnergyGetButtonClickedEvent;
             _scene.CommonWindowOpenedEvent -= OnCommonWindowOpenedEvent;
             _scene.RankUpWindowOpenedEvent -= OnRankUpWindowOpenedEvent;
+            _scene.PauseButtonClickedEvent -= OnPauseButtonClickedEvent;
         }
 
         // TODO: JW: 윈도우 기능 참조

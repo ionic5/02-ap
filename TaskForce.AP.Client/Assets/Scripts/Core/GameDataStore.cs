@@ -25,6 +25,10 @@ namespace TaskForce.AP.Client.Core
         private readonly List<SoulExp> _soulExps;
         private readonly List<SkillDescription> _skillDescriptions;
         private float _soulDropRate;
+        private int _maxEnergy;
+        private int _minutesEnergyCharge;
+        private int _energyforPlay;
+        private int _energyAdsReward;
 
         private Dictionary<string, Skill> _skillsByID;
         private Dictionary<string, IEnumerable<ModifyAttributeSkill>> _modifyAttributeSkillsBySkillID;
@@ -131,6 +135,46 @@ namespace TaskForce.AP.Client.Core
         public float GetSoulDropRate()
         {
             return _soulDropRate;
+        }
+        
+        public void SetMaxEnergy(int value)
+        {
+            _maxEnergy = value;
+        }
+
+        public int GetMaxEnergy()
+        {
+            return _maxEnergy;
+        }
+        
+        public void SetMinutesEnergyCharge(int value)
+        {
+            _minutesEnergyCharge = value;
+        }
+
+        public int GetMinutesEnergyCharge()
+        {
+            return _minutesEnergyCharge;
+        }
+        
+        public void SetEnergyForPlay(int value)
+        {
+            _energyforPlay = value;
+        }
+
+        public int GetEnergyForPlay()
+        {
+            return _energyforPlay;
+        }
+        
+        public void SetEnergyAdsReward(int value)
+        {
+            _energyAdsReward = value;
+        }
+
+        public int GetEnergyAdsReward()
+        {
+            return _energyAdsReward;
         }
 
         public Skill GetSkillById(string id)

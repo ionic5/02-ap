@@ -1,3 +1,4 @@
+using TaskForce.AP.Client.Core.View.Windows;
 using TaskForce.AP.Client.Core.View.LobbyScene.Windows;
 
 namespace TaskForce.AP.Client.Core.View.LobbyScene
@@ -8,6 +9,8 @@ namespace TaskForce.AP.Client.Core.View.LobbyScene
         IEnergyGetWindow OpenEnergyGetWindow();
         ICommonWindow OpenCommonWindow();
         IRankUpWindow OpenRankUpWindow();
+        
+        ISettingWindow OpenSettingWindow();
         
         int GetOpenedWindowCount();
     }

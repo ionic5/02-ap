@@ -57,6 +57,8 @@ namespace TaskForce.AP.Client.Core.LobbyScene
             _scene.EnergyGetButtonClickedEvent += OnEnergyGetButtonClickedEvent;
             _scene.CommonWindowOpenedEvent += OnCommonWindowOpenedEvent;
             _scene.RankUpWindowOpenedEvent += OnRankUpWindowOpenedEvent;
+
+            _scene.MaxEnergy = _gameDataStore.GetMaxEnergy();
             
             _scene.LobbySceneControllerStarted();
         }

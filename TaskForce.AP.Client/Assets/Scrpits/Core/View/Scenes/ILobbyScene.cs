@@ -4,6 +4,8 @@ namespace TaskForce.AP.Client.Core.View.Scenes
 {
     public interface ILobbyScene : IDestroyable
     {
+        int MaxEnergy{ get; set; }
+        
         event EventHandler PlayButtonClickedEvent;
         event Action<int, int, int> UpdateUserDataStoreEvent;
         

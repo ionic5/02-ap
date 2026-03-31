@@ -147,6 +147,11 @@ namespace TaskForce.AP.Client.UnityWorld
             {
                 gameDataStore.SetSoulDropRate(float.Parse(soulDropRate));
             }
+            
+            if (map.TryGetValue("MAX_ENERGY", out var maxEnergy))
+            {
+                gameDataStore.SetMaxEnergy(int.Parse(maxEnergy));
+            }
         }
     }
 }

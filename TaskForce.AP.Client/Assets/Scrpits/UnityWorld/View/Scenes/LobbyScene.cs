@@ -11,7 +11,6 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
     public class LobbyScene : Scene, ILobbyScene  
     {
         // TODO: JW: 임시값 csv에서 적용
-        private int MAX_ENERGY = 5;
         // private int MINUTES_FOR_ENERGY_PLUS = 1;//20; // TODO: JW: 20분으로 수정 
         private int ENERGY_FOR_PLAY = 2;     
         private int MIN_RANK = 1;                
@@ -35,6 +34,8 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
         // [SerializeField] private Image rankImage;   // TODO: JW: 랭크 이미지 추후 적용
         [SerializeField] private Image[] skillSlots;    
         [SerializeField] private int energyChargeMinutes;
+        
+        public int MaxEnergy { get; set; }
         
         public event EventHandler PauseButtonClickedEvent;
         public event EventHandler PlayButtonClickedEvent;
@@ -156,7 +157,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
 
         void CheckEnergyUpdate()
         {
-            if (_userDataCurrent.energy < MAX_ENERGY)
+            if (_userDataCurrent.energy < MaxEnergy)
             {
                 // 무전기 지급
                 long currentTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
@@ -165,13 +166,13 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
                 
                 if (energyCount > 0)
                 {
-                    _userDataCurrent.energy = Mathf.Min(_userDataCurrent.energy + energyCount, MAX_ENERGY);
+                    _userDataCurrent.energy = Mathf.Min(_userDataCurrent.energy + energyCount, MaxEnergy);
                     _userDataCurrent.energyUpdateTime += energyCount * energyChargeMinutes * 60;
                     UpdateUserDataStore();
                 }
             }
             
-            bool isEnergyUpdate = _userDataCurrent.energy < MAX_ENERGY;
+            bool isEnergyUpdate = _userDataCurrent.energy < MaxEnergy;
             energyTimerText.gameObject.SetActive(isEnergyUpdate);
             _isEnergyTimerEnable = isEnergyUpdate;
         }
@@ -183,7 +184,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
 
         public void OnEnergyGetButtonClicked()
         {
-            if (_userDataCurrent.energy >= MAX_ENERGY)
+            if (_userDataCurrent.energy >= MaxEnergy)
             {
                 // TODO: JW: text assign 방식 변경
                 _commonWindow.SetContentsText("무전기가 Max 입니다.");
@@ -269,7 +270,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
         public void SetEnergy(int energy)
         {
             _userDataCurrent.energy = energy;
-            energyText.text = energy + "/" + MAX_ENERGY;
+            energyText.text = energy + "/" + MaxEnergy;
         }
 
         public void SetRank(int rank)

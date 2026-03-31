@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using TaskForce.AP.Client.Core.Entity;
@@ -117,7 +117,8 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
                 return null;
             }
 
-            var entity = new Entity.Unit(_gameDataStore, _gameDataStore.GetBaseAttributes(gdUnit.BaseAttributeID), _gameDataStore.GetLevelAttributes(gdUnit.LevelAttributeID));
+            var entity = new Entity.Unit(gdUnit, _gameDataStore,
+                _gameDataStore.GetLevelAttributes(gdUnit.LevelAttributeID));
 
             entity.SetLevel(level);
 

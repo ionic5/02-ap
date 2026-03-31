@@ -26,7 +26,7 @@ namespace TaskForce.AP.Client.Core.Entity
                 return null;
             }
 
-            var entity = new Entity.Unit(_gameDataStore, _gameDataStore.GetBaseAttributes(gdUnit.BaseAttributeID), 
+            var entity = new Entity.Unit(gdUnit, _gameDataStore, 
                 _gameDataStore.GetLevelAttributes(gdUnit.LevelAttributeID));
 
             entity.SetLevel(1);

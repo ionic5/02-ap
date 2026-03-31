@@ -47,7 +47,7 @@ namespace TaskForce.AP.Client.UnityWorld
                 }, gameDataStore.AddStage),
                 LoadTable(AssetID.Unit, row => new Core.GameData.Unit {
                     ID = row["id"],
-                    BaseAttributeID = row["baseAttributeID"],
+                    BodyID = row["bodyID"],
                     LevelAttributeID = row["levelAttributeID"]
                 }, gameDataStore.AddUnit),
                 LoadTable(AssetID.NonPlayerUnitLogic, row => new NonPlayerUnitLogic {

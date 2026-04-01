@@ -25,5 +25,6 @@
         public const string SoulExp = "SOUL_EXP";
 
         public const string SkillDescription = "SKILL_DESCRIPTION";
+        public const string EnemyUnitSwarm = "ENEMY_UNIT_SWARM";
     }
 }

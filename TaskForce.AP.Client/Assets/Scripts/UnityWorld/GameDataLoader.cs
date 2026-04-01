@@ -96,6 +96,11 @@ namespace TaskForce.AP.Client.UnityWorld
                     UnitID = row["unitID"],
                     SkillID = row["skillID"]
                 }, gameDataStore.AddUnitDefaultActiveSkill),
+                LoadTable(AssetID.EnemyUnitSwarm, row => new Core.GameData.EnemyUnitSwarm {
+                    UnitID = row["unitID"],
+                    Level = int.Parse(row["level"]),
+                    Count = int.Parse(row["count"])
+                }, gameDataStore.AddEnemyUnitSwarm),
                 LoadTable(AssetID.SkillDescription, (row) => {
                     var parameters = new List<object>();
                     for(var i= 0;i<2;i++) {

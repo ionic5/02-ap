@@ -24,6 +24,7 @@ namespace TaskForce.AP.Client.Core
         private readonly List<RequireExp> _requireExps;
         private readonly List<SoulExp> _soulExps;
         private readonly List<SkillDescription> _skillDescriptions;
+        private readonly List<EnemyUnitSwarm> _enemyUnitSwarms;
         private float _soulDropRate;
         private int _maxEnergy;
         private int _minutesEnergyCharge;
@@ -52,6 +53,7 @@ namespace TaskForce.AP.Client.Core
             _requireExps = new List<RequireExp>();
             _soulExps = new List<SoulExp>();
             _skillDescriptions = new List<SkillDescription>();
+            _enemyUnitSwarms = new List<EnemyUnitSwarm>();
         }
 
         public void Bake()
@@ -285,6 +287,11 @@ namespace TaskForce.AP.Client.Core
         public IEnumerable<LevelCoefficient> GetLevelCoefficients(string lvCoeffID)
         {
             return _levelCoefficients.Where(entry => entry.ID == lvCoeffID);
+        }
+
+        public void AddEnemyUnitSwarm(EnemyUnitSwarm entry)
+        {
+            _enemyUnitSwarms.Add(entry);
         }
 
         public void AddSkillDescription(SkillDescription description)

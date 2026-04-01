@@ -213,11 +213,11 @@ namespace TaskForce.AP.Client.UnityWorld
             };
             scene.DestroyEvent += hdlr;
 
-            var spawner = new EnemyUnitSpawner(world, _gameDataStore, new Core.Timer(_time, loop),
+            var gameHost = new GameHost(world, _gameDataStore, new Core.Timer(_time, loop),
                 _logger, _random, _time, unitFactory.CreateEnemyUnit);
-            loop.Add(spawner);
+            loop.Add(gameHost);
 
-            spawner.Start(1);
+            gameHost.Start(1);
 
             _screen.HideLoadingBlind();
         }

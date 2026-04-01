@@ -5,7 +5,7 @@ using TaskForce.AP.Client.Core.GameData;
 
 namespace TaskForce.AP.Client.Core.BattleFieldScene
 {
-    public class EnemyUnitSpawner : IUpdatable
+    public class GameHost : IUpdatable
     {
         private readonly View.BattleFieldScene.IWorld _world;
         private readonly GameDataStore _gameDataStore;
@@ -21,7 +21,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private float _spawnElapsed;
         private int _stageLevel;
 
-        public EnemyUnitSpawner(View.BattleFieldScene.IWorld world, GameDataStore gameDataStore,
+        public GameHost(View.BattleFieldScene.IWorld world, GameDataStore gameDataStore,
             Timer timer, ILogger logger, Random random, ITime time, Func<string, int, IUnit> createUnit)
         {
             _world = world;

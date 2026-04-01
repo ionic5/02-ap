@@ -14,10 +14,6 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.Windows
             SurvivalTime
         };
 
-        private readonly string[] labels = {"Level", 
-                                            "Kill Count", 
-                                            "Survival Time"};
-
         [SerializeField]
         private TMPro.TMP_Text _levelText;
         [SerializeField]
@@ -65,19 +61,13 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.Windows
 
        public string UpdateUI(LabelType type, string value)
         {
-            // Enum을 int로 형변환해서 인덱스로 사용
-            string label = labels[(int)type]; 
-
-            return $"{label}: {value}";
+            return $"{value}";
         }
 
         public string UpdateTime(LabelType type, float battleTime)
         {
-            // Enum을 int로 형변환해서 인덱스로 사용
-            string label = labels[(int)type];
-            
             int totalSeconds = (int)battleTime;
-            return $"{label}: {totalSeconds / 60:D2}:{totalSeconds % 60:D2}";
+            return $"{totalSeconds / 60:D2}:{totalSeconds % 60:D2}";
         }
     }
 }

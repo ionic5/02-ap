@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using TaskForce.AP.Client.Core;
 using UnityEngine;
 
@@ -7,6 +7,15 @@ namespace TaskForce.AP.Client.UnityWorld
     public class PoolableObject : Object, IDestroyable
     {
         private Action<GameObject> _returnToPoolHanlder;
+
+        protected ITime _coreTime;
+        protected ILoop _coreLoop;
+
+        public void Initialize(ITime time, ILoop loop)
+        {
+            _coreTime = time;
+            _coreLoop = loop;
+        }
 
         public virtual void Revive()
         {

@@ -1,4 +1,4 @@
-﻿using TaskForce.AP.Client.Core.View.BattleFieldScene;
+using TaskForce.AP.Client.Core.View.BattleFieldScene;
 using System;
 using UnityEngine;
 
@@ -34,15 +34,30 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
         public void MoveTo(System.Numerics.Vector2 destination, float speed)
         {
             _hasDestination = true;
-            _destination = new Vector3(destination.X, 0, destination.Y);
+            _destination = new Vector3(destination.X, transform.position.y, destination.Y);
 
             Vector3 direction = (_destination - transform.position).normalized;
             _rigidbody.linearVelocity = direction * speed;
         }
 
+        public void SetTarget(string targetViewID)
+        {
+            // Sheep doesn't support homing target yet.
+        }
+
+        public void SetSpeed(float speed)
+        {
+            // Speed is usually passed in MoveTo for Sheep.
+        }
+
         public void SetPosition(System.Numerics.Vector2 position)
         {
-            transform.position = new Vector3(position.X, 0, position.Y);
+            transform.position = new Vector3(position.X, transform.position.y, position.Y);
+        }
+
+        public void Start()
+        {
+            // Basic sheep doesn't need extra start logic
         }
 
         private void Update()

@@ -214,8 +214,7 @@ namespace TaskForce.AP.Client.UnityWorld
             scene.DestroyEvent += hdlr;
 
             var gameHost = new GameHost(world, _gameDataStore, new Core.Timer(_time, loop),
-                _logger, _random, _time, unitFactory.CreateEnemyUnit);
-            loop.Add(gameHost);
+                createTimer(), createTimer(), _logger, _random, unitFactory.CreateEnemyUnit);
 
             gameHost.Start(1);
 

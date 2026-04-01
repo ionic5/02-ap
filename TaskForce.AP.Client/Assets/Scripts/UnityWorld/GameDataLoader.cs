@@ -21,7 +21,10 @@ namespace TaskForce.AP.Client.UnityWorld
         {
             var loadTasks = new List<Task>
             {
-                LoadConstants(gameDataStore),
+                LoadTable(AssetID.Constants, row => new Core.GameData.Constant {
+                    ID = row["constantID"],
+                    Value = CreateAttribute(row["value"])
+                }, gameDataStore.AddConstant),
                 LoadTable(AssetID.ModifyAttributeEffect, row => new Core.GameData.ModifyAttributeEffect {
                     ID = row["id"],
                     ApplyOrder = int.Parse(row["applyOrder"]),
@@ -139,35 +142,5 @@ namespace TaskForce.AP.Client.UnityWorld
             }
         }
 
-        private async Task LoadConstants(GameDataStore gameDataStore)
-        {
-            var rows = await _csvLoader.LoadCsv(AssetID.Constants);
-            var map = rows.ToDictionary(row => row["constantID"], row => row["value"]);
-
-            if (map.TryGetValue("SOUL_DROP_RATE", out var soulDropRate))
-            {
-                gameDataStore.SetSoulDropRate(float.Parse(soulDropRate));
-            }
-
-            if (map.TryGetValue("MAX_ENERGY", out var maxEnergy))
-            {
-                gameDataStore.SetMaxEnergy(int.Parse(maxEnergy));
-            }
-
-            if (map.TryGetValue("MINUTES_ENERGY_CHARGE", out var minutesEnergyCharge))
-            {
-                gameDataStore.SetMinutesEnergyCharge(int.Parse(minutesEnergyCharge));
-            }
-
-            if (map.TryGetValue("ENERGY_FOR_PLAY", out var energyForPlay))
-            {
-                gameDataStore.SetEnergyForPlay(int.Parse(energyForPlay));
-            }
-
-            if (map.TryGetValue("ENERGY_ADS_REWARD", out var energyAdsReward))
-            {
-                gameDataStore.SetEnergyAdsReward(int.Parse(energyAdsReward));
-            }
-        }
     }
 }

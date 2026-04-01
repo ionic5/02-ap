@@ -25,11 +25,7 @@ namespace TaskForce.AP.Client.Core
         private readonly List<SoulExp> _soulExps;
         private readonly List<SkillDescription> _skillDescriptions;
         private readonly List<EnemyUnitSwarm> _enemyUnitSwarms;
-        private float _soulDropRate;
-        private int _maxEnergy;
-        private int _minutesEnergyCharge;
-        private int _energyforPlay;
-        private int _energyAdsReward;
+        private readonly Dictionary<string, GameData.Constant> _constants;
 
         private Dictionary<string, Skill> _skillsByID;
         private Dictionary<string, IEnumerable<ModifyAttributeSkill>> _modifyAttributeSkillsBySkillID;
@@ -54,6 +50,7 @@ namespace TaskForce.AP.Client.Core
             _soulExps = new List<SoulExp>();
             _skillDescriptions = new List<SkillDescription>();
             _enemyUnitSwarms = new List<EnemyUnitSwarm>();
+            _constants = new Dictionary<string, GameData.Constant>();
         }
 
         public void Bake()
@@ -129,54 +126,39 @@ namespace TaskForce.AP.Client.Core
             _modifyAttributeEffects.Add(entry);
         }
 
-        public void SetSoulDropRate(float value)
+        public void AddConstant(GameData.Constant entry)
         {
-            _soulDropRate = value;
+            _constants[entry.ID] = entry;
+        }
+
+        public Variant GetConstant(string id)
+        {
+            return _constants.TryGetValue(id, out var entry) ? entry.Value : default;
         }
 
         public float GetSoulDropRate()
         {
-            return _soulDropRate;
-        }
-        
-        public void SetMaxEnergy(int value)
-        {
-            _maxEnergy = value;
+            return GetConstant(GameData.ConstantID.SoulDropRate).AsFloat();
         }
 
         public int GetMaxEnergy()
         {
-            return _maxEnergy;
-        }
-        
-        public void SetMinutesEnergyCharge(int value)
-        {
-            _minutesEnergyCharge = value;
+            return GetConstant(GameData.ConstantID.MaxEnergy).AsInt();
         }
 
         public int GetMinutesEnergyCharge()
         {
-            return _minutesEnergyCharge;
-        }
-        
-        public void SetEnergyForPlay(int value)
-        {
-            _energyforPlay = value;
+            return GetConstant(GameData.ConstantID.MinutesEnergyCharge).AsInt();
         }
 
         public int GetEnergyForPlay()
         {
-            return _energyforPlay;
-        }
-        
-        public void SetEnergyAdsReward(int value)
-        {
-            _energyAdsReward = value;
+            return GetConstant(GameData.ConstantID.EnergyForPlay).AsInt();
         }
 
         public int GetEnergyAdsReward()
         {
-            return _energyAdsReward;
+            return GetConstant(GameData.ConstantID.EnergyAdsReward).AsInt();
         }
 
         public Skill GetSkillById(string id)
@@ -292,6 +274,11 @@ namespace TaskForce.AP.Client.Core
         public void AddEnemyUnitSwarm(EnemyUnitSwarm entry)
         {
             _enemyUnitSwarms.Add(entry);
+        }
+
+        public IEnumerable<EnemyUnitSwarm> GetEnemyUnitSwarms()
+        {
+            return _enemyUnitSwarms;
         }
 
         public void AddSkillDescription(SkillDescription description)

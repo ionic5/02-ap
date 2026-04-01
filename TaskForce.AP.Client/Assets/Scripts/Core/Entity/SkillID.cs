@@ -1,4 +1,4 @@
-﻿namespace TaskForce.AP.Client.Core.Entity
+namespace TaskForce.AP.Client.Core.Entity
 {
     public class SkillID
     {
@@ -9,5 +9,6 @@
         public const string Monk = "SUMMON_MONK";
         public const string Heal = "HEAL";
         public const string MeleeAttack = "MELEE_ATTACK";
+        public const string PistolAttack = "PISTOL_ATTACK";
     }
 }

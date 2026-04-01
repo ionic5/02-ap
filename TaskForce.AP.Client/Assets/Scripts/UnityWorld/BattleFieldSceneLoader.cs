@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using TaskForce.AP.Client.Core;
 using TaskForce.AP.Client.Core.BattleFieldScene;
 using TaskForce.AP.Client.Core.BattleFieldScene.Skills;
@@ -67,6 +67,8 @@ namespace TaskForce.AP.Client.UnityWorld
             Func<FloatingTextAnimator> createFloatingTextAnimator = () => objFac.Create<UnityWorld.View.FloatingTextAnimator>(ObjectID.FloatingTextAnimator);
 
             objFac.Logger = _logger;
+            objFac.CoreTime = _time; // ObjectFactory에 Core.Time 주입
+            objFac.CoreLoop = loop; // ObjectFactory에 ILoop 주입
 
             Action<UnityWorld.Object> unitPrepareHdlr = (go) =>
             {
@@ -146,7 +148,28 @@ namespace TaskForce.AP.Client.UnityWorld
             {
                 return new Core.BattleFieldScene.Skills.MeleeAttackSkill(createTimer, skill, _random);
             });
-
+            skillFactory.AddCreator(Core.Entity.SkillID.PistolAttack, (skill) => // SkillID.Pistol -> SkillID.PistolAttack
+            {
+                // Core.BattleFieldScene.Skills.Bullet을 생성하는 람다 함수
+                return new PistolSkill((caster, minDmg, maxDmg, finder) =>
+                {
+                    var view = objFac.Create<View.BattleFieldScene.Bullet>(ObjectID.Bullet); // Unity View Bullet 생성
+                    var bullet = new Core.BattleFieldScene.Skills.Bullet(_random, view, finder, caster, minDmg, maxDmg);
+                    
+                    loop.Add(bullet); // Bullet을 루프에 추가하여 Update가 호출되도록 함
+                    
+                    // 파괴 시 루프에서 제거
+                    EventHandler<DestroyEventArgs> onBulletDestroyed = null;
+                    onBulletDestroyed = (s, e) =>
+                    {
+                        loop.Remove(bullet);
+                        bullet.DestroyEvent -= onBulletDestroyed;
+                    };
+                    bullet.DestroyEvent += onBulletDestroyed;
+                    
+                    return bullet;
+                }, targetFinder, skill);
+            });
             var battleLog = new BattleLog();
             var battleLogRecorder = new BattleLogRecorder(battleLog, _time);
             loop.Add(battleLogRecorder);

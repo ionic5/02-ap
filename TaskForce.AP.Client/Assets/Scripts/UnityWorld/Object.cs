@@ -23,7 +23,7 @@ namespace TaskForce.AP.Client.UnityWorld
             Destroy(gameObject);
         }
 
-        protected void OnDestroy()
+        protected virtual void OnDestroy()
         {
             if (_isDestroyed) return;
             _isDestroyed = true;

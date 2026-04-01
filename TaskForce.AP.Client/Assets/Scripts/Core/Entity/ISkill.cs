@@ -14,6 +14,6 @@ namespace TaskForce.AP.Client.Core.Entity
         void SetLevel(int value);
         void LevelUp();
         void OnAddedToUnit(Unit unit);
-        Attribute GetAttribute(string attributeID);
+        Variant GetAttribute(string attributeID);
     }
 }

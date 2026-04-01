@@ -45,7 +45,7 @@ namespace TaskForce.AP.Client.Core.Entity
             _modifyAttributeEffects = new List<IModifyAttributeEffect>();
         }
 
-        public Attribute GetAttribute(string id)
+        public Variant GetAttribute(string id)
         {
             return _attributeStore.Get(id);
         }

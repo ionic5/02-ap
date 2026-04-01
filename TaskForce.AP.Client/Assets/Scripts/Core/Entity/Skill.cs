@@ -71,7 +71,7 @@ namespace TaskForce.AP.Client.Core.Entity
             return _owner;
         }
 
-        public virtual Attribute GetAttribute(string attributeID)
+        public virtual Variant GetAttribute(string attributeID)
         {
             return _attributeStore.Get(attributeID);
         }

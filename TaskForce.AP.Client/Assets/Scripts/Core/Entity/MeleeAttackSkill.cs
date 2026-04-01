@@ -13,7 +13,7 @@ namespace TaskForce.AP.Client.Core.Entity
         {
         }
 
-        public override Attribute GetAttribute(string attributeID)
+        public override Variant GetAttribute(string attributeID)
         {
             return GetOwner().GetAttribute(attributeID);
         }

@@ -27,7 +27,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
             return _owner;
         }
 
-        protected Attribute GetAttribute(string attributeID)
+        protected Variant GetAttribute(string attributeID)
         {
             return _skillEntity.GetAttribute(attributeID);
         }

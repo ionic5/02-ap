@@ -4,23 +4,23 @@ namespace TaskForce.AP.Client.Core.Entity
 {
     public class AttributeStore
     {
-        private readonly Dictionary<string, Attribute> _attributes;
+        private readonly Dictionary<string, Variant> _attributes;
 
         public AttributeStore()
         {
-            _attributes = new Dictionary<string, Attribute>();
+            _attributes = new Dictionary<string, Variant>();
         }
 
-        public void Set(string id, Attribute attribute)
+        public void Set(string id, Variant attribute)
         {
             _attributes[id] = attribute;
         }
 
-        public Attribute Get(string id)
+        public Variant Get(string id)
         {
             if (_attributes.TryGetValue(id, out var value))
                 return value;
-            return new Attribute();
+            return new Variant();
         }
 
         public void Clear()

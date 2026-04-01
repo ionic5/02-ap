@@ -24,7 +24,7 @@ namespace TaskForce.AP.Client.Core.Entity
         public void Apply(AttributeStore store)
         {
             var x = _formulaCalculator.Calculate(_calculationType, _coefficients, store.Get(_targetAttributeID).AsFloat());
-            store.Set(_targetAttributeID, new Attribute(x));
+            store.Set(_targetAttributeID, new Variant(x));
         }
 
         public bool CanMerge(IModifyAttributeEffect effect)

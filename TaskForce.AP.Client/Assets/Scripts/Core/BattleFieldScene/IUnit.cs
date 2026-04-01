@@ -15,7 +15,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         void SetInvincible(bool isInvincible);
         void PlayReviveEffect(Action onCompleted); // [REVIVE_EFFECT_TEST]
 
-        Attribute GetAttribute(string attributeID);
+        Variant GetAttribute(string attributeID);
         int GetExp();
         int GetRequireExp();
         int GetLevel();

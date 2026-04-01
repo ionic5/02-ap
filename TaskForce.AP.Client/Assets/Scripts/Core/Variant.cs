@@ -2,27 +2,27 @@
 
 namespace TaskForce.AP.Client.Core
 {
-    public struct Attribute
+    public struct Variant
     {
         private readonly string _stringValue;
         private readonly int _intValue;
         private readonly float _floatValue;
 
-        public Attribute(string stringValue)
+        public Variant(string stringValue)
         {
             _stringValue = stringValue;
             _intValue = 0;
             _floatValue = 0.0f;
         }
 
-        public Attribute(int value)
+        public Variant(int value)
         {
             _intValue = value;
             _floatValue = value;
             _stringValue = value.ToString();
         }
 
-        public Attribute(float value)
+        public Variant(float value)
         {
             _floatValue = value;
             _intValue = (int)Math.Floor(value);

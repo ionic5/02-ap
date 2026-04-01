@@ -123,11 +123,11 @@ namespace TaskForce.AP.Client.UnityWorld
             gameDataStore.Bake();
         }
 
-        private Core.Attribute CreateAttribute(string value)
+        private Core.Variant CreateAttribute(string value)
         {
             if (float.TryParse(value, out var number))
-                return new Core.Attribute(number);
-            return new Core.Attribute(value);
+                return new Core.Variant(number);
+            return new Core.Variant(value);
         }
 
         private async Task LoadTable<T>(string assetId, Func<Dictionary<string, string>, T> parser, Action<T> adder)

@@ -218,7 +218,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             return _unitEntity.IsPlayerSide();
         }
 
-        public Attribute GetAttribute(string id)
+        public Variant GetAttribute(string id)
         {
             return _unitEntity.GetAttribute(id);
         }

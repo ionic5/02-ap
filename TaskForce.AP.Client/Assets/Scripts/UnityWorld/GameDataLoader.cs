@@ -104,6 +104,15 @@ namespace TaskForce.AP.Client.UnityWorld
                     Level = int.Parse(row["level"]),
                     Count = int.Parse(row["count"])
                 }, gameDataStore.AddEnemyUnitSwarm),
+                LoadTable(AssetID.BossStage, row => new Core.GameData.BossStage {
+                    Level = int.Parse(row["level"]),
+                    BossSpawnDelay = float.Parse(row["bossSpawnDelay"])
+                }, gameDataStore.AddBossStage),
+                LoadTable(AssetID.BossStageEnemy, row => new Core.GameData.BossStageEnemy {
+                    BossStageLevel = int.Parse(row["bossStageLevel"]),
+                    UnitID = row["unitID"],
+                    Count = int.Parse(row["count"])
+                }, gameDataStore.AddBossStageEnemy),
                 LoadTable(AssetID.SkillDescription, (row) => {
                     var parameters = new List<object>();
                     for(var i= 0;i<2;i++) {

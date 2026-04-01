@@ -25,6 +25,8 @@ namespace TaskForce.AP.Client.Core
         private readonly List<SoulExp> _soulExps;
         private readonly List<SkillDescription> _skillDescriptions;
         private readonly List<EnemyUnitSwarm> _enemyUnitSwarms;
+        private readonly List<BossStage> _bossStages;
+        private readonly List<BossStageEnemy> _bossStageEnemies;
         private readonly Dictionary<string, GameData.Constant> _constants;
 
         private Dictionary<string, Skill> _skillsByID;
@@ -50,6 +52,8 @@ namespace TaskForce.AP.Client.Core
             _soulExps = new List<SoulExp>();
             _skillDescriptions = new List<SkillDescription>();
             _enemyUnitSwarms = new List<EnemyUnitSwarm>();
+            _bossStages = new List<BossStage>();
+            _bossStageEnemies = new List<BossStageEnemy>();
             _constants = new Dictionary<string, GameData.Constant>();
         }
 
@@ -274,6 +278,16 @@ namespace TaskForce.AP.Client.Core
         public void AddEnemyUnitSwarm(EnemyUnitSwarm entry)
         {
             _enemyUnitSwarms.Add(entry);
+        }
+
+        public void AddBossStage(BossStage entry)
+        {
+            _bossStages.Add(entry);
+        }
+
+        public void AddBossStageEnemy(BossStageEnemy entry)
+        {
+            _bossStageEnemies.Add(entry);
         }
 
         public IEnumerable<EnemyUnitSwarm> GetEnemyUnitSwarms()

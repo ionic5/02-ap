@@ -241,6 +241,11 @@ namespace TaskForce.AP.Client.UnityWorld
 
             gameHost.Start(1);
 
+            var bossSpawner = new Core.BattleFieldScene.BossSpawner(world, _gameDataStore,
+                createTimer(), _logger, unitFactory.CreateEnemyUnit);
+
+            bossSpawner.Start(1);
+
             _screen.HideLoadingBlind();
         }
     }

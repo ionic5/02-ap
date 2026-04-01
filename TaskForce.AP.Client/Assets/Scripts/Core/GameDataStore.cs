@@ -290,6 +290,16 @@ namespace TaskForce.AP.Client.Core
             _bossStageEnemies.Add(entry);
         }
 
+        public BossStage GetBossStage(int level)
+        {
+            return _bossStages.Where(entry => entry.Level == level).FirstOrDefault();
+        }
+
+        public IEnumerable<BossStageEnemy> GetBossStageEnemies(int level)
+        {
+            return _bossStageEnemies.Where(entry => entry.BossStageLevel == level);
+        }
+
         public IEnumerable<EnemyUnitSwarm> GetEnemyUnitSwarms()
         {
             return _enemyUnitSwarms;

@@ -5,7 +5,7 @@ using TaskForce.AP.Client.Core.GameData;
 
 namespace TaskForce.AP.Client.Core.BattleFieldScene
 {
-    public class BossSpawner
+    public class BossStageHost
     {
         private readonly View.BattleFieldScene.IWorld _world;
         private readonly GameDataStore _gameDataStore;
@@ -15,7 +15,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
 
         private int _bossStageLevel;
 
-        public BossSpawner(View.BattleFieldScene.IWorld world, GameDataStore gameDataStore,
+        public BossStageHost(View.BattleFieldScene.IWorld world, GameDataStore gameDataStore,
             Timer bossSpawnTimer, ILogger logger, Func<string, int, IUnit> createUnit)
         {
             _world = world;

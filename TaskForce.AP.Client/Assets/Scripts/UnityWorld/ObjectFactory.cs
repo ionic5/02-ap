@@ -8,6 +8,8 @@ namespace TaskForce.AP.Client.UnityWorld
     public class ObjectFactory : MonoBehaviour
     {
         public Core.ILogger Logger;
+        public Core.ITime CoreTime; // Core.ITime 주입
+        public Core.ILoop CoreLoop; // Core.ILoop 주입
 
         [SerializeField]
         private GameObject _defaultRoot;
@@ -46,7 +48,7 @@ namespace TaskForce.AP.Client.UnityWorld
             _prepareHandlers[objectID] = handler;
         }
 
-        public T Create<T>(string objectID) where T : UnityWorld.Object
+        public T Create<T>(string objectID, Action<T> initializer = null) where T : UnityWorld.Object
         {
             if (string.IsNullOrEmpty(objectID))
             {
@@ -54,7 +56,11 @@ namespace TaskForce.AP.Client.UnityWorld
                 return null;
             }
 
-            var newObj = GetNewObject<T>(objectID) ?? CreateNewObject<T>(objectID);
+            var newObj = GetNewObject<T>(objectID, initializer) ?? CreateNewObject<T>(objectID, initializer);
+            
+            // Bullet 뷰에 Core.Time과 Core.ILoop을 주입 (Pool에서 가져오거나 새로 생성할 때 모두 적용)
+            if (newObj is View.BattleFieldScene.Bullet bulletView)
+                bulletView.Initialize(CoreTime, CoreLoop);
 
             if (newObj != null && _prepareHandlers.TryGetValue(objectID, out var handler))
                 handler?.Invoke(newObj);
@@ -62,7 +68,7 @@ namespace TaskForce.AP.Client.UnityWorld
             return newObj;
         }
 
-        private T CreateNewObject<T>(string objectID) where T : UnityWorld.Object
+        private T CreateNewObject<T>(string objectID, Action<T> initializer) where T : UnityWorld.Object
         {
             var container = _prefabContainers.FirstOrDefault(c => c.ObjectID == objectID);
             if (container == null || container.Prefab == null)
@@ -78,14 +84,16 @@ namespace TaskForce.AP.Client.UnityWorld
                 Logger.Fatal($"Component {typeof(T)} not found on instantiated prefab '{objectID}'.");
                 return null;
             }
+            
+            initializer?.Invoke(newObj); // 초기화 액션 호출
 
             if (newObj is PoolableObject poolable)
                 poolable.SetReturnToPoolHandler(_ => Release(objectID, poolable));
-
+            
             return newObj;
         }
 
-        private T GetNewObject<T>(string objectID) where T : UnityWorld.Object
+        private T GetNewObject<T>(string objectID, Action<T> initializer) where T : UnityWorld.Object
         {
             if (!_objectPools.TryGetValue(objectID, out var pool) || pool.Count <= 0)
                 return null;
@@ -96,6 +104,7 @@ namespace TaskForce.AP.Client.UnityWorld
 
             pooledObj.gameObject.SetActive(true);
             pooledObj.Revive();
+            initializer?.Invoke(pooledObj as T); // 초기화 액션 호출
 
             pooledObj.SetReturnToPoolHandler(_ => Release(objectID, pooledObj));
 

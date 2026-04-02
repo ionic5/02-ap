@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using TaskForce.AP.Client.Core;
 
 namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
 {

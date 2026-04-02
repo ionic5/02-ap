@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using TaskForce.AP.Client.Core;
 using TaskForce.AP.Client.Core.GameData;
 
 namespace TaskForce.AP.Client.Core.Entity
@@ -256,12 +257,8 @@ namespace TaskForce.AP.Client.Core.Entity
             UpdateAttributes();
         }
 
-        private void UpdateAttributes()
+        private List<IModifyAttributeEffect> GetMergedEffects()
         {
-            _attributeStore.Clear();
-
-            SetLevelAttributes();
-
             var mergedEffects = new List<IModifyAttributeEffect>();
             foreach (var entry in _modifyAttributeEffects)
             {
@@ -272,7 +269,28 @@ namespace TaskForce.AP.Client.Core.Entity
                     existing.Merge(entry);
             }
             mergedEffects.Sort((a, b) => a.GetApplyOrder().CompareTo(b.GetApplyOrder()));
+            return mergedEffects;
+        }
 
+        public Variant ApplyGlobalModifier(string attributeID, Variant baseValue)
+        {
+            var tempStore = new AttributeStore();
+            tempStore.Set(attributeID, baseValue);
+
+            var mergedEffects = GetMergedEffects();
+            foreach (var entry in mergedEffects)
+                entry.Apply(tempStore);
+
+            return tempStore.Get(attributeID);
+        }
+
+        public void UpdateAttributes()
+        {
+            _attributeStore.Clear();
+
+            SetLevelAttributes();
+
+            var mergedEffects = GetMergedEffects();
             foreach (var entry in mergedEffects)
                 entry.Apply(_attributeStore);
         }

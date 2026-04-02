@@ -10,5 +10,12 @@ namespace TaskForce.AP.Client.Core.Entity
         public const string Heal = "HEAL";
         public const string MeleeAttack = "MELEE_ATTACK";
         public const string PistolAttack = "PISTOL_ATTACK";
+        public const string Gloves = "GLOVES";
+        public const string Armor = "ARMOR";
+        public const string Helmet = "HELMET";
+        public const string Boots = "BOOTS";
+        public const string TacticalBackpack = "TACTICAL_BACKPACK";
+        public const string ArmorPiercingBullet = "ARMOR_PIERCING_BULLET";
+        public const string TacticalManual = "TACTICAL_MANUAL";
     }
 }

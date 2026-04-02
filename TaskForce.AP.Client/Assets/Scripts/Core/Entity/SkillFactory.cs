@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 
 namespace TaskForce.AP.Client.Core.Entity
 {
@@ -41,6 +41,41 @@ namespace TaskForce.AP.Client.Core.Entity
                     effects, _modifyAttributeEffectFactory.Create, skillDescs);
                 skill.SetLevel(1);
                 return skill;
+            }
+
+            if (skillID == SkillID.Gloves)
+            {
+                return new Entity.Equipment.GlovesSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs, _modifyAttributeEffectFactory);
+            }
+
+            if (skillID == SkillID.Armor)
+            {
+                return new Entity.Equipment.ArmorSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs, _modifyAttributeEffectFactory);
+            }
+
+            if (skillID == SkillID.Helmet)
+            {
+                return new Entity.Equipment.HelmetSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs, _modifyAttributeEffectFactory);
+            }
+
+            if (skillID == SkillID.Boots)
+            {
+                return new Entity.Equipment.BootsSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs, _modifyAttributeEffectFactory);
+            }
+
+            if (skillID == SkillID.TacticalBackpack)
+            {
+                return new Entity.Equipment.TacticalBackpackSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs, _modifyAttributeEffectFactory);
+            }
+
+            if (skillID == SkillID.ArmorPiercingBullet)
+            {
+                return new Entity.Equipment.ArmorPiercingBulletSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs, _modifyAttributeEffectFactory);
+            }
+
+            if (skillID == SkillID.TacticalManual)
+            {
+                return new Entity.Equipment.TacticalManualSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs, _modifyAttributeEffectFactory);
             }
 
             return new ActiveSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs);

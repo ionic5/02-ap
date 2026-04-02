@@ -1,4 +1,4 @@
-﻿namespace TaskForce.AP.Client.Core.Entity
+namespace TaskForce.AP.Client.Core.Entity
 {
     public class AttributeID
     {
@@ -28,6 +28,9 @@
         public const string MaxDamage = "MAX_DAMAGE";
         public const string DetectRange = "DETECT_RANGE";
         public const string MaxHP = "MAX_HP";
+        public const string Armor = "ARMOR";
         public const string Range = "RANGE";
+        public const string Penetration = "PENETRATION";
+        public const string ExpGainRate = "EXP_GAIN_RATE";
     }
 }

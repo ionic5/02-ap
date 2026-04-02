@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using TaskForce.AP.Client.Core;
 using TaskForce.AP.Client.Core.GameData;
 
 namespace TaskForce.AP.Client.Core.Entity
@@ -73,7 +74,11 @@ namespace TaskForce.AP.Client.Core.Entity
 
         public virtual Variant GetAttribute(string attributeID)
         {
-            return _attributeStore.Get(attributeID);
+            var baseAttr = _attributeStore.Get(attributeID);
+            if (_owner == null)
+                return baseAttr;
+
+            return _owner.ApplyGlobalModifier(attributeID, baseAttr);
         }
 
         public string GetIconID()

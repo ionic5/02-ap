@@ -78,6 +78,11 @@ namespace TaskForce.AP.Client.Core.Entity
                 return new Entity.Equipment.TacticalManualSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs, _modifyAttributeEffectFactory);
             }
 
+            if (skillID == SkillID.PistolAttack)
+            {
+                return new ActiveSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs);
+            }
+
             return new ActiveSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs);
         }
     }

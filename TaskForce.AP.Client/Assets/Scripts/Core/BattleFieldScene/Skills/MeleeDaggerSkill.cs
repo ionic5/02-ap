@@ -1,0 +1,171 @@
+using System;
+using System.Collections.Generic;
+using System.Numerics;
+using TaskForce.AP.Client.Core.Entity;
+
+namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
+{
+    public class MeleeDaggerSkill : ActiveSkill, ISkill
+    {
+        private readonly Core.Timer _cooldownTimer;
+        private readonly Core.Timer _impactTimer;
+        private readonly Core.Random _random;
+        private UseSkillArgs _useSkillArgs;
+        private State _state;
+        private ILogger _logger;
+
+        private enum State
+        {
+            Initial,
+            Using,
+            Completed,
+            Canceled
+        }
+
+        public MeleeDaggerSkill(Func<Timer> createTimer, Entity.ISkill skillEntity, Random random, ILogger logger) : base(skillEntity)
+        {
+            _cooldownTimer = createTimer();
+            _impactTimer = createTimer();
+            _random = random;
+            _state = State.Initial;
+            _logger = logger;
+        }
+
+        public override bool IsCooldownFinished()
+        {
+            return !_cooldownTimer.IsRunning();
+        }
+
+        public override void Use(UseSkillArgs args)
+        {
+            _state = State.Using;
+
+            var user = GetOwner();
+            var target = args.Target;
+            var attackTime = GetAttribute(AttributeID.AttackTime).AsFloat();
+
+            var attackDirection = Vector2.Normalize(target.GetPosition() - user.GetPosition());
+            user.Attack(attackDirection, attackTime);
+            _cooldownTimer.Start(GetAttribute(AttributeID.AttackTime).AsFloat(), OnCooldownFinished);
+            _impactTimer.Start(GetAttribute(AttributeID.AttackImpactTime).AsFloat(), OnAttackImpact);
+
+            SetUseSkillArgs(args);
+            
+            _logger.Info("meleeDagger: Use: " + args);
+        }
+
+        private void SetUseSkillArgs(UseSkillArgs args)
+        {
+            _useSkillArgs = args;
+
+            var user = GetOwner();
+            user.DiedEvent += OnUserDiedEvent;
+        }
+
+        private void UnsetUseSkillArgs()
+        {
+            var user = GetOwner();
+            user.DiedEvent -= OnUserDiedEvent;
+
+            _useSkillArgs = default;
+        }
+
+        private void OnUserDiedEvent(object sender, DiedEventArgs e)
+        {
+            _state = State.Initial;
+
+            _cooldownTimer.Stop();
+            _impactTimer.Stop();
+
+            UnsetUseSkillArgs();
+        }
+
+        private void OnCooldownFinished()
+        {
+            if (_state != State.Using)
+                return;
+            _state = State.Completed;
+
+            var user = GetOwner();
+            var onCompleted = _useSkillArgs.OnCompleted;
+            UnsetUseSkillArgs();
+
+            user.Wait();
+            onCompleted?.Invoke();
+            
+            _logger.Info("meleeDagger: OnCooldownFinished: ");
+        }
+
+        private void OnAttackImpact()
+        {
+            if (_state != State.Using)
+                return;
+
+            var user = GetOwner();
+            var target = _useSkillArgs.Target;
+
+            var targets = new HashSet<ITarget>();
+
+            var attackRange = GetAttribute(AttributeID.AttackRange).AsFloat();
+            var degree = GetAttribute(AttributeID.SwingAngle).AsFloat();
+            var minDmg = GetAttribute(AttributeID.MinDamage).AsInt();
+            var maxDmg = GetAttribute(AttributeID.MaxDamage).AsInt();
+            
+            var attackTime = GetAttribute(AttributeID.AttackTime).AsFloat();
+            var attackImpactTime = GetAttribute(AttributeID.AttackImpactTime).AsFloat();
+            _logger.Info($"meleeDagger: OnAttackImpact: attackTime: {attackTime}, attackImpactTime: " +
+                         $"{attackImpactTime},attackRange: {attackRange}, degree: {degree}, " +
+                         $"minDamage: {minDmg}, maxDamage: {maxDmg}");
+            
+            if (target.IsAlive() && IsTargetInRange(user, target))
+                targets.Add(target);
+
+            if (degree > 0)
+            {
+                var position = user.GetPosition();
+                var direction = user.GetDirection();
+                var enemies = user.FindTargetsInSector(position, direction, degree, attackRange);
+
+                targets.UnionWith(enemies);
+            }
+
+            foreach (var entry in targets)
+            {
+                var damage = _random.Next(minDmg, maxDmg);
+                entry.Hit(user, damage);
+            }
+        }
+
+        public override bool IsTargetInRange(IUnit unit, ITarget target)
+        {
+            var range = GetAttribute(AttributeID.AttackRange).AsFloat();
+            var distSq = Vector2.DistanceSquared(unit.GetPosition(), target.GetPosition());
+            return distSq <= range * range;
+        }
+
+        public override IEnumerable<ITarget> GetTargetsInRange(IUnit unit)
+        {
+            return unit.FindTargets(GetAttribute(AttributeID.AttackRange).AsFloat());
+        }
+
+        public override bool IsCompleted()
+        {
+            return _state == State.Completed;
+        }
+
+        public override void Cancel()
+        {
+            if (_state != State.Using)
+                return;
+            _state = State.Canceled;
+
+            var user = GetOwner();
+            user.Wait();
+
+            UnsetUseSkillArgs();
+
+            if (_cooldownTimer.IsRunning() && _impactTimer.IsRunning())
+                _cooldownTimer.Stop();
+        }
+    }
+}

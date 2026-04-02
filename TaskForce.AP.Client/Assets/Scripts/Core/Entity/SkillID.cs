@@ -9,6 +9,7 @@ namespace TaskForce.AP.Client.Core.Entity
         public const string Monk = "SUMMON_MONK";
         public const string Heal = "HEAL";
         public const string MeleeAttack = "MELEE_ATTACK";
+        public const string MeleeDagger = "MELEE_DAGGER";
         public const string PistolAttack = "PISTOL_ATTACK";
         public const string Gloves = "GLOVES";
         public const string Armor = "ARMOR";

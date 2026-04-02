@@ -30,5 +30,7 @@ namespace TaskForce.AP.Client.Core.Entity
         public const string MaxHP = "MAX_HP";
         public const string Armor = "ARMOR";
         public const string Range = "RANGE";
+        public const string Penetration = "PENETRATION";
+        public const string ExpGainRate = "EXP_GAIN_RATE";
     }
 }

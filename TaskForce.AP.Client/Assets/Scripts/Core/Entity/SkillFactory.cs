@@ -63,6 +63,21 @@ namespace TaskForce.AP.Client.Core.Entity
                 return new Entity.Equipment.BootsSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs, _modifyAttributeEffectFactory);
             }
 
+            if (skillID == SkillID.TacticalBackpack)
+            {
+                return new Entity.Equipment.TacticalBackpackSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs, _modifyAttributeEffectFactory);
+            }
+
+            if (skillID == SkillID.ArmorPiercingBullet)
+            {
+                return new Entity.Equipment.ArmorPiercingBulletSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs, _modifyAttributeEffectFactory);
+            }
+
+            if (skillID == SkillID.TacticalManual)
+            {
+                return new Entity.Equipment.TacticalManualSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs, _modifyAttributeEffectFactory);
+            }
+
             return new ActiveSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs);
         }
     }

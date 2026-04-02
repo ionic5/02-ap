@@ -94,10 +94,10 @@ namespace TaskForce.AP.Client.UnityWorld
             var soulFactory = new SoulFactory(() => objFac.Create<View.BattleFieldScene.Soul>(ObjectID.Soul));
             var dropHandler = new DropHandler(soulFactory, _random, _gameDataStore);
             var skillEntityFactory = new TaskForce.AP.Client.Core.Entity.SkillFactory(_gameDataStore, _logger, _textStore, effectFactory);
+            var unitEntityFactory = new Core.Entity.UnitFactory(_logger, _gameDataStore, skillEntityFactory.CreateSkill);
             var unitFactory = new UnitFactory(_random, createTimer, targetFinder,
                 (id) => objFac.Create<View.BattleFieldScene.Unit>(id), _logger,
-                skillFactory.Create, _gameDataStore, unitLogicFactory.Create, skillEntityFactory.CreateSkill);
-            var unitEntityFactory = new Core.Entity.UnitFactory(_logger, _gameDataStore, skillEntityFactory.CreateSkill);
+                skillFactory.Create, _gameDataStore, unitLogicFactory.Create, unitEntityFactory.CreateUnitEntity);
 
             skillFactory.AddCreator(Core.Entity.SkillID.Monk, (skill) =>
             {
@@ -236,10 +236,15 @@ namespace TaskForce.AP.Client.UnityWorld
             };
             scene.DestroyEvent += hdlr;
 
-            var gameHost = new GameHost(world, _gameDataStore, new Core.Timer(_time, loop),
-                createTimer(), createTimer(), _logger, _random, unitFactory.CreateEnemyUnit);
+            var stageHost = new StageHost(world, _gameDataStore, new Core.Timer(_time, loop),
+                createTimer(), _logger, _random, unitFactory.CreateEnemyUnit);
 
-            gameHost.Start(1);
+            stageHost.Start(1);
+
+            var swarmGenerator = new Core.BattleFieldScene.SwarmGenerator(world, _gameDataStore,
+                createTimer(), unitFactory.CreateEnemyUnit);
+
+            swarmGenerator.Start();
 
             var bossStageHost = new Core.BattleFieldScene.BossStageHost(world, _gameDataStore,
                 createTimer(), _logger, unitFactory.CreateEnemyUnit);

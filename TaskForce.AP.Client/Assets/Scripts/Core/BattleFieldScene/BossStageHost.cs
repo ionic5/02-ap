@@ -11,12 +11,12 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private readonly GameDataStore _gameDataStore;
         private readonly Timer _bossSpawnTimer;
         private readonly ILogger _logger;
-        private readonly Func<string, int, IUnit> _createUnit;
+        private readonly Action<string, int, System.Numerics.Vector2> _createUnit;
 
         private int _bossStageLevel;
 
         public BossStageHost(View.BattleFieldScene.IWorld world, GameDataStore gameDataStore,
-            Timer bossSpawnTimer, ILogger logger, Func<string, int, IUnit> createUnit)
+            Timer bossSpawnTimer, ILogger logger, Action<string, int, System.Numerics.Vector2> createUnit)
         {
             _world = world;
             _gameDataStore = gameDataStore;
@@ -46,16 +46,10 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             foreach (var enemy in enemies)
             {
                 for (var i = 0; i < enemy.Count; i++)
-                    Spawn(enemy.UnitID);
+                    _createUnit(enemy.UnitID, 1, _world.GetWarpPoint());
             }
 
             _logger.Info($"BossStage(level:{_bossStageLevel}) enemies spawned.");
-        }
-
-        private void Spawn(string unitID)
-        {
-            var unit = _createUnit.Invoke(unitID, 1);
-            unit.SetPosition(_world.GetWarpPoint());
         }
     }
 }

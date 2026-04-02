@@ -16,7 +16,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private readonly Core.Random _random;
         private readonly Func<string, int, IUnit> _createUnit;
 
-        private IReadOnlyList<StageEnemyUnit> _stageEnemyUnits;
+        private IReadOnlyList<StageEnemy> _stageEnemies;
         private float _spawnGap;
         private int _stageLevel;
         private GameData.EnemyUnitSwarm _swarmData;
@@ -45,7 +45,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
 
             var stage = GetStage(stageLevel);
             _stageTimer.Start(stage.Time, OnStageFinished);
-            _stageEnemyUnits = _gameDataStore.GetStageEnemyUnits().Where(entry => entry.StageLevel == stageLevel).ToList();
+            _stageEnemies = _gameDataStore.GetStageEnemies().Where(entry => entry.StageLevel == stageLevel).ToList();
             _spawnGap = stage.SpawnGap;
             _spawnTimer.Start(_spawnGap, OnSpawnTimerElapsed);
 
@@ -95,18 +95,18 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             _swarmTimer.Start(_swarmInterval, OnSwarmTimerElapsed);
         }
 
-        private StageEnemyUnit SelectBySpawnRate()
+        private StageEnemy SelectBySpawnRate()
         {
-            var totalRate = _stageEnemyUnits.Sum(e => e.SpawnRate);
+            var totalRate = _stageEnemies.Sum(e => e.SpawnRate);
             var roll = _random.Next(0f, totalRate);
             var accumulated = 0f;
-            foreach (var entry in _stageEnemyUnits)
+            foreach (var entry in _stageEnemies)
             {
                 accumulated += entry.SpawnRate;
                 if (roll < accumulated)
                     return entry;
             }
-            return _stageEnemyUnits[_stageEnemyUnits.Count - 1];
+            return _stageEnemies[_stageEnemies.Count - 1];
         }
 
         private void SpawnSwarm()

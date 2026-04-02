@@ -8,7 +8,7 @@ namespace TaskForce.AP.Client.Core
 {
     public class GameDataStore
     {
-        private readonly List<StageEnemyUnit> _stageEnemyUnits;
+        private readonly List<StageEnemy> _stageEnemies;
         private readonly List<Stage> _stages;
         private readonly List<Unit> _units;
         private readonly List<NonPlayerUnitLogic> _nonPlayerUnitLogics;
@@ -35,7 +35,7 @@ namespace TaskForce.AP.Client.Core
         public GameDataStore()
         {
             _modifyAttributeEffects = new List<ModifyAttributeEffect>();
-            _stageEnemyUnits = new List<StageEnemyUnit>();
+            _stageEnemies = new List<StageEnemy>();
             _stages = new List<Stage>();
             _units = new List<Unit>();
             _nonPlayerUnitLogics = new List<NonPlayerUnitLogic>();
@@ -115,9 +115,9 @@ namespace TaskForce.AP.Client.Core
             _stages.Add(entry);
         }
 
-        public void AddStageEnemyUnit(StageEnemyUnit entry)
+        public void AddStageEnemy(StageEnemy entry)
         {
-            _stageEnemyUnits.Add(entry);
+            _stageEnemies.Add(entry);
         }
 
         public void AddLevelCoefficient(LevelCoefficient entry)
@@ -215,9 +215,9 @@ namespace TaskForce.AP.Client.Core
             return _stages;
         }
 
-        public IEnumerable<StageEnemyUnit> GetStageEnemyUnits()
+        public IEnumerable<StageEnemy> GetStageEnemies()
         {
-            return _stageEnemyUnits;
+            return _stageEnemies;
         }
 
         public IEnumerable<Unit> GetUnits()

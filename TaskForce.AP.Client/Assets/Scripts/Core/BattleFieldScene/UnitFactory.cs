@@ -134,7 +134,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             }
             else
             {
-                _logger.Info($"Failed to find default skill for unit id. ({unitID})");
+                _logger.Warn($"Failed to find default skill for unit id. ({unitID})");
             }
 
             return entity;

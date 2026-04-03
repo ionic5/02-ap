@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections; // [REVIVE_EFFECT_TEST]
 using System.Collections.Generic;
 using TaskForce.AP.Client.Core;
@@ -40,7 +40,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
 
         private IReadOnlyDictionary<UnitMotionID, string> _clipNameMap;
         private readonly string[] State = {
-            "attack",
+            "Attack",
             "Idle",
             "Dying",
             "Walk",
@@ -68,7 +68,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
                 { UnitMotionID.Cast, State[4] }
             };
 
-            _hpBarController = GetComponent<HPBarController>();            
+            _hpBarController = GetComponent<HPBarController>();
         }
 
         private void Update()
@@ -251,7 +251,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
             // TODO HP 바 구현 재검토 필요
             if (_hpBarController != null)
                 _hpBarController.SetActiveHPBar(false);
-            
+
             DieAnimationFinishedEvent = null;
             CreateFloatingTextAnimator = null;
             if (Timer != null)
@@ -269,7 +269,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
             if (_hpBarController != null)
                 _hpBarController.SetActiveHPBar(false); // Ensure HP bar is hidden
 
-            
+
         }
 
         public void SetActive(bool active)

@@ -512,6 +512,37 @@ Transform:
   - {fileID: 4511187776799336334}
   m_Father: {fileID: 5577958626080659386}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3235536322175013826
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1845315248024565929}
+  m_Layer: 0
+  m_Name: EffectAreaCenter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1845315248024565929
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3235536322175013826}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.08309984, y: 0.61711, z: 0.23578024}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2891323534676533626}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3474653156294112516
 GameObject:
   m_ObjectHideFlags: 0
@@ -1092,6 +1123,8 @@ GameObject:
   - component: {fileID: 2891323534676533626}
   - component: {fileID: 5647991211035693590}
   - component: {fileID: 3178585325562133131}
+  - component: {fileID: 3643486727983315186}
+  - component: {fileID: 5428891725317869390}
   m_Layer: 0
   m_Name: MainCharacter
   m_TagString: Untagged
@@ -1116,6 +1149,7 @@ Transform:
   - {fileID: 805601134641258564}
   - {fileID: 211104849106497393}
   - {fileID: 540142835143986251}
+  - {fileID: 1845315248024565929}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &5647991211035693590
@@ -1163,6 +1197,44 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!114 &3643486727983315186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7968827253755497746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d062bc36eedcdb40b28e00527858b58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.Unit
+  _agent: {fileID: 5428891725317869390}
+  _animator: {fileID: 5647991211035693590}
+  _effectAreaCenter: {fileID: 3235536322175013826}
+  _pathUpdateThreshold: 0.2
+--- !u!195 &5428891725317869390
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7968827253755497746}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.3
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &8069424040065289372
 GameObject:
   m_ObjectHideFlags: 0

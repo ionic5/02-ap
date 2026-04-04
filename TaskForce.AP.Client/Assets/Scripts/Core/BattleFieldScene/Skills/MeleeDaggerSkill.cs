@@ -113,9 +113,12 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
             
             var attackTime = GetAttribute(AttributeID.AttackTime).AsFloat();
             var attackImpactTime = GetAttribute(AttributeID.AttackImpactTime).AsFloat();
-            _logger.Info($"meleeDagger: OnAttackImpact: attackTime: {attackTime}, attackImpactTime: " +
-                         $"{attackImpactTime},attackRange: {attackRange}, degree: {degree}, " +
-                         $"minDamage: {minDmg}, maxDamage: {maxDmg}");
+            var attackCombo = GetAttribute(AttributeID.AttackCombo).AsInt();
+            var attackComboTime = GetAttribute(AttributeID.AttackComboTime).AsFloat();
+            var attackAngle = GetAttribute(AttributeID.AttackAngle).AsFloat();
+            _logger.Info($"meleeDagger: OnAttackImpact: attackTime: {attackTime}, attackImpactTime:{attackImpactTime}," +
+                         $"attackRange: {attackRange}, degree: {degree}, minDamage: {minDmg}, maxDamage: {maxDmg}, " +
+                         $"attackCombo: {attackCombo}, attackComboTime: {attackComboTime}, attackAngle: {attackAngle}");
             
             if (target.IsAlive() && IsTargetInRange(user, target))
                 targets.Add(target);

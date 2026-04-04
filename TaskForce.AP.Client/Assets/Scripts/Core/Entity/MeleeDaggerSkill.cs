@@ -13,9 +13,11 @@ namespace TaskForce.AP.Client.Core.Entity
         {
         }
 
-        public override Variant GetAttribute(string attributeID)
-        {
-            return GetOwner().GetAttribute(attributeID);
-        }
+        // TODO: JW: 추후 삭제 확인 요
+        // public override Variant GetAttribute(string attributeID)
+        // {
+        //     // return base.GetAttribute(attributeID);
+        //     return GetOwner().GetAttribute(attributeID);
+        // }
     }
 }

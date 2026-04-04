@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
+using log4net.Appender;
 using TaskForce.AP.Client.Core.Entity;
 
 namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
@@ -9,10 +11,13 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
     {
         private readonly Core.Timer _cooldownTimer;
         private readonly Core.Timer _impactTimer;
+        private readonly Core.Timer _comboTimer;
         private readonly Core.Random _random;
         private UseSkillArgs _useSkillArgs;
         private State _state;
         private ILogger _logger;
+
+        private int _attackComboCount;
 
         private enum State
         {
@@ -26,6 +31,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
         {
             _cooldownTimer = createTimer();
             _impactTimer = createTimer();
+            _comboTimer = createTimer();
             _random = random;
             _state = State.Initial;
             _logger = logger;
@@ -40,20 +46,34 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
         {
             _state = State.Using;
 
+            _attackComboCount = GetAttribute(AttributeID.AttackCombo).AsInt();
+            
+            StartAttackCombo(args);
+            _cooldownTimer.Start(GetAttribute(AttributeID.AttackTime).AsFloat(), OnCooldownFinished);
+            
+            SetUseSkillArgs(args);
+            
+            _logger.Info("meleeDagger: Use: " + args);
+        }
+
+        void StartAttackCombo(UseSkillArgs args)
+        {
+            _attackComboCount--;
+            
             var user = GetOwner();
             var target = args.Target;
             var attackTime = GetAttribute(AttributeID.AttackTime).AsFloat();
 
             var attackDirection = Vector2.Normalize(target.GetPosition() - user.GetPosition());
             user.Attack(attackDirection, attackTime);
-            _cooldownTimer.Start(GetAttribute(AttributeID.AttackTime).AsFloat(), OnCooldownFinished);
             _impactTimer.Start(GetAttribute(AttributeID.AttackImpactTime).AsFloat(), OnAttackImpact);
 
-            SetUseSkillArgs(args);
-            
-            _logger.Info("meleeDagger: Use: " + args);
+            if (_attackComboCount > 0)
+            {   
+                _comboTimer.Start(GetAttribute(AttributeID.AttackComboTime).AsFloat(), () => StartAttackCombo(args));
+            }
         }
-
+        
         private void SetUseSkillArgs(UseSkillArgs args)
         {
             _useSkillArgs = args;
@@ -76,6 +96,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
 
             _cooldownTimer.Stop();
             _impactTimer.Stop();
+            _comboTimer.Stop();
 
             UnsetUseSkillArgs();
         }
@@ -97,7 +118,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
         }
 
         private void OnAttackImpact()
-        {
+        {_logger.Info("공격");
             if (_state != State.Using)
                 return;
 
@@ -107,7 +128,8 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
             var targets = new HashSet<ITarget>();
 
             var attackRange = GetAttribute(AttributeID.AttackRange).AsFloat();
-            var degree = GetAttribute(AttributeID.SwingAngle).AsFloat();
+            // var degree = GetAttribute(AttributeID.SwingAngle).AsFloat();  // TODO: JW: singAngle 적용해야 하는지 확인 요
+            var degree = GetAttribute(AttributeID.AttackAngle).AsFloat();  
             var minDmg = GetAttribute(AttributeID.MinDamage).AsInt();
             var maxDmg = GetAttribute(AttributeID.MaxDamage).AsInt();
             
@@ -115,10 +137,9 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
             var attackImpactTime = GetAttribute(AttributeID.AttackImpactTime).AsFloat();
             var attackCombo = GetAttribute(AttributeID.AttackCombo).AsInt();
             var attackComboTime = GetAttribute(AttributeID.AttackComboTime).AsFloat();
-            var attackAngle = GetAttribute(AttributeID.AttackAngle).AsFloat();
             _logger.Info($"meleeDagger: OnAttackImpact: attackTime: {attackTime}, attackImpactTime:{attackImpactTime}," +
                          $"attackRange: {attackRange}, degree: {degree}, minDamage: {minDmg}, maxDamage: {maxDmg}, " +
-                         $"attackCombo: {attackCombo}, attackComboTime: {attackComboTime}, attackAngle: {attackAngle}");
+                         $"attackCombo: {attackCombo}, attackComboTime: {attackComboTime}");
             
             if (target.IsAlive() && IsTargetInRange(user, target))
                 targets.Add(target);

@@ -113,6 +113,10 @@ namespace TaskForce.AP.Client.UnityWorld
                     UnitID = row["unitID"],
                     Count = int.Parse(row["count"])
                 }, gameDataStore.AddBossStageEnemy),
+                LoadTable(AssetID.FieldItem, row => new Core.GameData.FieldItem {
+                    ID = row["id"],
+                    BaseAttributeID = row["baseAttributeID"]
+                }, gameDataStore.AddFieldItem),
                 LoadTable(AssetID.SkillDescription, (row) => {
                     var parameters = new List<object>();
                     for(var i= 0;i<2;i++) {

@@ -11,12 +11,15 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private readonly GameDataStore _gameDataStore;
         private readonly Timer _bossSpawnTimer;
         private readonly ILogger _logger;
-        private readonly Func<string, int, IUnit> _createUnit;
+        private readonly Func<string, int, System.Numerics.Vector2, Unit> _createUnit;
+
+        public event EventHandler<DiedEventArgs> AllBossesKilledEvent;
 
         private int _bossStageLevel;
+        private int _aliveCount;
 
         public BossStageHost(View.BattleFieldScene.IWorld world, GameDataStore gameDataStore,
-            Timer bossSpawnTimer, ILogger logger, Func<string, int, IUnit> createUnit)
+            Timer bossSpawnTimer, ILogger logger, Func<string, int, System.Numerics.Vector2, Unit> createUnit)
         {
             _world = world;
             _gameDataStore = gameDataStore;
@@ -46,16 +49,24 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             foreach (var enemy in enemies)
             {
                 for (var i = 0; i < enemy.Count; i++)
-                    Spawn(enemy.UnitID);
+                {
+                    var unit = _createUnit(enemy.UnitID, 1, _world.GetWarpPoint());
+
+                    _aliveCount++;
+
+                    EventHandler<DiedEventArgs> hdlr = null;
+                    hdlr = (sender, args) =>
+                    {
+                        unit.DiedEvent -= hdlr;
+                        _aliveCount--;
+                        if (_aliveCount == 0)
+                            AllBossesKilledEvent?.Invoke(this, args);
+                    };
+                    unit.DiedEvent += hdlr;
+                }
             }
 
             _logger.Info($"BossStage(level:{_bossStageLevel}) enemies spawned.");
-        }
-
-        private void Spawn(string unitID)
-        {
-            var unit = _createUnit.Invoke(unitID, 1);
-            unit.SetPosition(_world.GetWarpPoint());
         }
     }
 }

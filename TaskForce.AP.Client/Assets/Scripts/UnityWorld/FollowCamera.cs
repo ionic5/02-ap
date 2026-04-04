@@ -32,7 +32,7 @@ namespace TaskForce.AP.Client.UnityWorld
             _target = null;
         }
 
-        void FixedUpdate()
+        void LateUpdate()
         {
             UpdateTargetProxy();
         }

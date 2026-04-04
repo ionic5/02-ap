@@ -57,7 +57,7 @@ namespace TaskForce.AP.Client.UnityWorld
             var world = scene.World;
             var joystick = new BattleFieldScene.Joystick(scene.Joystick);
             var targetFinder = new BattleFieldScene.TargetFinder();
-            var soulFinder = new SoulFinder();
+            var fieldObjectFinder = new FieldObjectFinder();
             var playerUnitSpawnPosition = scene.PlayerUnitSpawnPosition;
             var followCamera = scene.FollowCamera;
             var expBar = scene.ExpBar;
@@ -90,14 +90,14 @@ namespace TaskForce.AP.Client.UnityWorld
 
             var effectFactory = new TaskForce.AP.Client.Core.Entity.ModifyAttributeEffectFactory(_gameDataStore, formulaCalculator);
             var skillFactory = new SkillFactory();
-            var unitLogicFactory = new UnitLogicFactory(joystick, world, createTimer, loop, soulFinder, _gameDataStore, _logger);
-            var soulFactory = new SoulFactory(() => objFac.Create<View.BattleFieldScene.Soul>(ObjectID.Soul));
-            var dropHandler = new DropHandler(soulFactory, _random, _gameDataStore);
+            var unitLogicFactory = new UnitLogicFactory(joystick, world, createTimer, loop, fieldObjectFinder, _gameDataStore, _logger);
+            var expOrbFactory = new ExpOrbFactory(() => objFac.Create<View.BattleFieldScene.ExpOrb>(ObjectID.ExpOrb));
+            var fieldObjectDropHandler = new FieldObjectDropHandler(expOrbFactory, _random, _gameDataStore);
             var skillEntityFactory = new TaskForce.AP.Client.Core.Entity.SkillFactory(_gameDataStore, _logger, _textStore, effectFactory);
+            var unitEntityFactory = new Core.Entity.UnitFactory(_logger, _gameDataStore, skillEntityFactory.CreateSkill);
             var unitFactory = new UnitFactory(_random, createTimer, targetFinder,
                 (id) => objFac.Create<View.BattleFieldScene.Unit>(id), _logger,
-                skillFactory.Create, _gameDataStore, unitLogicFactory.Create, skillEntityFactory.CreateSkill);
-            var unitEntityFactory = new Core.Entity.UnitFactory(_logger, _gameDataStore, skillEntityFactory.CreateSkill);
+                skillFactory.Create, _gameDataStore, unitLogicFactory.Create, unitEntityFactory.CreateUnitEntity);
 
             skillFactory.AddCreator(Core.Entity.SkillID.Monk, (skill) =>
             {
@@ -178,9 +178,8 @@ namespace TaskForce.AP.Client.UnityWorld
             var battleLogRecorder = new BattleLogRecorder(battleLog, _time);
             loop.Add(battleLogRecorder);
 
-            soulFactory.SoulCreatedEvent += soulFinder.OnSoulCreatedEvent;
+            expOrbFactory.ExpOrbCreatedEvent += fieldObjectFinder.OnExpOrbCreatedEvent;
             unitFactory.UnitCreatedEvent += targetFinder.OnTargetCreatedEvent;
-            unitFactory.UnitCreatedEvent += dropHandler.OnUnitCreatedEvent;
             EventHandler<CreatedEventArgs<Core.BattleFieldScene.Unit>> battleLogRecorderHdlr = (sender, e) =>
             {
                 if (e.CreatedObject.IsPlayerSide())
@@ -224,29 +223,39 @@ namespace TaskForce.AP.Client.UnityWorld
             sceneCtrl.Start();
             loop.Add(sceneCtrl);
 
+            var stageHost = new StageHost(world, _gameDataStore, new Core.Timer(_time, loop),
+                createTimer(), _logger, _random, unitFactory.CreateEnemyUnit);
+
+            var bossStageHost = new Core.BattleFieldScene.BossStageHost(world, _gameDataStore,
+                createTimer(), _logger, unitFactory.CreateEnemyUnit);
+
+            stageHost.EnemyKilledEvent += fieldObjectDropHandler.OnEnemyKilled;
+            bossStageHost.AllBossesKilledEvent += fieldObjectDropHandler.OnAllBossesKilled;
+
             EventHandler<DestroyEventArgs> hdlr = null;
             hdlr = (sender, args) =>
             {
-                soulFactory.SoulCreatedEvent -= soulFinder.OnSoulCreatedEvent;
+                expOrbFactory.ExpOrbCreatedEvent -= fieldObjectFinder.OnExpOrbCreatedEvent;
                 unitFactory.UnitCreatedEvent -= targetFinder.OnTargetCreatedEvent;
-                unitFactory.UnitCreatedEvent -= dropHandler.OnUnitCreatedEvent;
                 unitFactory.UnitCreatedEvent -= battleLogRecorderHdlr;
+                stageHost.EnemyKilledEvent -= fieldObjectDropHandler.OnEnemyKilled;
+                bossStageHost.AllBossesKilledEvent -= fieldObjectDropHandler.OnAllBossesKilled;
 
                 loop.Remove(battleLogRecorder);
                 loop.Remove(sceneCtrl);
                 targetFinder.Destroy();
+                fieldObjectFinder.Destroy();
 
                 scene.DestroyEvent -= hdlr;
             };
             scene.DestroyEvent += hdlr;
 
-            var gameHost = new GameHost(world, _gameDataStore, new Core.Timer(_time, loop),
-                createTimer(), createTimer(), _logger, _random, unitFactory.CreateEnemyUnit);
+            stageHost.Start(1);
 
-            gameHost.Start(1);
+            var swarmGenerator = new Core.BattleFieldScene.SwarmGenerator(world, _gameDataStore,
+                createTimer(), unitFactory.CreateEnemyUnit);
 
-            var bossStageHost = new Core.BattleFieldScene.BossStageHost(world, _gameDataStore,
-                createTimer(), _logger, unitFactory.CreateEnemyUnit);
+            swarmGenerator.Start();
 
             bossStageHost.Start(1);
 

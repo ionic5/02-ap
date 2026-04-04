@@ -38,12 +38,12 @@ namespace TaskForce.AP.Client.UnityWorld
                     Key = row["key"],
                     Value = float.Parse(row["value"])
                 }, gameDataStore.AddLevelCoefficient),
-                LoadTable(AssetID.StageEnemyUnit, row => new StageEnemyUnit {
+                LoadTable(AssetID.StageEnemy, row => new StageEnemy {
                     StageLevel = int.Parse(row["stageLevel"]),
                     UnitID = row["unitID"],
                     Level = int.Parse(row["level"]),
                     SpawnRate = float.Parse(row["spawnRate"])
-                }, gameDataStore.AddStageEnemyUnit),
+                }, gameDataStore.AddStageEnemy),
                 LoadTable(AssetID.Stage, row => new Stage {
                     Level = int.Parse(row["level"]),
                     Time = float.Parse(row["time"]),
@@ -113,6 +113,11 @@ namespace TaskForce.AP.Client.UnityWorld
                     UnitID = row["unitID"],
                     Count = int.Parse(row["count"])
                 }, gameDataStore.AddBossStageEnemy),
+                LoadTable(AssetID.PlayerRank, row => new Core.GameData.PlayerRank {
+                    Rank = int.Parse(row["rank"]),
+                    UpgradeGold = int.Parse(row["upgradeGold"]),
+                    SlotNum = int.Parse(row["slotNum"])
+                }, gameDataStore.AddPlayerRank),
                 LoadTable(AssetID.SkillDescription, (row) => {
                     var parameters = new List<object>();
                     for(var i= 0;i<2;i++) {

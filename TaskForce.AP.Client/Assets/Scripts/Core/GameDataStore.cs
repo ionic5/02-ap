@@ -8,7 +8,7 @@ namespace TaskForce.AP.Client.Core
 {
     public class GameDataStore
     {
-        private readonly List<StageEnemyUnit> _stageEnemyUnits;
+        private readonly List<StageEnemy> _stageEnemies;
         private readonly List<Stage> _stages;
         private readonly List<Unit> _units;
         private readonly List<NonPlayerUnitLogic> _nonPlayerUnitLogics;
@@ -27,6 +27,7 @@ namespace TaskForce.AP.Client.Core
         private readonly List<EnemyUnitSwarm> _enemyUnitSwarms;
         private readonly List<BossStage> _bossStages;
         private readonly List<BossStageEnemy> _bossStageEnemies;
+        private readonly List<PlayerRank> _playerRank;
         private readonly Dictionary<string, GameData.Constant> _constants;
 
         private Dictionary<string, Skill> _skillsByID;
@@ -35,7 +36,7 @@ namespace TaskForce.AP.Client.Core
         public GameDataStore()
         {
             _modifyAttributeEffects = new List<ModifyAttributeEffect>();
-            _stageEnemyUnits = new List<StageEnemyUnit>();
+            _stageEnemies = new List<StageEnemy>();
             _stages = new List<Stage>();
             _units = new List<Unit>();
             _nonPlayerUnitLogics = new List<NonPlayerUnitLogic>();
@@ -54,6 +55,7 @@ namespace TaskForce.AP.Client.Core
             _enemyUnitSwarms = new List<EnemyUnitSwarm>();
             _bossStages = new List<BossStage>();
             _bossStageEnemies = new List<BossStageEnemy>();
+            _playerRank = new List<PlayerRank>();
             _constants = new Dictionary<string, GameData.Constant>();
         }
 
@@ -115,9 +117,9 @@ namespace TaskForce.AP.Client.Core
             _stages.Add(entry);
         }
 
-        public void AddStageEnemyUnit(StageEnemyUnit entry)
+        public void AddStageEnemy(StageEnemy entry)
         {
-            _stageEnemyUnits.Add(entry);
+            _stageEnemies.Add(entry);
         }
 
         public void AddLevelCoefficient(LevelCoefficient entry)
@@ -215,9 +217,9 @@ namespace TaskForce.AP.Client.Core
             return _stages;
         }
 
-        public IEnumerable<StageEnemyUnit> GetStageEnemyUnits()
+        public IEnumerable<StageEnemy> GetStageEnemies()
         {
-            return _stageEnemyUnits;
+            return _stageEnemies;
         }
 
         public IEnumerable<Unit> GetUnits()
@@ -300,6 +302,17 @@ namespace TaskForce.AP.Client.Core
             return _bossStageEnemies.Where(entry => entry.BossStageLevel == level);
         }
 
+        public void AddPlayerRank(PlayerRank entry)
+        {
+            _playerRank.Add(entry);
+        }
+
+        public List<PlayerRank> GetPlayerRankData()
+        {
+            List<PlayerRank> playerRankData = new List<PlayerRank>(_playerRank);
+            return playerRankData;
+        }
+        
         public IEnumerable<EnemyUnitSwarm> GetEnemyUnitSwarms()
         {
             return _enemyUnitSwarms;

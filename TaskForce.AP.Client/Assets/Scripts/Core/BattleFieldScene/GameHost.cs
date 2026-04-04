@@ -16,6 +16,8 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private readonly Core.Random _random;
         private readonly Func<string, int, IUnit> _createUnit;
 
+        public event EventHandler<DiedEventArgs> EnemyKilledEvent;
+
         private IReadOnlyList<StageEnemyUnit> _stageEnemyUnits;
         private float _spawnGap;
         private int _stageLevel;
@@ -127,6 +129,14 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
 
             var unit = _createUnit.Invoke(unitID, level);
             unit.SetPosition(spawnPos);
+
+            EventHandler<DiedEventArgs> hdlr = null;
+            hdlr = (sender, args) =>
+            {
+                unit.DiedEvent -= hdlr;
+                EnemyKilledEvent?.Invoke(this, args);
+            };
+            unit.DiedEvent += hdlr;
         }
     }
 }

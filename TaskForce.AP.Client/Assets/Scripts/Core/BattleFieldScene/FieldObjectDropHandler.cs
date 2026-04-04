@@ -2,38 +2,34 @@ using System;
 
 namespace TaskForce.AP.Client.Core.BattleFieldScene
 {
-    public class DropHandler
+    public class FieldObjectDropHandler
     {
         private readonly ExpOrbFactory _expOrbFactory;
         private readonly Core.Random _random;
         private readonly GameDataStore _gameDataStore;
 
-        public DropHandler(ExpOrbFactory expOrbFactory, Random random, GameDataStore gameDataStore)
+        public FieldObjectDropHandler(ExpOrbFactory expOrbFactory, Core.Random random, GameDataStore gameDataStore)
         {
             _expOrbFactory = expOrbFactory;
             _random = random;
             _gameDataStore = gameDataStore;
         }
 
-        public void OnUnitCreatedEvent(object sender, CreatedEventArgs<Unit> args)
+        public void OnEnemyKilled(object sender, DiedEventArgs args)
         {
-            var newUnit = args.CreatedObject;
+            if (args.Killer == null || !args.Killer.IsPlayerSide())
+                return;
 
-            EventHandler<DiedEventArgs> hdlr = null;
-            hdlr = (sender, args) =>
-            {
-                OnUnitDiedEvent(sender, args);
-                newUnit.DiedEvent -= hdlr;
-            };
-            newUnit.DiedEvent += hdlr;
-        }
-
-        public void OnUnitDiedEvent(object sender, DiedEventArgs args)
-        {
             var dropRate = _gameDataStore.GetSoulDropRate();
             if (_random.Next(0.0f, 100.0f) >= dropRate)
                 return;
 
+            var expOrb = _expOrbFactory.Create(1);
+            expOrb.SetPosition(args.DiedTarget.GetPosition());
+        }
+
+        public void OnAllBossesKilled(object sender, DiedEventArgs args)
+        {
             var expOrb = _expOrbFactory.Create(1);
             expOrb.SetPosition(args.DiedTarget.GetPosition());
         }

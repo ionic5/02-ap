@@ -92,7 +92,7 @@ namespace TaskForce.AP.Client.UnityWorld
             var skillFactory = new SkillFactory();
             var unitLogicFactory = new UnitLogicFactory(joystick, world, createTimer, loop, fieldObjectFinder, _gameDataStore, _logger);
             var expOrbFactory = new ExpOrbFactory(() => objFac.Create<View.BattleFieldScene.ExpOrb>(ObjectID.ExpOrb));
-            var dropHandler = new DropHandler(expOrbFactory, _random, _gameDataStore);
+            var fieldObjectDropHandler = new FieldObjectDropHandler(expOrbFactory, _random, _gameDataStore);
             var skillEntityFactory = new TaskForce.AP.Client.Core.Entity.SkillFactory(_gameDataStore, _logger, _textStore, effectFactory);
             var unitFactory = new UnitFactory(_random, createTimer, targetFinder,
                 (id) => objFac.Create<View.BattleFieldScene.Unit>(id), _logger,
@@ -176,7 +176,6 @@ namespace TaskForce.AP.Client.UnityWorld
 
             expOrbFactory.ExpOrbCreatedEvent += fieldObjectFinder.OnExpOrbCreatedEvent;
             unitFactory.UnitCreatedEvent += targetFinder.OnTargetCreatedEvent;
-            unitFactory.UnitCreatedEvent += dropHandler.OnUnitCreatedEvent;
             EventHandler<CreatedEventArgs<Core.BattleFieldScene.Unit>> battleLogRecorderHdlr = (sender, e) =>
             {
                 if (e.CreatedObject.IsPlayerSide())
@@ -220,13 +219,23 @@ namespace TaskForce.AP.Client.UnityWorld
             sceneCtrl.Start();
             loop.Add(sceneCtrl);
 
+            var gameHost = new GameHost(world, _gameDataStore, new Core.Timer(_time, loop),
+                createTimer(), createTimer(), _logger, _random, unitFactory.CreateEnemyUnit);
+
+            var bossStageHost = new Core.BattleFieldScene.BossStageHost(world, _gameDataStore,
+                createTimer(), _logger, unitFactory.CreateEnemyUnit);
+
+            gameHost.EnemyKilledEvent += fieldObjectDropHandler.OnEnemyKilled;
+            bossStageHost.AllBossesKilledEvent += fieldObjectDropHandler.OnAllBossesKilled;
+
             EventHandler<DestroyEventArgs> hdlr = null;
             hdlr = (sender, args) =>
             {
                 expOrbFactory.ExpOrbCreatedEvent -= fieldObjectFinder.OnExpOrbCreatedEvent;
                 unitFactory.UnitCreatedEvent -= targetFinder.OnTargetCreatedEvent;
-                unitFactory.UnitCreatedEvent -= dropHandler.OnUnitCreatedEvent;
                 unitFactory.UnitCreatedEvent -= battleLogRecorderHdlr;
+                gameHost.EnemyKilledEvent -= fieldObjectDropHandler.OnEnemyKilled;
+                bossStageHost.AllBossesKilledEvent -= fieldObjectDropHandler.OnAllBossesKilled;
 
                 loop.Remove(battleLogRecorder);
                 loop.Remove(sceneCtrl);
@@ -237,14 +246,7 @@ namespace TaskForce.AP.Client.UnityWorld
             };
             scene.DestroyEvent += hdlr;
 
-            var gameHost = new GameHost(world, _gameDataStore, new Core.Timer(_time, loop),
-                createTimer(), createTimer(), _logger, _random, unitFactory.CreateEnemyUnit);
-
             gameHost.Start(1);
-
-            var bossStageHost = new Core.BattleFieldScene.BossStageHost(world, _gameDataStore,
-                createTimer(), _logger, unitFactory.CreateEnemyUnit);
-
             bossStageHost.Start(1);
 
             _screen.HideLoadingBlind();

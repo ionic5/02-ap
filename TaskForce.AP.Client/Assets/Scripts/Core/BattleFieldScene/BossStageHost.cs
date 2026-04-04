@@ -13,7 +13,10 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private readonly ILogger _logger;
         private readonly Func<string, int, IUnit> _createUnit;
 
+        public event EventHandler<DiedEventArgs> AllBossesKilledEvent;
+
         private int _bossStageLevel;
+        private int _aliveCount;
 
         public BossStageHost(View.BattleFieldScene.IWorld world, GameDataStore gameDataStore,
             Timer bossSpawnTimer, ILogger logger, Func<string, int, IUnit> createUnit)
@@ -56,6 +59,18 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         {
             var unit = _createUnit.Invoke(unitID, 1);
             unit.SetPosition(_world.GetWarpPoint());
+
+            _aliveCount++;
+
+            EventHandler<DiedEventArgs> hdlr = null;
+            hdlr = (sender, args) =>
+            {
+                unit.DiedEvent -= hdlr;
+                _aliveCount--;
+                if (_aliveCount == 0)
+                    AllBossesKilledEvent?.Invoke(this, args);
+            };
+            unit.DiedEvent += hdlr;
         }
     }
 }

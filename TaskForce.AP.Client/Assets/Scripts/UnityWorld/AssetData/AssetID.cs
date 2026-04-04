@@ -6,7 +6,7 @@
         public const string Text = "TEXT";
 
         public const string ModifyAttributeEffect = "MODIFY_ATTRIBUTE_EFFECT";
-        public const string StageEnemyUnit = "STAGE_ENEMY_UNIT";
+        public const string StageEnemy = "STAGE_ENEMY";
         public const string Stage = "STAGE";
         public const string Unit = "UNIT";
 

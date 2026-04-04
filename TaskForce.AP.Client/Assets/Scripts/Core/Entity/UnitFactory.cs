@@ -17,7 +17,9 @@ namespace TaskForce.AP.Client.Core.Entity
             _createSkill = createSkill;
         }
 
-        public Entity.Unit CreateUnitEntity(string unitID)
+        public Entity.Unit CreateUnitEntity(string unitID) => CreateUnitEntity(unitID, 1);
+
+        public Entity.Unit CreateUnitEntity(string unitID, int level)
         {
             var gdUnit = _gameDataStore.GetUnits().FirstOrDefault(entry => entry.ID == unitID);
             if (gdUnit == null)
@@ -26,10 +28,10 @@ namespace TaskForce.AP.Client.Core.Entity
                 return null;
             }
 
-            var entity = new Entity.Unit(gdUnit, _gameDataStore, 
+            var entity = new Entity.Unit(gdUnit, _gameDataStore,
                 _gameDataStore.GetLevelAttributes(gdUnit.LevelAttributeID));
 
-            entity.SetLevel(1);
+            entity.SetLevel(level);
 
             entity.SetHP(entity.GetAttribute(AttributeID.MaxHP).AsInt());
 

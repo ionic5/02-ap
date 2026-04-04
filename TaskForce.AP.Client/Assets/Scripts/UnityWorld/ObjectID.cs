@@ -8,7 +8,9 @@
         public const string HealEffect = "HEAL_EFFECT";
         public const string Explosion0 = "EXPLOSION_0";
         public const string Explosion1 = "EXPLOSION_1";
-        public const string Soul = "SOUL";
+        public const string ExpOrb = "EXP_ORB";
+        public const string FieldItem = "FIELD_ITEM";
+        public const string RootBox = "ROOT_BOX";
         public const string PowderKeg = "POWDER_KEG";
         public const string Dynamite = "DYNAMITE";
         public const string SheepMissile = "SHEEP_MISSILE";

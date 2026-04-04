@@ -1,37 +1,33 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TaskForce.AP.Client.Core.GameData;
 
 namespace TaskForce.AP.Client.Core.BattleFieldScene
 {
-    public class GameHost
+    public class StageHost
     {
         private readonly View.BattleFieldScene.IWorld _world;
         private readonly GameDataStore _gameDataStore;
         private readonly Core.Timer _stageTimer;
         private readonly Core.Timer _spawnTimer;
-        private readonly Core.Timer _swarmTimer;
         private readonly Core.ILogger _logger;
         private readonly Core.Random _random;
-        private readonly Func<string, int, IUnit> _createUnit;
-
-        private IReadOnlyList<StageEnemyUnit> _stageEnemyUnits;
+        private readonly Func<string, int, System.Numerics.Vector2, Unit> _createUnit;
+        private IReadOnlyList<StageEnemy> _stageEnemies;
         private float _spawnGap;
         private int _stageLevel;
-        private GameData.EnemyUnitSwarm _swarmData;
-        private float _swarmInterval;
-        private bool _swarmInitialized;
 
-        public GameHost(View.BattleFieldScene.IWorld world, GameDataStore gameDataStore,
-            Timer stageTimer, Timer spawnTimer, Timer swarmTimer,
-            ILogger logger, Random random, Func<string, int, IUnit> createUnit)
+        public event EventHandler<DiedEventArgs> EnemyKilledEvent;
+
+        public StageHost(View.BattleFieldScene.IWorld world, GameDataStore gameDataStore,
+            Timer stageTimer, Timer spawnTimer,
+            ILogger logger, Random random, Func<string, int, System.Numerics.Vector2, Unit> createUnit)
         {
             _world = world;
             _gameDataStore = gameDataStore;
             _stageTimer = stageTimer;
             _spawnTimer = spawnTimer;
-            _swarmTimer = swarmTimer;
             _logger = logger;
             _random = random;
             _createUnit = createUnit;
@@ -45,17 +41,9 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
 
             var stage = GetStage(stageLevel);
             _stageTimer.Start(stage.Time, OnStageFinished);
-            _stageEnemyUnits = _gameDataStore.GetStageEnemyUnits().Where(entry => entry.StageLevel == stageLevel).ToList();
+            _stageEnemies = _gameDataStore.GetStageEnemies().Where(entry => entry.StageLevel == stageLevel).ToList();
             _spawnGap = stage.SpawnGap;
             _spawnTimer.Start(_spawnGap, OnSpawnTimerElapsed);
-
-            if (!_swarmInitialized)
-            {
-                _swarmData = _gameDataStore.GetEnemyUnitSwarms().FirstOrDefault();
-                _swarmInterval = _gameDataStore.GetConstant(GameData.ConstantID.EnemyUnitSwarmInterval).AsFloat();
-                _swarmTimer.Start(_swarmInterval, OnSwarmTimerElapsed);
-                _swarmInitialized = true;
-            }
         }
 
         private Stage GetStage(int stageLevel)
@@ -85,48 +73,32 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             if (!_stageTimer.IsRunning())
                 return;
             var mob = SelectBySpawnRate();
-            Spawn(mob.UnitID, mob.Level);
+            var unit = _createUnit(mob.UnitID, mob.Level, _world.GetWarpPoint());
+
+            EventHandler<DiedEventArgs> hdlr = null;
+            hdlr = (sender, args) =>
+            {
+                unit.DiedEvent -= hdlr;
+                EnemyKilledEvent?.Invoke(this, args);
+            };
+            unit.DiedEvent += hdlr;
+
             _spawnTimer.Start(_spawnGap, OnSpawnTimerElapsed);
         }
 
-        private void OnSwarmTimerElapsed()
+        private StageEnemy SelectBySpawnRate()
         {
-            SpawnSwarm();
-            _swarmTimer.Start(_swarmInterval, OnSwarmTimerElapsed);
-        }
-
-        private StageEnemyUnit SelectBySpawnRate()
-        {
-            var totalRate = _stageEnemyUnits.Sum(e => e.SpawnRate);
+            var totalRate = _stageEnemies.Sum(e => e.SpawnRate);
             var roll = _random.Next(0f, totalRate);
             var accumulated = 0f;
-            foreach (var entry in _stageEnemyUnits)
+            foreach (var entry in _stageEnemies)
             {
                 accumulated += entry.SpawnRate;
                 if (roll < accumulated)
                     return entry;
             }
-            return _stageEnemyUnits[_stageEnemyUnits.Count - 1];
-        }
 
-        private void SpawnSwarm()
-        {
-            var spawnPos = _world.GetWarpPoint();
-            for (var i = 0; i < _swarmData.Count; i++)
-                Spawn(_swarmData.UnitID, _swarmData.Level, spawnPos);
-        }
-
-        private void Spawn(string unitID, int level)
-        {
-            Spawn(unitID, level, _world.GetWarpPoint());
-        }
-
-        private void Spawn(string unitID, int level, System.Numerics.Vector2 spawnPos)
-        {
-            _logger.Info($"Enemy unit spawned. UnitID : {unitID} Level : {level}");
-
-            var unit = _createUnit.Invoke(unitID, level);
-            unit.SetPosition(spawnPos);
+            return _stageEnemies[_stageEnemies.Count - 1];
         }
     }
 }

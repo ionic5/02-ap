@@ -16,13 +16,13 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private readonly Core.ILogger _logger;
         private readonly GameDataStore _gameDataStore;
         private readonly Func<Entity.ISkill, Skills.ISkill> _createSkill;
-        private readonly Func<string, ISkill> _createSkillEntity;
+        private readonly Func<string, int, Entity.Unit> _createUnitEntity;
         private readonly Func<IControllableUnit, string, IUnitLogic> _createUnitLogic;
 
         public UnitFactory(Random random, Func<Timer> createTimer, ITargetFinder targetFinder,
             Func<string, View.BattleFieldScene.IUnit> createUnitView,
             ILogger logger, Func<Entity.ISkill, Skills.ISkill> createSkill, GameDataStore gameDataStore,
-            Func<IControllableUnit, string, IUnitLogic> createUnitLogic, Func<string, ISkill> createSkillEntity)
+            Func<IControllableUnit, string, IUnitLogic> createUnitLogic, Func<string, int, Entity.Unit> createUnitEntity)
         {
             _random = random;
             _createTimer = createTimer;
@@ -30,7 +30,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             _createUnitView = createUnitView;
             _logger = logger;
             _createSkill = createSkill;
-            _createSkillEntity = createSkillEntity;
+            _createUnitEntity = createUnitEntity;
             _gameDataStore = gameDataStore;
             _createUnitLogic = createUnitLogic;
         }
@@ -79,7 +79,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
                 return null;
             }
 
-            var entity = CreateUnitEntity(unitID, level);
+            var entity = _createUnitEntity(unitID, level);
             entity.SetPlayerSide(true);
 
             var unit = Create(entity);
@@ -89,55 +89,23 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             return unit;
         }
 
-        public IUnit CreateEnemyUnit(string unitID, int level)
+        public void CreateEnemyUnit(string unitID, int level, System.Numerics.Vector2 position)
         {
             var gdNonPlayerUnitLogic = _gameDataStore.GetNonPlayerUnitLogics().FirstOrDefault(entry => entry.UnitID == unitID);
             if (gdNonPlayerUnitLogic == null)
             {
                 _logger.Fatal($"Failed to find unit id ({unitID}) on non player unit logic table.");
-                return null;
+                return;
             }
 
-            var entity = CreateUnitEntity(unitID, level);
+            var entity = _createUnitEntity(unitID, level);
             entity.SetPlayerSide(false);
 
             var unit = Create(entity);
             unit.SetUnitLogic(gdNonPlayerUnitLogic.UnitLogicID);
             unit.SetHPBarVisible(false);
-
-            return unit;
+            unit.SetPosition(position);
         }
 
-        private Entity.Unit CreateUnitEntity(string unitID, int level)
-        {
-            var gdUnit = _gameDataStore.GetUnits().FirstOrDefault(entry => entry.ID == unitID);
-            if (gdUnit == null)
-            {
-                _logger.Fatal($"Failed to find unit in game data for unit id ({unitID}).");
-                return null;
-            }
-
-            var entity = new Entity.Unit(gdUnit, _gameDataStore,
-                _gameDataStore.GetLevelAttributes(gdUnit.LevelAttributeID));
-
-            entity.SetLevel(level);
-
-            entity.SetHP(entity.GetAttribute(AttributeID.MaxHP).AsInt());
-
-            var gdSkill = _gameDataStore.GetUnitDefaultSkills().FirstOrDefault(entry => entry.UnitID == unitID);
-            if (gdSkill != null)
-            {
-                var skill = _createSkillEntity.Invoke(gdSkill.SkillID);
-                entity.AddSkill(skill);
-
-                entity.SetDefaultSkill(skill.GetSkillID());
-            }
-            else
-            {
-                _logger.Warn($"Failed to find default skill for unit id. ({unitID})");
-            }
-
-            return entity;
-        }
     }
 }

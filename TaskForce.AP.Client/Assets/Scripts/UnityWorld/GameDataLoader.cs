@@ -38,12 +38,12 @@ namespace TaskForce.AP.Client.UnityWorld
                     Key = row["key"],
                     Value = float.Parse(row["value"])
                 }, gameDataStore.AddLevelCoefficient),
-                LoadTable(AssetID.StageEnemyUnit, row => new StageEnemyUnit {
+                LoadTable(AssetID.StageEnemy, row => new StageEnemy {
                     StageLevel = int.Parse(row["stageLevel"]),
                     UnitID = row["unitID"],
                     Level = int.Parse(row["level"]),
                     SpawnRate = float.Parse(row["spawnRate"])
-                }, gameDataStore.AddStageEnemyUnit),
+                }, gameDataStore.AddStageEnemy),
                 LoadTable(AssetID.Stage, row => new Stage {
                     Level = int.Parse(row["level"]),
                     Time = float.Parse(row["time"]),

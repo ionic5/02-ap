@@ -1,6 +1,6 @@
-﻿namespace TaskForce.AP.Client.Core.GameData
+namespace TaskForce.AP.Client.Core.GameData
 {
-    public class StageEnemyUnit
+    public class StageEnemy
     {
         public int StageLevel;
         public string UnitID;

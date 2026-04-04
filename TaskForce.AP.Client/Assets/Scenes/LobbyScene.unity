@@ -4986,7 +4986,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -13, y: 590}
-  m_SizeDelta: {x: 235, y: 205}
+  m_SizeDelta: {x: 235, y: 235}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &747572765
 MonoBehaviour:
@@ -9488,7 +9488,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Gold \n+ 100 "
+  m_text: "Gold \n+ 100000 "
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -12690,6 +12690,7 @@ MonoBehaviour:
   goldText: {fileID: 367565088}
   energyText: {fileID: 261564632}
   rankText: {fileID: 1140816435}
+  rankImage: {fileID: 747572765}
   energyTimerText: {fileID: 1992998084}
   skillSlots:
   - {fileID: 1823293820}

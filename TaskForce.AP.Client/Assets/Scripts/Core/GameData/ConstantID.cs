@@ -9,5 +9,6 @@ namespace TaskForce.AP.Client.Core.GameData
         public const string EnergyForPlay = "ENERGY_FOR_PLAY";
         public const string EnergyAdsReward = "ENERGY_ADS_REWARD";
         public const string EnemyUnitSwarmInterval = "ENEMY_UNIT_SWARM_INTERVAL";
+        public const string ICRank = "IC_RANK";
     }
 }

@@ -28,5 +28,7 @@
         public const string EnemyUnitSwarm = "ENEMY_UNIT_SWARM";
         public const string BossStage = "BOSS_STAGE";
         public const string BossStageEnemy = "BOSS_STAGE_ENEMY";
+        
+        public const string PlayerRank = "PLAYER_RANK";
     }
 }

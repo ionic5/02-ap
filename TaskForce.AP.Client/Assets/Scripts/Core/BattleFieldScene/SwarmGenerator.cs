@@ -9,13 +9,13 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private readonly View.BattleFieldScene.IWorld _world;
         private readonly GameDataStore _gameDataStore;
         private readonly Core.Timer _swarmTimer;
-        private readonly Action<string, int, System.Numerics.Vector2> _createUnit;
+        private readonly Func<string, int, System.Numerics.Vector2, Unit> _createUnit;
 
         private EnemyUnitSwarm _swarmData;
         private float _swarmInterval;
 
         public SwarmGenerator(View.BattleFieldScene.IWorld world, GameDataStore gameDataStore,
-            Timer swarmTimer, Action<string, int, System.Numerics.Vector2> createUnit)
+            Timer swarmTimer, Func<string, int, System.Numerics.Vector2, Unit> createUnit)
         {
             _world = world;
             _gameDataStore = gameDataStore;

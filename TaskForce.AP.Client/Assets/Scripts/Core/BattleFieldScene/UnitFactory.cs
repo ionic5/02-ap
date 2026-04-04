@@ -89,13 +89,13 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             return unit;
         }
 
-        public void CreateEnemyUnit(string unitID, int level, System.Numerics.Vector2 position)
+        public Unit CreateEnemyUnit(string unitID, int level, System.Numerics.Vector2 position)
         {
             var gdNonPlayerUnitLogic = _gameDataStore.GetNonPlayerUnitLogics().FirstOrDefault(entry => entry.UnitID == unitID);
             if (gdNonPlayerUnitLogic == null)
             {
                 _logger.Fatal($"Failed to find unit id ({unitID}) on non player unit logic table.");
-                return;
+                return null;
             }
 
             var entity = _createUnitEntity(unitID, level);
@@ -105,6 +105,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             unit.SetUnitLogic(gdNonPlayerUnitLogic.UnitLogicID);
             unit.SetHPBarVisible(false);
             unit.SetPosition(position);
+            return unit;
         }
 
     }

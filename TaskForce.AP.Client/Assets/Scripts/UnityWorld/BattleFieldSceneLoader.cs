@@ -57,7 +57,7 @@ namespace TaskForce.AP.Client.UnityWorld
             var world = scene.World;
             var joystick = new BattleFieldScene.Joystick(scene.Joystick);
             var targetFinder = new BattleFieldScene.TargetFinder();
-            var soulFinder = new SoulFinder();
+            var fieldObjectFinder = new FieldObjectFinder();
             var playerUnitSpawnPosition = scene.PlayerUnitSpawnPosition;
             var followCamera = scene.FollowCamera;
             var expBar = scene.ExpBar;
@@ -90,9 +90,9 @@ namespace TaskForce.AP.Client.UnityWorld
 
             var effectFactory = new TaskForce.AP.Client.Core.Entity.ModifyAttributeEffectFactory(_gameDataStore, formulaCalculator);
             var skillFactory = new SkillFactory();
-            var unitLogicFactory = new UnitLogicFactory(joystick, world, createTimer, loop, soulFinder, _gameDataStore, _logger);
-            var soulFactory = new SoulFactory(() => objFac.Create<View.BattleFieldScene.Soul>(ObjectID.Soul));
-            var dropHandler = new DropHandler(soulFactory, _random, _gameDataStore);
+            var unitLogicFactory = new UnitLogicFactory(joystick, world, createTimer, loop, fieldObjectFinder, _gameDataStore, _logger);
+            var expOrbFactory = new ExpOrbFactory(() => objFac.Create<View.BattleFieldScene.ExpOrb>(ObjectID.ExpOrb));
+            var dropHandler = new DropHandler(expOrbFactory, _random, _gameDataStore);
             var skillEntityFactory = new TaskForce.AP.Client.Core.Entity.SkillFactory(_gameDataStore, _logger, _textStore, effectFactory);
             var unitFactory = new UnitFactory(_random, createTimer, targetFinder,
                 (id) => objFac.Create<View.BattleFieldScene.Unit>(id), _logger,
@@ -174,7 +174,7 @@ namespace TaskForce.AP.Client.UnityWorld
             var battleLogRecorder = new BattleLogRecorder(battleLog, _time);
             loop.Add(battleLogRecorder);
 
-            soulFactory.SoulCreatedEvent += soulFinder.OnSoulCreatedEvent;
+            expOrbFactory.ExpOrbCreatedEvent += fieldObjectFinder.OnExpOrbCreatedEvent;
             unitFactory.UnitCreatedEvent += targetFinder.OnTargetCreatedEvent;
             unitFactory.UnitCreatedEvent += dropHandler.OnUnitCreatedEvent;
             EventHandler<CreatedEventArgs<Core.BattleFieldScene.Unit>> battleLogRecorderHdlr = (sender, e) =>
@@ -223,7 +223,7 @@ namespace TaskForce.AP.Client.UnityWorld
             EventHandler<DestroyEventArgs> hdlr = null;
             hdlr = (sender, args) =>
             {
-                soulFactory.SoulCreatedEvent -= soulFinder.OnSoulCreatedEvent;
+                expOrbFactory.ExpOrbCreatedEvent -= fieldObjectFinder.OnExpOrbCreatedEvent;
                 unitFactory.UnitCreatedEvent -= targetFinder.OnTargetCreatedEvent;
                 unitFactory.UnitCreatedEvent -= dropHandler.OnUnitCreatedEvent;
                 unitFactory.UnitCreatedEvent -= battleLogRecorderHdlr;
@@ -231,6 +231,7 @@ namespace TaskForce.AP.Client.UnityWorld
                 loop.Remove(battleLogRecorder);
                 loop.Remove(sceneCtrl);
                 targetFinder.Destroy();
+                fieldObjectFinder.Destroy();
 
                 scene.DestroyEvent -= hdlr;
             };

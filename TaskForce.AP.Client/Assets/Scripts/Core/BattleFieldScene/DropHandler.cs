@@ -1,16 +1,16 @@
-﻿using System;
+using System;
 
 namespace TaskForce.AP.Client.Core.BattleFieldScene
 {
     public class DropHandler
     {
-        private readonly SoulFactory _soulFactory;
+        private readonly ExpOrbFactory _expOrbFactory;
         private readonly Core.Random _random;
         private readonly GameDataStore _gameDataStore;
 
-        public DropHandler(SoulFactory soulFactory, Random random, GameDataStore gameDataStore)
+        public DropHandler(ExpOrbFactory expOrbFactory, Random random, GameDataStore gameDataStore)
         {
-            _soulFactory = soulFactory;
+            _expOrbFactory = expOrbFactory;
             _random = random;
             _gameDataStore = gameDataStore;
         }
@@ -34,8 +34,8 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             if (_random.Next(0.0f, 100.0f) >= dropRate)
                 return;
 
-            var soul = _soulFactory.Create(1);
-            soul.SetPosition(args.DiedTarget.GetPosition());
+            var expOrb = _expOrbFactory.Create(1);
+            expOrb.SetPosition(args.DiedTarget.GetPosition());
         }
     }
 }

@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
 {
-    public class Soul : PoolableObject, Core.View.BattleFieldScene.ISoul
+    public class ExpOrb : PoolableObject, Core.View.BattleFieldScene.IExpOrb
     {
         private Core.BattleFieldScene.IFollowable _followTarget;
         private Vector3 _unitPosition;
@@ -18,7 +18,6 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
         {
             _position.X = transform.position.x;
             _position.Y = transform.position.z;
-
             return _position;
         }
 
@@ -53,11 +52,9 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
         private Vector3 GetUnitPosition()
         {
             var pos = _followTarget.GetPosition();
-
             _unitPosition.x = pos.X;
             _unitPosition.z = pos.Y;
             _unitPosition.y = transform.position.y;
-
             return _unitPosition;
         }
     }

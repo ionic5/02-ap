@@ -4,14 +4,12 @@ using TaskForce.AP.Client.Core.View.Scenes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using World = TaskForce.AP.Client.UnityWorld.View.LobbyScene.World;
 
 namespace TaskForce.AP.Client.UnityWorld.View.Scenes
 {
     public class LobbyScene : Scene, ILobbyScene
     {
         [SerializeField] private Loop _loop;
-        [SerializeField] private World world;
         [SerializeField] private View.LobbyScene.WindowStack _windowStack;
         [SerializeField] private View.BattleFieldScene.PausePanel _pausePanel;
 
@@ -27,7 +25,6 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
         public event EventHandler PauseButtonClickedEvent;
 
         public Loop Loop => _loop;
-        public World World => world;
         public View.LobbyScene.WindowStack WindowStack => _windowStack;
         public View.BattleFieldScene.PausePanel PausePanel => _pausePanel;
 

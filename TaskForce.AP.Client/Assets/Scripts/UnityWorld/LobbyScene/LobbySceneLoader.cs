@@ -50,13 +50,12 @@ namespace TaskForce.AP.Client.UnityWorld.LobbyScene
             var scene = instance.GetComponent<View.Scenes.LobbyScene>();
 
             var loop = scene.Loop;
-            var world = scene.World;
 
             var windowStack = scene.WindowStack;
 
             // TODO: 실제 SoundPlayer 구현체로 교체 필요
             var mockSoundPlayer = new MockSoundPlayer();
-            var winOpener = new WindowOpener(windowStack, world, _textStore, mockSoundPlayer, _logger);
+            var winOpener = new WindowOpener(windowStack, _textStore, mockSoundPlayer, _logger);
 
             scene.AssetLoader = _assetLoader;
             scene.Logger = _logger;
@@ -66,7 +65,7 @@ namespace TaskForce.AP.Client.UnityWorld.LobbyScene
             // var pausePanelCtrl = new PausePanelController(pausePanel, world);
             // pausePanelCtrl.Start();
 
-            var sceneCtrl = new LobbySceneController(scene, world, winOpener, _gameDataStore,
+            var sceneCtrl = new LobbySceneController(scene, winOpener, _gameDataStore,
                 _logger, _userDataStore, _battleFieldSceneLoadEvent);
             sceneCtrl.Start();
             loop.Add(sceneCtrl);

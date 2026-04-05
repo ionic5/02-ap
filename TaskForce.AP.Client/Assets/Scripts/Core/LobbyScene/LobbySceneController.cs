@@ -8,7 +8,6 @@ namespace TaskForce.AP.Client.Core.LobbyScene
     public class LobbySceneController : IUpdatable
     {
         private readonly ILobbyScene _scene;
-        private readonly IWorld _world;
         private readonly WindowOpener _windowOpener;
         private readonly GameDataStore _gameDataStore;
         private readonly ILogger _logger;
@@ -19,12 +18,11 @@ namespace TaskForce.AP.Client.Core.LobbyScene
 
         private event Action _battleFieldSceneLoadEvent;
 
-        public LobbySceneController(ILobbyScene scene, IWorld world,
+        public LobbySceneController(ILobbyScene scene, 
             WindowOpener windowOpener, GameDataStore gameDataStore,
             ILogger logger, UserDataStore userDataStore, Action battleFieldSceneLoadEvent)
         {
             _scene = scene;
-            _world = world;
             _windowOpener = windowOpener;
             _gameDataStore = gameDataStore;
             _logger = logger;

@@ -63,6 +63,10 @@ namespace TaskForce.AP.Client.UnityWorld
             await gameDataLoader.Load(gameDataStore);
             await textStoreLoader.Load("ko", textStore);
 
+            var userDataLoader = new UserDataLoader(userDataStore);
+            userDataLoader.Load();
+            _loop.Add(userDataLoader);
+
             _advertisementPlayer.Logger = logger;
             _advertisementPlayer.RetryTimer = new Core.Timer(time, _loop);
             _advertisementPlayer.RewardedRetryTimer = new Core.Timer(time, _loop);

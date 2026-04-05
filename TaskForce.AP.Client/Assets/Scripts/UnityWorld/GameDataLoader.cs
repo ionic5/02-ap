@@ -120,7 +120,8 @@ namespace TaskForce.AP.Client.UnityWorld
                 LoadTable(AssetID.PlayerRank, row => new Core.GameData.PlayerRank {
                     Rank = int.Parse(row["rank"]),
                     UpgradeGold = int.Parse(row["upgradeGold"]),
-                    SlotNum = int.Parse(row["slotNum"])
+                    SlotNum = int.Parse(row["slotNum"]),
+                    IconID = row["iconID"]
                 }, gameDataStore.AddPlayerRank),
                 LoadTable(AssetID.SkillDescription, (row) => {
                     var parameters = new List<object>();

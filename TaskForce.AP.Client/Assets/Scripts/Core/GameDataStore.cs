@@ -28,6 +28,7 @@ namespace TaskForce.AP.Client.Core
         private readonly List<BossStage> _bossStages;
         private readonly List<BossStageEnemy> _bossStageEnemies;
         private readonly List<FieldItem> _fieldItems;
+        private readonly List<PlayerRank> _playerRank;
         private readonly Dictionary<string, GameData.Constant> _constants;
 
         private Dictionary<string, Skill> _skillsByID;
@@ -56,6 +57,7 @@ namespace TaskForce.AP.Client.Core
             _bossStages = new List<BossStage>();
             _bossStageEnemies = new List<BossStageEnemy>();
             _fieldItems = new List<FieldItem>();
+            _playerRank = new List<PlayerRank>();
             _constants = new Dictionary<string, GameData.Constant>();
         }
 
@@ -302,6 +304,17 @@ namespace TaskForce.AP.Client.Core
             return _bossStageEnemies.Where(entry => entry.BossStageLevel == level);
         }
 
+        public void AddPlayerRank(PlayerRank entry)
+        {
+            _playerRank.Add(entry);
+        }
+
+        public List<PlayerRank> GetPlayerRankData()
+        {
+            List<PlayerRank> playerRankData = new List<PlayerRank>(_playerRank);
+            return playerRankData;
+        }
+        
         public IEnumerable<EnemyUnitSwarm> GetEnemyUnitSwarms()
         {
             return _enemyUnitSwarms;

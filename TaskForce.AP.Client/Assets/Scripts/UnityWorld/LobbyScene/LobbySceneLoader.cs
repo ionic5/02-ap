@@ -60,6 +60,9 @@ namespace TaskForce.AP.Client.UnityWorld.LobbyScene
             var mockSoundPlayer = new MockSoundPlayer();
             var winOpener = new WindowOpener(windowStack, world, _textStore, mockSoundPlayer, _logger);
 
+            // LobbySceneController의 AssetLoader 할당
+            scene.AssetLoader = _assetLoader;
+
             // TODO: JW: pause panel 기능 검토
             // var pausePanel = scene.PausePanel;
             // var pausePanelCtrl = new PausePanelController(pausePanel, world);

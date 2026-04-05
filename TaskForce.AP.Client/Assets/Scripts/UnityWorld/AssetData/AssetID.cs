@@ -29,5 +29,6 @@
         public const string BossStage = "BOSS_STAGE";
         public const string BossStageEnemy = "BOSS_STAGE_ENEMY";
         public const string FieldItem = "FIELD_ITEM";
+        public const string PlayerRank = "PLAYER_RANK";
     }
 }

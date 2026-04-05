@@ -1,4 +1,8 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using TaskForce.AP.Client.Core.GameData;
 using TaskForce.AP.Client.Core.View.Scenes;
 using TaskForce.AP.Client.UnityWorld.View.LobbyScene.Windows;
 using TMPro;
@@ -10,13 +14,6 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
 {
     public class LobbyScene : Scene, ILobbyScene  
     {
-        // TODO: JW: 임시값 csv에서 적용
-        private int MIN_RANK = 1;                
-        private int MAX_RANK = 10;
-        private int GOLD_FOR_RANK_UP = 100;
-        // "/UserData.json";   // TODO: JW: 파일 경로를 다른 곳에 저장 요
-        //
-        
         [SerializeField] private Loop _loop;
         [SerializeField] private World world;
         [SerializeField] private View.LobbyScene.WindowStack _windowStack;
@@ -25,7 +22,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
         
         [SerializeField] private TextMeshProUGUI goldText;
         [SerializeField] private TextMeshProUGUI energyText;
-        [SerializeField] private TextMeshProUGUI rankText;
+        [SerializeField] private Image rankImage;
 
         [SerializeField] private TextMeshProUGUI energyTimerText;
         // [SerializeField] private Image rankImage;   // TODO: JW: 랭크 이미지 추후 적용
@@ -36,6 +33,8 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
         public int EnergyForPlay { get; set; }
         public int EnergyAdsReward { get; set; }
         
+        public List<PlayerRank> PlayerRankData { get; set; }
+
         public event EventHandler PlayButtonClickedEvent;
         public event Action<int, int, int> UpdateUserDataStoreEvent;
 
@@ -51,7 +50,13 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
         public View.BattleFieldScene.PausePanel PausePanel => _pausePanel;
         private UserData _userDataCurrent = new UserData();
         private bool _isEnergyTimerEnable;
-
+        
+        public AssetLoader AssetLoader;
+        private Core.ILogger Logger;
+        
+        private CancellationTokenSource _loadIconToken;
+        private string _currentLoadingRankID;
+        
         public void LobbySceneControllerStarted()
         {
             energyTimerText.gameObject.SetActive(false);
@@ -105,7 +110,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
             userDataTest.gold = 200;
             userDataTest.energy = 3;
             userDataTest.energyUpdateTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-            userDataTest.rank = MIN_RANK;
+            userDataTest.rank = PlayerRankData.Min(r => r.Rank);
             fileService.SaveUserData(userDataTest);
             
             UserData userData = fileService.LoadUserData();
@@ -124,7 +129,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
         // TODO: JW: 테스트 코드 삭제
         public void OnClickGoldPlusButtonForTest()
         {
-            _userDataCurrent.gold += 100;
+            _userDataCurrent.gold += 100000;
             
             UpdateUserDataStore();
             updateSkillSlots();
@@ -219,7 +224,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
         
         public void OnRankUpButtonClicked()
         {
-            if (_userDataCurrent.rank >= MAX_RANK)
+            if (_userDataCurrent.rank >= PlayerRankData.Max(r => r.Rank))
             {
                 // TODO: JW: text assign 방식 변경
                 _commonWindow.SetContentsText("최대 계급입니다.");
@@ -228,8 +233,11 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
                 
                 return; 
             }
-
-            if (_userDataCurrent.gold < GOLD_FOR_RANK_UP)
+            
+            var rankNext = _userDataCurrent.rank + 1;
+            var playerRankDataNext = PlayerRankData.FirstOrDefault(r => r.Rank == rankNext);
+            
+            if (_userDataCurrent.gold < playerRankDataNext.UpgradeGold)
             {
                 // TODO: JW: text assign 방식 변경
                 _commonWindow.SetContentsText("골드가 부족합니다.");
@@ -241,11 +249,53 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
             
             RankUpWindowOpenedEvent?.Invoke(this, EventArgs.Empty);
         }
+        
+        public async void SetRankIcon(string iconID)
+        {
+            if (_currentLoadingRankID == iconID)
+                return;
+            
+            _currentLoadingRankID = iconID;
+
+            ResetLoadIconToken();
+            _loadIconToken = new CancellationTokenSource();
+            var token = _loadIconToken.Token;
+
+            Sprite sprite;
+            try
+            {
+                sprite = await AssetLoader.LoadAsset<Sprite>(iconID, token);
+            }
+            catch (System.OperationCanceledException)
+            {
+                return;
+            }
+            catch (System.Exception ex)
+            {
+                Logger.Warn($"Failed to load icon ({iconID}): {ex.Message}");
+                return;
+            }
+
+            if (rankImage && _currentLoadingRankID == iconID)
+                rankImage.sprite = sprite;
+        }
+        
+        private void ResetLoadIconToken()
+        {
+            if (_loadIconToken == null)
+                return;
+
+            _loadIconToken.Cancel();
+            _loadIconToken.Dispose();
+            _loadIconToken = null;
+        }
 
         public void RankUp()
         {
             _userDataCurrent.rank++;
-            _userDataCurrent.gold -= GOLD_FOR_RANK_UP;
+            
+            var playerRankdata = PlayerRankData.FirstOrDefault(r => r.Rank == _userDataCurrent.rank);
+            _userDataCurrent.gold -= playerRankdata.UpgradeGold;
 
             updateSkillSlots();
             SaveUserDataStore();
@@ -256,7 +306,8 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
             // TODO: JW: 계급별 오픈된 슬롯 기능 csv에서 적용
             for (int i = 0; i < skillSlots.Length; i++)
             {
-                skillSlots[i].gameObject.SetActive(i < _userDataCurrent.rank);
+                var playerRankData = PlayerRankData.FirstOrDefault(r => r.Rank == _userDataCurrent.rank);
+                skillSlots[i].gameObject.SetActive(i < playerRankData.SlotNum);
             }
         }
         
@@ -275,7 +326,8 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
         public void SetRank(int rank)
         {
             _userDataCurrent.rank = rank;
-            rankText.text = rank.ToString();
+            
+            SetRankIcon(ConstantID.ICRank + "_" + _userDataCurrent.rank.ToString());
         }
 
         public void AddEnergyForPlay()
@@ -302,6 +354,8 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
             EnergyGetButtonClickedEvent = null;
             CommonWindowOpenedEvent = null;
             RankUpWindowOpenedEvent = null;
+            
+            ResetLoadIconToken();
         }
     }
 }

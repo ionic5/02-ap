@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using NUnit.Framework;
+using TaskForce.AP.Client.Core.GameData;
 
 namespace TaskForce.AP.Client.Core.View.Scenes
 {
@@ -8,7 +11,9 @@ namespace TaskForce.AP.Client.Core.View.Scenes
         int MinutesEnergyCharge{ get; set; }
         int EnergyForPlay{ get; set; }
         int EnergyAdsReward{ get; set; }
-        
+
+        List<PlayerRank> PlayerRankData { get; set; }
+
         event EventHandler PlayButtonClickedEvent;
         event Action<int, int, int> UpdateUserDataStoreEvent;
         

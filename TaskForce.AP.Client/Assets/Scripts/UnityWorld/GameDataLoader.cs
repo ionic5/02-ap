@@ -117,6 +117,11 @@ namespace TaskForce.AP.Client.UnityWorld
                     ID = row["id"],
                     BaseAttributeID = row["baseAttributeID"]
                 }, gameDataStore.AddFieldItem),
+                LoadTable(AssetID.PlayerRank, row => new Core.GameData.PlayerRank {
+                    Rank = int.Parse(row["rank"]),
+                    UpgradeGold = int.Parse(row["upgradeGold"]),
+                    SlotNum = int.Parse(row["slotNum"])
+                }, gameDataStore.AddPlayerRank),
                 LoadTable(AssetID.SkillDescription, (row) => {
                     var parameters = new List<object>();
                     for(var i= 0;i<2;i++) {

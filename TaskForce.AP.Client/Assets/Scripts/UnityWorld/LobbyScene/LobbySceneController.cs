@@ -63,7 +63,8 @@ namespace TaskForce.AP.Client.Core.LobbyScene
             _scene.MinutesEnergyCharge = _gameDataStore.GetMinutesEnergyCharge();
             _scene.EnergyForPlay = _gameDataStore.GetEnergyForPlay();
             _scene.EnergyAdsReward = _gameDataStore.GetEnergyAdsReward();
-            
+            _scene.PlayerRankData = _gameDataStore.GetPlayerRankData();
+
             _scene.LobbySceneControllerStarted();
         }
         

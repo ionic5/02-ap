@@ -12,13 +12,11 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private bool _isDead;
         private int _hp;
         private readonly View.BattleFieldScene.IRootBox _view;
-        private readonly Action _onDied;
 
-        public RootBox(View.BattleFieldScene.IRootBox view, int hp, Action onDied)
+        public RootBox(View.BattleFieldScene.IRootBox view, int hp)
         {
             _view = view;
             _hp = hp;
-            _onDied = onDied;
             _view.DestroyEvent += OnViewDestroyEvent;
         }
 
@@ -38,7 +36,6 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
 
             _hp = 0;
             _isDead = true;
-            _onDied?.Invoke();
             DiedEvent?.Invoke(this, new DiedEventArgs(this));
             Destroy();
         }

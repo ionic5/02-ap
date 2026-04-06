@@ -42,7 +42,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
 
         public bool IsAlive() => !_isDead;
         public bool IsDead() => _isDead;
-        public bool IsPlayerSide() => true;
+        public bool IsPlayerSide() => false;
         public bool IsFullHP() => false;
         public int GetRemainHP() => _hp;
         public void Heal(int healAmount) { }

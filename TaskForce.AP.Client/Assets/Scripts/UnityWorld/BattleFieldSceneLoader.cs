@@ -236,6 +236,7 @@ namespace TaskForce.AP.Client.UnityWorld
 
             var rootBoxFactory = new RootBoxFactory(
                 () => objFac.Create<View.BattleFieldScene.RootBox>(ObjectID.RootBox), _gameDataStore);
+            rootBoxFactory.RootBoxCreatedEvent += targetFinder.OnRootBoxCreatedEvent;
             var rootBoxSpawner = new RootBoxSpawner(
                 rootBoxFactory, createTimer(), createTimer(), world, _gameDataStore, unit);
 
@@ -245,6 +246,7 @@ namespace TaskForce.AP.Client.UnityWorld
                 expOrbFactory.ExpOrbCreatedEvent -= fieldObjectFinder.OnExpOrbCreatedEvent;
                 unitFactory.UnitCreatedEvent -= targetFinder.OnTargetCreatedEvent;
                 unitFactory.UnitCreatedEvent -= battleLogRecorderHdlr;
+                rootBoxFactory.RootBoxCreatedEvent -= targetFinder.OnRootBoxCreatedEvent;
                 stageHost.EnemyKilledEvent -= fieldObjectDropHandler.OnEnemyKilled;
                 bossStageHost.AllBossesKilledEvent -= fieldObjectDropHandler.OnAllBossesKilled;
 

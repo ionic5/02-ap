@@ -27,6 +27,9 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
                 case GameData.FieldItemID.MedicalKit:
                     fieldItem = new MedicalKit(_createView(data.BodyID));
                     break;
+                case GameData.FieldItemID.GoldBundle:
+                    fieldItem = new GoldBundle(_createView(data.BodyID));
+                    break;
                 default:
                     return null;
             }

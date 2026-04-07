@@ -1,11 +1,12 @@
-﻿﻿using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Collections; // [REVIVE_EFFECT_TEST]
+using System.Collections.Generic;
 using TaskForce.AP.Client.Core;
 using TaskForce.AP.Client.Core.BattleFieldScene;
 using TaskForce.AP.Client.Core.View.BattleFieldScene;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.EventSystems;
 
 namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
 {
@@ -39,10 +40,10 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
 
         private IReadOnlyDictionary<UnitMotionID, string> _clipNameMap;
         private readonly string[] State = {
-            "attack",
-            "idle",
-            "die",
-            "walk",
+            "Attack",
+            "Idle",
+            "Dying",
+            "Walk",
             "cast"
         };
 
@@ -51,7 +52,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
             if (_agent == null)
                 _agent = GetComponent<NavMeshAgent>();
 
-            _agent.updateRotation = true;
+            _agent.updateRotation = false;
             _agent.updateUpAxis = true;
 
             _destination = Vector3.zero;
@@ -67,7 +68,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
                 { UnitMotionID.Cast, State[4] }
             };
 
-            _hpBarController = GetComponent<HPBarController>();            
+            _hpBarController = GetComponent<HPBarController>();
         }
 
         private void Update()
@@ -106,6 +107,13 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
             StopMoveTo();
             _agent.isStopped = false;
             _agent.velocity = new Vector3(velocity.X, 0f, velocity.Y);
+
+            if (velocity.LengthSquared() > 0f)
+            {
+                var dir = System.Numerics.Vector2.Normalize(velocity);
+                SetDirection(dir);
+                transform.rotation = Quaternion.LookRotation(new Vector3(velocity.X, 0f, velocity.Y));
+            }
         }
 
         public void Stop()
@@ -135,6 +143,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
             {
                 _moveDirection = currentDir;
                 SetDirection(_moveDirection);
+                transform.rotation = Quaternion.LookRotation(new Vector3(vel.x, 0f, vel.z));
                 MoveDirectionChangedEvent?.Invoke(this, EventArgs.Empty);
             }
         }
@@ -242,7 +251,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
             // TODO HP 바 구현 재검토 필요
             if (_hpBarController != null)
                 _hpBarController.SetActiveHPBar(false);
-            
+
             DieAnimationFinishedEvent = null;
             CreateFloatingTextAnimator = null;
             if (Timer != null)
@@ -260,7 +269,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
             if (_hpBarController != null)
                 _hpBarController.SetActiveHPBar(false); // Ensure HP bar is hidden
 
-            
+
         }
 
         public void SetActive(bool active)

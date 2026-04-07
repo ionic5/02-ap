@@ -24,6 +24,9 @@ namespace TaskForce.AP.Client.Core.Entity
         public const string AttackRange = "ATTACK_RANGE";
         public const string AttackTime = "ATTACK_TIME";
         public const string AttackImpactTime = "ATTACK_IMPACT_TIME";
+        public const string AttackCombo = "ATTACK_COMBO";
+        public const string AttackComboTime = "ATTACK_COMBO_TIME";
+        public const string AttackAngle = "ATTACK_ANGLE";
         public const string MinDamage = "MIN_DAMAGE";
         public const string MaxDamage = "MAX_DAMAGE";
         public const string DetectRange = "DETECT_RANGE";

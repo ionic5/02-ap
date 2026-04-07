@@ -1,3 +1,4 @@
+using System;
 using TaskForce.AP.Client.Core.BattleFieldScene;
 using TaskForce.AP.Client.Core.View.BattleFieldScene;
 using IWindowStack = TaskForce.AP.Client.Core.View.LobbyScene.IWindowStack;
@@ -7,44 +8,43 @@ namespace TaskForce.AP.Client.Core.LobbyScene
     public class WindowOpener
     {
         private readonly IWindowStack _windowStack;
-        private readonly IWorld _world;
         private readonly TextStore _textStore;
-        private readonly ISoundPlayer _soundPlayer;     
+        private readonly ISoundPlayer _soundPlayer;
         private readonly ILogger _logger;
 
-        public WindowOpener(IWindowStack windowStack, IWorld world, TextStore textStore, ISoundPlayer soundPlayer, ILogger logger)
+        public WindowOpener(IWindowStack windowStack, TextStore textStore, ISoundPlayer soundPlayer, ILogger logger)
         {
             _windowStack = windowStack;
-            _world = world;
             _textStore = textStore;
             _soundPlayer = soundPlayer;
             _logger = logger;
         }
 
-        public void OpenEnergyGetWindow()
+        public void OpenEnergyGetWindow(Action onEnergyGetConfirmed)
         {
             var window = _windowStack.OpenEnergyGetWindow();
-            
-            var ctrl = new EnergyGetWindowController(window);
+
+            var ctrl = new EnergyGetWindowController(window, onEnergyGetConfirmed);
             ctrl.Start();
         }
-        
-        public void OpenCommonWindow()
+
+        public void OpenCommonWindow(string text)
         {
             var window = _windowStack.OpenCommonWindow();
-            
+            window.SetContentsText(text);
+
             var ctrl = new CommonWindowController(window);
             ctrl.Start();
         }
 
-        public void OpenRankUpWindow()
+        public void OpenRankUpWindow(Action onRankUpConfirmed)
         {
             var window = _windowStack.OpenRankUpWindow();
 
-            var ctlr = new RankUpWindowController(window);
-            ctlr.Start();
+            var ctrl = new RankUpWindowController(window, onRankUpConfirmed);
+            ctrl.Start();
         }
-        
+
         public void OpenSettingWindow()
         {
             var window = _windowStack.OpenSettingWindow();

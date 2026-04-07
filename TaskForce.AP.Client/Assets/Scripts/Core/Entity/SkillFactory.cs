@@ -34,6 +34,13 @@ namespace TaskForce.AP.Client.Core.Entity
             if (skillID == SkillID.MeleeAttack)
                 return new Entity.MeleeAttackSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs);
 
+            if (skillID == SkillID.MeleeDagger)
+            {
+                var skill = new Entity.MeleeDaggerSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs);
+                skill.SetLevel(1);
+                return skill;
+            }
+
             if (skillID == SkillID.CleavingAttack)
             {
                 var effects = _gameDataStore.GetModifyAttributeSkillEffects(skillID);

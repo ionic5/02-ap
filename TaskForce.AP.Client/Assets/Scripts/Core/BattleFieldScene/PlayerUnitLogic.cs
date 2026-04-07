@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -7,24 +7,24 @@ using TaskForce.AP.Client.Core.Entity;
 
 namespace TaskForce.AP.Client.Core.BattleFieldScene
 {
-    public class PlayerUnitLogic : UnitLogic
+    public class PlayerUnitLogic : UnitLogic, IFieldObjectHandler
     {
         private readonly IJoystick _joystick;
-        private readonly ISoulFinder _soulFinder;
-        private readonly List<Soul> _souls;
+        private readonly IFieldObjectFinder _fieldObjectFinder;
+        private readonly List<IFieldObject> _fieldObjects;
         private readonly GameDataStore _gameDataStore;
 
         private UnitState _state = UnitState.Initial;
         private Skills.ISkill _usingSkill;
         private ITarget _lastTarget;
 
-        public PlayerUnitLogic(ILoop loop, IJoystick joystick, ISoulFinder soulFinder,
+        public PlayerUnitLogic(ILoop loop, IJoystick joystick, IFieldObjectFinder fieldObjectFinder,
             GameDataStore gameDataStore) : base(loop)
         {
             _joystick = joystick;
-            _soulFinder = soulFinder;
+            _fieldObjectFinder = fieldObjectFinder;
             _gameDataStore = gameDataStore;
-            _souls = new List<Soul>();
+            _fieldObjects = new List<IFieldObject>();
         }
 
         private enum UnitState
@@ -40,7 +40,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             UpdateState();
             HandleInput();
             UseInstantSkills();
-            TryAbsorbSouls();
+            TryHandleFieldObjects();
         }
 
         private void UseInstantSkills()
@@ -109,19 +109,44 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             }
         }
 
-        private void TryAbsorbSouls()
+        private void TryHandleFieldObjects()
         {
-            int count = _soulFinder.FindRadius(GetControlTarget().GetPosition(), GetControlTarget().GetAttribute(AttributeID.DetectRange).AsFloat(), _souls);
+            int count = _fieldObjectFinder.FindRadius(
+                GetControlTarget().GetPosition(),
+                GetControlTarget().GetAttribute(AttributeID.DetectRange).AsFloat(),
+                _fieldObjects);
+
             if (count <= 0) return;
 
-            foreach (var soul in _souls)
-            {
-                if (!soul.IsMovingTo(GetControlTarget()))
-                    soul.MoveTo(GetControlTarget(), 0.5f);
-                else if (Vector2.DistanceSquared(GetControlTarget().GetPosition(), soul.GetPosition()) < GetControlTarget().GetPickUpRange() * GetControlTarget().GetPickUpRange())
-                    Absorb(soul);
-            }
-            _souls.Clear();
+            foreach (var fieldObject in _fieldObjects)
+                fieldObject.Handle(this);
+
+            _fieldObjects.Clear();
+        }
+
+        void IFieldObjectHandler.Handle(ExpOrb orb)
+        {
+            if (!orb.IsMovingTo(GetControlTarget()))
+                orb.MoveTo(GetControlTarget(), 0.5f);
+            else if (Vector2.DistanceSquared(GetControlTarget().GetPosition(), orb.GetPosition()) <
+                     GetControlTarget().GetPickUpRange() * GetControlTarget().GetPickUpRange())
+                AbsorbExpOrb(orb);
+        }
+
+        void IFieldObjectHandler.Handle(IFieldItem item)
+        {
+            // stub - FieldItem 효과 구현 시 IFieldItemHandler 통해 처리
+        }
+
+        void IFieldObjectHandler.Handle(RootBox box)
+        {
+            TryUseDefaultSkill(box);
+        }
+
+        private void AbsorbExpOrb(ExpOrb orb)
+        {
+            GetControlTarget().AddExp(_gameDataStore.GetSoulExp(orb.GetLevel()));
+            orb.Destroy();
         }
 
         private void Move(Vector2 direction)
@@ -177,12 +202,6 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private bool IsLastTargetExist()
         {
             return _lastTarget != null;
-        }
-
-        private void Absorb(Soul soul)
-        {
-            GetControlTarget().AddExp(_gameDataStore.GetSoulExp(soul.GetLevel()));
-            soul.Destroy();
         }
 
         protected override void OnDestroy()

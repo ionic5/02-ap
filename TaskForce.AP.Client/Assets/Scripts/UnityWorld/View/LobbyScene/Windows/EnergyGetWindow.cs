@@ -1,23 +1,12 @@
 using System;
 using TaskForce.AP.Client.Core.View.LobbyScene.Windows;
-using UnityEngine; 
 
 namespace TaskForce.AP.Client.UnityWorld.View.LobbyScene.Windows
 {
     public class EnergyGetWindow : Window, IEnergyGetWindow
     {
-        [SerializeField] private Scenes.LobbyScene _lobbyScene;
-        
         public event EventHandler ConfirmButtonClickedEvent;
         public event EventHandler CancelButtonClickedEvent;
-        
-        public void EnergyGetCompleted()
-        {
-            // 광고 보상 에너지 n개 지급하고 닫음 
-            _lobbyScene.AddEnergyForPlay();  
-            
-            Close();
-        }
 
         public void OnClickConfirmButton()
         {
@@ -28,11 +17,11 @@ namespace TaskForce.AP.Client.UnityWorld.View.LobbyScene.Windows
         {
             CancelButtonClickedEvent?.Invoke(this, EventArgs.Empty);
         }
-        
+
         public override void Clear()
         {
             base.Clear();
-        
+
             ConfirmButtonClickedEvent = null;
             CancelButtonClickedEvent = null;
         }

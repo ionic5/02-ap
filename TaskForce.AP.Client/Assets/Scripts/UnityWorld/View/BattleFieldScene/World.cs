@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
 {
@@ -102,6 +103,19 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
                     positions.Add(pos);
 
             return positions;
+        }
+
+        public bool TryGetRandomPositionAround(System.Numerics.Vector2 center, float minDistance, float maxDistance, out System.Numerics.Vector2 position)
+        {
+            var candidate = Random.NextPosition(center, minDistance, maxDistance);
+            var candidate3D = new Vector3(candidate.X, 0, candidate.Y);
+            if (NavMesh.SamplePosition(candidate3D, out var hit, 1f, NavMesh.AllAreas))
+            {
+                position = new System.Numerics.Vector2(hit.position.x, hit.position.z);
+                return true;
+            }
+            position = default;
+            return false;
         }
 
         public System.Numerics.Vector2 GetPlayerUnitSpawnPosition()

@@ -18,12 +18,13 @@ namespace TaskForce.AP.Client.UnityWorld.LobbyScene
         private readonly TextStore _textStore;
         private readonly AssetLoader _assetLoader;
         private readonly Core.ILogger _logger;
-        
+
         private event Action _battleFieldSceneLoadEvent;
 
         public LobbySceneLoader(Screen screen, GameDataStore gameDataStore,
             Core.Random random, Time time, TextStore textStore,
-            AssetLoader assetLoader, Core.ILogger logger, UserDataStore userDataStore, Action battleFieldSceneLoadEvent)
+            AssetLoader assetLoader, Core.ILogger logger, UserDataStore userDataStore,
+            Action battleFieldSceneLoadEvent)
         {
             _screen = screen;
             _gameDataStore = gameDataStore;
@@ -43,29 +44,29 @@ namespace TaskForce.AP.Client.UnityWorld.LobbyScene
 
             await _screen.ShowLoadingBlind();
             await _screen.DestroyLastScene();
-            
+
             var instance = await _screen.AttachNewScene(SceneID.LobbyScene);
-            
+
             var scene = instance.GetComponent<View.Scenes.LobbyScene>();
-            
+
             var loop = scene.Loop;
-            var world = scene.World;
-            
-            Func<Timer> createTimer = () => new Timer(_time, loop);
-            // lobbyWorld.Random = _random;  // TODO: JW: 실제 객채로 대체
-            
+
             var windowStack = scene.WindowStack;
-            
+
             // TODO: 실제 SoundPlayer 구현체로 교체 필요
             var mockSoundPlayer = new MockSoundPlayer();
-            var winOpener = new WindowOpener(windowStack, world, _textStore, mockSoundPlayer, _logger);
+            var winOpener = new WindowOpener(windowStack, _textStore, mockSoundPlayer, _logger);
+
+            scene.AssetLoader = _assetLoader;
+            scene.Logger = _logger;
 
             // TODO: JW: pause panel 기능 검토
             // var pausePanel = scene.PausePanel;
             // var pausePanelCtrl = new PausePanelController(pausePanel, world);
             // pausePanelCtrl.Start();
 
-            var sceneCtrl = new LobbySceneController(scene, world, winOpener, _gameDataStore, _random, _logger, createTimer(), _userDataStore, _battleFieldSceneLoadEvent);
+            var sceneCtrl = new LobbySceneController(scene, winOpener, _gameDataStore,
+                _logger, _userDataStore, _battleFieldSceneLoadEvent);
             sceneCtrl.Start();
             loop.Add(sceneCtrl);
 
@@ -73,7 +74,6 @@ namespace TaskForce.AP.Client.UnityWorld.LobbyScene
             hdlr = (sender, args) =>
             {
                 loop.Remove(sceneCtrl);
-
                 scene.DestroyEvent -= hdlr;
             };
             scene.DestroyEvent += hdlr;

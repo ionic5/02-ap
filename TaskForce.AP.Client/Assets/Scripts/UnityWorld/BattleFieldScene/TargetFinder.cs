@@ -25,6 +25,15 @@ namespace TaskForce.AP.Client.UnityWorld.BattleFieldScene
             target.DestroyEvent += OnDestroyTargetEvent;
         }
 
+        public void OnRootBoxCreatedEvent(object sender, CreatedEventArgs<RootBox> args)
+        {
+            var target = args.CreatedObject;
+
+            _targets.Add(target);
+            target.DiedEvent += OnTargetDiedEvent;
+            target.DestroyEvent += OnDestroyTargetEvent;
+        }
+
         public IEnumerable<ITarget> FindInRadius(Vector2 center, float minRadius, float maxRadius, Func<ITarget, bool> predicate)
         {
             float cx = center.X;

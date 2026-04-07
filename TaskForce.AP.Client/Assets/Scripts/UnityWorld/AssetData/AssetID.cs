@@ -6,7 +6,7 @@
         public const string Text = "TEXT";
 
         public const string ModifyAttributeEffect = "MODIFY_ATTRIBUTE_EFFECT";
-        public const string StageEnemyUnit = "STAGE_ENEMY_UNIT";
+        public const string StageEnemy = "STAGE_ENEMY";
         public const string Stage = "STAGE";
         public const string Unit = "UNIT";
 
@@ -28,5 +28,7 @@
         public const string EnemyUnitSwarm = "ENEMY_UNIT_SWARM";
         public const string BossStage = "BOSS_STAGE";
         public const string BossStageEnemy = "BOSS_STAGE_ENEMY";
+        public const string FieldItem = "FIELD_ITEM";
+        public const string PlayerRank = "PLAYER_RANK";
     }
 }

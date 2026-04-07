@@ -10,12 +10,13 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private readonly Core.View.BattleFieldScene.IWorld _world;
         private readonly Dictionary<string, Func<IControllableUnit, IUnitLogic>> _creationFunction;
         private readonly GameDataStore _gameDataStore;
+        private readonly UserDataStore _userDataStore;
         private readonly ILoop _loop;
         private readonly ILogger _logger;
         private readonly Func<Core.Timer> _createTimer;
 
         public UnitLogicFactory(IJoystick joystick, View.BattleFieldScene.IWorld world,
-            Func<Timer> createTimer, ILoop loop, IFieldObjectFinder fieldObjectFinder, GameDataStore gameDataStore, ILogger logger)
+            Func<Timer> createTimer, ILoop loop, IFieldObjectFinder fieldObjectFinder, GameDataStore gameDataStore, ILogger logger, UserDataStore userDataStore)
         {
             _joystick = joystick;
             _world = world;
@@ -23,10 +24,11 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             _loop = loop;
             _fieldObjectFinder = fieldObjectFinder;
             _gameDataStore = gameDataStore;
+            _userDataStore = userDataStore;
             _logger = logger;
 
             _creationFunction = new Dictionary<string, Func<IControllableUnit, IUnitLogic>>{
-                { "PLAYER", (unit) =>  new PlayerUnitLogic(_loop, _joystick, _fieldObjectFinder, _gameDataStore) },
+                { "PLAYER", (unit) =>  new PlayerUnitLogic(_loop, _joystick, _fieldObjectFinder, _gameDataStore, _userDataStore) },
                 { "NON_PLAYER", (unit) =>  new NonPlayerUnitLogic(_loop, _createTimer.Invoke(), _world) },
                 { "MONK", (unit) =>  new MonkLogic(_loop, new Core.Random()) }
             };

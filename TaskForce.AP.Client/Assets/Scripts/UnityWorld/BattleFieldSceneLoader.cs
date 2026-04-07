@@ -152,6 +152,10 @@ namespace TaskForce.AP.Client.UnityWorld
             {
                 return new Core.BattleFieldScene.Skills.MeleeDaggerSkill(createTimer, skill, _random, _logger);
             });
+            skillFactory.AddCreator(Core.Entity.SkillID.MeleeBat, (skill) =>
+            {
+                return new Core.BattleFieldScene.Skills.MeleeBatSkill(createTimer, skill, _random, _logger);
+            });
             skillFactory.AddCreator(Core.Entity.SkillID.PistolAttack, (skill) => // SkillID.Pistol -> SkillID.PistolAttack
             {
                 // Core.BattleFieldScene.Skills.Bullet을 생성하는 람다 함수

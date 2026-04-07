@@ -7,6 +7,8 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private readonly Func<string, View.BattleFieldScene.IFieldItem> _createView;
         private readonly GameDataStore _gameDataStore;
 
+        public event EventHandler<CreatedEventArgs<IFieldItem>> FieldItemCreatedEvent;
+
         public FieldItemFactory(Func<string, View.BattleFieldScene.IFieldItem> createView, GameDataStore gameDataStore)
         {
             _createView = createView;
@@ -19,13 +21,25 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             if (data == null)
                 return null;
 
+            IFieldItem fieldItem;
             switch (fieldItemID)
             {
                 case GameData.FieldItemID.MedicalKit:
-                    return new MedicalKit(_createView(data.BodyID));
+                    fieldItem = new MedicalKit(_createView(data.BodyID));
+                    break;
                 default:
                     return null;
             }
+
+            EventHandler handler = null;
+            handler = (sender, e) =>
+            {
+                fieldItem.SpawnCompletedEvent -= handler;
+                FieldItemCreatedEvent?.Invoke(this, new CreatedEventArgs<IFieldItem>(fieldItem));
+            };
+            fieldItem.SpawnCompletedEvent += handler;
+
+            return fieldItem;
         }
     }
 }

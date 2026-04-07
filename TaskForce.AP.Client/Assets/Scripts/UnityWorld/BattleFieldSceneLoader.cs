@@ -174,6 +174,16 @@ namespace TaskForce.AP.Client.UnityWorld
                     return bullet;
                 }, targetFinder, skill);
             });
+
+            // 패시브 장비 7종 추가
+            skillFactory.AddCreator(Core.Entity.SkillID.Gloves, (skill) => new PassiveSkill(skill));
+            skillFactory.AddCreator(Core.Entity.SkillID.Armor, (skill) => new PassiveSkill(skill));
+            skillFactory.AddCreator(Core.Entity.SkillID.Helmet, (skill) => new PassiveSkill(skill));
+            skillFactory.AddCreator(Core.Entity.SkillID.Boots, (skill) => new PassiveSkill(skill));
+            skillFactory.AddCreator(Core.Entity.SkillID.TacticalBackpack, (skill) => new PassiveSkill(skill));
+            skillFactory.AddCreator(Core.Entity.SkillID.ArmorPiercingBullet, (skill) => new PassiveSkill(skill));
+            skillFactory.AddCreator(Core.Entity.SkillID.TacticalManual, (skill) => new PassiveSkill(skill));
+
             var battleLog = new BattleLog();
             var battleLogRecorder = new BattleLogRecorder(battleLog, _time);
             loop.Add(battleLogRecorder);

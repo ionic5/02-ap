@@ -38,8 +38,8 @@ namespace TaskForce.AP.Client.Core.Entity.Equipment
                 owner.RemoveModifyAttributeEffects(new[] { _currentEffect });
             }
 
-            // "MAX_HP_INCREASE" 효과 ID를 사용
-            _currentEffect = _effectFactory.Create("MAX_HP_INCREASE", GetLevel());
+            // "HELMET" 효과 ID를 사용 (CSV 데이터와 일치)
+            _currentEffect = _effectFactory.Create("HELMET", GetLevel());
             if (_currentEffect != null)
             {
                 owner.AddModifyAttributeEffect(_currentEffect);

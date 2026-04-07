@@ -38,8 +38,8 @@ namespace TaskForce.AP.Client.Core.Entity.Equipment
                 owner.RemoveModifyAttributeEffects(new[] { _currentEffect });
             }
 
-            // "MOVE_SPEED_INCREASE" 효과 ID를 사용
-            _currentEffect = _effectFactory.Create("MOVE_SPEED_INCREASE", GetLevel());
+            // "BOOTS" 효과 ID를 사용 (CSV 데이터와 일치)
+            _currentEffect = _effectFactory.Create("BOOTS", GetLevel());
             if (_currentEffect != null)
             {
                 owner.AddModifyAttributeEffect(_currentEffect);

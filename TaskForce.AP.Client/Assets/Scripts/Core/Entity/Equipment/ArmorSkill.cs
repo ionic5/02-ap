@@ -38,8 +38,8 @@ namespace TaskForce.AP.Client.Core.Entity.Equipment
                 owner.RemoveModifyAttributeEffects(new[] { _currentEffect });
             }
 
-            // "ARMOR_INCREASE" 효과 ID를 사용
-            _currentEffect = _effectFactory.Create("ARMOR_INCREASE", GetLevel());
+            // "ARMOR" 효과 ID를 사용 (CSV 데이터와 일치)
+            _currentEffect = _effectFactory.Create("ARMOR", GetLevel());
             if (_currentEffect != null)
             {
                 owner.AddModifyAttributeEffect(_currentEffect);

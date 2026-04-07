@@ -40,6 +40,9 @@ namespace TaskForce.AP.Client.Core.Entity
                 skill.SetLevel(1);
                 return skill;
             }
+            
+            if (skillID == SkillID.MeleeBat)
+                return new Entity.MeleeBatSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs);
 
             if (skillID == SkillID.CleavingAttack)
             {

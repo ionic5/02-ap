@@ -115,6 +115,7 @@ namespace TaskForce.AP.Client.UnityWorld
                 }, gameDataStore.AddBossStageEnemy),
                 LoadTable(AssetID.FieldItem, row => new Core.GameData.FieldItem {
                     ID = row["id"],
+                    BodyID = row["bodyID"],
                     BaseAttributeID = row["baseAttributeID"]
                 }, gameDataStore.AddFieldItem),
                 LoadTable(AssetID.PlayerRank, row => new Core.GameData.PlayerRank {

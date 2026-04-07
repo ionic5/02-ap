@@ -9,11 +9,11 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private readonly Core.Random _random;
         private readonly GameDataStore _gameDataStore;
 
-        public FieldObjectDropHandler(ExpOrbFactory expOrbFactory, //FieldItemFactory fieldItemFactory,
+        public FieldObjectDropHandler(ExpOrbFactory expOrbFactory, FieldItemFactory fieldItemFactory,
             Core.Random random, GameDataStore gameDataStore)
         {
             _expOrbFactory = expOrbFactory;
-            //_fieldItemFactory = fieldItemFactory;
+            _fieldItemFactory = fieldItemFactory;
             _random = random;
             _gameDataStore = gameDataStore;
         }
@@ -39,12 +39,8 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
 
         public void OnRootBoxDied(object sender, DiedEventArgs args)
         {
-            var fieldItemData = _gameDataStore.GetFieldItem(GameData.FieldItemID.MedicalKit);
-            if (fieldItemData == null)
-                return;
-
-            //var item = _fieldItemFactory.CreateMedicalKit();
-            //item.SetPosition(args.DiedTarget.GetPosition());
+            IFieldItem fieldItem = _fieldItemFactory.Create(GameData.FieldItemID.MedicalKit);
+            fieldItem.SetPosition(args.DiedTarget.GetPosition());
         }
     }
 }

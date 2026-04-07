@@ -92,7 +92,8 @@ namespace TaskForce.AP.Client.UnityWorld
             var skillFactory = new SkillFactory();
             var unitLogicFactory = new UnitLogicFactory(joystick, world, createTimer, loop, fieldObjectFinder, _gameDataStore, _logger);
             var expOrbFactory = new ExpOrbFactory(() => objFac.Create<View.BattleFieldScene.ExpOrb>(ObjectID.ExpOrb));
-            var fieldObjectDropHandler = new FieldObjectDropHandler(expOrbFactory, _random, _gameDataStore);
+            var fieldItemFactory = new FieldItemFactory((id) => objFac.Create<View.BattleFieldScene.FieldItem>(id), _gameDataStore);
+            var fieldObjectDropHandler = new FieldObjectDropHandler(expOrbFactory, fieldItemFactory, _random, _gameDataStore);
             var skillEntityFactory = new TaskForce.AP.Client.Core.Entity.SkillFactory(_gameDataStore, _logger, _textStore, effectFactory);
             var unitEntityFactory = new Core.Entity.UnitFactory(_logger, _gameDataStore, skillEntityFactory.CreateSkill);
             var unitFactory = new UnitFactory(_random, createTimer, targetFinder,
@@ -237,6 +238,9 @@ namespace TaskForce.AP.Client.UnityWorld
             var rootBoxFactory = new RootBoxFactory(
                 () => objFac.Create<View.BattleFieldScene.RootBox>(ObjectID.RootBox), _gameDataStore);
             rootBoxFactory.RootBoxCreatedEvent += targetFinder.OnRootBoxCreatedEvent;
+            EventHandler<CreatedEventArgs<Core.BattleFieldScene.RootBox>> onRootBoxCreated =
+                (_, e) => e.CreatedObject.DiedEvent += fieldObjectDropHandler.OnRootBoxDied;
+            rootBoxFactory.RootBoxCreatedEvent += onRootBoxCreated;
             var rootBoxSpawner = new RootBoxSpawner(
                 rootBoxFactory, createTimer(), createTimer(), world, _gameDataStore, unit);
 
@@ -247,6 +251,7 @@ namespace TaskForce.AP.Client.UnityWorld
                 unitFactory.UnitCreatedEvent -= targetFinder.OnTargetCreatedEvent;
                 unitFactory.UnitCreatedEvent -= battleLogRecorderHdlr;
                 rootBoxFactory.RootBoxCreatedEvent -= targetFinder.OnRootBoxCreatedEvent;
+                rootBoxFactory.RootBoxCreatedEvent -= onRootBoxCreated;
                 stageHost.EnemyKilledEvent -= fieldObjectDropHandler.OnEnemyKilled;
                 bossStageHost.AllBossesKilledEvent -= fieldObjectDropHandler.OnAllBossesKilled;
 

@@ -3,13 +3,13 @@ using UnityEngine.UI;
 
 namespace TaskForce.AP.Client.UnityWorld
 {
-    public class GaugeBar : MonoBehaviour
+    public class ExpBar : MonoBehaviour
     {
         private int _value;
         private int _maxValue;
 
         [SerializeField]
-        private Image _image;
+        private Slider _slider;
 
         public void SetValue(int value)
         {
@@ -36,7 +36,7 @@ namespace TaskForce.AP.Client.UnityWorld
             if (_value < 0)
                 _value = 0;
 
-            _image.fillAmount = _value / (float)_maxValue;
+            _slider.value = _value / (float)_maxValue;
         }
     }
 }

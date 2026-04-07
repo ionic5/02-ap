@@ -1,4 +1,3 @@
-﻿using log4net.Core;
 using System.Collections.Generic;
 using System.Linq;
 using TaskForce.AP.Client.Core.GameData;
@@ -19,6 +18,7 @@ namespace TaskForce.AP.Client.Core.Entity
         public IModifyAttributeEffect Create(string effectID, int level)
         {
             var effectData = _gameDataStore.GetModifyAttributeEffects().FirstOrDefault(entry => entry.ID == effectID);
+            if (effectData == null) return null;
 
             var lvCoeffs = _gameDataStore.GetLevelCoefficients(effectData.LevelCoefficientID);
             var closestGroup = lvCoeffs.GroupBy(e => e.Level)

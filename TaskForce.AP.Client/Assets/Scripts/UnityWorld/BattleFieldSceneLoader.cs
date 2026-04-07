@@ -127,13 +127,13 @@ namespace TaskForce.AP.Client.UnityWorld
                         });
                     }, skill);
             });
-            skillFactory.AddCreator(Core.Entity.SkillID.PowderKeg, (skill) =>
+            skillFactory.AddCreator(Core.Entity.SkillID.Landmine, (skill) =>
             {
-                return new PowderKegSkill(skill, createTimer(), (IUnit caster,
+                return new LandmineSkill(skill, createTimer(), (IUnit caster,
                     int minDmg, int maxDmg, float watchRadius, float explosionRadius, float expireTime) =>
                 {
-                    var view = objFac.Create<View.BattleFieldScene.PowderKeg>(ObjectID.PowderKeg);
-                    return new Core.BattleFieldScene.Skills.PowderKeg(view, caster, createTimer(), minDmg, maxDmg,
+                    var view = objFac.Create<View.BattleFieldScene.PowderKeg>(ObjectID.Landmine);
+                    return new Core.BattleFieldScene.Skills.Landmine(view, caster, createTimer(), minDmg, maxDmg,
                         watchRadius, explosionRadius, expireTime, (IUnit caster, int minDmg, int maxDmg, float explosionRadius) =>
                         {
                             var view = objFac.Create<View.BattleFieldScene.Explosion>(ObjectID.Explosion1);

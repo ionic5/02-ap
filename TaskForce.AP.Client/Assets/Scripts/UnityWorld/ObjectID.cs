@@ -11,7 +11,7 @@ namespace TaskForce.AP.Client.UnityWorld
         public const string ExpOrb = "EXP_ORB";
         public const string FieldItem = "FIELD_ITEM";
         public const string RootBox = "ROOT_BOX";
-        public const string PowderKeg = "POWDER_KEG";
+        public const string Landmine = "POWDER_KEG";
         public const string Grenade = "DYNAMITE";
         public const string SheepMissile = "SHEEP_MISSILE";
         public const string FloatingTextAnimator = "FLOATING_TEXT_ANIMATOR";

@@ -194,6 +194,7 @@ namespace TaskForce.AP.Client.UnityWorld
             loop.Add(battleLogRecorder);
 
             expOrbFactory.ExpOrbCreatedEvent += fieldObjectFinder.OnExpOrbCreatedEvent;
+            fieldItemFactory.FieldItemCreatedEvent += fieldObjectFinder.OnFieldItemCreatedEvent;
             unitFactory.UnitCreatedEvent += targetFinder.OnTargetCreatedEvent;
             EventHandler<CreatedEventArgs<Core.BattleFieldScene.Unit>> battleLogRecorderHdlr = (sender, e) =>
             {
@@ -266,6 +267,7 @@ namespace TaskForce.AP.Client.UnityWorld
             hdlr = (sender, args) =>
             {
                 expOrbFactory.ExpOrbCreatedEvent -= fieldObjectFinder.OnExpOrbCreatedEvent;
+                fieldItemFactory.FieldItemCreatedEvent -= fieldObjectFinder.OnFieldItemCreatedEvent;
                 unitFactory.UnitCreatedEvent -= targetFinder.OnTargetCreatedEvent;
                 unitFactory.UnitCreatedEvent -= battleLogRecorderHdlr;
                 rootBoxFactory.RootBoxCreatedEvent -= targetFinder.OnRootBoxCreatedEvent;

@@ -38,6 +38,11 @@ namespace TaskForce.AP.Client.UnityWorld.BattleFieldScene
             Register(args.CreatedObject);
         }
 
+        public void OnFieldItemCreatedEvent(object sender, CreatedEventArgs<IFieldItem> args)
+        {
+            Register(args.CreatedObject);
+        }
+
         private void Register(IFieldObject fieldObject)
         {
             _fieldObjects.Add(fieldObject);

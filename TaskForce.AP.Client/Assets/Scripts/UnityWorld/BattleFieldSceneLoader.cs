@@ -216,10 +216,16 @@ namespace TaskForce.AP.Client.UnityWorld
             var pausePanelCtrl = new PausePanelController(pausePanel, world);
             pausePanelCtrl.Start();
 
+            var unitEntity = unitEntityFactory.CreateUnitEntity("WARRIOR_0");
+            unitEntity.SetMaxSkillCount(5);
+            unitEntity.SetSkillCountLimit(8);
+            var unit = unitFactory.CreatePlayerUnit(unitEntity);
+            unit.SetPosition(world.GetPlayerUnitSpawnPosition());
+
             var sceneCtrl = new BattleFieldSceneController(scene, world, followCamera, winOpener,
-                unitFactory.CreatePlayerUnit, _logger,
-                unitEntityFactory.CreateUnitEntity, createTimer(),
-                _onGoToLobbyEvent, battleLog, _userDataStore, skillIconGrid);
+                _logger, createTimer(),
+                _onGoToLobbyEvent, battleLog, _userDataStore, skillIconGrid,
+                unit, unitEntity);
             sceneCtrl.Start();
             loop.Add(sceneCtrl);
 
@@ -232,12 +238,19 @@ namespace TaskForce.AP.Client.UnityWorld
             stageHost.EnemyKilledEvent += fieldObjectDropHandler.OnEnemyKilled;
             bossStageHost.AllBossesKilledEvent += fieldObjectDropHandler.OnAllBossesKilled;
 
+            var rootBoxFactory = new RootBoxFactory(
+                () => objFac.Create<View.BattleFieldScene.RootBox>(ObjectID.RootBox), _gameDataStore);
+            rootBoxFactory.RootBoxCreatedEvent += targetFinder.OnRootBoxCreatedEvent;
+            var rootBoxSpawner = new RootBoxSpawner(
+                rootBoxFactory, createTimer(), createTimer(), world, _gameDataStore, unit);
+
             EventHandler<DestroyEventArgs> hdlr = null;
             hdlr = (sender, args) =>
             {
                 expOrbFactory.ExpOrbCreatedEvent -= fieldObjectFinder.OnExpOrbCreatedEvent;
                 unitFactory.UnitCreatedEvent -= targetFinder.OnTargetCreatedEvent;
                 unitFactory.UnitCreatedEvent -= battleLogRecorderHdlr;
+                rootBoxFactory.RootBoxCreatedEvent -= targetFinder.OnRootBoxCreatedEvent;
                 stageHost.EnemyKilledEvent -= fieldObjectDropHandler.OnEnemyKilled;
                 bossStageHost.AllBossesKilledEvent -= fieldObjectDropHandler.OnAllBossesKilled;
 
@@ -245,6 +258,7 @@ namespace TaskForce.AP.Client.UnityWorld
                 loop.Remove(sceneCtrl);
                 targetFinder.Destroy();
                 fieldObjectFinder.Destroy();
+                rootBoxSpawner.Destroy();
 
                 scene.DestroyEvent -= hdlr;
             };
@@ -256,6 +270,7 @@ namespace TaskForce.AP.Client.UnityWorld
                 createTimer(), unitFactory.CreateEnemyUnit);
 
             swarmGenerator.Start();
+            rootBoxSpawner.Start();
 
             bossStageHost.Start(1);
 

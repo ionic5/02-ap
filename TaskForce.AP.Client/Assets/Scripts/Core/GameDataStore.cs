@@ -27,7 +27,8 @@ namespace TaskForce.AP.Client.Core
         private readonly List<EnemyUnitSwarm> _enemyUnitSwarms;
         private readonly List<BossStage> _bossStages;
         private readonly List<BossStageEnemy> _bossStageEnemies;
-        private readonly List<PlayerRank> _playerRank;
+        private readonly List<FieldItem> _fieldItems;
+        private readonly List<PlayerRank> _playerRanks;
         private readonly Dictionary<string, GameData.Constant> _constants;
 
         private Dictionary<string, Skill> _skillsByID;
@@ -55,7 +56,8 @@ namespace TaskForce.AP.Client.Core
             _enemyUnitSwarms = new List<EnemyUnitSwarm>();
             _bossStages = new List<BossStage>();
             _bossStageEnemies = new List<BossStageEnemy>();
-            _playerRank = new List<PlayerRank>();
+            _fieldItems = new List<FieldItem>();
+            _playerRanks = new List<PlayerRank>();
             _constants = new Dictionary<string, GameData.Constant>();
         }
 
@@ -304,15 +306,14 @@ namespace TaskForce.AP.Client.Core
 
         public void AddPlayerRank(PlayerRank entry)
         {
-            _playerRank.Add(entry);
+            _playerRanks.Add(entry);
         }
 
-        public List<PlayerRank> GetPlayerRankData()
+        public IEnumerable<PlayerRank> GetPlayerRanks()
         {
-            List<PlayerRank> playerRankData = new List<PlayerRank>(_playerRank);
-            return playerRankData;
+            return _playerRanks;
         }
-        
+
         public IEnumerable<EnemyUnitSwarm> GetEnemyUnitSwarms()
         {
             return _enemyUnitSwarms;
@@ -326,6 +327,16 @@ namespace TaskForce.AP.Client.Core
         public IEnumerable<SkillDescription> GetSkillDescriptions(string skillID)
         {
             return _skillDescriptions.Where(entry => entry.SkillID == skillID);
+        }
+
+        public void AddFieldItem(FieldItem entry)
+        {
+            _fieldItems.Add(entry);
+        }
+
+        public FieldItem GetFieldItem(string id)
+        {
+            return _fieldItems.FirstOrDefault(entry => entry.ID == id);
         }
     }
 }

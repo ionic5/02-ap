@@ -3,20 +3,16 @@ using System.Numerics;
 
 namespace TaskForce.AP.Client.Core.BattleFieldScene
 {
-    public class RootBox : ITarget, IFieldObject
+    public class MedicalKit : IFieldItem
     {
         public event EventHandler<DestroyEventArgs> DestroyEvent;
-        public event EventHandler<DiedEventArgs> DiedEvent;
 
         private bool _isDestroyed;
-        private bool _isDead;
-        private int _hp;
-        private readonly View.BattleFieldScene.IRootBox _view;
+        private readonly View.BattleFieldScene.IFieldItem _view;
 
-        public RootBox(View.BattleFieldScene.IRootBox view, int hp)
+        public MedicalKit(View.BattleFieldScene.IFieldItem view)
         {
             _view = view;
-            _hp = hp;
             _view.DestroyEvent += OnViewDestroyEvent;
         }
 
@@ -25,31 +21,13 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             handler.Handle(this);
         }
 
-        public void Hit(IUnit attacker, int damage)
+        public void Handle(IFieldItemHandler handler)
         {
-            if (_isDead)
-                return;
-
-            _hp -= damage;
-            if (_hp > 0)
-                return;
-
-            _hp = 0;
-            _isDead = true;
-            DiedEvent?.Invoke(this, new DiedEventArgs(this));
-            Destroy();
+            handler.Handle(this);
         }
-
-        public bool IsAlive() => !_isDead;
-        public bool IsDead() => _isDead;
-        public bool IsPlayerSide() => false;
-        public bool IsFullHP() => false;
-        public int GetRemainHP() => _hp;
-        public void Heal(int healAmount) { }
 
         public Vector2 GetPosition() => _view.GetPosition();
         public void SetPosition(Vector2 position) => _view.SetPosition(position);
-        public string GetViewID() => _view.GetObjectID();
 
         private void OnViewDestroyEvent(object sender, DestroyEventArgs e) => Destroy();
 

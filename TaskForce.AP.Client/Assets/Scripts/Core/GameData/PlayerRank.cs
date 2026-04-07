@@ -5,5 +5,6 @@ namespace TaskForce.AP.Client.Core.GameData
         public int Rank;
         public int UpgradeGold;
         public int SlotNum;
+        public string IconID;
     }
 }

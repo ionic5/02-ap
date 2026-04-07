@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using TaskForce.AP.Client.Core.View.BattleFieldScene;
 using TaskForce.AP.Client.Core.View.Scenes;
 
@@ -12,9 +10,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private readonly IWorld _world;
         private readonly IFollowCamera _followCamera;
         private readonly WindowOpener _windowOpener;
-        private readonly Func<Entity.Unit, IUnit> _createPlayerUnit;
         private readonly ILogger _logger;
-        private readonly Func<string, Entity.Unit> _createUnitEntity;
         private readonly Core.Timer _timer;
         private readonly Action _onGoToLobbyEvent;
         private readonly BattleLog _battleLog;
@@ -26,24 +22,24 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private Entity.Unit _unitEntity;
 
         public BattleFieldSceneController(IBattleFieldScene scene, IWorld world, IFollowCamera followCamera,
-            WindowOpener windowOpener, Func<Entity.Unit, IUnit> createUnit, ILogger logger,
-            Func<string, Entity.Unit> createUnitEntity, Core.Timer timer,
+            WindowOpener windowOpener, ILogger logger, Core.Timer timer,
             Action onGoToLobbyEvent, BattleLog battleLog, UserDataStore userDataStore,
-            View.BattleFieldScene.ISkillIconGrid skillIconGrid)
+            View.BattleFieldScene.ISkillIconGrid skillIconGrid,
+            IUnit unit, Entity.Unit unitEntity)
         {
             _scene = scene;
             _world = world;
             _followCamera = followCamera;
-            _createPlayerUnit = createUnit;
             _windowOpener = windowOpener;
             _isDestroyed = false;
             _logger = logger;
-            _createUnitEntity = createUnitEntity;
             _timer = timer;
             _onGoToLobbyEvent = onGoToLobbyEvent;
             _battleLog = battleLog;
             _userDataStore = userDataStore;
             _skillIconGrid = skillIconGrid;
+            _unit = unit;
+            _unitEntity = unitEntity;
         }
 
         public void Update()
@@ -55,13 +51,6 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
 
         public void Start()
         {
-            _unitEntity = _createUnitEntity.Invoke("WARRIOR_0");
-            _unitEntity.SetMaxSkillCount(5);
-            _unitEntity.SetSkillCountLimit(8);
-
-            _unit = _createPlayerUnit(_unitEntity);
-            _unit.SetPosition(_world.GetPlayerUnitSpawnPosition());
-
             UpdateLevel();
             UpdateRequireExp();
             UpdateExp();

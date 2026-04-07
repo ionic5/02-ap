@@ -37,7 +37,7 @@ namespace TaskForce.AP.Client.Core.Entity
             if (skillID == SkillID.MeleeDagger)
             {
                 var skill = new Entity.MeleeDaggerSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs);
-                // skill.SetLevel(1);  // TODO: dagger 스킬 테스트 중, 추후 필요시 삭제 요
+                skill.SetLevel(1);
                 return skill;
             }
 

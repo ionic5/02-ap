@@ -52,8 +52,6 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
             _cooldownTimer.Start(GetAttribute(AttributeID.AttackTime).AsFloat(), OnCooldownFinished);
             
             SetUseSkillArgs(args);
-            
-            _logger.Info("meleeDagger: Use: " + args);
         }
 
         void StartAttackCombo(UseSkillArgs args)
@@ -69,7 +67,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
             _impactTimer.Start(GetAttribute(AttributeID.AttackImpactTime).AsFloat(), OnAttackImpact);
 
             if (_attackComboCount > 0)
-            {   
+            {  
                 _comboTimer.Start(GetAttribute(AttributeID.AttackComboTime).AsFloat(), () => StartAttackCombo(args));
             }
         }
@@ -113,12 +111,10 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
 
             user.Wait();
             onCompleted?.Invoke();
-            
-            _logger.Info("meleeDagger: OnCooldownFinished: ");
         }
 
         private void OnAttackImpact()
-        {_logger.Info("공격");
+        {
             if (_state != State.Using)
                 return;
 
@@ -128,7 +124,6 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
             var targets = new HashSet<ITarget>();
 
             var attackRange = GetAttribute(AttributeID.AttackRange).AsFloat();
-            // var degree = GetAttribute(AttributeID.SwingAngle).AsFloat();  // TODO: JW: singAngle 적용해야 하는지 확인 요
             var degree = GetAttribute(AttributeID.AttackAngle).AsFloat();  
             var minDmg = GetAttribute(AttributeID.MinDamage).AsInt();
             var maxDmg = GetAttribute(AttributeID.MaxDamage).AsInt();
@@ -137,9 +132,11 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
             var attackImpactTime = GetAttribute(AttributeID.AttackImpactTime).AsFloat();
             var attackCombo = GetAttribute(AttributeID.AttackCombo).AsInt();
             var attackComboTime = GetAttribute(AttributeID.AttackComboTime).AsFloat();
-            _logger.Info($"meleeDagger: OnAttackImpact: attackTime: {attackTime}, attackImpactTime:{attackImpactTime}," +
-                         $"attackRange: {attackRange}, degree: {degree}, minDamage: {minDmg}, maxDamage: {maxDmg}, " +
-                         $"attackCombo: {attackCombo}, attackComboTime: {attackComboTime}");
+            
+            // TODO: JW: test용 주석 삭제 요
+            // _logger.Info($"meleeDagger: OnAttackImpact: attackTime: {attackTime}, attackImpactTime:{attackImpactTime}," +
+            //              $"attackRange: {attackRange}, degree: {degree}, minDamage: {minDmg}, maxDamage: {maxDmg}, " +
+            //              $"attackCombo: {attackCombo}, attackComboTime: {attackComboTime}");
             
             if (target.IsAlive() && IsTargetInRange(user, target))
                 targets.Add(target);

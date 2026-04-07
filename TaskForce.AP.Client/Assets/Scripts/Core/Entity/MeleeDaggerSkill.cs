@@ -12,12 +12,5 @@ namespace TaskForce.AP.Client.Core.Entity
             : base(skillData, textStore, baseAttributes, levelAttributes, skillDescriptions)
         {
         }
-
-        // TODO: JW: 추후 삭제 확인 요
-        // public override Variant GetAttribute(string attributeID)
-        // {
-        //     // return base.GetAttribute(attributeID);
-        //     return GetOwner().GetAttribute(attributeID);
-        // }
     }
 }

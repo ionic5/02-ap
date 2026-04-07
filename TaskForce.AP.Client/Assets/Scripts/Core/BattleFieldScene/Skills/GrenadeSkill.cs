@@ -1,24 +1,24 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Numerics;
 using TaskForce.AP.Client.Core.Entity;
 
 namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
 {
-    public class DynamiteSkill : InstantSkill, ISkill
+    public class GrenadeSkill : InstantSkill, ISkill
     {
         private readonly Core.Random _random;
         private readonly RepeatTimer _repeatTimer;
         private readonly Core.Timer _timer;
-        private readonly Func<IUnit, int, int, float, Dynamite> _createDynamite;
+        private readonly Func<IUnit, int, int, float, Grenade> _createGrenade;
 
-        public DynamiteSkill(Random random, RepeatTimer repeatTimer, Timer timer,
-            Func<IUnit, int, int, float, Dynamite> createDynamite, Core.Entity.ISkill skillEntity) : base(skillEntity)
+        public GrenadeSkill(Core.Random random, RepeatTimer repeatTimer, Core.Timer timer,
+            Func<IUnit, int, int, float, Grenade> createGrenade, Core.Entity.ISkill skillEntity) : base(skillEntity)
         {
             _random = random;
             _repeatTimer = repeatTimer;
             _timer = timer;
-            _createDynamite = createDynamite;
+            _createGrenade = createGrenade;
         }
 
         public override bool IsCooldownFinished()
@@ -30,17 +30,17 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
         {
             _timer.Start(GetAttribute(AttributeID.CooldownTime).AsFloat());
 
-            _repeatTimer.Start(() => ThrowDynamite(GetOwner()),
+            _repeatTimer.Start(() => ThrowGrenade(GetOwner()),
                 GetAttribute(AttributeID.BurstInterval).AsFloat(),
                 GetAttribute(AttributeID.BurstCount).AsInt());
         }
 
-        public void ThrowDynamite(IUnit user)
+        public void ThrowGrenade(IUnit user)
         {
             var minDmg = GetAttribute(AttributeID.MinDamage).AsInt();
             var maxDmg = GetAttribute(AttributeID.MaxDamage).AsInt();
             var explosionRadius = GetAttribute(AttributeID.ExplosionRadius).AsFloat();
-            var missile = _createDynamite.Invoke(user, minDmg, maxDmg, explosionRadius);
+            var missile = _createGrenade.Invoke(user, minDmg, maxDmg, explosionRadius);
 
             var casterPos = user.GetPosition();
             missile.SetPosition(casterPos);
@@ -58,7 +58,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
             var maxRange = GetAttribute(AttributeID.MaxMissileRange).AsFloat();
             var distSq = Vector2.DistanceSquared(unit.GetPosition(), target.GetPosition());
 
-            return distSq >= minRange * minRange && distSq >= maxRange * maxRange;
+            return distSq >= minRange * minRange && distSq <= maxRange * maxRange;
         }
 
         public override IEnumerable<ITarget> GetTargetsInRange(IUnit unit)

@@ -4,7 +4,7 @@ namespace TaskForce.AP.Client.Core.Entity
     {
         public const string SheepMissile = "SHEEP_MISSILE";
         public const string CleavingAttack = "CLEAVING_ATTACK";
-        public const string Dynamite = "DYNAMITE";
+        public const string Grenade = "GRENADE";
         public const string PowderKeg = "POWDER_KEG";
         public const string Monk = "SUMMON_MONK";
         public const string Heal = "HEAL";

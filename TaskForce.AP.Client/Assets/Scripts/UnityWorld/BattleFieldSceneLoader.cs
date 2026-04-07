@@ -112,13 +112,13 @@ namespace TaskForce.AP.Client.UnityWorld
                         return new SheepMissile(_random, view, caster, minDmg, maxDmg, targetFinder);
                     }, skill);
             });
-            skillFactory.AddCreator(Core.Entity.SkillID.Dynamite, (skill) =>
+            skillFactory.AddCreator(Core.Entity.SkillID.Grenade, (skill) =>
             {
-                return new DynamiteSkill(_random, new RepeatTimer(createTimer()),
+                return new GrenadeSkill(_random, new RepeatTimer(createTimer()),
                     createTimer(), (IUnit caster, int minDmg, int maxDmg, float explosionRadius) =>
                     {
-                        var view = objFac.Create<Sheep>(ObjectID.Dynamite);
-                        return new Dynamite(view, caster,
+                        var view = objFac.Create<Sheep>(ObjectID.Grenade);
+                        return new Grenade(view, caster,
                         minDmg, maxDmg, explosionRadius, (IUnit caster, int minDmg, int maxDmg, float explosionRadius) =>
                         {
                             var view = objFac.Create<View.BattleFieldScene.Explosion>(ObjectID.Explosion0);

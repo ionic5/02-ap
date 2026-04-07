@@ -4,17 +4,42 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
 {
     public class FieldItemFactory
     {
-        private readonly Func<View.BattleFieldScene.IFieldItem> _createView;
+        private readonly Func<string, View.BattleFieldScene.IFieldItem> _createView;
+        private readonly GameDataStore _gameDataStore;
 
-        public FieldItemFactory(Func<View.BattleFieldScene.IFieldItem> createView)
+        public event EventHandler<CreatedEventArgs<IFieldItem>> FieldItemCreatedEvent;
+
+        public FieldItemFactory(Func<string, View.BattleFieldScene.IFieldItem> createView, GameDataStore gameDataStore)
         {
             _createView = createView;
+            _gameDataStore = gameDataStore;
         }
 
-        public MedicalKit CreateMedicalKit()
+        public IFieldItem Create(string fieldItemID)
         {
-            var view = _createView();
-            return new MedicalKit(view);
+            var data = _gameDataStore.GetFieldItem(fieldItemID);
+            if (data == null)
+                return null;
+
+            IFieldItem fieldItem;
+            switch (fieldItemID)
+            {
+                case GameData.FieldItemID.MedicalKit:
+                    fieldItem = new MedicalKit(_createView(data.BodyID));
+                    break;
+                default:
+                    return null;
+            }
+
+            EventHandler handler = null;
+            handler = (sender, e) =>
+            {
+                fieldItem.SpawnCompletedEvent -= handler;
+                FieldItemCreatedEvent?.Invoke(this, new CreatedEventArgs<IFieldItem>(fieldItem));
+            };
+            fieldItem.SpawnCompletedEvent += handler;
+
+            return fieldItem;
         }
     }
 }

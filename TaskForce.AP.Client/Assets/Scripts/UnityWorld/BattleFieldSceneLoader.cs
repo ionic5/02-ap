@@ -92,7 +92,8 @@ namespace TaskForce.AP.Client.UnityWorld
             var skillFactory = new SkillFactory();
             var unitLogicFactory = new UnitLogicFactory(joystick, world, createTimer, loop, fieldObjectFinder, _gameDataStore, _logger);
             var expOrbFactory = new ExpOrbFactory(() => objFac.Create<View.BattleFieldScene.ExpOrb>(ObjectID.ExpOrb));
-            var fieldObjectDropHandler = new FieldObjectDropHandler(expOrbFactory, _random, _gameDataStore);
+            var fieldItemFactory = new FieldItemFactory((id) => objFac.Create<View.BattleFieldScene.FieldItem>(id), _gameDataStore);
+            var fieldObjectDropHandler = new FieldObjectDropHandler(expOrbFactory, fieldItemFactory, _random, _gameDataStore);
             var skillEntityFactory = new TaskForce.AP.Client.Core.Entity.SkillFactory(_gameDataStore, _logger, _textStore, effectFactory);
             var unitEntityFactory = new Core.Entity.UnitFactory(_logger, _gameDataStore, skillEntityFactory.CreateSkill);
             var unitFactory = new UnitFactory(_random, createTimer, targetFinder,
@@ -126,13 +127,13 @@ namespace TaskForce.AP.Client.UnityWorld
                         });
                     }, skill);
             });
-            skillFactory.AddCreator(Core.Entity.SkillID.PowderKeg, (skill) =>
+            skillFactory.AddCreator(Core.Entity.SkillID.Landmine, (skill) =>
             {
-                return new PowderKegSkill(skill, createTimer(), (IUnit caster,
+                return new LandmineSkill(skill, createTimer(), (IUnit caster,
                     int minDmg, int maxDmg, float watchRadius, float explosionRadius, float expireTime) =>
                 {
-                    var view = objFac.Create<View.BattleFieldScene.PowderKeg>(ObjectID.PowderKeg);
-                    return new Core.BattleFieldScene.Skills.PowderKeg(view, caster, createTimer(), minDmg, maxDmg,
+                    var view = objFac.Create<View.BattleFieldScene.PowderKeg>(ObjectID.Landmine);
+                    return new Core.BattleFieldScene.Skills.Landmine(view, caster, createTimer(), minDmg, maxDmg,
                         watchRadius, explosionRadius, expireTime, (IUnit caster, int minDmg, int maxDmg, float explosionRadius) =>
                         {
                             var view = objFac.Create<View.BattleFieldScene.Explosion>(ObjectID.Explosion1);
@@ -151,6 +152,10 @@ namespace TaskForce.AP.Client.UnityWorld
             skillFactory.AddCreator(Core.Entity.SkillID.MeleeDagger, (skill) =>
             {
                 return new Core.BattleFieldScene.Skills.MeleeDaggerSkill(createTimer, skill, _random, _logger);
+            });
+            skillFactory.AddCreator(Core.Entity.SkillID.MeleeBat, (skill) =>
+            {
+                return new Core.BattleFieldScene.Skills.MeleeBatSkill(createTimer, skill, _random, _logger);
             });
             skillFactory.AddCreator(Core.Entity.SkillID.PistolAttack, (skill) => // SkillID.Pistol -> SkillID.PistolAttack
             {
@@ -174,11 +179,22 @@ namespace TaskForce.AP.Client.UnityWorld
                     return bullet;
                 }, targetFinder, skill);
             });
+
+            // 패시브 장비 7종 추가
+            skillFactory.AddCreator(Core.Entity.SkillID.Gloves, (skill) => new PassiveSkill(skill));
+            skillFactory.AddCreator(Core.Entity.SkillID.Armor, (skill) => new PassiveSkill(skill));
+            skillFactory.AddCreator(Core.Entity.SkillID.Helmet, (skill) => new PassiveSkill(skill));
+            skillFactory.AddCreator(Core.Entity.SkillID.Boots, (skill) => new PassiveSkill(skill));
+            skillFactory.AddCreator(Core.Entity.SkillID.TacticalBackpack, (skill) => new PassiveSkill(skill));
+            skillFactory.AddCreator(Core.Entity.SkillID.ArmorPiercingBullet, (skill) => new PassiveSkill(skill));
+            skillFactory.AddCreator(Core.Entity.SkillID.TacticalManual, (skill) => new PassiveSkill(skill));
+
             var battleLog = new BattleLog();
             var battleLogRecorder = new BattleLogRecorder(battleLog, _time);
             loop.Add(battleLogRecorder);
 
             expOrbFactory.ExpOrbCreatedEvent += fieldObjectFinder.OnExpOrbCreatedEvent;
+            fieldItemFactory.FieldItemCreatedEvent += fieldObjectFinder.OnFieldItemCreatedEvent;
             unitFactory.UnitCreatedEvent += targetFinder.OnTargetCreatedEvent;
             EventHandler<CreatedEventArgs<Core.BattleFieldScene.Unit>> battleLogRecorderHdlr = (sender, e) =>
             {
@@ -238,9 +254,20 @@ namespace TaskForce.AP.Client.UnityWorld
             stageHost.EnemyKilledEvent += fieldObjectDropHandler.OnEnemyKilled;
             bossStageHost.AllBossesKilledEvent += fieldObjectDropHandler.OnAllBossesKilled;
 
+            EventHandler<Core.BattleFieldScene.DiedEventArgs> onEnemyKilledAddGold = (sender, args) =>
+            {
+                if (args.Killer == null || !args.Killer.IsPlayerSide())
+                    return;
+                _userDataStore.AddGold(1);
+            };
+            stageHost.EnemyKilledEvent += onEnemyKilledAddGold;
+
             var rootBoxFactory = new RootBoxFactory(
                 () => objFac.Create<View.BattleFieldScene.RootBox>(ObjectID.RootBox), _gameDataStore);
             rootBoxFactory.RootBoxCreatedEvent += targetFinder.OnRootBoxCreatedEvent;
+            EventHandler<CreatedEventArgs<Core.BattleFieldScene.RootBox>> onRootBoxCreated =
+                (_, e) => e.CreatedObject.DiedEvent += fieldObjectDropHandler.OnRootBoxDied;
+            rootBoxFactory.RootBoxCreatedEvent += onRootBoxCreated;
             var rootBoxSpawner = new RootBoxSpawner(
                 rootBoxFactory, createTimer(), createTimer(), world, _gameDataStore, unit);
 
@@ -248,10 +275,13 @@ namespace TaskForce.AP.Client.UnityWorld
             hdlr = (sender, args) =>
             {
                 expOrbFactory.ExpOrbCreatedEvent -= fieldObjectFinder.OnExpOrbCreatedEvent;
+                fieldItemFactory.FieldItemCreatedEvent -= fieldObjectFinder.OnFieldItemCreatedEvent;
                 unitFactory.UnitCreatedEvent -= targetFinder.OnTargetCreatedEvent;
                 unitFactory.UnitCreatedEvent -= battleLogRecorderHdlr;
                 rootBoxFactory.RootBoxCreatedEvent -= targetFinder.OnRootBoxCreatedEvent;
+                rootBoxFactory.RootBoxCreatedEvent -= onRootBoxCreated;
                 stageHost.EnemyKilledEvent -= fieldObjectDropHandler.OnEnemyKilled;
+                stageHost.EnemyKilledEvent -= onEnemyKilledAddGold;
                 bossStageHost.AllBossesKilledEvent -= fieldObjectDropHandler.OnAllBossesKilled;
 
                 loop.Remove(battleLogRecorder);

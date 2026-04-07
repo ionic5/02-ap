@@ -1,4 +1,4 @@
-﻿namespace TaskForce.AP.Client.UnityWorld
+namespace TaskForce.AP.Client.UnityWorld
 {
     public class ObjectID
     {
@@ -11,8 +11,8 @@
         public const string ExpOrb = "EXP_ORB";
         public const string FieldItem = "FIELD_ITEM";
         public const string RootBox = "ROOT_BOX";
-        public const string PowderKeg = "POWDER_KEG";
-        public const string Grenade = "GRENADE";
+        public const string Landmine = "POWDER_KEG";
+        public const string Grenade = "DYNAMITE";
         public const string SheepMissile = "SHEEP_MISSILE";
         public const string FloatingTextAnimator = "FLOATING_TEXT_ANIMATOR";
         public const string Bullet = "BULLET"; // 권총 총알 오브젝트 ID 추가

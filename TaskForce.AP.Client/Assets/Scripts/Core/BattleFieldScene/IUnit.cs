@@ -35,5 +35,6 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         void SetUnitLogic(string logicID);
         void SetMaster(IUnit summoner);
         void RecoverFullHP();
+        void Heal(int healAmount);
     }
 }

@@ -40,8 +40,8 @@ namespace TaskForce.AP.Client.Core.Entity.Equipment
             }
 
             // 새로운 레벨에 맞는 효과 생성 및 등록
-            // "GLOVES_COOLDOWN_REDUCTION" 효과 ID를 사용한다고 가정
-            _currentEffect = _effectFactory.Create("GLOVES_COOLDOWN_REDUCTION", GetLevel());
+            // "GLOVES" 효과 ID를 사용 (CSV 데이터와 일치)
+            _currentEffect = _effectFactory.Create("GLOVES", GetLevel());
             if (_currentEffect != null)
             {
                 owner.AddModifyAttributeEffect(_currentEffect);

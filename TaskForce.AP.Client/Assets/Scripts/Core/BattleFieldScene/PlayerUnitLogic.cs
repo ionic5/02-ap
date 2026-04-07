@@ -7,7 +7,7 @@ using TaskForce.AP.Client.Core.Entity;
 
 namespace TaskForce.AP.Client.Core.BattleFieldScene
 {
-    public class PlayerUnitLogic : UnitLogic, IFieldObjectHandler
+    public class PlayerUnitLogic : UnitLogic, IFieldObjectHandler, IFieldItemHandler
     {
         private readonly IJoystick _joystick;
         private readonly IFieldObjectFinder _fieldObjectFinder;
@@ -135,7 +135,14 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
 
         void IFieldObjectHandler.Handle(IFieldItem item)
         {
-            // stub - FieldItem 효과 구현 시 IFieldItemHandler 통해 처리
+            item.Handle(this);
+        }
+
+        void IFieldItemHandler.Handle(MedicalKit kit)
+        {
+            if (Vector2.DistanceSquared(GetControlTarget().GetPosition(), kit.GetPosition()) <
+                GetControlTarget().GetPickUpRange() * GetControlTarget().GetPickUpRange())
+                kit.Use(GetControlTarget());
         }
 
         void IFieldObjectHandler.Handle(RootBox box)

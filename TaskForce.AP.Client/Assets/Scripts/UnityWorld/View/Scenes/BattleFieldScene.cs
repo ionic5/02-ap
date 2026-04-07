@@ -22,7 +22,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
         [SerializeField]
         private World _world;
         [SerializeField]
-        private GaugeBar _expBar;
+        private ExpBar _expBar;
         [SerializeField]
         private TMP_Text _levelText;
         [SerializeField]
@@ -49,7 +49,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
         public Joystick Joystick => _joystick;
         public GameObject PlayerUnitSpawnPosition => _playerUnitSpawnPosition;
         public FollowCamera FollowCamera => _followCamera;
-        public GaugeBar ExpBar => _expBar;
+        public ExpBar ExpBar => _expBar;
         public TMP_Text LevelText => _levelText;
         public View.BattleFieldScene.WindowStack WindowStack => _windowStack;
         public PausePanel PausePanel => _pausePanel;

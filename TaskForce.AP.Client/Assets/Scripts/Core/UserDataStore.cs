@@ -24,6 +24,12 @@
             _isDirty = true;
         }
 
+        public void AddGold(int amount)
+        {
+            _gold += amount;
+            _isDirty = true;
+        }
+
         public int GetGold()
         {
             return _gold;

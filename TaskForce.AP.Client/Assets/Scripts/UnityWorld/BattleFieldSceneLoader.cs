@@ -127,6 +127,20 @@ namespace TaskForce.AP.Client.UnityWorld
                         });
                     }, skill);
             });
+            skillFactory.AddCreator(Core.Entity.SkillID.Rpg, (skill) =>
+            {
+                return new RpgSkill(_random, new RepeatTimer(createTimer()),
+                    createTimer(), (IUnit caster, int minDmg, int maxDmg, float explosionRadius) =>
+                    {
+                        var view = objFac.Create<Sheep>(ObjectID.Rpg);
+                        return new Rpg(view, caster,
+                            minDmg, maxDmg, explosionRadius, (IUnit caster, int minDmg, int maxDmg, float explosionRadius) =>
+                            {
+                                var view = objFac.Create<View.BattleFieldScene.Explosion>(ObjectID.Explosion0);
+                                return new Core.BattleFieldScene.Skills.Explosion(view, caster, _random, minDmg, maxDmg, explosionRadius);
+                            });
+                    }, skill);
+            });
             skillFactory.AddCreator(Core.Entity.SkillID.Landmine, (skill) =>
             {
                 return new LandmineSkill(skill, createTimer(), (IUnit caster,

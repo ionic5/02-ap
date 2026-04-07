@@ -268,6 +268,14 @@ namespace TaskForce.AP.Client.UnityWorld
             stageHost.EnemyKilledEvent += fieldObjectDropHandler.OnEnemyKilled;
             bossStageHost.AllBossesKilledEvent += fieldObjectDropHandler.OnAllBossesKilled;
 
+            EventHandler<Core.BattleFieldScene.DiedEventArgs> onEnemyKilledAddGold = (sender, args) =>
+            {
+                if (args.Killer == null || !args.Killer.IsPlayerSide())
+                    return;
+                _userDataStore.AddGold(1);
+            };
+            stageHost.EnemyKilledEvent += onEnemyKilledAddGold;
+
             var rootBoxFactory = new RootBoxFactory(
                 () => objFac.Create<View.BattleFieldScene.RootBox>(ObjectID.RootBox), _gameDataStore);
             rootBoxFactory.RootBoxCreatedEvent += targetFinder.OnRootBoxCreatedEvent;
@@ -287,6 +295,7 @@ namespace TaskForce.AP.Client.UnityWorld
                 rootBoxFactory.RootBoxCreatedEvent -= targetFinder.OnRootBoxCreatedEvent;
                 rootBoxFactory.RootBoxCreatedEvent -= onRootBoxCreated;
                 stageHost.EnemyKilledEvent -= fieldObjectDropHandler.OnEnemyKilled;
+                stageHost.EnemyKilledEvent -= onEnemyKilledAddGold;
                 bossStageHost.AllBossesKilledEvent -= fieldObjectDropHandler.OnAllBossesKilled;
 
                 loop.Remove(battleLogRecorder);

@@ -86,7 +86,7 @@ namespace TaskForce.AP.Client.UnityWorld
             Action goToBattleAction = () => battleFieldSceneLoader.Load();
 
             titleSceneLoader = new TitleSceneLoader(_screen, goToLobbyAction);
-            lobbySceneLoader = new LobbySceneLoader(_screen, gameDataStore, random, time, textStore, assetLoader, logger, userDataStore, goToBattleAction);
+            lobbySceneLoader = new LobbySceneLoader(_screen, gameDataStore, random, time, textStore, assetLoader, logger, userDataStore, goToBattleAction, _advertisementPlayer);
             battleFieldSceneLoader = new BattleFieldSceneLoader(_screen, gameDataStore, random, time, textStore, assetLoader, logger, userDataStore, goToLobbyAction, _advertisementPlayer);
 
             var titleSceneCtrl = new TitleSceneController(_titleScene, goToLobbyAction);

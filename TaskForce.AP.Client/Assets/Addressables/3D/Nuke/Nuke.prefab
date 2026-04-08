@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1756230401345479914}
   - component: {fileID: 7220205231341982305}
   m_Layer: 0
-  m_Name: GoldBundle
+  m_Name: Nuke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -69,7 +69,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ba88690703048324b9c2ea0808b8461a, type: 2}
+  - {fileID: 2100000, guid: fae042ead332ddd4c9a4c3b4a2a2a5c8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -137,7 +137,7 @@ Animator:
   m_GameObject: {fileID: 1114841553362495286}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 21a5749aa50a79c43b3d1ef70f0fcba7, type: 2}
+  m_Controller: {fileID: 9100000, guid: 92292c4894cc85c4a9d0e397e113c71f, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

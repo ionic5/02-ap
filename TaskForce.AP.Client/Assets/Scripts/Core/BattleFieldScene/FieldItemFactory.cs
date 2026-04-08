@@ -30,6 +30,9 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
                 case GameData.FieldItemID.GoldBundle:
                     fieldItem = new GoldBundle(_createView(data.BodyID));
                     break;
+                case GameData.FieldItemID.Nuke:
+                    fieldItem = new Nuke(_createView(data.BodyID));
+                    break;
                 default:
                     return null;
             }

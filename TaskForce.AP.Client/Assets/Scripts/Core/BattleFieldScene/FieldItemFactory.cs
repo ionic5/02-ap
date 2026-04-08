@@ -6,13 +6,15 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
     {
         private readonly Func<string, View.BattleFieldScene.IFieldItem> _createView;
         private readonly GameDataStore _gameDataStore;
+        private readonly IExpOrbFinder _expOrbFinder;
 
         public event EventHandler<CreatedEventArgs<IFieldItem>> FieldItemCreatedEvent;
 
-        public FieldItemFactory(Func<string, View.BattleFieldScene.IFieldItem> createView, GameDataStore gameDataStore)
+        public FieldItemFactory(Func<string, View.BattleFieldScene.IFieldItem> createView, GameDataStore gameDataStore, IExpOrbFinder expOrbFinder)
         {
             _createView = createView;
             _gameDataStore = gameDataStore;
+            _expOrbFinder = expOrbFinder;
         }
 
         public IFieldItem Create(string fieldItemID)
@@ -32,6 +34,9 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
                     break;
                 case GameData.FieldItemID.Nuke:
                     fieldItem = new Nuke(_createView(data.BodyID));
+                    break;
+                case GameData.FieldItemID.Magnet:
+                    fieldItem = new Magnet(_createView(data.BodyID), _expOrbFinder);
                     break;
                 default:
                     return null;

@@ -7,7 +7,7 @@ using TaskForce.AP.Client.Core.BattleFieldScene;
 
 namespace TaskForce.AP.Client.UnityWorld.BattleFieldScene
 {
-    public class FieldObjectFinder : IFieldObjectFinder, IExpOrbFinder
+    public class FieldObjectFinder : IFieldObjectFinder
     {
         private readonly List<IFieldObject> _fieldObjects = new List<IFieldObject>();
 
@@ -31,11 +31,6 @@ namespace TaskForce.AP.Client.UnityWorld.BattleFieldScene
 
             results.AddRange(detected);
             return detected.Count;
-        }
-
-        public IEnumerable<ExpOrb> FindAll()
-        {
-            return _fieldObjects.OfType<ExpOrb>();
         }
 
         public void OnExpOrbCreatedEvent(object sender, CreatedEventArgs<ExpOrb> args)

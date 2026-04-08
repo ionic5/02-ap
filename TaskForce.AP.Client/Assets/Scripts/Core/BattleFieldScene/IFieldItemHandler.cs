@@ -5,6 +5,5 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         void Handle(MedicalKit kit);
         void Handle(GoldBundle bundle);
         void Handle(Nuke nuke);
-        void Handle(Magnet magnet);
     }
 }

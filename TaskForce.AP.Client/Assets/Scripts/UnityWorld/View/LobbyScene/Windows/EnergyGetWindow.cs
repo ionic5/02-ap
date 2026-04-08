@@ -1,10 +1,14 @@
 using System;
 using TaskForce.AP.Client.Core.View.LobbyScene.Windows;
+using TMPro;
+using UnityEngine;
 
 namespace TaskForce.AP.Client.UnityWorld.View.LobbyScene.Windows
 {
     public class EnergyGetWindow : Window, IEnergyGetWindow
     {
+        [SerializeField] private TextMeshProUGUI descriptionText;
+        
         public event EventHandler ConfirmButtonClickedEvent;
         public event EventHandler CancelButtonClickedEvent;
 
@@ -16,6 +20,11 @@ namespace TaskForce.AP.Client.UnityWorld.View.LobbyScene.Windows
         public void OnClickCancelButton()
         {
             CancelButtonClickedEvent?.Invoke(this, EventArgs.Empty);
+        }
+        
+        public void SetDescription(string text)
+        {
+            descriptionText.text = text;
         }
 
         public override void Clear()

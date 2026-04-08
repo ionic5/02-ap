@@ -20,10 +20,10 @@ namespace TaskForce.AP.Client.Core.LobbyScene
             _logger = logger;
         }
 
-        public void OpenEnergyGetWindow(Action onEnergyGetConfirmed)
+        public void OpenEnergyGetWindow(Action onEnergyGetConfirmed, string descriptionText)
         {
             var window = _windowStack.OpenEnergyGetWindow();
-
+            window.SetDescription(descriptionText);
             var ctrl = new EnergyGetWindowController(window, onEnergyGetConfirmed);
             ctrl.Start();
         }
@@ -37,9 +37,10 @@ namespace TaskForce.AP.Client.Core.LobbyScene
             ctrl.Start();
         }
 
-        public void OpenRankUpWindow(Action onRankUpConfirmed)
+        public void OpenRankUpWindow(Action onRankUpConfirmed, string descriptionText)
         {
             var window = _windowStack.OpenRankUpWindow();
+            window.SetDescription(descriptionText);
 
             var ctrl = new RankUpWindowController(window, onRankUpConfirmed);
             ctrl.Start();

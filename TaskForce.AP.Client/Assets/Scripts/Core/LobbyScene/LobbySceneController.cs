@@ -13,6 +13,7 @@ namespace TaskForce.AP.Client.Core.LobbyScene
         private readonly ILogger _logger;
 
         private readonly UserDataStore _userDataStore;
+        private readonly TextStore _textStore;
 
         private bool _isDestroyed;
 
@@ -20,13 +21,14 @@ namespace TaskForce.AP.Client.Core.LobbyScene
 
         public LobbySceneController(ILobbyScene scene, 
             WindowOpener windowOpener, GameDataStore gameDataStore,
-            ILogger logger, UserDataStore userDataStore, Action battleFieldSceneLoadEvent)
+            ILogger logger, UserDataStore userDataStore, TextStore textStore, Action battleFieldSceneLoadEvent)
         {
             _scene = scene;
             _windowOpener = windowOpener;
             _gameDataStore = gameDataStore;
             _logger = logger;
             _userDataStore = userDataStore;
+            _textStore = textStore;
             _battleFieldSceneLoadEvent = battleFieldSceneLoadEvent;
         }
 
@@ -119,7 +121,8 @@ namespace TaskForce.AP.Client.Core.LobbyScene
 
             if (energy < energyForPlay)
             {
-                _windowOpener.OpenCommonWindow("무전기가 부족합니다.");
+                // 에너지 부족
+                _windowOpener.OpenCommonWindow(_textStore.GetText(TextID.EnergyLackDesc));
                 return;
             }
 
@@ -136,11 +139,13 @@ namespace TaskForce.AP.Client.Core.LobbyScene
         {
             if (_userDataStore.GetEnergy() >= _gameDataStore.GetMaxEnergy())
             {
-                _windowOpener.OpenCommonWindow("무전기가 Max 입니다.");
+                // 에너지 max
+                _windowOpener.OpenCommonWindow(_textStore.GetText(TextID.EnergyMaxDesc));
                 return;
             }
 
-            _windowOpener.OpenEnergyGetWindow(OnEnergyGetConfirmed);
+            // TODO: JW: 광고 보상 기능 적용 요
+            _windowOpener.OpenEnergyGetWindow(OnEnergyGetConfirmed, _textStore.GetText(TextID.AdsWatchDesc));
         }
 
         private void OnEnergyGetConfirmed()
@@ -167,18 +172,20 @@ namespace TaskForce.AP.Client.Core.LobbyScene
 
             if (currentRank >= ranks.Max(r => r.Rank))
             {
-                _windowOpener.OpenCommonWindow("최대 계급입니다.");
+                // 최대 계급
+                _windowOpener.OpenCommonWindow(_textStore.GetText(TextID.RankMaxDesc));
                 return;
             }
 
             var nextRankData = ranks.FirstOrDefault(r => r.Rank == currentRank + 1);
             if (_userDataStore.GetGold() < nextRankData.UpgradeGold)
             {
-                _windowOpener.OpenCommonWindow("골드가 부족합니다.");
+                // 골드 부족
+                _windowOpener.OpenCommonWindow(_textStore.GetText(TextID.GoldLackDesc));
                 return;
             }
-
-            _windowOpener.OpenRankUpWindow(OnRankUpConfirmed);
+            
+            _windowOpener.OpenRankUpWindow(OnRankUpConfirmed, _textStore.GetText(nextRankData.TextID));
         }
 
         private void OnRankUpConfirmed()

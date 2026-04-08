@@ -66,7 +66,7 @@ namespace TaskForce.AP.Client.UnityWorld.LobbyScene
             // pausePanelCtrl.Start();
 
             var sceneCtrl = new LobbySceneController(scene, winOpener, _gameDataStore,
-                _logger, _userDataStore, _battleFieldSceneLoadEvent);
+                _logger, _userDataStore, _textStore, _battleFieldSceneLoadEvent);
             sceneCtrl.Start();
             loop.Add(sceneCtrl);
 

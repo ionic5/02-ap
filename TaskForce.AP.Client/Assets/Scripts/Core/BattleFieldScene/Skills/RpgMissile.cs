@@ -4,7 +4,7 @@ using TaskForce.AP.Client.Core.View.BattleFieldScene;
 
 namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
 {
-    public class Rpg
+    public class RpgMissile
     {
         private bool _isDestroyed;
 
@@ -15,7 +15,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
         private readonly float _explosionRadius;
         private readonly Func<IUnit, int, int, float, Explosion> _createExplosion;
 
-        public Rpg(IMissile rpg, IUnit caster,
+        public RpgMissile(IMissile rpg, IUnit caster,
             int minDamage, int maxDamage, float explosionRadius,
             Func<IUnit, int, int, float, Explosion> createExplosion)
         {

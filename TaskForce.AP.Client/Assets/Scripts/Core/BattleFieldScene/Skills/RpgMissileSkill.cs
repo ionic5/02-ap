@@ -6,16 +6,16 @@ using TaskForce.AP.Client.Core.Entity;
 
 namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
 {
-    public class RpgSkill : InstantSkill, ISkill
+    public class RpgMissileSkill : InstantSkill, ISkill
     {
         private readonly Core.Random _random;
         private readonly RepeatTimer _repeatTimer;
         private readonly Core.Timer _timer;
-        private readonly Func<IUnit, int, int, float, Rpg> _createRpg;
+        private readonly Func<IUnit, int, int, float, RpgMissile> _createRpg;
         private ILogger _logger;
 
-        public RpgSkill(Core.Random random, RepeatTimer repeatTimer, Core.Timer timer,
-            Func<IUnit, int, int, float, Rpg> createRpg, Core.Entity.ISkill skillEntity, ILogger logger) : base(skillEntity)
+        public RpgMissileSkill(Core.Random random, RepeatTimer repeatTimer, Core.Timer timer,
+            Func<IUnit, int, int, float, RpgMissile> createRpg, Core.Entity.ISkill skillEntity, ILogger logger) : base(skillEntity)
         {
             _random = random;
             _repeatTimer = repeatTimer;
@@ -47,7 +47,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
             var minDmg = GetAttribute(AttributeID.MinDamage).AsInt();
             var maxDmg = GetAttribute(AttributeID.MaxDamage).AsInt();
             var explosionRadius = GetAttribute(AttributeID.ExplosionRadius).AsFloat();
-            var missile = _createRpg.Invoke(user, minDmg, maxDmg, explosionRadius);
+             var missile = _createRpg.Invoke(user, minDmg, maxDmg, explosionRadius);
 
             var casterPos = user.GetPosition();
             missile.SetPosition(casterPos);

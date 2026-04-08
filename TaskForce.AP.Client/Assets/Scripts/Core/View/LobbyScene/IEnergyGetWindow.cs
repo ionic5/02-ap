@@ -7,5 +7,7 @@ namespace TaskForce.AP.Client.Core.View.LobbyScene.Windows
     {
         event EventHandler ConfirmButtonClickedEvent;
         event EventHandler CancelButtonClickedEvent;
+        
+        void SetDescription(string text);
     }
 }

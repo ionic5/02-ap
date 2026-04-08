@@ -13,17 +13,19 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private readonly IFieldObjectFinder _fieldObjectFinder;
         private readonly List<IFieldObject> _fieldObjects;
         private readonly GameDataStore _gameDataStore;
+        private readonly UserDataStore _userDataStore;
 
         private UnitState _state = UnitState.Initial;
         private Skills.ISkill _usingSkill;
         private ITarget _lastTarget;
 
         public PlayerUnitLogic(ILoop loop, IJoystick joystick, IFieldObjectFinder fieldObjectFinder,
-            GameDataStore gameDataStore) : base(loop)
+            GameDataStore gameDataStore, UserDataStore userDataStore) : base(loop)
         {
             _joystick = joystick;
             _fieldObjectFinder = fieldObjectFinder;
             _gameDataStore = gameDataStore;
+            _userDataStore = userDataStore;
             _fieldObjects = new List<IFieldObject>();
         }
 
@@ -143,6 +145,23 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             if (Vector2.DistanceSquared(GetControlTarget().GetPosition(), kit.GetPosition()) <
                 GetControlTarget().GetPickUpRange() * GetControlTarget().GetPickUpRange())
                 kit.Use(GetControlTarget());
+        }
+
+        void IFieldItemHandler.Handle(GoldBundle bundle)
+        {
+            if (Vector2.DistanceSquared(GetControlTarget().GetPosition(), bundle.GetPosition()) <
+                GetControlTarget().GetPickUpRange() * GetControlTarget().GetPickUpRange())
+            {
+                _userDataStore.AddGold(bundle.GetGold());
+                bundle.Destroy();
+            }
+        }
+
+        void IFieldItemHandler.Handle(Nuke nuke)
+        {
+            if (Vector2.DistanceSquared(GetControlTarget().GetPosition(), nuke.GetPosition()) <
+                GetControlTarget().GetPickUpRange() * GetControlTarget().GetPickUpRange())
+                nuke.Use(GetControlTarget());
         }
 
         void IFieldObjectHandler.Handle(RootBox box)

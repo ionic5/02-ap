@@ -9,10 +9,10 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
     /// </summary>
     public class PistolSkill : FirearmsSkill
     {
-        private readonly Func<IUnit, int, int, ITargetFinder, Bullet> _createBullet;
+        private readonly Func<IUnit, int, ITargetFinder, Bullet> _createBullet;
         private readonly ITargetFinder _targetFinder;
 
-        public PistolSkill(Func<IUnit, int, int, ITargetFinder, Bullet> createBullet, ITargetFinder targetFinder, Core.Entity.ISkill skillEntity)
+        public PistolSkill(Func<IUnit, int, ITargetFinder, Bullet> createBullet, ITargetFinder targetFinder, Core.Entity.ISkill skillEntity)
             : base(skillEntity)
         {
             _createBullet = createBullet;
@@ -39,13 +39,12 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
                 return;
             }
 
-            // 스킬 데이터에서 속성 정보 가져오기 (AttributeID 상수 활용)
-            var minDamage = GetAttribute(AttributeID.MinDamage).AsInt();
-            var maxDamage = GetAttribute(AttributeID.MaxDamage).AsInt();
+            // 스킬 데이터에서 속성 정보 가져오기 (AttributeID.Damage 사용)
+            var damage = GetAttribute(AttributeID.Damage).AsInt();
             var missileSpeed = GetAttribute(AttributeID.MissileSpeed).AsFloat();
 
-            // 총알 생성 및 발사
-            var bullet = _createBullet.Invoke(owner, minDamage, maxDamage, _targetFinder);
+            // 총알 생성 및 발사 (단일 데미지 전달)
+            var bullet = _createBullet.Invoke(owner, damage, _targetFinder);
             bullet.SetPosition(owner.GetPosition());
             bullet.SetTarget(args.Target);
             bullet.SetSpeed(missileSpeed);

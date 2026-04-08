@@ -17,18 +17,16 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
         private readonly ITargetFinder _targetFinder;
         private readonly IUnit _caster;
         private ITarget _target;
-        private int _minDamage;
-        private int _maxDamage;
+        private int _damage;
         private bool _isDestroyed;
 
-        public Bullet(Core.Random random, IMissile view, ITargetFinder targetFinder, IUnit caster, int minDamage, int maxDamage)
+        public Bullet(Core.Random random, IMissile view, ITargetFinder targetFinder, IUnit caster, int damage)
         {
             _random = random;
             _view = view;
             _targetFinder = targetFinder;
             _caster = caster;
-            _minDamage = minDamage;
-            _maxDamage = maxDamage;
+            _damage = damage;
             _isDestroyed = false;
 
             _view.HitEvent += OnHitEvent;
@@ -65,11 +63,10 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
             // View에서 전달받은 ObjectID로 실제 로직 타겟 식별
             var hitTarget = _targetFinder.FindByViewID(e.ObjectID);
             
-            // 타겟이 존재하면 데미지 적용
+            // 타겟이 존재하면 고정 데미지 적용
             if (hitTarget != null)
             {
-                var damage = _random.Next(_minDamage, _maxDamage + 1);
-                hitTarget.Hit(_caster, damage);
+                hitTarget.Hit(_caster, _damage);
             }
 
             Destroy();

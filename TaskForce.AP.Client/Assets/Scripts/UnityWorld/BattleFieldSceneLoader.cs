@@ -90,7 +90,7 @@ namespace TaskForce.AP.Client.UnityWorld
 
             var effectFactory = new TaskForce.AP.Client.Core.Entity.ModifyAttributeEffectFactory(_gameDataStore, formulaCalculator);
             var skillFactory = new SkillFactory();
-            var unitLogicFactory = new UnitLogicFactory(joystick, world, createTimer, loop, fieldObjectFinder, _gameDataStore, _logger);
+            var unitLogicFactory = new UnitLogicFactory(joystick, world, createTimer, loop, fieldObjectFinder, _gameDataStore, _logger, _userDataStore);
             var expOrbFactory = new ExpOrbFactory(() => objFac.Create<View.BattleFieldScene.ExpOrb>(ObjectID.ExpOrb));
             var fieldItemFactory = new FieldItemFactory((id) => objFac.Create<View.BattleFieldScene.FieldItem>(id), _gameDataStore);
             var fieldObjectDropHandler = new FieldObjectDropHandler(expOrbFactory, fieldItemFactory, _random, _gameDataStore);
@@ -174,10 +174,10 @@ namespace TaskForce.AP.Client.UnityWorld
             skillFactory.AddCreator(Core.Entity.SkillID.PistolAttack, (skill) => // SkillID.Pistol -> SkillID.PistolAttack
             {
                 // Core.BattleFieldScene.Skills.Bullet을 생성하는 람다 함수
-                return new PistolSkill((caster, minDmg, maxDmg, finder) =>
+                return new PistolSkill((caster, dmg, finder) =>
                 {
                     var view = objFac.Create<View.BattleFieldScene.Bullet>(ObjectID.Bullet); // Unity View Bullet 생성
-                    var bullet = new Core.BattleFieldScene.Skills.Bullet(_random, view, finder, caster, minDmg, maxDmg);
+                    var bullet = new Core.BattleFieldScene.Skills.Bullet(_random, view, finder, caster, dmg);
                     
                     loop.Add(bullet); // Bullet을 루프에 추가하여 Update가 호출되도록 함
                     

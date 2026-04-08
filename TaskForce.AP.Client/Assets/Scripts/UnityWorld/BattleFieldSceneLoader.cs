@@ -194,6 +194,24 @@ namespace TaskForce.AP.Client.UnityWorld
                 }, targetFinder, skill);
             });
 
+            skillFactory.AddCreator(Core.Entity.SkillID.SniperRifle, (skill) =>
+            {
+                return new SniperSkill((caster, dmg, finder) =>
+                {
+                    var view = objFac.Create<View.BattleFieldScene.Bullet>(ObjectID.SniperBullet);
+                    var bullet = new Core.BattleFieldScene.Skills.Bullet(_random, view, finder, caster, dmg);
+                    loop.Add(bullet);
+                    EventHandler<DestroyEventArgs> onBulletDestroyed = null;
+                    onBulletDestroyed = (s, e) =>
+                    {
+                        loop.Remove(bullet);
+                        bullet.DestroyEvent -= onBulletDestroyed;
+                    };
+                    bullet.DestroyEvent += onBulletDestroyed;
+                    return bullet;
+                }, targetFinder, skill);
+            });
+
             // 패시브 장비 7종 추가
             skillFactory.AddCreator(Core.Entity.SkillID.Gloves, (skill) => new PassiveSkill(skill));
             skillFactory.AddCreator(Core.Entity.SkillID.Armor, (skill) => new PassiveSkill(skill));

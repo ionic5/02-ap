@@ -8,22 +8,22 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
     {
         private bool _isDestroyed;
 
-        private readonly IMissile _grenade;
+        private readonly IMissile _rpg;
         private readonly IUnit _caster;
         private readonly int _minDamage;
         private readonly int _maxDamage;
         private readonly float _explosionRadius;
         private readonly Func<IUnit, int, int, float, Explosion> _createExplosion;
 
-        public Rpg(IMissile grenade, IUnit caster,
+        public Rpg(IMissile rpg, IUnit caster,
             int minDamage, int maxDamage, float explosionRadius,
             Func<IUnit, int, int, float, Explosion> createExplosion)
         {
             _isDestroyed = false;
-            _grenade = grenade;
+            _rpg = rpg;
             _caster = caster;
-            _grenade.ArrivedDestinationEvent += OnArrivedDestinationEvent;
-            _grenade.DestroyEvent += OnDestroyEvent;
+            _rpg.ArrivedDestinationEvent += OnArrivedDestinationEvent;
+            _rpg.DestroyEvent += OnDestroyEvent;
 
             _minDamage = minDamage;
             _maxDamage = maxDamage;
@@ -39,7 +39,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
         private void OnArrivedDestinationEvent(object sender, EventArgs e)
         {
             var explosion = _createExplosion(_caster, _minDamage, _maxDamage, _explosionRadius);
-            explosion.Start(_grenade.GetPosition());
+            explosion.Start(_rpg.GetPosition());
 
             Destroy();
         }
@@ -50,19 +50,19 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
                 return;
             _isDestroyed = true;
 
-            _grenade.Destroy();
-            _grenade.ArrivedDestinationEvent -= OnArrivedDestinationEvent;
-            _grenade.DestroyEvent -= OnDestroyEvent;
+            _rpg.Destroy();
+            _rpg.ArrivedDestinationEvent -= OnArrivedDestinationEvent;
+            _rpg.DestroyEvent -= OnDestroyEvent;
         }
 
         public void MoveTo(Vector2 destination, float speed)
         {
-            _grenade.MoveTo(destination, speed);
+            _rpg.MoveTo(destination, speed);
         }
 
         public void SetPosition(Vector2 position)
         {
-            _grenade.SetPosition(position);
+            _rpg.SetPosition(position);
         }
     }
 }

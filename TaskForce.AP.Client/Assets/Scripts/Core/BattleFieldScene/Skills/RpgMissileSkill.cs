@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
+using System.Xml.Schema;
 using TaskForce.AP.Client.Core.Entity;
 
 namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
@@ -11,14 +12,16 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
         private readonly RepeatTimer _repeatTimer;
         private readonly Core.Timer _timer;
         private readonly Func<IUnit, int, int, float, Rpg> _createRpg;
+        private ILogger _logger;
 
         public RpgSkill(Core.Random random, RepeatTimer repeatTimer, Core.Timer timer,
-            Func<IUnit, int, int, float, Rpg> createRpg, Core.Entity.ISkill skillEntity) : base(skillEntity)
+            Func<IUnit, int, int, float, Rpg> createRpg, Core.Entity.ISkill skillEntity, ILogger logger) : base(skillEntity)
         {
             _random = random;
             _repeatTimer = repeatTimer;
             _timer = timer;
             _createRpg = createRpg;
+            _logger = logger;
         }
 
         public override bool IsCooldownFinished()
@@ -27,16 +30,20 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
         }
 
         public override void Use(UseSkillArgs args)
-        {
+        {_logger.Info("rpg 사용 시도");
             _timer.Start(GetAttribute(AttributeID.CooldownTime).AsFloat());
 
             _repeatTimer.Start(() => ThrowRpg(GetOwner()),
                 GetAttribute(AttributeID.BurstInterval).AsFloat(),
                 GetAttribute(AttributeID.BurstCount).AsInt());
+            var coolTime = GetAttribute(AttributeID.CooldownTime).AsFloat();
+            var burstInterval = GetAttribute(AttributeID.BurstInterval).AsFloat();
+            var burstCount = GetAttribute(AttributeID.BurstCount).AsInt();
+            _logger.Info($"rpg 사용 시도: cooldownTime: {coolTime}, burstInterval: {burstInterval}, count: {burstCount}");
         }
 
         public void ThrowRpg(IUnit user)
-        {
+        {_logger.Info("rpg: 던짐");
             var minDmg = GetAttribute(AttributeID.MinDamage).AsInt();
             var maxDmg = GetAttribute(AttributeID.MaxDamage).AsInt();
             var explosionRadius = GetAttribute(AttributeID.ExplosionRadius).AsFloat();

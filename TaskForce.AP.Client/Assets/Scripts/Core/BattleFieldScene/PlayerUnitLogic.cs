@@ -164,6 +164,13 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
                 nuke.Use(GetControlTarget());
         }
 
+        void IFieldItemHandler.Handle(Magnet magnet)
+        {
+            if (Vector2.DistanceSquared(GetControlTarget().GetPosition(), magnet.GetPosition()) <
+                GetControlTarget().GetPickUpRange() * GetControlTarget().GetPickUpRange())
+                magnet.Use(GetControlTarget());
+        }
+
         void IFieldObjectHandler.Handle(RootBox box)
         {
             TryUseDefaultSkill(box);

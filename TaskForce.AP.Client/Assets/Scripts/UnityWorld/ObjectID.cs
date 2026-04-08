@@ -13,7 +13,7 @@
         public const string RootBox = "ROOT_BOX";
         public const string Landmine = "POWDER_KEG";
         public const string Grenade = "DYNAMITE";
-        public const string Rpg = "DYNAMITE";
+        public const string Rpg = "RPG";
         public const string SheepMissile = "SHEEP_MISSILE";
         public const string FloatingTextAnimator = "FLOATING_TEXT_ANIMATOR";
         public const string Bullet = "BULLET"; // 권총 총알 오브젝트 ID 추가

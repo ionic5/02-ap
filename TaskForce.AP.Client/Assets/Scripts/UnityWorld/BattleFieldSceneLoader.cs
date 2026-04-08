@@ -132,7 +132,7 @@ namespace TaskForce.AP.Client.UnityWorld
                 return new RpgMissileSkill(_random, new RepeatTimer(createTimer()),
                     createTimer(), (IUnit caster, int minDmg, int maxDmg, float explosionRadius) =>
                     {
-                        var view = objFac.Create<Sheep>(ObjectID.Rpg);
+                        var view = objFac.Create<Rpg>(ObjectID.Rpg);
                         return new RpgMissile(view, caster,
                             minDmg, maxDmg, explosionRadius, (IUnit caster, int minDmg, int maxDmg, float explosionRadius) =>
                             {

@@ -25,6 +25,17 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             handler.Handle(this);
         }
 
+        public void Kill(IUnit killer)
+        {
+            if (_isDead)
+                return;
+
+            _hp = 0;
+            _isDead = true;
+            DiedEvent?.Invoke(this, new DiedEventArgs(this, killer));
+            Destroy();
+        }
+
         public void Hit(IUnit attacker, int damage)
         {
             if (_isDead)
@@ -40,6 +51,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             Destroy();
         }
 
+        public string GetUnitID() => null;
         public bool IsAlive() => !_isDead;
         public bool IsDead() => _isDead;
         public bool IsPlayerSide() => false;

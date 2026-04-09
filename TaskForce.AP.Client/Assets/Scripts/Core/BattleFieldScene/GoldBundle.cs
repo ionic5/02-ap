@@ -1,5 +1,7 @@
 using System;
 using System.Numerics;
+using TaskForce.AP.Client.Core;
+using TaskForce.AP.Client.Core.GameData;
 
 namespace TaskForce.AP.Client.Core.BattleFieldScene
 {
@@ -10,10 +12,16 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
 
         private bool _isDestroyed;
         private readonly View.BattleFieldScene.IFieldItem _view;
+        private readonly StageHost _stageHost;
+        private readonly GameDataStore _gameDataStore;
+        private readonly Random _random;
 
-        public GoldBundle(View.BattleFieldScene.IFieldItem view)
+        public GoldBundle(View.BattleFieldScene.IFieldItem view, StageHost stageHost, GameDataStore gameDataStore, Random random)
         {
             _view = view;
+            _stageHost = stageHost;
+            _gameDataStore = gameDataStore;
+            _random = random;
             _view.DestroyEvent += OnViewDestroyEvent;
             _view.SpawnCompletedEvent += OnViewSpawnCompleted;
         }
@@ -28,7 +36,13 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             handler.Handle(this);
         }
 
-        public int GetGold() => 300;
+        public void Use(UserDataStore userDataStore)
+        {
+            var reward = _gameDataStore.GetGoldBundleReward(_stageHost.GetStageLevel());
+            var gold = reward != null ? _random.Next(reward.MinGold, reward.MaxGold + 1) : 0;
+            userDataStore.AddGold(gold);
+            Destroy();
+        }
 
         public Vector2 GetPosition() => _view.GetPosition();
         public void SetPosition(Vector2 position) => _view.SetPosition(position);

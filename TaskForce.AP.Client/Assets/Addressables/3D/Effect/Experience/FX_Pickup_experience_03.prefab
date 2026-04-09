@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3546765633355353061}
   - component: {fileID: 3195368395539611874}
   - component: {fileID: 5390482712991995752}
+  - component: {fileID: 6186301798332539144}
   m_Layer: 1
   m_Name: FX_Pickup_experience_03
   m_TagString: Untagged
@@ -4845,6 +4846,18 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
+--- !u!114 &6186301798332539144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3596701304249123610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cf4879c1cbbc4c4886727e713a6e01b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.ExpOrb
 --- !u!1 &3807519944016444094
 GameObject:
   m_ObjectHideFlags: 0

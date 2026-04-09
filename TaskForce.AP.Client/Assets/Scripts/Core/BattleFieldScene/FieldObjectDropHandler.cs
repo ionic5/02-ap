@@ -23,29 +23,25 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             if (args.Killer == null || !args.Killer.IsPlayerSide())
                 return;
 
-            var dropRate = _gameDataStore.GetSoulDropRate();
-            if (_random.Next(0.0f, 100.0f) >= dropRate)
+            var unitID = args.DiedTarget.GetUnitID();
+            var rewardExpOrb = _gameDataStore.GetRewardExpOrbByUnitID(unitID);
+            if (rewardExpOrb == null)
                 return;
 
-            var expOrb = _expOrbFactory.Create(1);
+            var expOrb = _expOrbFactory.Create(rewardExpOrb.ExpOrbID);
             expOrb.SetPosition(args.DiedTarget.GetPosition());
         }
 
         public void OnAllBossesKilled(object sender, DiedEventArgs args)
         {
-            var expOrb = _expOrbFactory.Create(1);
+            var expOrb = _expOrbFactory.Create(GameData.ExpOrbID.ExpOrb0);
             expOrb.SetPosition(args.DiedTarget.GetPosition());
         }
 
         public void OnRootBoxDied(object sender, DiedEventArgs args)
         {
-            //var roll = _random.Next(0, 3);
-            //var itemId = roll == 0
-            //    ? GameData.FieldItemID.Nuke
-            //    : roll == 1
-            //        ? GameData.FieldItemID.MedicalKit
-            //        : GameData.FieldItemID.GoldBundle;
-            var itemId = GameData.FieldItemID.Magnet;
+            string[] itemIds = { GameData.FieldItemID.Nuke, GameData.FieldItemID.Magnet, GameData.FieldItemID.MedicalKit, GameData.FieldItemID.GoldBundle };
+            var itemId = itemIds[_random.Next(itemIds.Length)];
 
             IFieldItem item = _fieldItemFactory.Create(itemId);
             item.SetPosition(args.DiedTarget.GetPosition());

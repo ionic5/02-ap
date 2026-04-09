@@ -12,7 +12,6 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private readonly IJoystick _joystick;
         private readonly IFieldObjectFinder _fieldObjectFinder;
         private readonly List<IFieldObject> _fieldObjects;
-        private readonly GameDataStore _gameDataStore;
         private readonly UserDataStore _userDataStore;
 
         private UnitState _state = UnitState.Initial;
@@ -20,11 +19,10 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private ITarget _lastTarget;
 
         public PlayerUnitLogic(ILoop loop, IJoystick joystick, IFieldObjectFinder fieldObjectFinder,
-            GameDataStore gameDataStore, UserDataStore userDataStore) : base(loop)
+            UserDataStore userDataStore) : base(loop)
         {
             _joystick = joystick;
             _fieldObjectFinder = fieldObjectFinder;
-            _gameDataStore = gameDataStore;
             _userDataStore = userDataStore;
             _fieldObjects = new List<IFieldObject>();
         }
@@ -151,10 +149,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         {
             if (Vector2.DistanceSquared(GetControlTarget().GetPosition(), bundle.GetPosition()) <
                 GetControlTarget().GetPickUpRange() * GetControlTarget().GetPickUpRange())
-            {
-                _userDataStore.AddGold(bundle.GetGold());
-                bundle.Destroy();
-            }
+                bundle.Use(_userDataStore);
         }
 
         void IFieldItemHandler.Handle(Nuke nuke)
@@ -178,8 +173,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
 
         private void AbsorbExpOrb(ExpOrb orb)
         {
-            GetControlTarget().AddExp(_gameDataStore.GetSoulExp(orb.GetLevel()));
-            orb.Destroy();
+            orb.Use(GetControlTarget());
         }
 
         private void Move(Vector2 direction)

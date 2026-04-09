@@ -8,7 +8,6 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
     {
         IUnit GetMaster();
         float GetFollowRange();
-        void AddExp(int exp);
         float GetPickUpRange();
         bool IsTargetInAttackRange(ITarget mainTarget);
         void Move(Vector2 direction);

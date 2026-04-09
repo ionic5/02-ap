@@ -2,7 +2,6 @@ namespace TaskForce.AP.Client.Core.GameData
 {
     public class ConstantID
     {
-        public const string SoulDropRate = "SOUL_DROP_RATE";
         public const string MaxGold = "MAX_GOLD";
         public const string MaxEnergy = "MAX_ENERGY";
         public const string MinutesEnergyCharge = "MINUTES_ENERGY_CHARGE";

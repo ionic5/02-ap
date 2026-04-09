@@ -82,10 +82,11 @@ namespace TaskForce.AP.Client.UnityWorld
                     Level = int.Parse(row["level"]),
                     Exp = int.Parse(row["exp"]),
                 }, gameDataStore.AddRequireExp),
-                LoadTable(AssetID.SoulExp, row => new Core.GameData.SoulExp {
-                    Level = int.Parse(row["level"]),
+                LoadTable(AssetID.ExpOrb, row => new Core.GameData.ExpOrb {
+                    ID = row["id"],
+                    BodyID = row["bodyID"],
                     Exp = int.Parse(row["exp"]),
-                }, gameDataStore.AddSoulExp),
+                }, gameDataStore.AddExpOrb),
                 LoadTable(AssetID.BaseAttribute, row => new Core.GameData.BaseAttribute {
                     ID = row["id"],
                     AttributeID = row["attributeID"],

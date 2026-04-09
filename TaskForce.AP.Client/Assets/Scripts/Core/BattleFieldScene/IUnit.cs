@@ -36,5 +36,6 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         void SetMaster(IUnit summoner);
         void RecoverFullHP();
         void Heal(int healAmount);
+        void AddExp(int exp);
     }
 }

@@ -9,13 +9,13 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
 
         private bool _isDestroyed;
         private readonly View.BattleFieldScene.IExpOrb _view;
-        private readonly int _level;
+        private readonly int _exp;
         private IFollowable _followTarget;
 
-        public ExpOrb(View.BattleFieldScene.IExpOrb view, int level)
+        public ExpOrb(View.BattleFieldScene.IExpOrb view, int exp)
         {
             _view = view;
-            _level = level;
+            _exp = exp;
             _view.DestroyEvent += OnViewDestroyEvent;
         }
 
@@ -49,9 +49,10 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             _view.MoveTo(_followTarget, speed);
         }
 
-        public int GetLevel()
+        public void Use(IUnit unit)
         {
-            return _level;
+            unit.AddExp(_exp);
+            Destroy();
         }
 
         private void UnsetFollowTarget()

@@ -22,7 +22,7 @@
         public const string BaseAttribute = "BASE_ATTRIBUTE";
         public const string LevelCoefficient = "LEVEL_COEFFICIENT";
         public const string RequireExp = "REQUIRE_EXP";
-        public const string SoulExp = "SOUL_EXP";
+        public const string ExpOrb = "EXP_ORB";
 
         public const string SkillDescription = "SKILL_DESCRIPTION";
         public const string EnemyUnitSwarm = "ENEMY_UNIT_SWARM";

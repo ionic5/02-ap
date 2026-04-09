@@ -1,4 +1,4 @@
-﻿namespace TaskForce.AP.Client.UnityWorld
+namespace TaskForce.AP.Client.UnityWorld
 {
     public class ObjectID
     {
@@ -17,5 +17,6 @@
         public const string FloatingTextAnimator = "FLOATING_TEXT_ANIMATOR";
         public const string Bullet = "BULLET"; // 권총 총알 오브젝트 ID 추가
         public const string SniperBullet = "SNIPER_BULLET";
+        public const string GrenadeExplosion = "GRENADE_EXPLOSION";
     }
 }

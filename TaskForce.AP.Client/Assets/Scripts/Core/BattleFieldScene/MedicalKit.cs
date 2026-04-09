@@ -10,10 +10,12 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
 
         private bool _isDestroyed;
         private readonly View.BattleFieldScene.IFieldItem _view;
+        private readonly GameDataStore _gameDataStore;
 
-        public MedicalKit(View.BattleFieldScene.IFieldItem view)
+        public MedicalKit(View.BattleFieldScene.IFieldItem view, GameDataStore gameDataStore)
         {
             _view = view;
+            _gameDataStore = gameDataStore;
             _view.DestroyEvent += OnViewDestroyEvent;
             _view.SpawnCompletedEvent += OnViewSpawnCompleted;
         }
@@ -30,7 +32,9 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
 
         public void Use(IUnit unit)
         {
-            unit.Heal(30);
+            float rate = _gameDataStore.GetConstant(GameData.ConstantID.MedicalKitHealRate).AsFloat();
+            int healAmount = (int)(unit.GetAttribute(Entity.AttributeID.MaxHP).AsInt() * rate);
+            unit.Heal(healAmount);
             Destroy();
         }
 

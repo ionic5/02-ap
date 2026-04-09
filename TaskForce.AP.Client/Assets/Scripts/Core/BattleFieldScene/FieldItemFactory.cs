@@ -31,7 +31,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             switch (fieldItemID)
             {
                 case GameData.FieldItemID.MedicalKit:
-                    fieldItem = new MedicalKit(_createView(data.BodyID));
+                    fieldItem = new MedicalKit(_createView(data.BodyID), _gameDataStore);
                     break;
                 case GameData.FieldItemID.GoldBundle:
                     fieldItem = new GoldBundle(_createView(data.BodyID), _stageHost, _gameDataStore, _random);

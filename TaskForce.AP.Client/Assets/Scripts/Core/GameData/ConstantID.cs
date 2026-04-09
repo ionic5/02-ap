@@ -15,5 +15,6 @@ namespace TaskForce.AP.Client.Core.GameData
         public const string RootBoxMaxDistance       = "ROOT_BOX_MAX_DISTANCE";
         public const string RootBoxHp                = "ROOT_BOX_HP";
         public const string RootBoxRepositionInterval = "ROOT_BOX_REPOSITION_INTERVAL";
+        public const string MedicalKitHealRate = "MEDICAL_KIT_HEAL_RATE";
     }
 }

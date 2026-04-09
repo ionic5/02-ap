@@ -116,7 +116,7 @@ namespace TaskForce.AP.Client.UnityWorld
                 return new GrenadeSkill(_random, new RepeatTimer(createTimer()),
                     createTimer(), (IUnit caster, int minDmg, int maxDmg, float explosionRadius) =>
                     {
-                        var view = objFac.Create<Sheep>(ObjectID.Grenade);
+                        var view = objFac.Create<GrenadeView>(ObjectID.Grenade);
                         return new Grenade(view, caster,
                         minDmg, maxDmg, explosionRadius, (IUnit caster, int minDmg, int maxDmg, float explosionRadius) =>
                         {

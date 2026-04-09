@@ -224,7 +224,6 @@ namespace TaskForce.AP.Client.UnityWorld
             loop.Add(battleLogRecorder);
 
             expOrbFactory.ExpOrbCreatedEvent += fieldObjectFinder.OnExpOrbCreatedEvent;
-            fieldItemFactory.FieldItemCreatedEvent += fieldObjectFinder.OnFieldItemCreatedEvent;
             unitFactory.UnitCreatedEvent += targetFinder.OnTargetCreatedEvent;
             EventHandler<CreatedEventArgs<Core.BattleFieldScene.Unit>> battleLogRecorderHdlr = (sender, e) =>
             {
@@ -279,6 +278,7 @@ namespace TaskForce.AP.Client.UnityWorld
                 createTimer(), _logger, _random, unitFactory.CreateEnemyUnit);
 
             var fieldItemFactory = new FieldItemFactory((id) => objFac.Create<View.BattleFieldScene.FieldItem>(id), _gameDataStore, fieldObjectFinder, stageHost, _random);
+            fieldItemFactory.FieldItemCreatedEvent += fieldObjectFinder.OnFieldItemCreatedEvent;
             var fieldObjectDropHandler = new FieldObjectDropHandler(expOrbFactory, fieldItemFactory, _random, _gameDataStore);
 
             var bossStageHost = new Core.BattleFieldScene.BossStageHost(world, _gameDataStore,

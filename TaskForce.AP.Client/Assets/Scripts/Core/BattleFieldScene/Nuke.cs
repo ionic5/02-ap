@@ -33,7 +33,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         {
             var enemies = new List<ITarget>(unit.FindTargets(float.MaxValue));
             foreach (var enemy in enemies)
-                enemy.Hit(unit, int.MaxValue);
+                enemy.Kill(unit);
             Destroy();
         }
 

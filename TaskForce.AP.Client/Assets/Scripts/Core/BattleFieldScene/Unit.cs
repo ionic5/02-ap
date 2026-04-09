@@ -143,6 +143,15 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             DiedEvent?.Invoke(this, new DiedEventArgs(this, killer));
         }
 
+        public void Kill(IUnit killer)
+        {
+            if (IsDead() || _isInvincible)
+                return;
+
+            _unitEntity.SetDead();
+            OnKilled(killer);
+        }
+
         public void Hit(IUnit attacker, int damage)
         {
             if (IsDead() || _isInvincible)

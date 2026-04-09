@@ -39,8 +39,10 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
 
         public void OnRootBoxDied(object sender, DiedEventArgs args)
         {
-            string[] itemIds = { GameData.FieldItemID.Nuke, GameData.FieldItemID.Magnet, GameData.FieldItemID.MedicalKit, GameData.FieldItemID.GoldBundle };
-            var itemId = itemIds[_random.Next(itemIds.Length)];
+            //string[] itemIds = { GameData.FieldItemID.Nuke, GameData.FieldItemID.Magnet, GameData.FieldItemID.MedicalKit, GameData.FieldItemID.GoldBundle };
+            //var itemId = itemIds[_random.Next(itemIds.Length)];
+
+            var itemId = GameData.FieldItemID.Nuke;
 
             IFieldItem item = _fieldItemFactory.Create(itemId);
             item.SetPosition(args.DiedTarget.GetPosition());

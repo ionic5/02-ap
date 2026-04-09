@@ -84,6 +84,11 @@ namespace TaskForce.AP.Client.Core.Entity
             return _isPlayerSide;
         }
 
+        public string GetUnitID()
+        {
+            return _unitData.ID;
+        }
+
         public string GetUnitBodyID()
         {
             return _unitData.BodyID;

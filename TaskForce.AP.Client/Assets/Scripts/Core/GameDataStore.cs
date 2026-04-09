@@ -24,6 +24,7 @@ namespace TaskForce.AP.Client.Core
         private readonly List<RequireExp> _requireExps;
 
         private readonly List<ExpOrb> _expOrbs;
+        private readonly List<RewardExpOrb> _rewardExpOrbs;
         private readonly List<SkillDescription> _skillDescriptions;
         private readonly List<EnemyUnitSwarm> _enemyUnitSwarms;
         private readonly List<BossStage> _bossStages;
@@ -55,6 +56,7 @@ namespace TaskForce.AP.Client.Core
             _requireExps = new List<RequireExp>();
 
             _expOrbs = new List<ExpOrb>();
+            _rewardExpOrbs = new List<RewardExpOrb>();
             _skillDescriptions = new List<SkillDescription>();
             _enemyUnitSwarms = new List<EnemyUnitSwarm>();
             _bossStages = new List<BossStage>();
@@ -81,6 +83,11 @@ namespace TaskForce.AP.Client.Core
         public void AddExpOrb(GameData.ExpOrb entry)
         {
             _expOrbs.Add(entry);
+        }
+
+        public void AddRewardExpOrb(GameData.RewardExpOrb entry)
+        {
+            _rewardExpOrbs.Add(entry);
         }
 
         public void AddLevelAttribute(GameData.LevelAttribute entry)
@@ -176,6 +183,11 @@ namespace TaskForce.AP.Client.Core
         public GameData.ExpOrb GetExpOrb(string id)
         {
             return _expOrbs.FirstOrDefault(entry => entry.ID == id);
+        }
+
+        public GameData.RewardExpOrb GetRewardExpOrbByUnitID(string unitID)
+        {
+            return _rewardExpOrbs.FirstOrDefault(entry => entry.UnitID == unitID);
         }
 
         public int GetRequireExp(int level)

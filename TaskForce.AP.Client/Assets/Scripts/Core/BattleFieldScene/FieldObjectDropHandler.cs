@@ -7,13 +7,15 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private readonly ExpOrbFactory _expOrbFactory;
         private readonly FieldItemFactory _fieldItemFactory;
         private readonly Core.Random _random;
+        private readonly GameDataStore _gameDataStore;
 
         public FieldObjectDropHandler(ExpOrbFactory expOrbFactory, FieldItemFactory fieldItemFactory,
-            Core.Random random)
+            Core.Random random, GameDataStore gameDataStore)
         {
             _expOrbFactory = expOrbFactory;
             _fieldItemFactory = fieldItemFactory;
             _random = random;
+            _gameDataStore = gameDataStore;
         }
 
         public void OnEnemyKilled(object sender, DiedEventArgs args)
@@ -21,7 +23,12 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             if (args.Killer == null || !args.Killer.IsPlayerSide())
                 return;
 
-            var expOrb = _expOrbFactory.Create(GameData.ExpOrbID.ExpOrb0);
+            var unitID = args.DiedTarget.GetUnitID();
+            var rewardExpOrb = _gameDataStore.GetRewardExpOrbByUnitID(unitID);
+            if (rewardExpOrb == null)
+                return;
+
+            var expOrb = _expOrbFactory.Create(rewardExpOrb.ExpOrbID);
             expOrb.SetPosition(args.DiedTarget.GetPosition());
         }
 

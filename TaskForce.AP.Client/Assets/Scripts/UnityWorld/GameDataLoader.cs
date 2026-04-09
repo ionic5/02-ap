@@ -87,6 +87,10 @@ namespace TaskForce.AP.Client.UnityWorld
                     BodyID = row["bodyID"],
                     Exp = int.Parse(row["exp"]),
                 }, gameDataStore.AddExpOrb),
+                LoadTable(AssetID.RewardExpOrb, row => new Core.GameData.RewardExpOrb {
+                    UnitID = row["unitID"],
+                    ExpOrbID = row["expOrbID"],
+                }, gameDataStore.AddRewardExpOrb),
                 LoadTable(AssetID.BaseAttribute, row => new Core.GameData.BaseAttribute {
                     ID = row["id"],
                     AttributeID = row["attributeID"],

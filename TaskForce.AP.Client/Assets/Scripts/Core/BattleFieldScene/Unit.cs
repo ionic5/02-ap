@@ -302,6 +302,11 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             return _unitEntity.GetSkill(id);
         }
 
+        public string GetUnitID()
+        {
+            return _unitEntity.GetUnitID();
+        }
+
         public string GetViewID()
         {
             return _unitView.GetObjectID();

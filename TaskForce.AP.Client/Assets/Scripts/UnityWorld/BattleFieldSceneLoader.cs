@@ -279,7 +279,7 @@ namespace TaskForce.AP.Client.UnityWorld
 
             var fieldItemFactory = new FieldItemFactory((id) => objFac.Create<View.BattleFieldScene.FieldItem>(id), _gameDataStore, fieldObjectFinder, stageHost, _random);
             fieldItemFactory.FieldItemCreatedEvent += fieldObjectFinder.OnFieldItemCreatedEvent;
-            var fieldObjectDropHandler = new FieldObjectDropHandler(expOrbFactory, fieldItemFactory, _random);
+            var fieldObjectDropHandler = new FieldObjectDropHandler(expOrbFactory, fieldItemFactory, _random, _gameDataStore);
 
             var bossStageHost = new Core.BattleFieldScene.BossStageHost(world, _gameDataStore,
                 createTimer(), _logger, unitFactory.CreateEnemyUnit);

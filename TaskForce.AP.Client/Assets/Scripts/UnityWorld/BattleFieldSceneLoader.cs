@@ -119,8 +119,9 @@ namespace TaskForce.AP.Client.UnityWorld
                         return new Grenade(view, caster,
                         minDmg, maxDmg, explosionRadius, (IUnit caster, int minDmg, int maxDmg, float explosionRadius) =>
                         {
-                            var view = objFac.Create<View.BattleFieldScene.Explosion>(ObjectID.Explosion0);
-                            return new Core.BattleFieldScene.Skills.Explosion(view, caster, _random, minDmg, maxDmg, explosionRadius);
+                            // 통합된 파티클 폭발 객체 하나만 생성 (비주얼 + 데미지 감지)
+                            var explosionView = objFac.Create<ParticleOneShotEffect>(ObjectID.GrenadeExplosion);
+                            return new Core.BattleFieldScene.Skills.Explosion(explosionView, caster, _random, minDmg, maxDmg, explosionRadius);
                         });
                     }, skill);
             });

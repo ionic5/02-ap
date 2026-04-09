@@ -92,8 +92,6 @@ namespace TaskForce.AP.Client.UnityWorld
             var skillFactory = new SkillFactory();
             var unitLogicFactory = new UnitLogicFactory(joystick, world, createTimer, loop, fieldObjectFinder, _gameDataStore, _logger, _userDataStore);
             var expOrbFactory = new ExpOrbFactory(() => objFac.Create<View.BattleFieldScene.ExpOrb>(ObjectID.ExpOrb));
-            var fieldItemFactory = new FieldItemFactory((id) => objFac.Create<View.BattleFieldScene.FieldItem>(id), _gameDataStore, fieldObjectFinder);
-            var fieldObjectDropHandler = new FieldObjectDropHandler(expOrbFactory, fieldItemFactory, _random, _gameDataStore);
             var skillEntityFactory = new TaskForce.AP.Client.Core.Entity.SkillFactory(_gameDataStore, _logger, _textStore, effectFactory);
             var unitEntityFactory = new Core.Entity.UnitFactory(_logger, _gameDataStore, skillEntityFactory.CreateSkill);
             var unitFactory = new UnitFactory(_random, createTimer, targetFinder,
@@ -279,6 +277,9 @@ namespace TaskForce.AP.Client.UnityWorld
 
             var stageHost = new StageHost(world, _gameDataStore, new Core.Timer(_time, loop),
                 createTimer(), _logger, _random, unitFactory.CreateEnemyUnit);
+
+            var fieldItemFactory = new FieldItemFactory((id) => objFac.Create<View.BattleFieldScene.FieldItem>(id), _gameDataStore, fieldObjectFinder, stageHost, _random);
+            var fieldObjectDropHandler = new FieldObjectDropHandler(expOrbFactory, fieldItemFactory, _random, _gameDataStore);
 
             var bossStageHost = new Core.BattleFieldScene.BossStageHost(world, _gameDataStore,
                 createTimer(), _logger, unitFactory.CreateEnemyUnit);

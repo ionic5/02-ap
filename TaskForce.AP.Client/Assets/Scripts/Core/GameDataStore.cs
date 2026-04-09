@@ -29,6 +29,7 @@ namespace TaskForce.AP.Client.Core
         private readonly List<BossStageEnemy> _bossStageEnemies;
         private readonly List<FieldItem> _fieldItems;
         private readonly List<PlayerRank> _playerRanks;
+        private readonly List<GoldBundleReward> _goldBundleRewards;
         private readonly Dictionary<string, GameData.Constant> _constants;
 
         private Dictionary<string, Skill> _skillsByID;
@@ -58,6 +59,7 @@ namespace TaskForce.AP.Client.Core
             _bossStageEnemies = new List<BossStageEnemy>();
             _fieldItems = new List<FieldItem>();
             _playerRanks = new List<PlayerRank>();
+            _goldBundleRewards = new List<GoldBundleReward>();
             _constants = new Dictionary<string, GameData.Constant>();
         }
 
@@ -337,6 +339,19 @@ namespace TaskForce.AP.Client.Core
         public FieldItem GetFieldItem(string id)
         {
             return _fieldItems.FirstOrDefault(entry => entry.ID == id);
+        }
+
+        public void AddGoldBundleReward(GoldBundleReward entry)
+        {
+            _goldBundleRewards.Add(entry);
+        }
+
+        public GoldBundleReward GetGoldBundleReward(int stageLevel)
+        {
+            return _goldBundleRewards
+                .Where(entry => entry.StageLevel <= stageLevel)
+                .OrderByDescending(entry => entry.StageLevel)
+                .FirstOrDefault();
         }
     }
 }

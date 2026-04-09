@@ -125,6 +125,11 @@ namespace TaskForce.AP.Client.UnityWorld
                     IconID = row["iconID"],
                     TextID = row["textID"]
                 }, gameDataStore.AddPlayerRank),
+                LoadTable(AssetID.GoldBundleReward, row => new Core.GameData.GoldBundleReward {
+                    StageLevel = int.Parse(row["stageLevel"]),
+                    MinGold = int.Parse(row["minGold"]),
+                    MaxGold = int.Parse(row["maxGold"])
+                }, gameDataStore.AddGoldBundleReward),
                 LoadTable(AssetID.SkillDescription, (row) => {
                     var parameters = new List<object>();
                     for(var i= 0;i<2;i++) {

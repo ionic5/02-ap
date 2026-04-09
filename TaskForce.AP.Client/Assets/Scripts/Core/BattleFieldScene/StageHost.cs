@@ -20,6 +20,8 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
 
         public event EventHandler<DiedEventArgs> EnemyKilledEvent;
 
+        public int GetStageLevel() => _stageLevel;
+
         public StageHost(View.BattleFieldScene.IWorld world, GameDataStore gameDataStore,
             Timer stageTimer, Timer spawnTimer,
             ILogger logger, Random random, Func<string, int, System.Numerics.Vector2, Unit> createUnit)

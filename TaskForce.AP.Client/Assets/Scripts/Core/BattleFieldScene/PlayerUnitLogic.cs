@@ -151,10 +151,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         {
             if (Vector2.DistanceSquared(GetControlTarget().GetPosition(), bundle.GetPosition()) <
                 GetControlTarget().GetPickUpRange() * GetControlTarget().GetPickUpRange())
-            {
-                _userDataStore.AddGold(bundle.GetGold());
-                bundle.Destroy();
-            }
+                bundle.Use(_userDataStore);
         }
 
         void IFieldItemHandler.Handle(Nuke nuke)

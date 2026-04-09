@@ -30,5 +30,6 @@
         public const string BossStageEnemy = "BOSS_STAGE_ENEMY";
         public const string FieldItem = "FIELD_ITEM";
         public const string PlayerRank = "PLAYER_RANK";
+        public const string GoldBundleReward = "GOLD_BUNDLE_REWARD";
     }
 }

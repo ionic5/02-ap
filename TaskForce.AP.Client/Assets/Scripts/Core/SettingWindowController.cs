@@ -6,18 +6,18 @@ namespace TaskForce.AP.Client.Core
     public class SettingWindowController
     {
         private readonly ISettingWindow _window;
-        private readonly ISoundPlayer _soundPlayer;
+        private readonly IMockSoundPlayer _mockSoundPlayer;
 
-        public SettingWindowController(ISettingWindow window, ISoundPlayer soundPlayer)
+        public SettingWindowController(ISettingWindow window, IMockSoundPlayer mockSoundPlayer)
         {
             _window = window;
-            _soundPlayer = soundPlayer;
+            _mockSoundPlayer = mockSoundPlayer;
         }
 
         public void Start()
         {
-            _window.SetBGMVolume(_soundPlayer.GetBGMVolume());
-            _window.SetSFXVolume(_soundPlayer.GetSFXVolume());
+            _window.SetBGMVolume(_mockSoundPlayer.GetBGMVolume());
+            _window.SetSFXVolume(_mockSoundPlayer.GetSFXVolume());
 
             _window.BGMVolumeChangedEvent += OnBGMVolumeChanged;
             _window.SFXVolumeChangedEvent += OnSFXVolumeChanged;
@@ -25,12 +25,12 @@ namespace TaskForce.AP.Client.Core
 
         private void OnBGMVolumeChanged(object sender, ValueChangedEventArgs e)
         {
-            _soundPlayer.SetBGMVolume(e.Value);
+            _mockSoundPlayer.SetBGMVolume(e.Value);
         }
 
         private void OnSFXVolumeChanged(object sender, ValueChangedEventArgs e)
         {
-            _soundPlayer.SetSFXVolume(e.Value);
+            _mockSoundPlayer.SetSFXVolume(e.Value);
         }
     }
 }

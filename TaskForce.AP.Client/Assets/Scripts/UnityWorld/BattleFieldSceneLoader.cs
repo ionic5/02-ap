@@ -240,7 +240,7 @@ namespace TaskForce.AP.Client.UnityWorld
             var deathPopup = windowStack.deathWindow;
 
             // TODO: 실제 SoundPlayer 구현체로 교체 필요
-            var mockSoundPlayer = new MockSoundPlayer();
+            var mockSoundPlayer = new Core.MockSoundPlayer(null, null, null);
             var winOpener = new WindowOpener(windowStack, world, _textStore, mockSoundPlayer, _logger, _advertisementPlayer,
                 _gameDataStore, _random, skillEntityFactory.CreateSkill);
 

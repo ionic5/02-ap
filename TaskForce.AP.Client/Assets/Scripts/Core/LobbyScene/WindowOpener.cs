@@ -9,15 +9,15 @@ namespace TaskForce.AP.Client.Core.LobbyScene
     {
         private readonly IWindowStack _windowStack;
         private readonly TextStore _textStore;
-        private readonly ISoundPlayer _soundPlayer;
+        private readonly IMockSoundPlayer _mockSoundPlayer;
         private readonly ILogger _logger;
         private readonly IAdvertisementPlayer _advertisementPlayer;
 
-        public WindowOpener(IWindowStack windowStack, TextStore textStore, ISoundPlayer soundPlayer, ILogger logger, IAdvertisementPlayer advertisementPlayer)
+        public WindowOpener(IWindowStack windowStack, TextStore textStore, IMockSoundPlayer mockSoundPlayer, ILogger logger, IAdvertisementPlayer advertisementPlayer)
         {
             _windowStack = windowStack;
             _textStore = textStore;
-            _soundPlayer = soundPlayer;
+            _mockSoundPlayer = mockSoundPlayer;
             _logger = logger;
             _advertisementPlayer = advertisementPlayer;
         }
@@ -52,7 +52,7 @@ namespace TaskForce.AP.Client.Core.LobbyScene
         {
             var window = _windowStack.OpenSettingWindow();
 
-            var commonCtrl = new Core.SettingWindowController(window, _soundPlayer);
+            var commonCtrl = new Core.SettingWindowController(window, _mockSoundPlayer);
             var ctrl = new SettingWindowController(window, commonCtrl);
             ctrl.Start();
         }

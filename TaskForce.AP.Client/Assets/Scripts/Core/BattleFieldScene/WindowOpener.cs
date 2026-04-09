@@ -10,20 +10,20 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private readonly IWindowStack _windowStack;
         private readonly IWorld _world;
         private readonly TextStore _textStore;
-        private readonly ISoundPlayer _soundPlayer;
+        private readonly IMockSoundPlayer _mockSoundPlayer;
         private readonly ILogger _logger;
         private readonly IAdvertisementPlayer _advertisementPlayer;
         private readonly GameDataStore _gameDataStore;
         private readonly Random _random;
         private readonly Func<string, Entity.ISkill> _createSkillEntity;
 
-        public WindowOpener(IWindowStack windowStack, IWorld world, TextStore textStore, ISoundPlayer soundPlayer, ILogger logger, IAdvertisementPlayer advertisementPlayer,
+        public WindowOpener(IWindowStack windowStack, IWorld world, TextStore textStore, IMockSoundPlayer mockSoundPlayer, ILogger logger, IAdvertisementPlayer advertisementPlayer,
             GameDataStore gameDataStore, Random random, Func<string, Entity.ISkill> createSkillEntity)
         {
             _windowStack = windowStack;
             _world = world;
             _textStore = textStore;
-            _soundPlayer = soundPlayer;
+            _mockSoundPlayer = mockSoundPlayer;
             _logger = logger;
             _advertisementPlayer = advertisementPlayer;
             _gameDataStore = gameDataStore;
@@ -46,7 +46,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             var window = _windowStack.OpenSettingWindow();
             TryPauseWorld();
 
-            var commonCtrl = new Core.SettingWindowController(window, _soundPlayer);
+            var commonCtrl = new Core.SettingWindowController(window, _mockSoundPlayer);
             var ctrl = new SettingWindowController(window, commonCtrl, onGoToLobby);
             ctrl.Start();
         }

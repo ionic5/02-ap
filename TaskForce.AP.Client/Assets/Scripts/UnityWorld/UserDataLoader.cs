@@ -20,6 +20,8 @@ namespace TaskForce.AP.Client.UnityWorld
             _userDataStore.SetEnergy(data.energy);
             _userDataStore.SetRank(data.rank);
             _userDataStore.SetEnergyUpdateTime(data.energyUpdateTime);
+            _userDataStore.SetBgmVolume(data.bgmVolume);
+            _userDataStore.SetSfxVolume(data.sfxVolume);
 
             _userDataStore.ClearDirty();
         }
@@ -34,7 +36,9 @@ namespace TaskForce.AP.Client.UnityWorld
                 gold = _userDataStore.GetGold(),
                 energy = _userDataStore.GetEnergy(),
                 rank = _userDataStore.GetRank(),
-                energyUpdateTime = _userDataStore.GetEnergyUpdateTime()
+                energyUpdateTime = _userDataStore.GetEnergyUpdateTime(),
+                bgmVolume = _userDataStore.GetBgmVolume(),
+                sfxVolume = _userDataStore.GetSfxVolume()
             });
 
             _userDataStore.ClearDirty();

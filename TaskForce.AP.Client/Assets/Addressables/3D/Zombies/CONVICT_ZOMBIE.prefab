@@ -793,6 +793,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5376859715588575009}
   - component: {fileID: 119370357115551720}
+  - component: {fileID: 4096444584815296581}
   m_Layer: 0
   m_Name: CONVICT_ZOMBIE
   m_TagString: Untagged
@@ -829,7 +830,7 @@ Animator:
   m_GameObject: {fileID: 5702846411891349945}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: afb4f7eac1239eb438139d748b6aea07, type: 3}
-  m_Controller: {fileID: 9100000, guid: f17bb854dec565c4ebf56e10de214b95, type: 2}
+  m_Controller: {fileID: 9100000, guid: 465cbb5c1a6fe354b8f0535ed9260e20, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -841,6 +842,34 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4096444584815296581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5702846411891349945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f45c201b93a75446a8adb39f2c91ae8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.UnitAnimationEventListener
+  UnitDiedAnimationFinished:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6783406024747923917}
+        m_TargetAssemblyTypeName: TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.Unit,
+          Assembly-CSharp
+        m_MethodName: OnDieAnimationFinished
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5812804684091201779
 GameObject:
   m_ObjectHideFlags: 0

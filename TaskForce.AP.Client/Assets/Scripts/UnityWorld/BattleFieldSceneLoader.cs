@@ -78,9 +78,8 @@ namespace TaskForce.AP.Client.UnityWorld
                 unit.CreateFloatingTextAnimator = createFloatingTextAnimator;
                 unit.Timer = createTimer();
             };
-            objFac.RegisterPrepareHandler("WARRIOR_0", unitPrepareHdlr);
-            objFac.RegisterPrepareHandler("WARRIOR_1", unitPrepareHdlr);
-            objFac.RegisterPrepareHandler("MONK", unitPrepareHdlr);
+            foreach(var entry in _gameDataStore.GetUnits())
+                objFac.RegisterPrepareHandler(entry.BodyID, unitPrepareHdlr);
 
             world.Random = _random;
 

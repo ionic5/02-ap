@@ -22838,7 +22838,7 @@ Transform:
   m_GameObject: {fileID: 6742858781690303634}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 18.1, y: 0, z: 213.3}
+  m_LocalPosition: {x: 17.3, y: 0, z: 63.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -24511,6 +24511,30 @@ MonoBehaviour:
     Root: {fileID: 0}
   - ObjectID: EXP_ORB_4
     Prefab: {fileID: 1306541130690242692, guid: 8ef4d4c75c0ab6444af695c3a3910098, type: 3}
+    Root: {fileID: 0}
+  - ObjectID: ATHLETE_ZOMBIE
+    Prefab: {fileID: 5935500580154021529, guid: 7684d16a76eb8374b92f62064ee1f249, type: 3}
+    Root: {fileID: 0}
+  - ObjectID: BURGLAR_ZOMBIE
+    Prefab: {fileID: 4549787150549186069, guid: 9cd7ded5b60e8d140b5aafbd08ac2eea, type: 3}
+    Root: {fileID: 0}
+  - ObjectID: CONVICT_ZOMBIE
+    Prefab: {fileID: 5679205094032524486, guid: 9bf4b133ef9df2d46860107212990e40, type: 3}
+    Root: {fileID: 0}
+  - ObjectID: OFFICER_ZOMBIE
+    Prefab: {fileID: 6414615163540338074, guid: ec98344f46c245f48b6b1ca6c7a6055b, type: 3}
+    Root: {fileID: 0}
+  - ObjectID: SALARYMAN_ZOMBIE
+    Prefab: {fileID: 4962663836985735433, guid: f5939ef5d1f64ee42b95829a492169b2, type: 3}
+    Root: {fileID: 0}
+  - ObjectID: SWAT_ZOMBIE
+    Prefab: {fileID: 5551251900968867103, guid: af87fe9cdfb68db4e82bde309ed1fe2c, type: 3}
+    Root: {fileID: 0}
+  - ObjectID: VACATIONER_ZOMBIE
+    Prefab: {fileID: 7799725180527797333, guid: 935ab0ee88a51dc428edc2367cccd0c6, type: 3}
+    Root: {fileID: 0}
+  - ObjectID: WORKER_ZOMBIE
+    Prefab: {fileID: 2571458443520786908, guid: 86cba6d4ffad06746a8249681ef4d267, type: 3}
     Root: {fileID: 0}
 --- !u!1 &1115391624512921746
 GameObject:
@@ -34437,7 +34461,7 @@ Transform:
   m_GameObject: {fileID: 8976956944437545011}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 53.3, y: 0, z: 251.7}
+  m_LocalPosition: {x: 36, y: 0, z: 80.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -34755,7 +34779,7 @@ Transform:
   m_GameObject: {fileID: 8022847998799003308}
   serializedVersion: 2
   m_LocalRotation: {x: 0.46193978, y: 0.33141357, z: -0.19134171, w: 0.8001032}
-  m_LocalPosition: {x: -8, y: 20, z: -8}
+  m_LocalPosition: {x: 26.599998, y: 20, z: 72.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -35235,7 +35259,7 @@ Transform:
   m_GameObject: {fileID: 1566323412141910582}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 34.6, y: 0, z: 80.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -38570,7 +38594,7 @@ Transform:
   m_GameObject: {fileID: 6025745362697988547}
   serializedVersion: 2
   m_LocalRotation: {x: 0.46193978, y: 0.33141357, z: -0.19134171, w: 0.8001032}
-  m_LocalPosition: {x: -8, y: 20, z: -8}
+  m_LocalPosition: {x: 26.599998, y: 20, z: 72.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -39413,7 +39437,7 @@ MonoBehaviour:
     FieldOfView: 40
     OrthographicSize: 10
     NearClipPlane: 0.1
-    FarClipPlane: 200
+    FarClipPlane: 40
     Dutch: 0
     ModeOverride: 0
     PhysicalProperties:
@@ -42760,7 +42784,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.1
-  far clip plane: 200
+  far clip plane: 40
   field of view: 40
   orthographic: 0
   orthographic size: 10

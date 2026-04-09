@@ -18,13 +18,14 @@ namespace TaskForce.AP.Client.UnityWorld.LobbyScene
         private readonly TextStore _textStore;
         private readonly AssetLoader _assetLoader;
         private readonly Core.ILogger _logger;
+        private readonly Core.IAdvertisementPlayer _advertisementPlayer;
 
         private event Action _battleFieldSceneLoadEvent;
 
         public LobbySceneLoader(Screen screen, GameDataStore gameDataStore,
             Core.Random random, Time time, TextStore textStore,
             AssetLoader assetLoader, Core.ILogger logger, UserDataStore userDataStore,
-            Action battleFieldSceneLoadEvent)
+            Action battleFieldSceneLoadEvent, Core.IAdvertisementPlayer advertisementPlayer)
         {
             _screen = screen;
             _gameDataStore = gameDataStore;
@@ -35,6 +36,7 @@ namespace TaskForce.AP.Client.UnityWorld.LobbyScene
             _logger = logger;
             _userDataStore = userDataStore;
             _battleFieldSceneLoadEvent = battleFieldSceneLoadEvent;
+            _advertisementPlayer = advertisementPlayer;
         }
 
         public async void Load()
@@ -55,7 +57,7 @@ namespace TaskForce.AP.Client.UnityWorld.LobbyScene
 
             // TODO: 실제 SoundPlayer 구현체로 교체 필요
             var mockSoundPlayer = new MockSoundPlayer();
-            var winOpener = new WindowOpener(windowStack, _textStore, mockSoundPlayer, _logger);
+            var winOpener = new WindowOpener(windowStack, _textStore, mockSoundPlayer, _logger, _advertisementPlayer);
 
             scene.AssetLoader = _assetLoader;
             scene.Logger = _logger;
@@ -66,7 +68,7 @@ namespace TaskForce.AP.Client.UnityWorld.LobbyScene
             // pausePanelCtrl.Start();
 
             var sceneCtrl = new LobbySceneController(scene, winOpener, _gameDataStore,
-                _logger, _userDataStore, _battleFieldSceneLoadEvent);
+                _logger, _userDataStore, _textStore, _battleFieldSceneLoadEvent);
             sceneCtrl.Start();
             loop.Add(sceneCtrl);
 

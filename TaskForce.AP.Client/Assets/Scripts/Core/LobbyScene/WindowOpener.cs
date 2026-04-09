@@ -11,20 +11,22 @@ namespace TaskForce.AP.Client.Core.LobbyScene
         private readonly TextStore _textStore;
         private readonly ISoundPlayer _soundPlayer;
         private readonly ILogger _logger;
+        private readonly IAdvertisementPlayer _advertisementPlayer;
 
-        public WindowOpener(IWindowStack windowStack, TextStore textStore, ISoundPlayer soundPlayer, ILogger logger)
+        public WindowOpener(IWindowStack windowStack, TextStore textStore, ISoundPlayer soundPlayer, ILogger logger, IAdvertisementPlayer advertisementPlayer)
         {
             _windowStack = windowStack;
             _textStore = textStore;
             _soundPlayer = soundPlayer;
             _logger = logger;
+            _advertisementPlayer = advertisementPlayer;
         }
 
-        public void OpenEnergyGetWindow(Action onEnergyGetConfirmed)
+        public void OpenEnergyGetWindow(Action onEnergyGetConfirmed, string descriptionText)
         {
             var window = _windowStack.OpenEnergyGetWindow();
-
-            var ctrl = new EnergyGetWindowController(window, onEnergyGetConfirmed);
+            window.SetDescription(descriptionText);
+            var ctrl = new EnergyGetWindowController(window, onEnergyGetConfirmed,_advertisementPlayer);
             ctrl.Start();
         }
 
@@ -37,9 +39,10 @@ namespace TaskForce.AP.Client.Core.LobbyScene
             ctrl.Start();
         }
 
-        public void OpenRankUpWindow(Action onRankUpConfirmed)
+        public void OpenRankUpWindow(Action onRankUpConfirmed, string descriptionText)
         {
             var window = _windowStack.OpenRankUpWindow();
+            window.SetDescription(descriptionText);
 
             var ctrl = new RankUpWindowController(window, onRankUpConfirmed);
             ctrl.Start();

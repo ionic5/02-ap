@@ -346,11 +346,14 @@ MELEE_DAGGER_DESC,단검 스킬 {0},,,,,,,,,,,,,
 MELEE_BAT_DESC,야구방망이 스킬 {0},,,,,,,,,,,,,
 ADS_WATCH_DESC,광고를 시청하고 무전기를 충전 하시겠습니까?,,,,,,,,,,,,,
 RANK_UP_DESC,계급을 진급 하시겠습니까?,Would you like to be promoted?,,,,,,,,,,,,
-RANK_UP_REWARD_DESC,"계급을 진급 하시겠습니까?\n진급보상 아이템 슬롯 +1","Would you like to be promoted?\nPromotion Reward: Item Slot +1",,,,,,,,,,,,
+RANK_UP_REWARD_DESC,"계급을 진급 하시겠습니까?
+진급보상 아이템 슬롯 +1","Would you like to be promoted?
+Promotion Reward: Item Slot +1",,,,,,,,,,,,
 ENERGY_LACK_DESC,무전기가 부족합니다.,,,,,,,,,,,,,
 ENERGY_MAX_DESC,무전기가 가득 찼습니다..,,,,,,,,,,,,,
 RANK_MAX_DESC,최고 계급입니다.,,,,,,,,,,,,,
-GOLD_LACK_DESC,골드가 부족합니다.,,,,,,,,,,,,,
+GOLD_LACK_DESC,골드가 부족합니다.,Gold is insufficient.,,,,,,,,,,,,
+GOLD_LACK_FORMAT,골드가 {0} 만큼 부족합니다.,You need {0} more gold.,,,,,,,,,,,,
 GLOVES,장갑,Gloves,,,,,,,,,,,,
 GLOVES_DESC,공격력을 증가시키는 가죽 장갑입니다.,Leather gloves that increase attack power.,,,,,,,,,,,,
 ARMOR,갑옷,Armor,,,,,,,,,,,,
@@ -371,8 +374,8 @@ GRENADE,수류탄,Grenade,,,,,,,,,,,,
 GRENADE_DESC,수류탄을 던져 폭발시킵니다.,Throws a grenade to explode.,,,,,,,,,,,,
 LANDMINE,지뢰,Landmine,,,,,,,,,,,,
 LANDMINE_DESC,지뢰를 설치합니다. 적이 닿으면 폭발합니다.,Plants a landmine. Explodes on contact.,,,,,,,,,,,,
-"RPG_MISSILE","RPG-7","RPG-7",,,,,,,,,,,,
-"RPG_MISSILE_DESC","RPG-7 스킬 {0}",,,,,,,,,,,,,
+RPG_MISSILE,RPG-7,RPG-7,,,,,,,,,,,,
+RPG_MISSILE_DESC,RPG-7 스킬 {0},,,,,,,,,,,,,
 SKILL_ATK_INCREASE,공격력 증가,,,,,,,,,,,,,
 SKILL_RADIUS_EXPAND_DESC,"[반경 확장]
 폭발 반경이 증가합니다.
@@ -422,3 +425,11 @@ PISTOL_ATTACK_L7_DESC,"[아킴보]
 PISTOL_ATTACK_L10_DESC,"[관통탄]
 모든 투사체가 적을 1회 관통합니다.
 공격력 증가",,,,,,,,,,,,,
+RPG_MISSILE_L1_DESC,로켓이 날아가 명중 시 폭발 합니다.,,,,,,,,,,,,,
+RPG_MISSILE_L4_DESC,"[모터 개량]
+투사체의 비행속도가 증가합니다.
+공격력 증가",,,,,,,,,,,,,
+RPG_MISSILE_L7_DESC,"[다연장 로켓]
+3발의 로켓을 부채꼴로 발사합니다.",,,,,,,,,,,,,
+RPG_MISSILE_L10_DESC,"[폭발 반경 확장]
+폭발 반경이 증가합니다.",,,,,,,,,,,,,

@@ -7,14 +7,18 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private readonly Func<string, View.BattleFieldScene.IFieldItem> _createView;
         private readonly GameDataStore _gameDataStore;
         private readonly IExpOrbFinder _expOrbFinder;
+        private readonly StageHost _stageHost;
+        private readonly Core.Random _random;
 
         public event EventHandler<CreatedEventArgs<IFieldItem>> FieldItemCreatedEvent;
 
-        public FieldItemFactory(Func<string, View.BattleFieldScene.IFieldItem> createView, GameDataStore gameDataStore, IExpOrbFinder expOrbFinder)
+        public FieldItemFactory(Func<string, View.BattleFieldScene.IFieldItem> createView, GameDataStore gameDataStore, IExpOrbFinder expOrbFinder, StageHost stageHost, Core.Random random)
         {
             _createView = createView;
             _gameDataStore = gameDataStore;
             _expOrbFinder = expOrbFinder;
+            _stageHost = stageHost;
+            _random = random;
         }
 
         public IFieldItem Create(string fieldItemID)
@@ -27,10 +31,10 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             switch (fieldItemID)
             {
                 case GameData.FieldItemID.MedicalKit:
-                    fieldItem = new MedicalKit(_createView(data.BodyID));
+                    fieldItem = new MedicalKit(_createView(data.BodyID), _gameDataStore);
                     break;
                 case GameData.FieldItemID.GoldBundle:
-                    fieldItem = new GoldBundle(_createView(data.BodyID));
+                    fieldItem = new GoldBundle(_createView(data.BodyID), _stageHost, _gameDataStore, _random);
                     break;
                 case GameData.FieldItemID.Nuke:
                     fieldItem = new Nuke(_createView(data.BodyID));

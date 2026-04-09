@@ -3,6 +3,7 @@
     public interface ITarget : IDestroyable, IMortal, IPositionable, IFollowable
     {
         void Hit(IUnit attacker, int damage);
+        void Kill(IUnit killer);
         bool IsAlive();
         bool IsPlayerSide();
         string GetViewID();

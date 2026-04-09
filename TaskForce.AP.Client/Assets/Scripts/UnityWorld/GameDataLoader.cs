@@ -82,10 +82,15 @@ namespace TaskForce.AP.Client.UnityWorld
                     Level = int.Parse(row["level"]),
                     Exp = int.Parse(row["exp"]),
                 }, gameDataStore.AddRequireExp),
-                LoadTable(AssetID.SoulExp, row => new Core.GameData.SoulExp {
-                    Level = int.Parse(row["level"]),
+                LoadTable(AssetID.ExpOrb, row => new Core.GameData.ExpOrb {
+                    ID = row["id"],
+                    BodyID = row["bodyID"],
                     Exp = int.Parse(row["exp"]),
-                }, gameDataStore.AddSoulExp),
+                }, gameDataStore.AddExpOrb),
+                LoadTable(AssetID.RewardExpOrb, row => new Core.GameData.RewardExpOrb {
+                    UnitID = row["unitID"],
+                    ExpOrbID = row["expOrbID"],
+                }, gameDataStore.AddRewardExpOrb),
                 LoadTable(AssetID.BaseAttribute, row => new Core.GameData.BaseAttribute {
                     ID = row["id"],
                     AttributeID = row["attributeID"],
@@ -125,6 +130,11 @@ namespace TaskForce.AP.Client.UnityWorld
                     IconID = row["iconID"],
                     TextID = row["textID"]
                 }, gameDataStore.AddPlayerRank),
+                LoadTable(AssetID.GoldBundleReward, row => new Core.GameData.GoldBundleReward {
+                    StageLevel = int.Parse(row["stageLevel"]),
+                    MinGold = int.Parse(row["minGold"]),
+                    MaxGold = int.Parse(row["maxGold"])
+                }, gameDataStore.AddGoldBundleReward),
                 LoadTable(AssetID.SkillDescription, (row) => {
                     var parameters = new List<object>();
                     for(var i= 0;i<2;i++) {

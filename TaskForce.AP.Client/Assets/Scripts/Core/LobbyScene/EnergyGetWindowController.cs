@@ -7,11 +7,13 @@ namespace TaskForce.AP.Client.Core.LobbyScene
     {
         private readonly IEnergyGetWindow _window;
         private readonly Action _onEnergyGetConfirmed;
-
-        public EnergyGetWindowController(IEnergyGetWindow window, Action onEnergyGetConfirmed)
+        private readonly IAdvertisementPlayer _advertisementPlayer;
+        
+        public EnergyGetWindowController(IEnergyGetWindow window, Action onEnergyGetConfirmed, IAdvertisementPlayer advertisementPlayer)
         {
             _window = window;
             _onEnergyGetConfirmed = onEnergyGetConfirmed;
+            _advertisementPlayer = advertisementPlayer;
         }
 
         public void Start()
@@ -19,13 +21,21 @@ namespace TaskForce.AP.Client.Core.LobbyScene
             _window.ConfirmButtonClickedEvent += OnConfirmButtonClicked;
             _window.CancelButtonClickedEvent += OnCancelButtonClicked;
         }
-
+        
         private void OnConfirmButtonClicked(object sender, EventArgs e)
+        {
+            if (!_advertisementPlayer.CanPlayRewardedAdvertisement())
+                return;
+            
+            _advertisementPlayer.PlayRewardedAdvertisement(() => { GetEnergyAndClose(); }, null);
+        }
+
+        private void GetEnergyAndClose()
         {
             _window.ConfirmButtonClickedEvent -= OnConfirmButtonClicked;
             _window.CancelButtonClickedEvent -= OnCancelButtonClicked;
-
-            _onEnergyGetConfirmed?.Invoke();    // TODO: JW: 광고 시청 후 에너지 지급 기능 추후 적용
+            
+            _onEnergyGetConfirmed?.Invoke();  
             _window.Close();
         }
 

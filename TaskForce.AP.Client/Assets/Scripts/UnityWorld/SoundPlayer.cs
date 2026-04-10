@@ -11,6 +11,10 @@ namespace TaskForce.AP.Client.UnityWorld
         private void Awake()
         {
             bgmAudioSource.loop = true;
+        }
+        
+        public void Play()
+        {
             bgmAudioSource.Play();
         }
 

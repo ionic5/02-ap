@@ -238,9 +238,9 @@ namespace TaskForce.AP.Client.UnityWorld
 
             var window = windowStack.LevelUpWindow;
             var deathPopup = windowStack.deathWindow;
-
-            // TODO: 실제 SoundPlayer 구현체로 교체 필요
-            var mockSoundPlayer = new Core.MockSoundPlayer(null, null, null);
+            
+            var soundPlayer = scene.SoundPlayer;
+            var mockSoundPlayer = new MockSoundPlayer(soundPlayer, _userDataStore, _logger);
             var winOpener = new WindowOpener(windowStack, world, _textStore, mockSoundPlayer, _logger, _advertisementPlayer,
                 _gameDataStore, _random, skillEntityFactory.CreateSkill);
 

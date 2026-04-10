@@ -19,6 +19,7 @@ namespace TaskForce.AP.Client.Core
         {
             _soundPlayer?.SetBGMVolume(_userDataStore.GetBgmVolume());
             _soundPlayer?.SetSFXVolume(_userDataStore.GetSfxVolume());
+            _soundPlayer?.Play();
         }
         
         public float GetBGMVolume()

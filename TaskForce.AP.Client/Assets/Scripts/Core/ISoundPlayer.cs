@@ -4,5 +4,7 @@ namespace TaskForce.AP.Client.Core
     {
         void SetBGMVolume(float volume);
         void SetSFXVolume(float volume);
+
+        void Play();
     }
 }

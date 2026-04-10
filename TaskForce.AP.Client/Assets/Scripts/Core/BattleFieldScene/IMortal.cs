@@ -6,5 +6,6 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
     {
         event EventHandler<DiedEventArgs> DiedEvent;
         bool IsDead();
+        string GetUnitID();
     }
 }

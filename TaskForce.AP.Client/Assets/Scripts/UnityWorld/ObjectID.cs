@@ -1,4 +1,4 @@
-﻿namespace TaskForce.AP.Client.UnityWorld
+namespace TaskForce.AP.Client.UnityWorld
 {
     public class ObjectID
     {
@@ -8,7 +8,6 @@
         public const string HealEffect = "HEAL_EFFECT";
         public const string Explosion0 = "EXPLOSION_0";
         public const string Explosion1 = "EXPLOSION_1";
-        public const string ExpOrb = "EXP_ORB";
         public const string FieldItem = "FIELD_ITEM";
         public const string RootBox = "ROOT_BOX";
         public const string Landmine = "POWDER_KEG";
@@ -18,5 +17,6 @@
         public const string FloatingTextAnimator = "FLOATING_TEXT_ANIMATOR";
         public const string Bullet = "BULLET"; // 권총 총알 오브젝트 ID 추가
         public const string SniperBullet = "SNIPER_BULLET";
+        public const string GrenadeExplosion = "GRENADE_EXPLOSION";
     }
 }

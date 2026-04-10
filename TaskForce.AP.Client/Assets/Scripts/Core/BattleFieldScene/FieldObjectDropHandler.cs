@@ -23,17 +23,18 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             if (args.Killer == null || !args.Killer.IsPlayerSide())
                 return;
 
-            var dropRate = _gameDataStore.GetSoulDropRate();
-            if (_random.Next(0.0f, 100.0f) >= dropRate)
+            var unitID = args.DiedTarget.GetUnitID();
+            var rewardExpOrb = _gameDataStore.GetRewardExpOrbByUnitID(unitID);
+            if (rewardExpOrb == null)
                 return;
 
-            var expOrb = _expOrbFactory.Create(1);
+            var expOrb = _expOrbFactory.Create(rewardExpOrb.ExpOrbID);
             expOrb.SetPosition(args.DiedTarget.GetPosition());
         }
 
         public void OnAllBossesKilled(object sender, DiedEventArgs args)
         {
-            var expOrb = _expOrbFactory.Create(1);
+            var expOrb = _expOrbFactory.Create(GameData.ExpOrbID.ExpOrb0);
             expOrb.SetPosition(args.DiedTarget.GetPosition());
         }
 

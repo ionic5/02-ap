@@ -51,6 +51,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             Destroy();
         }
 
+        public string GetUnitID() => null;
         public bool IsAlive() => !_isDead;
         public bool IsDead() => _isDead;
         public bool IsPlayerSide() => false;

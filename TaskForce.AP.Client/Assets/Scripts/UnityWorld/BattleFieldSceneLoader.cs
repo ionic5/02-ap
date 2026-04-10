@@ -78,9 +78,8 @@ namespace TaskForce.AP.Client.UnityWorld
                 unit.CreateFloatingTextAnimator = createFloatingTextAnimator;
                 unit.Timer = createTimer();
             };
-            objFac.RegisterPrepareHandler("WARRIOR_0", unitPrepareHdlr);
-            objFac.RegisterPrepareHandler("WARRIOR_1", unitPrepareHdlr);
-            objFac.RegisterPrepareHandler("MONK", unitPrepareHdlr);
+            foreach(var entry in _gameDataStore.GetUnits())
+                objFac.RegisterPrepareHandler(entry.BodyID, unitPrepareHdlr);
 
             world.Random = _random;
 
@@ -90,8 +89,8 @@ namespace TaskForce.AP.Client.UnityWorld
 
             var effectFactory = new TaskForce.AP.Client.Core.Entity.ModifyAttributeEffectFactory(_gameDataStore, formulaCalculator);
             var skillFactory = new SkillFactory();
-            var unitLogicFactory = new UnitLogicFactory(joystick, world, createTimer, loop, fieldObjectFinder, _gameDataStore, _logger, _userDataStore);
-            var expOrbFactory = new ExpOrbFactory(() => objFac.Create<View.BattleFieldScene.ExpOrb>(ObjectID.ExpOrb));
+            var unitLogicFactory = new UnitLogicFactory(joystick, world, createTimer, loop, fieldObjectFinder, _logger, _userDataStore);
+            var expOrbFactory = new ExpOrbFactory((bodyID) => objFac.Create<View.BattleFieldScene.ExpOrb>(bodyID), _gameDataStore);
             var skillEntityFactory = new TaskForce.AP.Client.Core.Entity.SkillFactory(_gameDataStore, _logger, _textStore, effectFactory);
             var unitEntityFactory = new Core.Entity.UnitFactory(_logger, _gameDataStore, skillEntityFactory.CreateSkill);
             var unitFactory = new UnitFactory(_random, createTimer, targetFinder,
@@ -116,12 +115,13 @@ namespace TaskForce.AP.Client.UnityWorld
                 return new GrenadeSkill(_random, new RepeatTimer(createTimer()),
                     createTimer(), (IUnit caster, int minDmg, int maxDmg, float explosionRadius) =>
                     {
-                        var view = objFac.Create<Sheep>(ObjectID.Grenade);
+                        var view = objFac.Create<GrenadeView>(ObjectID.Grenade);
                         return new Grenade(view, caster,
                         minDmg, maxDmg, explosionRadius, (IUnit caster, int minDmg, int maxDmg, float explosionRadius) =>
                         {
-                            var view = objFac.Create<View.BattleFieldScene.Explosion>(ObjectID.Explosion0);
-                            return new Core.BattleFieldScene.Skills.Explosion(view, caster, _random, minDmg, maxDmg, explosionRadius);
+                            // 통합된 파티클 폭발 객체 하나만 생성 (비주얼 + 데미지 감지)
+                            var explosionView = objFac.Create<ParticleOneShotEffect>(ObjectID.GrenadeExplosion);
+                            return new Core.BattleFieldScene.Skills.Explosion(explosionView, caster, _random, minDmg, maxDmg, explosionRadius);
                         });
                     }, skill);
             });

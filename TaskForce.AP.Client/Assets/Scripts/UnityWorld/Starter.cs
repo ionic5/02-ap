@@ -89,6 +89,9 @@ namespace TaskForce.AP.Client.UnityWorld
             lobbySceneLoader = new LobbySceneLoader(_screen, gameDataStore, random, time, textStore, assetLoader, logger, userDataStore, goToBattleAction, _advertisementPlayer);
             battleFieldSceneLoader = new BattleFieldSceneLoader(_screen, gameDataStore, random, time, textStore, assetLoader, logger, userDataStore, goToLobbyAction, _advertisementPlayer);
 
+            var soundPlayer = _titleScene.SoundPlayer;
+            new MockSoundPlayer(soundPlayer, userDataStore, logger);
+            
             var titleSceneCtrl = new TitleSceneController(_titleScene, goToLobbyAction);
             titleSceneCtrl.Start();
         }

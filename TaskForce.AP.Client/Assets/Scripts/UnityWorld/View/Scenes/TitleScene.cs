@@ -8,7 +8,11 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
     {
         [SerializeField]
         private GameObject _startButton;
-
+        [SerializeField]
+        private SoundPlayer soundPlayer;
+        
+        public SoundPlayer SoundPlayer => soundPlayer;
+        
         public event EventHandler StartButtonClickedEvent;
 
         private void Awake()

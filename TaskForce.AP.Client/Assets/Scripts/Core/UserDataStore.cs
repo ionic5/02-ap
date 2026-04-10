@@ -6,6 +6,8 @@
         private int _energy;
         private int _rank;
         private long _energyUpdateTime;
+        private float _bgmVolume;
+        private float _sfxVolume;
 
         private bool _isDirty;
 
@@ -15,6 +17,8 @@
             _gold = 0;
             _energy = 0;
             _rank = 0;
+            _bgmVolume = 0f;
+            _sfxVolume = 0f;
             //
         }
 
@@ -66,6 +70,28 @@
         public long GetEnergyUpdateTime()
         {
             return _energyUpdateTime;
+        }
+
+        public void SetBgmVolume(float volume)
+        {
+            _bgmVolume = volume;
+            _isDirty = true;
+        }
+        
+        public float GetBgmVolume()
+        {
+            return _bgmVolume;
+        }
+
+        public void SetSfxVolume(float volume)
+        {
+            _sfxVolume = volume;
+            _isDirty = true;
+        }
+        
+        public float GetSfxVolume()
+        {
+            return _sfxVolume;
         }
 
         public bool IsDirty()

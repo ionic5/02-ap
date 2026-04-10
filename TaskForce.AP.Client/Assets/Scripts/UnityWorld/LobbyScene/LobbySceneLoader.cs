@@ -1,6 +1,5 @@
 using System;
 using TaskForce.AP.Client.Core;
-using TaskForce.AP.Client.Core.BattleFieldScene;
 using TaskForce.AP.Client.Core.LobbyScene;
 using TaskForce.AP.Client.UnityWorld.BattleFieldScene;
 using WindowOpener = TaskForce.AP.Client.Core.LobbyScene.WindowOpener;
@@ -54,18 +53,13 @@ namespace TaskForce.AP.Client.UnityWorld.LobbyScene
             var loop = scene.Loop;
 
             var windowStack = scene.WindowStack;
-
-            // TODO: 실제 SoundPlayer 구현체로 교체 필요
-            var mockSoundPlayer = new MockSoundPlayer();
+            scene.Logger = _logger;
+            
+            var soundPlayer = scene.SoundPlayer;
+            var mockSoundPlayer = new MockSoundPlayer(soundPlayer, _userDataStore, _logger);
             var winOpener = new WindowOpener(windowStack, _textStore, mockSoundPlayer, _logger, _advertisementPlayer);
 
             scene.AssetLoader = _assetLoader;
-            scene.Logger = _logger;
-
-            // TODO: JW: pause panel 기능 검토
-            // var pausePanel = scene.PausePanel;
-            // var pausePanelCtrl = new PausePanelController(pausePanel, world);
-            // pausePanelCtrl.Start();
 
             var sceneCtrl = new LobbySceneController(scene, winOpener, _gameDataStore,
                 _logger, _userDataStore, _textStore, _battleFieldSceneLoadEvent);

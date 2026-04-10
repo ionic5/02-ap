@@ -9,6 +9,8 @@ public class UserData
     public int energy;
     public int rank;
     public long energyUpdateTime;
+    public float bgmVolume;
+    public float sfxVolume;
 
     public UserData()
     {
@@ -16,6 +18,8 @@ public class UserData
         energy = -1;
         rank = -1;
         energyUpdateTime = -1;
+        bgmVolume = 1.0f;
+        sfxVolume = 1.0f;
     }
 }
 

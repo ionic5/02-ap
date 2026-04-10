@@ -18,6 +18,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
         [SerializeField] private Image rankImage;
         [SerializeField] private TextMeshProUGUI energyTimerText;
         [SerializeField] private Image[] skillSlots;
+        [SerializeField] private SoundPlayer soundPlayer;
 
         public event EventHandler PlayButtonClickedEvent;
         public event EventHandler EnergyGetButtonClickedEvent;
@@ -27,6 +28,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
         public Loop Loop => _loop;
         public View.LobbyScene.WindowStack WindowStack => _windowStack;
         public View.BattleFieldScene.PausePanel PausePanel => _pausePanel;
+        public SoundPlayer SoundPlayer => soundPlayer;
 
         public AssetLoader AssetLoader;
         public Core.ILogger Logger;

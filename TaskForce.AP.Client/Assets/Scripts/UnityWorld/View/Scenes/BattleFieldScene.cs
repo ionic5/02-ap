@@ -37,6 +37,8 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
         private TMP_Text _goldText;
         [SerializeField]
         private View.BattleFieldScene.SkillIconGrid _skillIconGrid;
+        [SerializeField]
+        private SoundPlayer _soundPlayer;
 
         private int _lastKillCount = -1;
         private int _lastBattleTimeSeconds = -1;
@@ -54,6 +56,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.Scenes
         public View.BattleFieldScene.WindowStack WindowStack => _windowStack;
         public PausePanel PausePanel => _pausePanel;
         public View.BattleFieldScene.SkillIconGrid SkillIconGrid => _skillIconGrid;
+        public SoundPlayer SoundPlayer => _soundPlayer;
 
         public void SetExp(int v)
         {

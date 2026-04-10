@@ -12741,6 +12741,150 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4090185195542774, guid: 52631159c95f58848bbc1218d15c4ab9, type: 3}
   m_PrefabInstance: {fileID: 1269015582}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1278219421
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1278219424}
+  - component: {fileID: 1278219423}
+  - component: {fileID: 1278219422}
+  m_Layer: 0
+  m_Name: SoundPlayer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1278219422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1278219421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d17e24eecc0804f45af9048ddaccd355, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.SoundPlayer
+  bgmAudioSource: {fileID: 1278219423}
+  sfxAudioSources: []
+--- !u!82 &1278219423
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1278219421}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 69b540cf361744c26a23389ca66e7b6c, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!4 &1278219424
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1278219421}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1279449506
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22981,8 +23125,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.Windows.SettingWindow,
+      - m_Target: {fileID: 7251918910105447571}
+        m_TargetAssemblyTypeName: TaskForce.AP.Client.UnityWorld.View.Windows.SettingWindow,
           Assembly-CSharp
         m_MethodName: OnBgmVolumeChanged
         m_Mode: 0
@@ -24443,17 +24587,20 @@ MonoBehaviour:
   - ObjectID: SHEEP_MISSILE
     Prefab: {fileID: 2153746546371106016, guid: 8ebfb74a997661a49904437f63991384, type: 3}
     Root: {fileID: 0}
-  - ObjectID: POWDER_KEG
+  - ObjectID: LANDMINE
     Prefab: {fileID: 505851039842775508, guid: 77997b3fcc4328248ab280c35173a393, type: 3}
     Root: {fileID: 0}
   - ObjectID: EXPLOSION_1
     Prefab: {fileID: 908433019122156621, guid: 4c88babeaac422749b019635fb50d816, type: 3}
     Root: {fileID: 0}
-  - ObjectID: DYNAMITE
+  - ObjectID: GRENADE
     Prefab: {fileID: 2153746546371106016, guid: 5602081bbe9312146b721f202893d68e, type: 3}
     Root: {fileID: 0}
   - ObjectID: EXPLOSION_0
     Prefab: {fileID: 908433019122156621, guid: 4c88babeaac422749b019635fb50d816, type: 3}
+    Root: {fileID: 0}
+  - ObjectID: LANDMINE_EXPLOSION
+    Prefab: {fileID: 1056904543853562, guid: b1c0343a8e066a8449f866cdc80443b6, type: 3}
     Root: {fileID: 0}
   - ObjectID: GRENADE_EXPLOSION
     Prefab: {fileID: 2572492935716996084, guid: 6105fd69d58b74a1593a452d9a5458c5, type: 3}
@@ -39009,8 +39156,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.Windows.SettingWindow,
+      - m_Target: {fileID: 7251918910105447571}
+        m_TargetAssemblyTypeName: TaskForce.AP.Client.UnityWorld.View.Windows.SettingWindow,
           Assembly-CSharp
         m_MethodName: OnSfxVolumeChanged
         m_Mode: 0
@@ -39927,6 +40074,7 @@ MonoBehaviour:
   _battleTimeText: {fileID: 119962857077377195}
   _goldText: {fileID: 4986165379531893810}
   _skillIconGrid: {fileID: 2977034438050309715}
+  _soundPlayer: {fileID: 1278219422}
 --- !u!114 &7789730631134626840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44156,3 +44304,4 @@ SceneRoots:
   - {fileID: 465165121811384146}
   - {fileID: 5618680071112736950}
   - {fileID: 6988858356603993257}
+  - {fileID: 1278219424}

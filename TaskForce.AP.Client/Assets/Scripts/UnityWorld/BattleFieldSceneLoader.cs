@@ -144,12 +144,17 @@ namespace TaskForce.AP.Client.UnityWorld
                 return new LandmineSkill(skill, createTimer(), (IUnit caster,
                     int minDmg, int maxDmg, float watchRadius, float explosionRadius, float expireTime) =>
                 {
-                    var view = objFac.Create<View.BattleFieldScene.PowderKeg>(ObjectID.Landmine);
+                    // 전용 LandmineView 생성
+                    var view = objFac.Create<LandmineView>(ObjectID.Landmine);
                     return new Core.BattleFieldScene.Skills.Landmine(view, caster, createTimer(), minDmg, maxDmg,
                         watchRadius, explosionRadius, expireTime, (IUnit caster, int minDmg, int maxDmg, float explosionRadius) =>
                         {
-                            var view = objFac.Create<View.BattleFieldScene.Explosion>(ObjectID.Explosion1);
-                            return new Core.BattleFieldScene.Skills.Explosion(view, caster, _random, minDmg, maxDmg, explosionRadius);
+                            // 수류탄과 동일한 파티클 효과 생성기 사용
+                            var explosionView = objFac.Create<ParticleOneShotEffect>(ObjectID.LandmineExplosion);
+                            var explosion = new Core.BattleFieldScene.Skills.Explosion(explosionView, caster, _random, minDmg, maxDmg, explosionRadius);
+                            
+                            explosionView.SetPosition(new System.Numerics.Vector2(view.transform.position.x, view.transform.position.z));
+                            return explosion;
                         });
                 });
             });
@@ -238,9 +243,9 @@ namespace TaskForce.AP.Client.UnityWorld
 
             var window = windowStack.LevelUpWindow;
             var deathPopup = windowStack.deathWindow;
-
-            // TODO: 실제 SoundPlayer 구현체로 교체 필요
-            var mockSoundPlayer = new MockSoundPlayer();
+            
+            var soundPlayer = scene.SoundPlayer;
+            var mockSoundPlayer = new MockSoundPlayer(soundPlayer, _userDataStore, _logger);
             var winOpener = new WindowOpener(windowStack, world, _textStore, mockSoundPlayer, _logger, _advertisementPlayer,
                 _gameDataStore, _random, skillEntityFactory.CreateSkill);
 

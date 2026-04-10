@@ -45,9 +45,16 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
 
         private void UseInstantSkills()
         {
+            var defaultSkill = GetControlTarget().GetDefaultSkill();
             foreach (var skill in GetControlTarget().GetSkills())
+            {
+                // 기본 스킬은 별도의 로직(TryUseDefaultSkill)에서 처리되므로 인스턴트 루프에서는 제외
+                if (skill == defaultSkill)
+                    continue;
+
                 if (skill.IsInstantSkill() && skill.IsCooldownFinished())
                     skill.Use(new UseSkillArgs());
+            }
         }
 
         private void HandleInput()

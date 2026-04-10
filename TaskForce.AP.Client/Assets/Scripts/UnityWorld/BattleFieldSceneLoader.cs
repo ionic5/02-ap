@@ -199,7 +199,7 @@ namespace TaskForce.AP.Client.UnityWorld
                     bullet.DestroyEvent += onBulletDestroyed;
                     
                     return bullet;
-                }, targetFinder, skill);
+                }, targetFinder, createTimer(), skill);
             });
 
             skillFactory.AddCreator(Core.Entity.SkillID.SniperRifle, (skill) =>
@@ -217,7 +217,7 @@ namespace TaskForce.AP.Client.UnityWorld
                     };
                     bullet.DestroyEvent += onBulletDestroyed;
                     return bullet;
-                }, targetFinder, skill);
+                }, targetFinder, createTimer(), skill);
             });
 
             // 패시브 장비 7종 추가
@@ -276,6 +276,13 @@ namespace TaskForce.AP.Client.UnityWorld
             unitEntity.SetSkillCountLimit(8);
             var unit = unitFactory.CreatePlayerUnit(unitEntity);
             unit.SetPosition(world.GetPlayerUnitSpawnPosition());
+
+            // 플레이어 유닛 식별을 위해 태그 부여
+            var playerGo = GameObject.Find(((ITarget)unit).GetViewID());
+            if (playerGo != null)
+            {
+                playerGo.tag = "Player";
+            }
 
             var sceneCtrl = new BattleFieldSceneController(scene, world, followCamera, winOpener,
                 _logger, createTimer(),

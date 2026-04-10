@@ -16,6 +16,8 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
         public event EventHandler MoveDirectionChangedEvent;
         public event EventHandler DeathAnimationCompletedEvent; // New event
 
+        public static readonly HashSet<Unit> ActiveUnits = new HashSet<Unit>(); // 활성화된 유닛 캐싱
+
         [SerializeField]
         private NavMeshAgent _agent;
         [SerializeField]
@@ -69,6 +71,16 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
             };
 
             _hpBarController = GetComponent<HPBarController>();
+        }
+
+        private void OnEnable()
+        {
+            ActiveUnits.Add(this);
+        }
+
+        private void OnDisable()
+        {
+            ActiveUnits.Remove(this);
         }
 
         private void Update()

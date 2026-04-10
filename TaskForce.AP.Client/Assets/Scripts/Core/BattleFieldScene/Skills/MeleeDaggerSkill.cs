@@ -47,9 +47,15 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
             _state = State.Using;
 
             _attackComboCount = GetAttribute(AttributeID.AttackCombo).AsInt();
+            int initialComboCount = _attackComboCount;
             
             StartAttackCombo(args);
-            _cooldownTimer.Start(GetAttribute(AttributeID.AttackTime).AsFloat(), OnCooldownFinished);
+            
+            float attackTime = GetAttribute(AttributeID.AttackTime).AsFloat();
+            float comboTime = GetAttribute(AttributeID.AttackComboTime).AsFloat();
+            float totalExecutionTime = attackTime + (initialComboCount > 1 ? comboTime * (initialComboCount - 1) : 0f);
+            
+            _cooldownTimer.Start(totalExecutionTime, OnCooldownFinished);
             
             SetUseSkillArgs(args);
         }

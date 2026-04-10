@@ -19,5 +19,6 @@ namespace TaskForce.AP.Client.UnityWorld
         public const string SniperBullet = "SNIPER_BULLET";
         public const string LandmineExplosion = "LANDMINE_EXPLOSION";
         public const string GrenadeExplosion = "GRENADE_EXPLOSION";
+        public const string SkillEffectDagger = "SKILL_EFFECT_DAGGER";
     }
 }

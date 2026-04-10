@@ -12772,7 +12772,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.SoundPlayer
   bgmAudioSource: {fileID: 1278219423}
-  _audioMixer: {fileID: 24100000, guid: 693022598b5cc40648024b5e94d8a70f, type: 2}
+  audioMixer: {fileID: 0}
 --- !u!82 &1278219423
 AudioSource:
   m_ObjectHideFlags: 0
@@ -24685,6 +24685,9 @@ MonoBehaviour:
     Root: {fileID: 0}
   - ObjectID: WORKER_ZOMBIE
     Prefab: {fileID: 2571458443520786908, guid: 86cba6d4ffad06746a8249681ef4d267, type: 3}
+    Root: {fileID: 0}
+  - ObjectID: SKILL_EFFECT_DAGGER
+    Prefab: {fileID: 2153641316169728667, guid: 88cb2dfb1d65f48b0ae177883e670f70, type: 3}
     Root: {fileID: 0}
 --- !u!1 &1115391624512921746
 GameObject:

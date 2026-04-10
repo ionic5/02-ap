@@ -99,10 +99,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 232325596660489511}
-  - component: {fileID: 1571361695886575423}
+  - component: {fileID: 5287778831401030903}
   - component: {fileID: -1646631163494084026}
   m_Layer: 0
-  m_Name: PowderKeg
+  m_Name: Landmine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -124,7 +124,7 @@ Transform:
   - {fileID: 1078689595828158093}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1571361695886575423
+--- !u!114 &5287778831401030903
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -133,13 +133,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 505851039842775508}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f4f9e14c0156d0419dc01a00bc1c76d, type: 3}
+  m_Script: {fileID: 11500000, guid: 8c723bd8c656146819dc669f254485ef, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.PowderKeg
-  _animator: {fileID: -1646631163494084026}
-  _watchInterval: 1
-  _minBlinkInterval: 0.2
-  _maxBlinkInterval: 0.5
+  m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.LandmineView
+  _detectInterval: 0.2
 --- !u!95 &-1646631163494084026
 Animator:
   serializedVersion: 7

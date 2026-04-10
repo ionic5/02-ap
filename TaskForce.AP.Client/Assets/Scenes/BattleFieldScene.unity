@@ -24587,17 +24587,20 @@ MonoBehaviour:
   - ObjectID: SHEEP_MISSILE
     Prefab: {fileID: 2153746546371106016, guid: 8ebfb74a997661a49904437f63991384, type: 3}
     Root: {fileID: 0}
-  - ObjectID: POWDER_KEG
+  - ObjectID: LANDMINE
     Prefab: {fileID: 505851039842775508, guid: 77997b3fcc4328248ab280c35173a393, type: 3}
     Root: {fileID: 0}
   - ObjectID: EXPLOSION_1
     Prefab: {fileID: 908433019122156621, guid: 4c88babeaac422749b019635fb50d816, type: 3}
     Root: {fileID: 0}
-  - ObjectID: DYNAMITE
+  - ObjectID: GRENADE
     Prefab: {fileID: 2153746546371106016, guid: 5602081bbe9312146b721f202893d68e, type: 3}
     Root: {fileID: 0}
   - ObjectID: EXPLOSION_0
     Prefab: {fileID: 908433019122156621, guid: 4c88babeaac422749b019635fb50d816, type: 3}
+    Root: {fileID: 0}
+  - ObjectID: LANDMINE_EXPLOSION
+    Prefab: {fileID: 1056904543853562, guid: b1c0343a8e066a8449f866cdc80443b6, type: 3}
     Root: {fileID: 0}
   - ObjectID: GRENADE_EXPLOSION
     Prefab: {fileID: 2572492935716996084, guid: 6105fd69d58b74a1593a452d9a5458c5, type: 3}

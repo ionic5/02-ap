@@ -1,12 +1,13 @@
 using TaskForce.AP.Client.Core;
 using UnityEngine;
+using UnityEngine.Audio;
 
 namespace TaskForce.AP.Client.UnityWorld
 {
     public class SoundPlayer : MonoBehaviour, ISoundPlayer
     {
         [SerializeField] AudioSource bgmAudioSource;
-        [SerializeField] AudioSource[] sfxAudioSources;
+        [SerializeField] private AudioMixer audioMixer;
 
         private void Awake()
         {
@@ -25,10 +26,11 @@ namespace TaskForce.AP.Client.UnityWorld
 
         public void SetSFXVolume(float volume)
         {
-            foreach (var sfx in sfxAudioSources)
-            {
-                sfx.volume = volume;
-            }
+            if (audioMixer == null)
+                return;
+            
+            float v = Mathf.Clamp(volume, 0.0001f, 1f);
+            audioMixer.SetFloat("SFX", Mathf.Log10(v) * 20);
         }
     }
 }

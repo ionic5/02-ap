@@ -16,7 +16,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
         private ILogger _logger;
 
         private int _attackComboCount;
-        private readonly Func<IUnit, SkillEffectDagger> _createSkillEffectDagger;
+        private readonly Func<IUnit, SkillEffectMelee> _createSkillEffectDagger;
 
         private enum State
         {
@@ -26,7 +26,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
             Canceled
         }
 
-        public MeleeDaggerSkill(Func<Timer> createTimer, Entity.ISkill skillEntity, Random random, ILogger logger, Func<IUnit, SkillEffectDagger> createSkillEffectDagger) : base(skillEntity)
+        public MeleeDaggerSkill(Func<Timer> createTimer, Entity.ISkill skillEntity, Random random, ILogger logger, Func<IUnit, SkillEffectMelee> createSkillEffectDagger) : base(skillEntity)
         {
             _cooldownTimer = createTimer();
             _impactTimer = createTimer();
@@ -72,7 +72,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
             user.Attack(attackDirection, attackTime);
             _impactTimer.Start(GetAttribute(AttributeID.AttackImpactTime).AsFloat(), OnAttackImpact);
 
-            var skillEffect = _createSkillEffectDagger.Invoke(user);
+            var skillEffect = _createSkillEffectDagger?.Invoke(user);
             skillEffect.SetFollow(user);
             skillEffect.SetRotation(user.GetDirection());
             

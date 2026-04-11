@@ -5,13 +5,13 @@ using TaskForce.AP.Client.Core.View.BattleFieldScene;
 
 namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
 {
-    public class SkillEffectDagger : IUpdatable
+    public class SkillEffectMelee : IUpdatable
     {
         private readonly ISkillEffect _skillEffectDagger;
         private ILoop _loop;
         private IUnit _unit;
 
-        public SkillEffectDagger(ISkillEffect skillEffectDagger, ILoop loop)
+        public SkillEffectMelee(ISkillEffect skillEffectDagger, ILoop loop)
         {
             _skillEffectDagger = skillEffectDagger;
             _loop = loop;

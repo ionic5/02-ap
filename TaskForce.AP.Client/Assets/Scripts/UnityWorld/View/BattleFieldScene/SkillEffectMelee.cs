@@ -5,7 +5,7 @@ using Vector2 = System.Numerics.Vector2;
 
 namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
 {
-    public class SkillEffectDagger : PoolableObject, ISkillEffect
+    public class SkillEffectMelee : PoolableObject, ISkillEffect
     {
         [SerializeField] private ParticleSystem _particleSystem;
         [SerializeField] private float _offset = 0.7f;

@@ -7,7 +7,6 @@ using TaskForce.AP.Client.UnityWorld.BattleFieldScene;
 using TaskForce.AP.Client.UnityWorld.View;
 using TaskForce.AP.Client.UnityWorld.View.BattleFieldScene;
 using UnityEngine;
-using SkillEffectDagger = TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.SkillEffectDagger;
 
 namespace TaskForce.AP.Client.UnityWorld
 {
@@ -171,13 +170,17 @@ namespace TaskForce.AP.Client.UnityWorld
             {
                 return new Core.BattleFieldScene.Skills.MeleeDaggerSkill(createTimer, skill, _random, _logger, (IUnit caster) =>
                 {
-                    var view = objFac.Create<View.BattleFieldScene.SkillEffectDagger>(ObjectID.SkillEffectDagger);
-                    return new  Core.BattleFieldScene.Skills.SkillEffectDagger(view, loop);
+                    var view = objFac.Create<View.BattleFieldScene.SkillEffectMelee>(ObjectID.SkillEffectDagger);
+                    return new  Core.BattleFieldScene.Skills.SkillEffectMelee(view, loop);
                 });
             });
             skillFactory.AddCreator(Core.Entity.SkillID.MeleeBat, (skill) =>
             {
-                return new Core.BattleFieldScene.Skills.MeleeBatSkill(createTimer, skill, _random, _logger);
+                return new Core.BattleFieldScene.Skills.MeleeBatSkill(createTimer, skill, _random, _logger, (IUnit caster) =>
+                {
+                    var view = objFac.Create<View.BattleFieldScene.SkillEffectMelee>(ObjectID.SkillEffectBat);
+                    return new  Core.BattleFieldScene.Skills.SkillEffectMelee(view, loop);
+                });
             });
             skillFactory.AddCreator(Core.Entity.SkillID.PistolAttack, (skill) => // SkillID.Pistol -> SkillID.PistolAttack
             {

@@ -1,6 +1,6 @@
 namespace TaskForce.AP.Client.Core.GameData
 {
-    public class RewardExpOrb
+    public class StageRewardExpOrb
     {
         public string UnitID;
         public string ExpOrbID;

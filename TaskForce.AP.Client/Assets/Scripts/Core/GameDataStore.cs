@@ -24,11 +24,12 @@ namespace TaskForce.AP.Client.Core
         private readonly List<RequireExp> _requireExps;
 
         private readonly List<ExpOrb> _expOrbs;
-        private readonly List<RewardExpOrb> _rewardExpOrbs;
+        private readonly List<StageRewardExpOrb> _rewardExpOrbs;
         private readonly List<SkillDescription> _skillDescriptions;
         private readonly List<EnemyUnitSwarm> _enemyUnitSwarms;
         private readonly List<BossStage> _bossStages;
         private readonly List<BossStageEnemy> _bossStageEnemies;
+        private readonly List<BossStageRewardExpOrb> _bossStageRewardExpOrbs;
         private readonly List<FieldItem> _fieldItems;
         private readonly List<PlayerRank> _playerRanks;
         private readonly List<GoldBundleReward> _goldBundleRewards;
@@ -56,11 +57,12 @@ namespace TaskForce.AP.Client.Core
             _requireExps = new List<RequireExp>();
 
             _expOrbs = new List<ExpOrb>();
-            _rewardExpOrbs = new List<RewardExpOrb>();
+            _rewardExpOrbs = new List<StageRewardExpOrb>();
             _skillDescriptions = new List<SkillDescription>();
             _enemyUnitSwarms = new List<EnemyUnitSwarm>();
             _bossStages = new List<BossStage>();
             _bossStageEnemies = new List<BossStageEnemy>();
+            _bossStageRewardExpOrbs = new List<BossStageRewardExpOrb>();
             _fieldItems = new List<FieldItem>();
             _playerRanks = new List<PlayerRank>();
             _goldBundleRewards = new List<GoldBundleReward>();
@@ -85,7 +87,7 @@ namespace TaskForce.AP.Client.Core
             _expOrbs.Add(entry);
         }
 
-        public void AddRewardExpOrb(GameData.RewardExpOrb entry)
+        public void AddStageRewardExpOrb(GameData.StageRewardExpOrb entry)
         {
             _rewardExpOrbs.Add(entry);
         }
@@ -185,7 +187,7 @@ namespace TaskForce.AP.Client.Core
             return _expOrbs.FirstOrDefault(entry => entry.ID == id);
         }
 
-        public GameData.RewardExpOrb GetRewardExpOrbByUnitID(string unitID)
+        public GameData.StageRewardExpOrb GetStageRewardExpOrbByUnitID(string unitID)
         {
             return _rewardExpOrbs.FirstOrDefault(entry => entry.UnitID == unitID);
         }
@@ -304,6 +306,11 @@ namespace TaskForce.AP.Client.Core
             _bossStageEnemies.Add(entry);
         }
 
+        public void AddBossStageRewardExpOrb(BossStageRewardExpOrb entry)
+        {
+            _bossStageRewardExpOrbs.Add(entry);
+        }
+
         public BossStage GetBossStage(int level)
         {
             return _bossStages.Where(entry => entry.Level == level).FirstOrDefault();
@@ -312,6 +319,11 @@ namespace TaskForce.AP.Client.Core
         public IEnumerable<BossStageEnemy> GetBossStageEnemies(int level)
         {
             return _bossStageEnemies.Where(entry => entry.BossStageLevel == level);
+        }
+
+        public IEnumerable<BossStageRewardExpOrb> GetBossStageRewardExpOrbs(int bossStageLevel)
+        {
+            return _bossStageRewardExpOrbs.Where(entry => entry.BossStageLevel == bossStageLevel);
         }
 
         public void AddPlayerRank(PlayerRank entry)

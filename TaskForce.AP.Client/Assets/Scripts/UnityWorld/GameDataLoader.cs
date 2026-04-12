@@ -87,10 +87,10 @@ namespace TaskForce.AP.Client.UnityWorld
                     BodyID = row["bodyID"],
                     Exp = int.Parse(row["exp"]),
                 }, gameDataStore.AddExpOrb),
-                LoadTable(AssetID.RewardExpOrb, row => new Core.GameData.RewardExpOrb {
+                LoadTable(AssetID.StageRewardExpOrb, row => new Core.GameData.StageRewardExpOrb {
                     UnitID = row["unitID"],
                     ExpOrbID = row["expOrbID"],
-                }, gameDataStore.AddRewardExpOrb),
+                }, gameDataStore.AddStageRewardExpOrb),
                 LoadTable(AssetID.BaseAttribute, row => new Core.GameData.BaseAttribute {
                     ID = row["id"],
                     AttributeID = row["attributeID"],
@@ -118,6 +118,11 @@ namespace TaskForce.AP.Client.UnityWorld
                     UnitID = row["unitID"],
                     Count = int.Parse(row["count"])
                 }, gameDataStore.AddBossStageEnemy),
+                LoadTable(AssetID.BossStageRewardExpOrb, row => new Core.GameData.BossStageRewardExpOrb {
+                    BossStageLevel = int.Parse(row["bossStageLevel"]),
+                    ExpOrbID = row["expOrbID"],
+                    Count = int.Parse(row["count"])
+                }, gameDataStore.AddBossStageRewardExpOrb),
                 LoadTable(AssetID.FieldItem, row => new Core.GameData.FieldItem {
                     ID = row["id"],
                     BodyID = row["bodyID"],

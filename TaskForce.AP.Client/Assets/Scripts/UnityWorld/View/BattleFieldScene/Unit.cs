@@ -226,7 +226,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
         {
             var animator = CreateFloatingTextAnimator.Invoke();
             var offset = _effectAreaCenter.transform.localPosition;
-            animator.Follow(this, new System.Numerics.Vector2(offset.x, offset.y));
+            animator.Follow(this, offset);
             animator.PlayDamageAnimation(damage);
             animator.BringToTop();
 
@@ -243,7 +243,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
         {
             var animator = CreateFloatingTextAnimator.Invoke();
             var offset = _effectAreaCenter.transform.localPosition;
-            animator.Follow(this, new System.Numerics.Vector2(offset.x, offset.y));
+            animator.Follow(this, offset);
             animator.PlayDamageAnimation(healAmount);
             animator.BringToTop();
 

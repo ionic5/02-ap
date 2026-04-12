@@ -7,14 +7,14 @@ namespace TaskForce.AP.Client.UnityWorld.View
     public class Follower : MonoBehaviour
     {
         private IFollowable _target;
-        private System.Numerics.Vector2 _offset;
+        private Vector3 _offset;
 
         public void Follow(IFollowable target)
         {
-            Follow(target, System.Numerics.Vector2.Zero);
+            Follow(target, Vector3.zero);
         }
 
-        public void Follow(IFollowable target, System.Numerics.Vector2 offset)
+        public void Follow(IFollowable target, Vector3 offset)
         {
             _target = target;
             _offset = offset;
@@ -41,7 +41,7 @@ namespace TaskForce.AP.Client.UnityWorld.View
                 return;
 
             System.Numerics.Vector2 pos = _target.GetPosition();
-            transform.position = new Vector3(pos.X + _offset.X, 0, pos.Y + _offset.Y);
+            transform.position = new Vector3(pos.X + _offset.x, _offset.y, pos.Y + _offset.z);
         }
 
         public void OnDestroy()

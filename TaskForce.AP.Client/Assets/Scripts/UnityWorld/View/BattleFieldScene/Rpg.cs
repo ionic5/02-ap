@@ -1,10 +1,11 @@
 using TaskForce.AP.Client.Core.View.BattleFieldScene;
 using System;
 using UnityEngine;
+using Vector2 = System.Numerics.Vector2;
 
 namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
 {
-    public class Rpg : PoolableObject, IMissile
+    public class Rpg : PoolableObject, IMissileRpg
     {
         public event EventHandler ArrivedDestinationEvent;
         public event EventHandler<Core.View.HitEventArgs> HitEvent;
@@ -16,12 +17,15 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
         private Rigidbody _rigidbody;
         [SerializeField]
         private float _arrivalThreshold;
+        [SerializeField]
+        private ParticleSystem _particleSystem;
 
         private void Awake()
         {
             _isDestroyed = false;
             _hasDestination = false;
             _destination = Vector3.zero;
+            transform.position += Vector3.up * 2f;
         }
 
         protected override void CleanUp()
@@ -91,6 +95,19 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
         {
             var pos = transform.position;
             return new System.Numerics.Vector2(pos.x, pos.z);
+        }
+
+        public void SetRotation(Vector2 direction)
+        {
+            Vector3 dir = new Vector3(direction.X, 0f, direction.Y);
+            transform.rotation = Quaternion.LookRotation(dir);
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+          
+            _particleSystem.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         }
     }
 }

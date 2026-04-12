@@ -8,14 +8,14 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
     {
         private bool _isDestroyed;
 
-        private readonly IMissile _rpg;
+        private readonly IMissileRpg _rpg;
         private readonly IUnit _caster;
         private readonly int _minDamage;
         private readonly int _maxDamage;
         private readonly float _explosionRadius;
         private readonly Func<IUnit, int, int, float, Explosion> _createExplosion;
 
-        public RpgMissile(IMissile rpg, IUnit caster,
+        public RpgMissile(IMissileRpg rpg, IUnit caster,
             int minDamage, int maxDamage, float explosionRadius,
             Func<IUnit, int, int, float, Explosion> createExplosion)
         {
@@ -63,6 +63,11 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
         public void SetPosition(Vector2 position)
         {
             _rpg.SetPosition(position);
+        }
+        
+        public void SetRotation(Vector2 rotation)
+        {
+            _rpg.SetRotation(rotation);
         }
     }
 }

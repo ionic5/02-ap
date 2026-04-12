@@ -13,6 +13,7 @@ namespace TaskForce.AP.Client.UnityWorld
         public const string Landmine = "LANDMINE";
         public const string Grenade = "GRENADE";
         public const string Rpg = "RPG";
+        public const string RpgExplosion = "RPG_EXPLOSION";
         public const string SheepMissile = "SHEEP_MISSILE";
         public const string FloatingTextAnimator = "FLOATING_TEXT_ANIMATOR";
         public const string Bullet = "BULLET"; // 권총 총알 오브젝트 ID 추가

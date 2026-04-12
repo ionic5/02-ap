@@ -134,7 +134,7 @@ namespace TaskForce.AP.Client.UnityWorld
                         return new RpgMissile(view, caster,
                             minDmg, maxDmg, explosionRadius, (IUnit caster, int minDmg, int maxDmg, float explosionRadius) =>
                             {
-                                var view = objFac.Create<View.BattleFieldScene.Explosion>(ObjectID.Explosion0);
+                                var view = objFac.Create<View.BattleFieldScene.RpgExplosion>(ObjectID.RpgExplosion);
                                 return new Core.BattleFieldScene.Skills.Explosion(view, caster, _random, minDmg, maxDmg, explosionRadius);
                             });
                     }, skill, _logger);

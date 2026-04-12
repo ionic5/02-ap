@@ -29,6 +29,7 @@ namespace TaskForce.AP.Client.Core
         private readonly List<EnemyUnitSwarm> _enemyUnitSwarms;
         private readonly List<BossStage> _bossStages;
         private readonly List<BossStageEnemy> _bossStageEnemies;
+        private readonly List<BossStageRewardExpOrb> _bossStageRewardExpOrbs;
         private readonly List<FieldItem> _fieldItems;
         private readonly List<PlayerRank> _playerRanks;
         private readonly List<GoldBundleReward> _goldBundleRewards;
@@ -61,6 +62,7 @@ namespace TaskForce.AP.Client.Core
             _enemyUnitSwarms = new List<EnemyUnitSwarm>();
             _bossStages = new List<BossStage>();
             _bossStageEnemies = new List<BossStageEnemy>();
+            _bossStageRewardExpOrbs = new List<BossStageRewardExpOrb>();
             _fieldItems = new List<FieldItem>();
             _playerRanks = new List<PlayerRank>();
             _goldBundleRewards = new List<GoldBundleReward>();
@@ -304,6 +306,11 @@ namespace TaskForce.AP.Client.Core
             _bossStageEnemies.Add(entry);
         }
 
+        public void AddBossStageRewardExpOrb(BossStageRewardExpOrb entry)
+        {
+            _bossStageRewardExpOrbs.Add(entry);
+        }
+
         public BossStage GetBossStage(int level)
         {
             return _bossStages.Where(entry => entry.Level == level).FirstOrDefault();
@@ -312,6 +319,11 @@ namespace TaskForce.AP.Client.Core
         public IEnumerable<BossStageEnemy> GetBossStageEnemies(int level)
         {
             return _bossStageEnemies.Where(entry => entry.BossStageLevel == level);
+        }
+
+        public IEnumerable<BossStageRewardExpOrb> GetBossStageRewardExpOrbs(int bossStageLevel)
+        {
+            return _bossStageRewardExpOrbs.Where(entry => entry.BossStageLevel == bossStageLevel);
         }
 
         public void AddPlayerRank(PlayerRank entry)

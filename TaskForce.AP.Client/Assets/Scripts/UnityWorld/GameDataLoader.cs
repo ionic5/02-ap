@@ -118,6 +118,11 @@ namespace TaskForce.AP.Client.UnityWorld
                     UnitID = row["unitID"],
                     Count = int.Parse(row["count"])
                 }, gameDataStore.AddBossStageEnemy),
+                LoadTable(AssetID.BossStageRewardExpOrb, row => new Core.GameData.BossStageRewardExpOrb {
+                    BossStageLevel = int.Parse(row["bossStageLevel"]),
+                    ExpOrbID = row["expOrbID"],
+                    Count = int.Parse(row["count"])
+                }, gameDataStore.AddBossStageRewardExpOrb),
                 LoadTable(AssetID.FieldItem, row => new Core.GameData.FieldItem {
                     ID = row["id"],
                     BodyID = row["bodyID"],

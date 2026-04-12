@@ -305,7 +305,7 @@ namespace TaskForce.AP.Client.UnityWorld
                 createTimer(), _logger, unitFactory.CreateEnemyUnit);
 
             stageHost.EnemyKilledEvent += fieldObjectDropHandler.OnEnemyKilled;
-            bossStageHost.AllBossesKilledEvent += fieldObjectDropHandler.OnAllBossesKilled;
+            bossStageHost.BossStageClearedEvent += fieldObjectDropHandler.OnBossStageCleared;
 
             EventHandler<Core.BattleFieldScene.DiedEventArgs> onEnemyKilledAddGold = (sender, args) =>
             {
@@ -335,7 +335,7 @@ namespace TaskForce.AP.Client.UnityWorld
                 rootBoxFactory.RootBoxCreatedEvent -= onRootBoxCreated;
                 stageHost.EnemyKilledEvent -= fieldObjectDropHandler.OnEnemyKilled;
                 stageHost.EnemyKilledEvent -= onEnemyKilledAddGold;
-                bossStageHost.AllBossesKilledEvent -= fieldObjectDropHandler.OnAllBossesKilled;
+                bossStageHost.BossStageClearedEvent -= fieldObjectDropHandler.OnBossStageCleared;
 
                 loop.Remove(battleLogRecorder);
                 loop.Remove(sceneCtrl);

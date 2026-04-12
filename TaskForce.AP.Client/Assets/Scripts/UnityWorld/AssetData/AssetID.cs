@@ -24,6 +24,7 @@
         public const string RequireExp = "REQUIRE_EXP";
         public const string ExpOrb = "EXP_ORB";
         public const string StageRewardExpOrb = "STAGE_REWARD_EXP_ORB";
+        public const string BossStageRewardExpOrb = "BOSS_STAGE_REWARD_EXP_ORB";
 
         public const string SkillDescription = "SKILL_DESCRIPTION";
         public const string EnemyUnitSwarm = "ENEMY_UNIT_SWARM";

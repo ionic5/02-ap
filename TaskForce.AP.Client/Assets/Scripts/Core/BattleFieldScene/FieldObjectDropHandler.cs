@@ -24,7 +24,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
                 return;
 
             var unitID = args.DiedTarget.GetUnitID();
-            var rewardExpOrb = _gameDataStore.GetRewardExpOrbByUnitID(unitID);
+            var rewardExpOrb = _gameDataStore.GetStageRewardExpOrbByUnitID(unitID);
             if (rewardExpOrb == null)
                 return;
 
@@ -32,10 +32,17 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             expOrb.SetPosition(args.DiedTarget.GetPosition());
         }
 
-        public void OnAllBossesKilled(object sender, DiedEventArgs args)
+        public void OnBossStageCleared(object sender, BossStageClearedEventArgs args)
         {
-            var expOrb = _expOrbFactory.Create(GameData.ExpOrbID.ExpOrb0);
-            expOrb.SetPosition(args.DiedTarget.GetPosition());
+            var rewards = _gameDataStore.GetBossStageRewardExpOrbs(args.BossStageLevel);
+            foreach (var reward in rewards)
+            {
+                for (var i = 0; i < reward.Count; i++)
+                {
+                    var expOrb = _expOrbFactory.Create(reward.ExpOrbID);
+                    expOrb.SetPosition(args.LastBossDiedPosition);
+                }
+            }
         }
 
         public void OnRootBoxDied(object sender, DiedEventArgs args)

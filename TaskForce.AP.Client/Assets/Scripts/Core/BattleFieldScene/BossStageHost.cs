@@ -13,7 +13,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private readonly ILogger _logger;
         private readonly Func<string, int, System.Numerics.Vector2, Unit> _createUnit;
 
-        public event EventHandler<DiedEventArgs> AllBossesKilledEvent;
+        public event EventHandler<BossStageClearedEventArgs> BossStageClearedEvent;
 
         private int _bossStageLevel;
         private int _aliveCount;
@@ -60,7 +60,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
                         unit.DiedEvent -= hdlr;
                         _aliveCount--;
                         if (_aliveCount == 0)
-                            AllBossesKilledEvent?.Invoke(this, args);
+                            BossStageClearedEvent?.Invoke(this, new BossStageClearedEventArgs(_bossStageLevel, args.DiedTarget.GetPosition()));
                     };
                     unit.DiedEvent += hdlr;
                 }

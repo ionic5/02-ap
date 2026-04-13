@@ -3,7 +3,6 @@ namespace TaskForce.AP.Client.Core.Entity
     public class SkillID
     {
         public const string SheepMissile = "SHEEP_MISSILE";
-        public const string CleavingAttack = "CLEAVING_ATTACK";
         public const string Grenade = "GRENADE";
         public const string RpgMissile = "RPG_MISSILE";
         public const string Landmine = "LANDMINE";

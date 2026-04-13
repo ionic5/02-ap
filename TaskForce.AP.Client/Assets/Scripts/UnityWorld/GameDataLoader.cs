@@ -47,7 +47,7 @@ namespace TaskForce.AP.Client.UnityWorld
                 LoadTable(AssetID.Stage, row => new Stage {
                     Level = int.Parse(row["level"]),
                     Time = float.Parse(row["time"]),
-                    SpawnGap = float.Parse(row["spawnGap"])
+                    MaxEnemyCount = int.Parse(row["maxEnemyCount"])
                 }, gameDataStore.AddStage),
                 LoadTable(AssetID.Unit, row => new Core.GameData.Unit {
                     ID = row["id"],

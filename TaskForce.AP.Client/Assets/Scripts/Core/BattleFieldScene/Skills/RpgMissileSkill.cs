@@ -30,7 +30,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
         }
 
         public override void Use(UseSkillArgs args)
-        {_logger.Info("rpg 사용 시도");
+        {
             _timer.Start(GetAttribute(AttributeID.CooldownTime).AsFloat());
 
             _repeatTimer.Start(() => ThrowRpg(GetOwner()),
@@ -39,23 +39,24 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
             var coolTime = GetAttribute(AttributeID.CooldownTime).AsFloat();
             var burstInterval = GetAttribute(AttributeID.BurstInterval).AsFloat();
             var burstCount = GetAttribute(AttributeID.BurstCount).AsInt();
-            _logger.Info($"rpg 사용 시도: cooldownTime: {coolTime}, burstInterval: {burstInterval}, count: {burstCount}");
         }
 
         public void ThrowRpg(IUnit user)
-        {_logger.Info("rpg: 던짐");
+        {
             var minDmg = GetAttribute(AttributeID.MinDamage).AsInt();
             var maxDmg = GetAttribute(AttributeID.MaxDamage).AsInt();
             var explosionRadius = GetAttribute(AttributeID.ExplosionRadius).AsFloat();
-             var missile = _createRpg.Invoke(user, minDmg, maxDmg, explosionRadius);
+            var missile = _createRpg.Invoke(user, minDmg, maxDmg, explosionRadius);
 
             var casterPos = user.GetPosition();
-            missile.SetPosition(casterPos);
-
+            
             var minRange = GetAttribute(AttributeID.MinMissileRange).AsFloat();
             var maxRange = GetAttribute(AttributeID.MaxMissileRange).AsFloat();
             var missleSpd = GetAttribute(AttributeID.MissileSpeed).AsFloat();
             var targetPos = _random.NextPosition(casterPos, minRange, maxRange);
+            
+            missile.SetPosition(casterPos);
+            missile.SetRotation(targetPos - user.GetPosition());
             missile.MoveTo(targetPos, missleSpd);
         }
 

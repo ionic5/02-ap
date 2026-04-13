@@ -44,15 +44,6 @@ namespace TaskForce.AP.Client.Core.Entity
             if (skillID == SkillID.MeleeBat)
                 return new Entity.MeleeBatSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs);
 
-            if (skillID == SkillID.CleavingAttack)
-            {
-                var effects = _gameDataStore.GetModifyAttributeSkillEffects(skillID);
-                var skill = new Entity.ModifyAttributeSkill(skillData, _textStore, baseAttrs, lvAttrs,
-                    effects, _modifyAttributeEffectFactory.Create, skillDescs);
-                skill.SetLevel(1);
-                return skill;
-            }
-
             if (skillID == SkillID.Gloves)
             {
                 return new Entity.Equipment.GlovesSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs, _modifyAttributeEffectFactory);

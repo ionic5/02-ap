@@ -50,6 +50,10 @@ namespace TaskForce.AP.Client.UnityWorld
 
             var instance = await _screen.AttachNewScene(SceneID.BattleFieldScene);
 
+            foreach (var root in instance.scene.GetRootGameObjects())
+                foreach (var localizedText in root.GetComponentsInChildren<LocalizedText>(true))
+                    localizedText.Initialize(_textStore);
+
             var scene = instance.GetComponent<View.Scenes.BattleFieldScene>();
 
             var objFac = scene.ObjectFactory;

@@ -1,9 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Numerics;
-using log4net.Appender;
 using TaskForce.AP.Client.Core.Entity;
+using Vector2 = System.Numerics.Vector2;
 
 namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
 {
@@ -18,6 +16,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
         private ILogger _logger;
 
         private int _attackComboCount;
+        private readonly Func<IUnit, SkillEffectMelee> _createSkillEffectDagger;
 
         private enum State
         {
@@ -27,7 +26,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
             Canceled
         }
 
-        public MeleeDaggerSkill(Func<Timer> createTimer, Entity.ISkill skillEntity, Random random, ILogger logger) : base(skillEntity)
+        public MeleeDaggerSkill(Func<Timer> createTimer, Entity.ISkill skillEntity, Random random, ILogger logger, Func<IUnit, SkillEffectMelee> createSkillEffectDagger) : base(skillEntity)
         {
             _cooldownTimer = createTimer();
             _impactTimer = createTimer();
@@ -35,6 +34,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
             _random = random;
             _state = State.Initial;
             _logger = logger;
+            _createSkillEffectDagger = createSkillEffectDagger;
         }
 
         public override bool IsCooldownFinished()
@@ -47,9 +47,15 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
             _state = State.Using;
 
             _attackComboCount = GetAttribute(AttributeID.AttackCombo).AsInt();
+            int initialComboCount = _attackComboCount;
             
             StartAttackCombo(args);
-            _cooldownTimer.Start(GetAttribute(AttributeID.AttackTime).AsFloat(), OnCooldownFinished);
+            
+            float attackTime = GetAttribute(AttributeID.AttackTime).AsFloat();
+            float comboTime = GetAttribute(AttributeID.AttackComboTime).AsFloat();
+            float totalExecutionTime = attackTime + (initialComboCount > 1 ? comboTime * (initialComboCount - 1) : 0f);
+            
+            _cooldownTimer.Start(totalExecutionTime, OnCooldownFinished);
             
             SetUseSkillArgs(args);
         }
@@ -66,6 +72,10 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
             user.Attack(attackDirection, attackTime);
             _impactTimer.Start(GetAttribute(AttributeID.AttackImpactTime).AsFloat(), OnAttackImpact);
 
+            var skillEffect = _createSkillEffectDagger?.Invoke(user);
+            skillEffect.SetFollow(user);
+            skillEffect.SetRotation(user.GetDirection());
+            
             if (_attackComboCount > 0)
             {  
                 _comboTimer.Start(GetAttribute(AttributeID.AttackComboTime).AsFloat(), () => StartAttackCombo(args));

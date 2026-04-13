@@ -16,6 +16,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
         private UseSkillArgs _useSkillArgs;
         private State _state;
         private ILogger _logger;
+        private readonly Func<IUnit, SkillEffectMelee> _createSkillEffectBat;
 
         private enum State
         {
@@ -25,7 +26,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
             Canceled
         }
 
-        public MeleeBatSkill(Func<Timer> createTimer, Entity.ISkill skillEntity, Random random, ILogger logger) : base(skillEntity)
+        public MeleeBatSkill(Func<Timer> createTimer, Entity.ISkill skillEntity, Random random, ILogger logger, Func<IUnit, SkillEffectMelee> createSkillEffectBat) : base(skillEntity)
         {
             _cooldownTimer = createTimer();
             _impactTimer = createTimer();
@@ -33,6 +34,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
             _random = random;
             _state = State.Initial;
             _logger = logger;
+            _createSkillEffectBat = createSkillEffectBat;
         }
 
         public override bool IsCooldownFinished()
@@ -51,6 +53,10 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
             user.Attack(user.GetDirection(), attackTime);
             _impactTimer.Start(GetAttribute(AttributeID.AttackImpactTime).AsFloat(), OnAttackImpact);
             _cooldownTimer.Start(GetAttribute(AttributeID.AttackTime).AsFloat(), OnCooldownFinished);
+            
+            var skillEffect = _createSkillEffectBat?.Invoke(user);
+            skillEffect.SetFollow(user);
+            skillEffect.SetRotation(user.GetDirection());
             
             SetUseSkillArgs(args);
         }

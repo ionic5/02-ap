@@ -70,7 +70,13 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
 
             if (hitCount > 0)
             {
-                var hitNames = _hitResults.Take(hitCount).Select(c => c.gameObject.name);
+                var hitNames = _hitResults
+                    .Take(hitCount)
+                    .Where(c => c != null)
+                    .Select(c => {
+                        var unit = c.GetComponentInParent<Unit>();
+                        return unit != null ? unit.gameObject.name : c.gameObject.name;
+                    });
                 BatchObjectHitEvent?.Invoke(this, new BatchObjectHitEventArgs(hitNames));
 
                 Array.Clear(_hitResults, 0, _hitResults.Length);

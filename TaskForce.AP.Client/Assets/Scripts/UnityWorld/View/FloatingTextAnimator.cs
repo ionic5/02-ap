@@ -18,6 +18,8 @@ namespace TaskForce.AP.Client.UnityWorld.View
         [SerializeField]
         private Follower _follower;
 
+        private Camera _mainCamera;
+
         private class ClipName
         {
             public const string Damage = "damage";
@@ -25,6 +27,7 @@ namespace TaskForce.AP.Client.UnityWorld.View
 
         private void Awake()
         {
+            _mainCamera = Camera.main;
             Initialize();
         }
 
@@ -40,7 +43,7 @@ namespace TaskForce.AP.Client.UnityWorld.View
             SiblingIndexChangedEvent += OnSiblingIndexChangedEvent;
         }
 
-        public void Follow(Core.BattleFieldScene.IFollowable target, System.Numerics.Vector2 offset)
+        public void Follow(Core.BattleFieldScene.IFollowable target, Vector3 offset)
         {
             _follower.Follow(target, offset);
         }
@@ -68,6 +71,12 @@ namespace TaskForce.AP.Client.UnityWorld.View
         public void OnAnimationFinished()
         {
             AnimationFinishedEvent?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void LateUpdate()
+        {
+            if (_mainCamera != null)
+                transform.rotation = _mainCamera.transform.rotation;
         }
 
         public void OnSiblingIndexChangedEvent(object sender, EventArgs e)

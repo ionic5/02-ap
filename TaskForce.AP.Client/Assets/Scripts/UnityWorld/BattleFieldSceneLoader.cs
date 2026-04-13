@@ -168,11 +168,19 @@ namespace TaskForce.AP.Client.UnityWorld
             });
             skillFactory.AddCreator(Core.Entity.SkillID.MeleeDagger, (skill) =>
             {
-                return new Core.BattleFieldScene.Skills.MeleeDaggerSkill(createTimer, skill, _random, _logger);
+                return new Core.BattleFieldScene.Skills.MeleeDaggerSkill(createTimer, skill, _random, _logger, (IUnit caster) =>
+                {
+                    var view = objFac.Create<View.BattleFieldScene.SkillEffectMelee>(ObjectID.SkillEffectDagger);
+                    return new  Core.BattleFieldScene.Skills.SkillEffectMelee(view, loop);
+                });
             });
             skillFactory.AddCreator(Core.Entity.SkillID.MeleeBat, (skill) =>
             {
-                return new Core.BattleFieldScene.Skills.MeleeBatSkill(createTimer, skill, _random, _logger);
+                return new Core.BattleFieldScene.Skills.MeleeBatSkill(createTimer, skill, _random, _logger, (IUnit caster) =>
+                {
+                    var view = objFac.Create<View.BattleFieldScene.SkillEffectMelee>(ObjectID.SkillEffectBat);
+                    return new  Core.BattleFieldScene.Skills.SkillEffectMelee(view, loop);
+                });
             });
             skillFactory.AddCreator(Core.Entity.SkillID.PistolAttack, (skill) => // SkillID.Pistol -> SkillID.PistolAttack
             {
@@ -194,7 +202,7 @@ namespace TaskForce.AP.Client.UnityWorld
                     bullet.DestroyEvent += onBulletDestroyed;
                     
                     return bullet;
-                }, targetFinder, skill);
+                }, targetFinder, createTimer(), skill);
             });
 
             skillFactory.AddCreator(Core.Entity.SkillID.SniperRifle, (skill) =>
@@ -212,7 +220,7 @@ namespace TaskForce.AP.Client.UnityWorld
                     };
                     bullet.DestroyEvent += onBulletDestroyed;
                     return bullet;
-                }, targetFinder, skill);
+                }, targetFinder, createTimer(), skill);
             });
 
             // 패시브 장비 7종 추가
@@ -272,6 +280,13 @@ namespace TaskForce.AP.Client.UnityWorld
             var unit = unitFactory.CreatePlayerUnit(unitEntity);
             unit.SetPosition(world.GetPlayerUnitSpawnPosition());
 
+            // 플레이어 유닛 식별을 위해 태그 부여
+            var playerGo = GameObject.Find(((ITarget)unit).GetViewID());
+            if (playerGo != null)
+            {
+                playerGo.tag = "Player";
+            }
+
             var sceneCtrl = new BattleFieldSceneController(scene, world, followCamera, winOpener,
                 _logger, createTimer(),
                 _onGoToLobbyEvent, battleLog, _userDataStore, skillIconGrid,
@@ -290,7 +305,7 @@ namespace TaskForce.AP.Client.UnityWorld
                 createTimer(), _logger, unitFactory.CreateEnemyUnit);
 
             stageHost.EnemyKilledEvent += fieldObjectDropHandler.OnEnemyKilled;
-            bossStageHost.AllBossesKilledEvent += fieldObjectDropHandler.OnAllBossesKilled;
+            bossStageHost.BossStageClearedEvent += fieldObjectDropHandler.OnBossStageCleared;
 
             EventHandler<Core.BattleFieldScene.DiedEventArgs> onEnemyKilledAddGold = (sender, args) =>
             {
@@ -320,7 +335,7 @@ namespace TaskForce.AP.Client.UnityWorld
                 rootBoxFactory.RootBoxCreatedEvent -= onRootBoxCreated;
                 stageHost.EnemyKilledEvent -= fieldObjectDropHandler.OnEnemyKilled;
                 stageHost.EnemyKilledEvent -= onEnemyKilledAddGold;
-                bossStageHost.AllBossesKilledEvent -= fieldObjectDropHandler.OnAllBossesKilled;
+                bossStageHost.BossStageClearedEvent -= fieldObjectDropHandler.OnBossStageCleared;
 
                 loop.Remove(battleLogRecorder);
                 loop.Remove(sceneCtrl);

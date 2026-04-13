@@ -2,6 +2,7 @@ using System;
 using TaskForce.AP.Client.Core;
 using TaskForce.AP.Client.Core.LobbyScene;
 using TaskForce.AP.Client.UnityWorld.BattleFieldScene;
+using TaskForce.AP.Client.UnityWorld.View;
 using WindowOpener = TaskForce.AP.Client.Core.LobbyScene.WindowOpener;
 using UnityEngine;
 
@@ -47,6 +48,10 @@ namespace TaskForce.AP.Client.UnityWorld.LobbyScene
             await _screen.DestroyLastScene();
 
             var instance = await _screen.AttachNewScene(SceneID.LobbyScene);
+
+            foreach (var root in instance.scene.GetRootGameObjects())
+                foreach (var t in root.GetComponentsInChildren<LocalizedText>(true))
+                    t.Initialize(_textStore);
 
             var scene = instance.GetComponent<View.Scenes.LobbyScene>();
 

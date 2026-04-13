@@ -4,6 +4,7 @@ using TaskForce.AP.Client.Core;
 using TaskForce.AP.Client.Core.TitleScene;
 using TaskForce.AP.Client.UnityWorld.LobbyScene;
 using TaskForce.AP.Client.UnityWorld.TitleScene;
+using TaskForce.AP.Client.UnityWorld.View;
 using UnityEngine;
 
 namespace TaskForce.AP.Client.UnityWorld
@@ -62,6 +63,10 @@ namespace TaskForce.AP.Client.UnityWorld
             await assetPathLoader.Load(assetPathStore);
             await gameDataLoader.Load(gameDataStore);
             await textStoreLoader.Load("ko", textStore);
+
+            foreach (var root in _titleScene.gameObject.scene.GetRootGameObjects())
+                foreach (var localizedText in root.GetComponentsInChildren<LocalizedText>(true))
+                    localizedText.Initialize(textStore);
 
             var userDataLoader = new UserDataLoader(userDataStore);
             userDataLoader.Load();

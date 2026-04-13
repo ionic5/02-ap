@@ -139,6 +139,102 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2861280934671183188, guid: 2f85fdac66a445443b15c6fcd1767dd8, type: 3}
+      propertyPath: prewarm
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2861280934671183188, guid: 2f85fdac66a445443b15c6fcd1767dd8, type: 3}
+      propertyPath: scalingMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2861280934671183188, guid: 2f85fdac66a445443b15c6fcd1767dd8, type: 3}
+      propertyPath: simulationSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2861280934671183188, guid: 2f85fdac66a445443b15c6fcd1767dd8, type: 3}
+      propertyPath: moveWithTransform
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2861280934671183188, guid: 2f85fdac66a445443b15c6fcd1767dd8, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2861280934671183188, guid: 2f85fdac66a445443b15c6fcd1767dd8, type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2861280934671183188, guid: 2f85fdac66a445443b15c6fcd1767dd8, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2861280934671183188, guid: 2f85fdac66a445443b15c6fcd1767dd8, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2861280934671183188, guid: 2f85fdac66a445443b15c6fcd1767dd8, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 0.7845869
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142203491480778668, guid: 2f85fdac66a445443b15c6fcd1767dd8, type: 3}
+      propertyPath: prewarm
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142203491480778668, guid: 2f85fdac66a445443b15c6fcd1767dd8, type: 3}
+      propertyPath: lengthInSec
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142203491480778668, guid: 2f85fdac66a445443b15c6fcd1767dd8, type: 3}
+      propertyPath: scalingMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142203491480778668, guid: 2f85fdac66a445443b15c6fcd1767dd8, type: 3}
+      propertyPath: moveWithTransform
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142203491480778668, guid: 2f85fdac66a445443b15c6fcd1767dd8, type: 3}
+      propertyPath: ShapeModule.radius.value
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142203491480778668, guid: 2f85fdac66a445443b15c6fcd1767dd8, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142203491480778668, guid: 2f85fdac66a445443b15c6fcd1767dd8, type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142203491480778668, guid: 2f85fdac66a445443b15c6fcd1767dd8, type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142203491480778668, guid: 2f85fdac66a445443b15c6fcd1767dd8, type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142203491480778668, guid: 2f85fdac66a445443b15c6fcd1767dd8, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142203491480778668, guid: 2f85fdac66a445443b15c6fcd1767dd8, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0.80606043
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142203491480778668, guid: 2f85fdac66a445443b15c6fcd1767dd8, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 0.8862745
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142203491480778668, guid: 2f85fdac66a445443b15c6fcd1767dd8, type: 3}
+      propertyPath: InitialModule.gravityModifier.scalar
+      value: -0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4142203491480778668, guid: 2f85fdac66a445443b15c6fcd1767dd8, type: 3}
+      propertyPath: InitialModule.startLifetime.minScalar
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6691071089504249818, guid: 2f85fdac66a445443b15c6fcd1767dd8, type: 3}
+      propertyPath: scalingMode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8804663679962568626, guid: 2f85fdac66a445443b15c6fcd1767dd8, type: 3}
       propertyPath: m_Name
       value: FX_Pickup_Magnet

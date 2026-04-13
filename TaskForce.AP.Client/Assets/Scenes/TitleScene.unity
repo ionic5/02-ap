@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.SoundPlayer
   bgmAudioSource: {fileID: 51118706}
-  sfxAudioSources: []
+  audioMixer: {fileID: 0}
 --- !u!82 &51118706
 AudioSource:
   m_ObjectHideFlags: 0
@@ -486,6 +486,7 @@ GameObject:
   - component: {fileID: 323972133}
   - component: {fileID: 323972135}
   - component: {fileID: 323972134}
+  - component: {fileID: 323972136}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -534,7 +535,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: PRESS_TO_START
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 19b5273719ccc6a46bf86c521f7c5e46, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -601,7 +602,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &323972135
@@ -612,6 +613,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 323972132}
   m_CullTransparentMesh: 1
+--- !u!114 &323972136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 323972132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 887943ddbb52d074dadb21e2e394d60a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.View.LocalizedText
+  _text: {fileID: 323972134}
 --- !u!1 &333142738
 GameObject:
   m_ObjectHideFlags: 0
@@ -1337,7 +1351,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1408407657
 RectTransform:
   m_ObjectHideFlags: 0

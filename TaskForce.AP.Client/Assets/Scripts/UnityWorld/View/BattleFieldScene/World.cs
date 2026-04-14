@@ -39,7 +39,6 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
 
             _isPaused = true;
             UnityEngine.Time.timeScale = 0f;
-            AudioListener.pause = true;
 
             PausedEvent?.Invoke(this, EventArgs.Empty);
         }
@@ -51,7 +50,6 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
 
             _isPaused = false;
             UnityEngine.Time.timeScale = 1f;
-            AudioListener.pause = false;
 
             ResumedEvent?.Invoke(this, EventArgs.Empty);
         }

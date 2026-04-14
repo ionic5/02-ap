@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4519790719661262563}
   - component: {fileID: 586687990406738805}
   - component: {fileID: 2038124244988666119}
+  - component: {fileID: 3141592653589793238}
   m_Layer: 0
   m_Name: MainCharacter
   m_TagString: Untagged
@@ -97,6 +98,20 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &3141592653589793238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 53594784275242805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b2a267e2ba7df844947a9ac64c0a2a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.HPBarController
+  hpBarPrefab: {fileID: 4963722747768707267, guid: 7786643f7002cf243ac237dff39151ca, type: 3}
+  _hpBar: {fileID: 0}
 --- !u!1 &276388605326875531
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -14,30 +12,24 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
         [SerializeField]
         private GameObject _playerUnitSpawnPosition;
         [SerializeField]
-        private GameObject _spawnPositionSet;
-        [SerializeField]
         private Camera _camera;
-        [SerializeField]
-        private float _spawnAreaWidth;
-        [SerializeField]
-        private float _spawnRadius;
-        [SerializeField]
-        private float _unitMaxRadius;
 
         public Core.Random Random;
 
-        private List<Vector3> _spawnPositions;
+        private Core.BattleFieldScene.IUnit _player;
+        private float _spawnMinRadius;
+        private float _spawnMaxRadius;
         private bool _isPaused;
 
-        private void Awake()
+        public void SetPlayer(Core.BattleFieldScene.IUnit player)
         {
-            _spawnPositions = new List<Vector3>();
-            for (int i = 0; i < _spawnPositionSet.transform.childCount; i++)
-            {
-                var parentTransform = _spawnPositionSet.transform.GetChild(i);
-                for (int j = 0; j < parentTransform.childCount; j++)
-                    _spawnPositions.Add(parentTransform.GetChild(j).position);
-            }
+            _player = player;
+        }
+
+        public void SetSpawnRadius(float min, float max)
+        {
+            _spawnMinRadius = min;
+            _spawnMaxRadius = max;
         }
 
         public void Pause()
@@ -64,10 +56,15 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
             ResumedEvent?.Invoke(this, EventArgs.Empty);
         }
 
-        public System.Numerics.Vector2 GetWarpPoint()
+        public System.Numerics.Vector2 GetNextSpawnPoint()
         {
-            Vector3 pos = GetRandomSpawnPosition();
-            return new System.Numerics.Vector2(pos.x, pos.z);
+            var playerPos = _player.GetPosition();
+            for (var i = 0; i < 3; i++)
+            {
+                if (TryGetRandomPositionAround(playerPos, _spawnMinRadius, _spawnMaxRadius, out var position))
+                    return position;
+            }
+            return playerPos;
         }
 
         public bool IsOutOfCameraView(System.Numerics.Vector2 position)
@@ -82,30 +79,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
             return viewportPos.x < 0 || viewportPos.x > 1 || viewportPos.y < 0 || viewportPos.y > 1 || viewportPos.z < 0;
         }
 
-        private Vector3 GetRandomSpawnPosition()
-        {
-            var centerPosList = GetAvailableSpawnPositions().ToList();
-            if (centerPosList.Count == 0) return _playerUnitSpawnPosition.transform.position;
-
-            Vector3 centerPos = centerPosList[Random.Next(centerPosList.Count)];
-
-            var randomOffset = Random.NextPosition(System.Numerics.Vector2.Zero, _spawnRadius);
-            Vector3 spawnPos = new Vector3(centerPos.x + randomOffset.X, centerPos.y, centerPos.z + randomOffset.Y);
-
-            return spawnPos;
-        }
-
-        private IEnumerable<Vector3> GetAvailableSpawnPositions()
-        {
-            var positions = new List<Vector3>();
-            foreach (var pos in _spawnPositions)
-                if (IsOutOfCameraView(pos))
-                    positions.Add(pos);
-
-            return positions;
-        }
-
-        public bool TryGetRandomPositionAround(System.Numerics.Vector2 center, float minDistance, float maxDistance, out System.Numerics.Vector2 position)
+        private bool TryGetRandomPositionAround(System.Numerics.Vector2 center, float minDistance, float maxDistance, out System.Numerics.Vector2 position)
         {
             var candidate = Random.NextPosition(center, minDistance, maxDistance);
             var candidate3D = new Vector3(candidate.X, 0, candidate.Y);

@@ -81,7 +81,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private void SpawnEnemy()
         {
             var mob = SelectBySpawnRate();
-            var unit = _createUnit(mob.UnitID, mob.Level, _world.GetWarpPoint());
+            var unit = _createUnit(mob.UnitID, mob.Level, _world.GetNextSpawnPoint());
 
             _aliveEnemyCount++;
 

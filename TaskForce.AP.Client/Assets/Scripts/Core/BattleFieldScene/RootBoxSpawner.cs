@@ -33,21 +33,12 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         }
 
         private int GetMaxCount()             => _gameDataStore.GetConstant(GameData.ConstantID.RootBoxMaxCount).AsInt();
-        private float GetMinDistance()        => _gameDataStore.GetConstant(GameData.ConstantID.RootBoxMinDistance).AsFloat();
-        private float GetMaxDistance()        => _gameDataStore.GetConstant(GameData.ConstantID.RootBoxMaxDistance).AsFloat();
         private float GetRepositionInterval() => _gameDataStore.GetConstant(GameData.ConstantID.RootBoxRepositionInterval).AsFloat();
 
         private void OnSpawnTimerElapsed()
         {
-            if (!_world.TryGetRandomPositionAround(_player.GetPosition(), GetMinDistance(), GetMaxDistance(), out var position))
-            {
-                if (_activeRootBoxes.Count < GetMaxCount())
-                    _spawnTimer.Start(1f, OnSpawnTimerElapsed);
-                return;
-            }
-
             var rootBox = _factory.Create();
-            rootBox.SetPosition(position);
+            rootBox.SetPosition(_world.GetNextSpawnPoint());
             rootBox.DestroyEvent += OnRootBoxDestroyed;
             _activeRootBoxes.Add(rootBox);
 
@@ -79,8 +70,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             if (!_world.IsOutOfCameraView(farthest.GetPosition()))
                 return;
 
-            if (_world.TryGetRandomPositionAround(playerPos, GetMinDistance(), GetMaxDistance(), out var position))
-                farthest.SetPosition(position);
+            farthest.SetPosition(_world.GetNextSpawnPoint());
         }
 
         private void OnRootBoxDestroyed(object sender, DestroyEventArgs e)

@@ -38,7 +38,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
 
         private void SpawnSwarm()
         {
-            var spawnPos = _world.GetWarpPoint();
+            var spawnPos = _world.GetNextSpawnPoint();
             for (var i = 0; i < _swarmData.Count; i++)
                 _createUnit(_swarmData.UnitID, _swarmData.Level, spawnPos);
         }

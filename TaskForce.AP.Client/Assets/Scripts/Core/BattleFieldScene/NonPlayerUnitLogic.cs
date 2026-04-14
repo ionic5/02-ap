@@ -152,7 +152,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             if (_world.IsOutOfCameraView(GetControlTarget().GetPosition()))
             {
                 Wait();
-                GetControlTarget().SetPosition(_world.GetWarpPoint());
+                GetControlTarget().SetPosition(_world.GetNextSpawnPoint());
             }
             SetWarpTimer();
         }

@@ -1,5 +1,6 @@
 using System;
 using TaskForce.AP.Client.Core;
+using TaskForce.AP.Client.Core.GameData;
 using TaskForce.AP.Client.Core.BattleFieldScene;
 using TaskForce.AP.Client.Core.BattleFieldScene.Skills;
 using TaskForce.AP.Client.UnityWorld.AssetData;
@@ -283,6 +284,10 @@ namespace TaskForce.AP.Client.UnityWorld
             unitEntity.SetSkillCountLimit(8);
             var unit = unitFactory.CreatePlayerUnit(unitEntity);
             unit.SetPosition(world.GetPlayerUnitSpawnPosition());
+            world.SetPlayer(unit);
+            world.SetSpawnRadius(
+                _gameDataStore.GetConstant(ConstantID.SpawnMinRadius).AsFloat(),
+                _gameDataStore.GetConstant(ConstantID.SpawnMaxRadius).AsFloat());
 
             // 플레이어 유닛 식별을 위해 태그 부여
             var playerGo = GameObject.Find(((ITarget)unit).GetViewID());

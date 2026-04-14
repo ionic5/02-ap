@@ -50,7 +50,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             {
                 for (var i = 0; i < enemy.Count; i++)
                 {
-                    var unit = _createUnit(enemy.UnitID, 1, _world.GetWarpPoint());
+                    var unit = _createUnit(enemy.UnitID, 1, _world.GetNextSpawnPoint());
 
                     _aliveCount++;
 

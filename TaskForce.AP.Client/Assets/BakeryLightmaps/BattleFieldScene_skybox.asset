@@ -29,13 +29,13 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Exposure: 0.8
+    - _Exposure: 1
     - _Hemispherical: 0
     - _NoTexture: 1
     m_Colors:
     - _MatrixForward: {r: 0, g: 0, b: 1, a: 0}
-    - _MatrixRight: {r: 1, g: 0.000000014901159, b: 0, a: 0}
-    - _MatrixUp: {r: -0.000000014901159, g: 1, b: 0, a: 0}
-    - _Tint: {r: 0.44146687, g: 0.41034767, b: 0.5283019, a: 1}
+    - _MatrixRight: {r: 1, g: 0, b: 0, a: 0}
+    - _MatrixUp: {r: 0, g: 1, b: 0, a: 0}
+    - _Tint: {r: 0.44146684, g: 0.41034764, b: 0.5283019, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

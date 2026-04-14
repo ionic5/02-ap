@@ -10,14 +10,19 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
     {
         private readonly Timer _timer;
         private readonly Core.View.BattleFieldScene.IWorld _world;
+        private readonly float _warpDistanceSq;
+        private readonly float _warpCheckInterval;
 
         private ITarget _mainTarget;
         private UnitState _state = UnitState.Initial;
 
-        public NonPlayerUnitLogic(ILoop loop, Timer timer, View.BattleFieldScene.IWorld world) : base(loop)
+        public NonPlayerUnitLogic(ILoop loop, Timer timer, GameDataStore gameDataStore, View.BattleFieldScene.IWorld world) : base(loop)
         {
             _timer = timer;
             _world = world;
+            var warpDistance = gameDataStore.GetConstant(GameData.ConstantID.WarpDistance).AsFloat();
+            _warpDistanceSq = warpDistance * warpDistance;
+            _warpCheckInterval = gameDataStore.GetConstant(GameData.ConstantID.WarpCheckInterval).AsFloat();
         }
 
         private enum UnitState
@@ -34,7 +39,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             {
                 case UnitState.Initial:
                     Wait();
-                    SetWarpTimer();
+                    SetWarpCheckTimer();
                     break;
                 case UnitState.Wait:
                     HandleWaitState();
@@ -136,25 +141,30 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             UnsetMainTarget();
         }
 
-        private void SetWarpTimer()
+        private void SetWarpCheckTimer()
         {
             if (IsDestroyed())
                 return;
 
-            _timer.Start(30.0f, OnWarpTimeFinished);
+            _timer.Start(_warpCheckInterval, OnWarpCheckTimerFinished);
         }
 
-        private void OnWarpTimeFinished()
+        private void OnWarpCheckTimerFinished()
         {
             if (IsDestroyed())
                 return;
 
-            if (_world.IsOutOfCameraView(GetControlTarget().GetPosition()))
+            if (IsValidTarget(_mainTarget))
             {
-                Wait();
-                GetControlTarget().SetPosition(_world.GetNextSpawnPoint());
+                var distanceSq = Vector2.DistanceSquared(GetControlTarget().GetPosition(), _mainTarget.GetPosition());
+                if (distanceSq >= _warpDistanceSq)
+                {
+                    Wait();
+                    GetControlTarget().SetPosition(_world.GetNextSpawnPoint());
+                }
             }
-            SetWarpTimer();
+
+            SetWarpCheckTimer();
         }
 
         protected override void OnDestroy()

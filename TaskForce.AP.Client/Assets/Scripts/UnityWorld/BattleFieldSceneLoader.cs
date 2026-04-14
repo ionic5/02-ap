@@ -94,7 +94,7 @@ namespace TaskForce.AP.Client.UnityWorld
 
             var effectFactory = new TaskForce.AP.Client.Core.Entity.ModifyAttributeEffectFactory(_gameDataStore, formulaCalculator);
             var skillFactory = new SkillFactory();
-            var unitLogicFactory = new UnitLogicFactory(joystick, world, createTimer, loop, fieldObjectFinder, _logger, _userDataStore);
+            var unitLogicFactory = new UnitLogicFactory(joystick, world, createTimer, loop, fieldObjectFinder, _logger, _userDataStore, _gameDataStore);
             var expOrbFactory = new ExpOrbFactory((bodyID) => objFac.Create<View.BattleFieldScene.ExpOrb>(bodyID), _gameDataStore);
             var skillEntityFactory = new TaskForce.AP.Client.Core.Entity.SkillFactory(_gameDataStore, _logger, _textStore, effectFactory);
             var unitEntityFactory = new Core.Entity.UnitFactory(_logger, _gameDataStore, skillEntityFactory.CreateSkill);

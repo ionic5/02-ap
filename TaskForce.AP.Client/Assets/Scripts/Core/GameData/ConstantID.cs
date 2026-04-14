@@ -15,5 +15,7 @@ namespace TaskForce.AP.Client.Core.GameData
         public const string MedicalKitHealRate = "MEDICAL_KIT_HEAL_RATE";
         public const string SpawnMinRadius = "SPAWN_MIN_RADIUS";
         public const string SpawnMaxRadius = "SPAWN_MAX_RADIUS";
+        public const string WarpDistance = "WARP_DISTANCE";
+        public const string WarpCheckInterval = "WARP_CHECK_INTERVAL";
     }
 }

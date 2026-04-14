@@ -13,9 +13,10 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private readonly ILoop _loop;
         private readonly ILogger _logger;
         private readonly Func<Core.Timer> _createTimer;
+        private readonly GameDataStore _gameDataStore;
 
         public UnitLogicFactory(IJoystick joystick, View.BattleFieldScene.IWorld world,
-            Func<Timer> createTimer, ILoop loop, IFieldObjectFinder fieldObjectFinder, ILogger logger, UserDataStore userDataStore)
+            Func<Timer> createTimer, ILoop loop, IFieldObjectFinder fieldObjectFinder, ILogger logger, UserDataStore userDataStore, GameDataStore gameDataStore)
         {
             _joystick = joystick;
             _world = world;
@@ -24,10 +25,11 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             _fieldObjectFinder = fieldObjectFinder;
             _userDataStore = userDataStore;
             _logger = logger;
+            _gameDataStore = gameDataStore;
 
             _creationFunction = new Dictionary<string, Func<IControllableUnit, IUnitLogic>>{
                 { "PLAYER", (unit) =>  new PlayerUnitLogic(_loop, _joystick, _fieldObjectFinder, _userDataStore) },
-                { "NON_PLAYER", (unit) =>  new NonPlayerUnitLogic(_loop, _createTimer.Invoke(), _world) },
+                { "NON_PLAYER", (unit) =>  new NonPlayerUnitLogic(_loop, _createTimer.Invoke(), _gameDataStore, _world) },
                 { "MONK", (unit) =>  new MonkLogic(_loop, new Core.Random()) }
             };
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using TaskForce.AP.Client.Core.View.BattleFieldScene;
 using TaskForce.AP.Client.Core.View.Scenes;
 
@@ -20,6 +21,8 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private bool _isDestroyed;
         private IUnit _unit;
         private Entity.Unit _unitEntity;
+        private readonly Queue<int> _levelUpQueue = new Queue<int>();
+        private bool _isLevelUpWindowOpen;
 
         public BattleFieldSceneController(IBattleFieldScene scene, IWorld world, IFollowCamera followCamera,
             WindowOpener windowOpener, ILogger logger, Core.Timer timer,
@@ -82,7 +85,24 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private void OnLevelUpEvent(object sender, EventArgs e)
         {
             UpdateLevel();
-            _windowOpener.OpenLevelUpWindow(_unitEntity);
+            _levelUpQueue.Enqueue(_unit.GetLevel());
+            TryOpenNextLevelUpWindow();
+        }
+
+        private void TryOpenNextLevelUpWindow()
+        {
+            if (_isLevelUpWindowOpen) return;
+            if (_levelUpQueue.Count == 0) return;
+
+            var level = _levelUpQueue.Dequeue();
+            _isLevelUpWindowOpen = true;
+            _windowOpener.OpenLevelUpWindow(_unitEntity, level, OnLevelUpWindowClosed);
+        }
+
+        private void OnLevelUpWindowClosed()
+        {
+            _isLevelUpWindowOpen = false;
+            TryOpenNextLevelUpWindow();
         }
 
         private void OnExpChangedEvent(object sender, EventArgs e)

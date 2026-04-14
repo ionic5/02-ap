@@ -12,31 +12,35 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private readonly ILevelUpWindow _window;
         private readonly TextStore _textStore;
         private readonly Entity.Unit _unit;
+        private readonly int _level;
         private readonly IAdvertisementPlayer _advertisementPlayer;
         private readonly GameDataStore _gameDataStore;
         private readonly Random _random;
         private readonly Func<string, Entity.ISkill> _createSkillEntity;
+        private readonly Action _onClosed;
         private readonly List<ISkillPanel> _panels;
         private List<ISkill> _skills;
         private int _index;
 
-        public LevelUpWindowController(ILevelUpWindow window, Entity.Unit unit, TextStore textStore,
+        public LevelUpWindowController(ILevelUpWindow window, Entity.Unit unit, int level, TextStore textStore,
             IAdvertisementPlayer advertisementPlayer, GameDataStore gameDataStore, Random random,
-            Func<string, Entity.ISkill> createSkillEntity)
+            Func<string, Entity.ISkill> createSkillEntity, Action onClosed = null)
         {
             _window = window;
             _unit = unit;
+            _level = level;
             _textStore = textStore;
             _advertisementPlayer = advertisementPlayer;
             _gameDataStore = gameDataStore;
             _random = random;
             _createSkillEntity = createSkillEntity;
+            _onClosed = onClosed;
             _panels = new List<ISkillPanel>();
         }
 
         public void Start()
         {
-            _window.SetLevel(_unit.GetLevel());
+            _window.SetLevel(_level);
 
             RefreshSkillPanels();
 
@@ -116,6 +120,8 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             _window.OKButtonClickedEvent -= OnOKButtonClickedEvent;
             _window.RerollButtonClickedEvent -= OnRerollButtonClicked;
             _window.ClosedEvent -= OnWindowClosed;
+
+            _onClosed?.Invoke();
         }
 
         private void OnOKButtonClickedEvent(object sender, EventArgs args)

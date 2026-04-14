@@ -31,13 +31,13 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             _createSkillEntity = createSkillEntity;
         }
 
-        public void OpenLevelUpWindow(Entity.Unit unit)
+        public void OpenLevelUpWindow(Entity.Unit unit, int level, Action onClosed = null)
         {
             var window = _windowStack.OpenLevelUpWindow();
             TryPauseWorld();
 
-            var ctrl = new LevelUpWindowController(window, unit, _textStore, _advertisementPlayer,
-                _gameDataStore, _random, _createSkillEntity);
+            var ctrl = new LevelUpWindowController(window, unit, level, _textStore, _advertisementPlayer,
+                _gameDataStore, _random, _createSkillEntity, onClosed);
             ctrl.Start();
         }
 

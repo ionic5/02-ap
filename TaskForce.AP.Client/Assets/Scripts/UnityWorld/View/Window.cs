@@ -16,9 +16,9 @@ namespace TaskForce.AP.Client.UnityWorld.View
         public void Close()
         {
             gameObject.SetActive(false);
-            ClosedEvent?.Invoke(this, EventArgs.Empty);
-
+            var handler = ClosedEvent;
             Clear();
+            handler?.Invoke(this, EventArgs.Empty);
         }
 
         public virtual void Clear()

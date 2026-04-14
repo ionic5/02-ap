@@ -50,6 +50,10 @@ namespace TaskForce.AP.Client.UnityWorld
 
             var instance = await _screen.AttachNewScene(SceneID.BattleFieldScene);
 
+            foreach (var root in instance.scene.GetRootGameObjects())
+                foreach (var localizedText in root.GetComponentsInChildren<LocalizedText>(true))
+                    localizedText.Initialize(_textStore);
+
             var scene = instance.GetComponent<View.Scenes.BattleFieldScene>();
 
             var objFac = scene.ObjectFactory;
@@ -134,7 +138,7 @@ namespace TaskForce.AP.Client.UnityWorld
                         return new RpgMissile(view, caster,
                             minDmg, maxDmg, explosionRadius, (IUnit caster, int minDmg, int maxDmg, float explosionRadius) =>
                             {
-                                var view = objFac.Create<View.BattleFieldScene.Explosion>(ObjectID.Explosion0);
+                                var view = objFac.Create<View.BattleFieldScene.RpgExplosion>(ObjectID.RpgExplosion);
                                 return new Core.BattleFieldScene.Skills.Explosion(view, caster, _random, minDmg, maxDmg, explosionRadius);
                             });
                     }, skill, _logger);
@@ -295,7 +299,7 @@ namespace TaskForce.AP.Client.UnityWorld
             loop.Add(sceneCtrl);
 
             var stageHost = new StageHost(world, _gameDataStore, new Core.Timer(_time, loop),
-                createTimer(), _logger, _random, unitFactory.CreateEnemyUnit);
+                _logger, _random, unitFactory.CreateEnemyUnit);
 
             var fieldItemFactory = new FieldItemFactory((id) => objFac.Create<View.BattleFieldScene.FieldItem>(id), _gameDataStore, fieldObjectFinder, stageHost, _random);
             fieldItemFactory.FieldItemCreatedEvent += fieldObjectFinder.OnFieldItemCreatedEvent;
@@ -337,6 +341,7 @@ namespace TaskForce.AP.Client.UnityWorld
                 stageHost.EnemyKilledEvent -= onEnemyKilledAddGold;
                 bossStageHost.BossStageClearedEvent -= fieldObjectDropHandler.OnBossStageCleared;
 
+                loop.Remove(stageHost);
                 loop.Remove(battleLogRecorder);
                 loop.Remove(sceneCtrl);
                 targetFinder.Destroy();
@@ -347,6 +352,7 @@ namespace TaskForce.AP.Client.UnityWorld
             };
             scene.DestroyEvent += hdlr;
 
+            loop.Add(stageHost);
             stageHost.Start(1);
 
             var swarmGenerator = new Core.BattleFieldScene.SwarmGenerator(world, _gameDataStore,

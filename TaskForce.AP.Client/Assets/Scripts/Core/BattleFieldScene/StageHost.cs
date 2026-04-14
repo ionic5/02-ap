@@ -5,17 +5,17 @@ using TaskForce.AP.Client.Core.GameData;
 
 namespace TaskForce.AP.Client.Core.BattleFieldScene
 {
-    public class StageHost
+    public class StageHost : IUpdatable
     {
         private readonly View.BattleFieldScene.IWorld _world;
         private readonly GameDataStore _gameDataStore;
         private readonly Core.Timer _stageTimer;
-        private readonly Core.Timer _spawnTimer;
         private readonly Core.ILogger _logger;
         private readonly Core.Random _random;
         private readonly Func<string, int, System.Numerics.Vector2, Unit> _createUnit;
         private IReadOnlyList<StageEnemy> _stageEnemies;
-        private float _spawnGap;
+        private int _maxEnemyCount;
+        private int _aliveEnemyCount;
         private int _stageLevel;
 
         public event EventHandler<DiedEventArgs> EnemyKilledEvent;
@@ -23,13 +23,12 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         public int GetStageLevel() => _stageLevel;
 
         public StageHost(View.BattleFieldScene.IWorld world, GameDataStore gameDataStore,
-            Timer stageTimer, Timer spawnTimer,
+            Timer stageTimer,
             ILogger logger, Random random, Func<string, int, System.Numerics.Vector2, Unit> createUnit)
         {
             _world = world;
             _gameDataStore = gameDataStore;
             _stageTimer = stageTimer;
-            _spawnTimer = spawnTimer;
             _logger = logger;
             _random = random;
             _createUnit = createUnit;
@@ -44,8 +43,17 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             var stage = GetStage(stageLevel);
             _stageTimer.Start(stage.Time, OnStageFinished);
             _stageEnemies = _gameDataStore.GetStageEnemies().Where(entry => entry.StageLevel == stageLevel).ToList();
-            _spawnGap = stage.SpawnGap;
-            _spawnTimer.Start(_spawnGap, OnSpawnTimerElapsed);
+            _maxEnemyCount = stage.MaxEnemyCount;
+        }
+
+        public void Update()
+        {
+            if (!_stageTimer.IsRunning())
+                return;
+            if (_aliveEnemyCount >= _maxEnemyCount)
+                return;
+
+            SpawnEnemy();
         }
 
         private Stage GetStage(int stageLevel)
@@ -70,22 +78,21 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
                 _stageTimer.Stop();
         }
 
-        private void OnSpawnTimerElapsed()
+        private void SpawnEnemy()
         {
-            if (!_stageTimer.IsRunning())
-                return;
             var mob = SelectBySpawnRate();
             var unit = _createUnit(mob.UnitID, mob.Level, _world.GetWarpPoint());
+
+            _aliveEnemyCount++;
 
             EventHandler<DiedEventArgs> hdlr = null;
             hdlr = (sender, args) =>
             {
                 unit.DiedEvent -= hdlr;
+                _aliveEnemyCount--;
                 EnemyKilledEvent?.Invoke(this, args);
             };
             unit.DiedEvent += hdlr;
-
-            _spawnTimer.Start(_spawnGap, OnSpawnTimerElapsed);
         }
 
         private StageEnemy SelectBySpawnRate()

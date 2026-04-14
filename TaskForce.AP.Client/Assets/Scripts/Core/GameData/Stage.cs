@@ -4,6 +4,6 @@
     {
         public int Level;
         public float Time;
-        public float SpawnGap;
+        public int MaxEnemyCount;
     }
 }

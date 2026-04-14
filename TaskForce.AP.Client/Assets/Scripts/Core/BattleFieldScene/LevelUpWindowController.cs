@@ -56,16 +56,30 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             _panels.Clear();
             _window.ClearSkillPanels();
 
-            var skillIDs = _gameDataStore.GetLevelUpRewardSkills().Select(entry => entry.SkillID).ToArray();
-            _random.Shuffle(skillIDs);
             _skills = new List<ISkill>();
-            foreach (var skillID in skillIDs.Take(3))
+            if (_unit.GetMaxSkillCount() > 0 && _unit.GetSkills().Count >= _unit.GetMaxSkillCount())
             {
-                var skill = _createSkillEntity.Invoke(skillID);
-                var existing = _unit.GetSkill(skillID);
-                var level = existing != null ? existing.GetLevel() + 1 : 1;
-                skill.SetLevel(level);
-                _skills.Add(skill);
+                var ownedSkills = _unit.GetSkills().ToArray();
+                _random.Shuffle(ownedSkills);
+                foreach (var owned in ownedSkills.Take(3))
+                {
+                    var skill = _createSkillEntity.Invoke(owned.GetSkillID());
+                    skill.SetLevel(owned.GetLevel() + 1);
+                    _skills.Add(skill);
+                }
+            }
+            else
+            {
+                var skillIDs = _gameDataStore.GetLevelUpRewardSkills().Select(entry => entry.SkillID).ToArray();
+                _random.Shuffle(skillIDs);
+                foreach (var skillID in skillIDs.Take(3))
+                {
+                    var skill = _createSkillEntity.Invoke(skillID);
+                    var existing = _unit.GetSkill(skillID);
+                    var level = existing != null ? existing.GetLevel() + 1 : 1;
+                    skill.SetLevel(level);
+                    _skills.Add(skill);
+                }
             }
 
             foreach (var skill in _skills)

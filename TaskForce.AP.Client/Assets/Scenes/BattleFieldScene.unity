@@ -12875,62 +12875,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4716396254677134, guid: b35ce74825087634cac830a68161b0db, type: 3}
   m_PrefabInstance: {fileID: 542321956}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &542880788
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 542880789}
-  - component: {fileID: 542880790}
-  m_Layer: 0
-  m_Name: Skylight
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &542880789
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 542880788}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: 0.0000000074505797, w: 1}
-  m_LocalPosition: {x: 20.8, y: 115, z: -143}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1762779562}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &542880790
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 542880788}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 306a56f30ff21b5439963fc745cfe9cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: BakeryRuntimeAssembly::BakerySkyLight
-  texName: sky.dds
-  color: {r: 0.44146687, g: 0.41034767, b: 0.5283019, a: 1}
-  intensity: 0.8
-  samples: 32
-  hemispherical: 0
-  bitmask: 1
-  bakeToIndirect: 1
-  indirectIntensity: 1
-  tangentSH: 0
-  correctRotation: 0
-  cubemap: {fileID: 0}
-  UID: 1123679631
 --- !u!1001 &544809952
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13130,66 +13074,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 548402844}
   m_CullTransparentMesh: 1
---- !u!1 &551026219
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 551026220}
-  - component: {fileID: 551026221}
-  m_Layer: 0
-  m_Name: DirectLight
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &551026220
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 551026219}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.40821794, y: -0.23456973, z: 0.10938166, w: 0.8754261}
-  m_LocalPosition: {x: 12, y: 115, z: -143}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1762779562}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &551026221
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 551026219}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c74ce2158ae608549902afb4112fd042, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: BakeryRuntimeAssembly::BakeryDirectLight
-  color: {r: 0.9137255, g: 0.5099708, b: 0.3568628, a: 1}
-  intensity: 1
-  shadowSpread: 0.03
-  samples: 16
-  bitmask: 1
-  bakeToIndirect: 0
-  shadowmask: 1
-  shadowmaskDenoise: 1
-  indirectIntensity: 1
-  cloudShadow: {fileID: 0}
-  cloudShadowTilingX: 0.01
-  cloudShadowTilingY: 0.01
-  cloudShadowOffsetX: 0
-  cloudShadowOffsetY: 0
-  supersample: 0
-  UID: 1711574027
 --- !u!114 &561088670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26211,8 +26095,8 @@ MonoBehaviour:
   enlightenWarningShown: 0
   enlightenWarningShown2: 0
   uniqueLights:
-  - {fileID: 542880788}
-  - {fileID: 551026219}
+  - {fileID: 0}
+  - {fileID: 0}
   implicitGroups:
   - {fileID: 120730969}
   - {fileID: 244070075}
@@ -45394,39 +45278,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4570790826587524, guid: ddc356690603efe46813bd1c9e2c3df2, type: 3}
   m_PrefabInstance: {fileID: 1758394426}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1762779561
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1762779562}
-  m_Layer: 0
-  m_Name: Bakery_Light
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1762779562
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1762779561}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 542880789}
-  - {fileID: 551026220}
-  m_Father: {fileID: 8292828903831232834}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1766588880
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -72130,7 +71981,6 @@ Transform:
   - {fileID: 170076735}
   - {fileID: 1716541038}
   - {fileID: 986331177}
-  - {fileID: 1762779562}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8299513359199953105

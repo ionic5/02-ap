@@ -12674,6 +12674,7 @@ GameObject:
   - component: {fileID: 548402845}
   - component: {fileID: 548402847}
   - component: {fileID: 548402846}
+  - component: {fileID: 548402848}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -12722,8 +12723,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: CONTINUE
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 7ff3e3ebcc76b5e4a864c13615d928cf, type: 2}
-  m_sharedMaterial: {fileID: 7512481295523713106, guid: 7ff3e3ebcc76b5e4a864c13615d928cf, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f11cb2bd7c26e42fc8f6e9a5bc53bf57, type: 2}
+  m_sharedMaterial: {fileID: -3555318333396561107, guid: f11cb2bd7c26e42fc8f6e9a5bc53bf57, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -12747,8 +12748,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 28
+  m_fontSizeBase: 28
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -12800,6 +12801,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 548402844}
   m_CullTransparentMesh: 1
+--- !u!114 &548402848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 548402844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 887943ddbb52d074dadb21e2e394d60a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.View.LocalizedText
+  _text: {fileID: 548402846}
 --- !u!114 &555454005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13905,6 +13919,7 @@ GameObject:
   - component: {fileID: 668358660}
   - component: {fileID: 668358662}
   - component: {fileID: 668358661}
+  - component: {fileID: 668358663}
   m_Layer: 0
   m_Name: Text_Title
   m_TagString: Untagged
@@ -13929,7 +13944,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 445.65, y: -47.2}
-  m_SizeDelta: {x: 236.8, y: 94.4}
+  m_SizeDelta: {x: 262.12, y: 94.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &668358661
 MonoBehaviour:
@@ -13953,8 +13968,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: SETTINGS
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 602cb74957549cb478329123caa9b42d, type: 2}
-  m_sharedMaterial: {fileID: 7512481295523713106, guid: 602cb74957549cb478329123caa9b42d, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f11cb2bd7c26e42fc8f6e9a5bc53bf57, type: 2}
+  m_sharedMaterial: {fileID: -3555318333396561107, guid: f11cb2bd7c26e42fc8f6e9a5bc53bf57, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -14031,6 +14046,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 668358659}
   m_CullTransparentMesh: 1
+--- !u!114 &668358663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 668358659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 887943ddbb52d074dadb21e2e394d60a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.View.LocalizedText
+  _text: {fileID: 668358661}
 --- !u!1 &673481806
 GameObject:
   m_ObjectHideFlags: 0
@@ -14042,6 +14070,7 @@ GameObject:
   - component: {fileID: 673481807}
   - component: {fileID: 673481809}
   - component: {fileID: 673481808}
+  - component: {fileID: 673481810}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -14088,10 +14117,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: TO LOBBY
+  m_text: TO_LOBBY
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 7ff3e3ebcc76b5e4a864c13615d928cf, type: 2}
-  m_sharedMaterial: {fileID: 7512481295523713106, guid: 7ff3e3ebcc76b5e4a864c13615d928cf, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f11cb2bd7c26e42fc8f6e9a5bc53bf57, type: 2}
+  m_sharedMaterial: {fileID: -3555318333396561107, guid: f11cb2bd7c26e42fc8f6e9a5bc53bf57, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -14115,8 +14144,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 28
+  m_fontSizeBase: 28
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -14168,6 +14197,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 673481806}
   m_CullTransparentMesh: 1
+--- !u!114 &673481810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 673481806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 887943ddbb52d074dadb21e2e394d60a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.View.LocalizedText
+  _text: {fileID: 673481808}
 --- !u!1001 &687751162
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14413,6 +14455,7 @@ GameObject:
   - component: {fileID: 701536951}
   - component: {fileID: 701536950}
   - component: {fileID: 701536949}
+  - component: {fileID: 701536953}
   m_Layer: 5
   m_Name: ToLobbyButton
   m_TagString: Untagged
@@ -14535,6 +14578,19 @@ RectTransform:
   m_AnchoredPosition: {x: -120, y: -186}
   m_SizeDelta: {x: 200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &701536953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701536948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 887943ddbb52d074dadb21e2e394d60a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.View.LocalizedText
+  _text: {fileID: 673481808}
 --- !u!1001 &701808245
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17918,6 +17974,7 @@ GameObject:
   - component: {fileID: 849119559}
   - component: {fileID: 849119561}
   - component: {fileID: 849119560}
+  - component: {fileID: 849119562}
   m_Layer: 5
   m_Name: Text_BGM
   m_TagString: Untagged
@@ -17966,8 +18023,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'BGM :'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 602cb74957549cb478329123caa9b42d, type: 2}
-  m_sharedMaterial: {fileID: 7512481295523713106, guid: 602cb74957549cb478329123caa9b42d, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f11cb2bd7c26e42fc8f6e9a5bc53bf57, type: 2}
+  m_sharedMaterial: {fileID: -3555318333396561107, guid: f11cb2bd7c26e42fc8f6e9a5bc53bf57, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -18044,6 +18101,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 849119558}
   m_CullTransparentMesh: 1
+--- !u!114 &849119562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 849119558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 887943ddbb52d074dadb21e2e394d60a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.View.LocalizedText
+  _text: {fileID: 849119560}
 --- !u!1001 &853939164
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24887,6 +24957,7 @@ GameObject:
   - component: {fileID: 1117197912}
   - component: {fileID: 1117197914}
   - component: {fileID: 1117197913}
+  - component: {fileID: 1117197915}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -24935,8 +25006,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: CONFIRM
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 7ff3e3ebcc76b5e4a864c13615d928cf, type: 2}
-  m_sharedMaterial: {fileID: 7512481295523713106, guid: 7ff3e3ebcc76b5e4a864c13615d928cf, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f11cb2bd7c26e42fc8f6e9a5bc53bf57, type: 2}
+  m_sharedMaterial: {fileID: -3555318333396561107, guid: f11cb2bd7c26e42fc8f6e9a5bc53bf57, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -24960,8 +25031,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 28
+  m_fontSizeBase: 28
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -25013,6 +25084,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1117197911}
   m_CullTransparentMesh: 1
+--- !u!114 &1117197915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1117197911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 887943ddbb52d074dadb21e2e394d60a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.View.LocalizedText
+  _text: {fileID: 1117197913}
 --- !u!114 &1125376139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39629,7 +39713,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 270.25, y: -47.2}
+  m_AnchoredPosition: {x: 257.59, y: -47.2}
   m_SizeDelta: {x: 78, y: 78}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1436184428
@@ -41083,6 +41167,7 @@ GameObject:
   - component: {fileID: 1488133082}
   - component: {fileID: 1488133084}
   - component: {fileID: 1488133083}
+  - component: {fileID: 1488133085}
   m_Layer: 5
   m_Name: Text_SFX
   m_TagString: Untagged
@@ -41131,8 +41216,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'SFX :'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 602cb74957549cb478329123caa9b42d, type: 2}
-  m_sharedMaterial: {fileID: 7512481295523713106, guid: 602cb74957549cb478329123caa9b42d, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f11cb2bd7c26e42fc8f6e9a5bc53bf57, type: 2}
+  m_sharedMaterial: {fileID: -3555318333396561107, guid: f11cb2bd7c26e42fc8f6e9a5bc53bf57, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -41209,6 +41294,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1488133081}
   m_CullTransparentMesh: 1
+--- !u!114 &1488133085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1488133081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 887943ddbb52d074dadb21e2e394d60a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.View.LocalizedText
+  _text: {fileID: 1488133083}
 --- !u!1 &1494354111
 GameObject:
   m_ObjectHideFlags: 0

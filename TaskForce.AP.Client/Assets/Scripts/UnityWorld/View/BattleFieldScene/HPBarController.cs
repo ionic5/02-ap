@@ -38,7 +38,10 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
             {
                 _canvas = canvasObject.GetComponent<Canvas>();
             }
-            
+
+            if (hpBarPrefab == null)
+                return;
+
             _hpBar = Instantiate(hpBarPrefab, _canvas.transform).GetComponent<HPBar>();
             _hpBarRectTransform = _hpBar.GetComponent<RectTransform>();
             _hpBar.transform.SetAsFirstSibling();

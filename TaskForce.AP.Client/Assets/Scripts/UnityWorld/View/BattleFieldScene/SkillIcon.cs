@@ -12,6 +12,8 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
         private Image _iconImage;
         [SerializeField]
         private TMP_Text _levelText;
+        [SerializeField]
+        private GameObject _iconBack; // 추가된 필드
 
         public AssetLoader AssetLoader;
         public Core.ILogger Logger;
@@ -19,12 +21,36 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
         private CancellationTokenSource _loadIconToken;
         private string _currentLoadingIconID;
 
+        /// <summary>
+        /// 빈 슬롯 상태(배경만 표시)를 보여줍니다.
+        /// </summary>
+        public void ShowEmpty()
+        {
+            gameObject.SetActive(true);
+            if (_iconBack != null) _iconBack.SetActive(true);
+            if (_iconImage != null) _iconImage.gameObject.SetActive(false);
+            if (_levelText != null) _levelText.gameObject.SetActive(false);
+        }
+
+        /// <summary>
+        /// 스킬이 채워진 상태의 비주얼을 복구합니다.
+        /// </summary>
+        public void ShowFilled()
+        {
+            gameObject.SetActive(true);
+            if (_iconBack != null) _iconBack.SetActive(true);
+            if (_iconImage != null) _iconImage.gameObject.SetActive(true);
+            if (_levelText != null) _levelText.gameObject.SetActive(true);
+        }
+
         public async void SetIcon(string iconID)
         {
             if (_currentLoadingIconID == iconID)
                 return;
 
             _currentLoadingIconID = iconID;
+            
+            ShowFilled(); // 아이콘 설정 시 채워진 상태로 전환
 
             ResetLoadIconToken();
             _loadIconToken = new CancellationTokenSource();
@@ -51,7 +77,10 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
 
         public void SetLevel(int level)
         {
-            _levelText.text = level.ToString();
+            if (_levelText != null)
+            {
+                _levelText.text = level.ToString();
+            }
         }
 
         private void ResetLoadIconToken()

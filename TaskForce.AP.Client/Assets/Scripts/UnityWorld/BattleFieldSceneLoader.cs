@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using TaskForce.AP.Client.Core;
 using TaskForce.AP.Client.Core.GameData;
 using TaskForce.AP.Client.Core.BattleFieldScene;
@@ -280,8 +281,14 @@ namespace TaskForce.AP.Client.UnityWorld
             pausePanelCtrl.Start();
 
             var unitEntity = unitEntityFactory.CreateUnitEntity("WARRIOR_0");
-            unitEntity.SetMaxSkillCount(5);
-            unitEntity.SetSkillCountLimit(8);
+            
+            // PlayerRank.csv의 slotNum을 기준으로 MaxSkillCount 설정
+            var currentRank = _userDataStore.GetRank();
+            var rankData = _gameDataStore.GetPlayerRanks().FirstOrDefault((PlayerRank r) => r.Rank == currentRank); 
+            int initialSlots = rankData != null ? rankData.SlotNum : 2; 
+            
+            unitEntity.SetMaxSkillCount(initialSlots);
+            unitEntity.SetSkillCountLimit(8);   // 최대 스킬 슬롯 갯수
             var unit = unitFactory.CreatePlayerUnit(unitEntity);
             unit.SetPosition(world.GetPlayerUnitSpawnPosition());
             world.SetPlayer(unit);
@@ -299,7 +306,7 @@ namespace TaskForce.AP.Client.UnityWorld
             var sceneCtrl = new BattleFieldSceneController(scene, world, followCamera, winOpener,
                 _logger, createTimer(),
                 _onGoToLobbyEvent, battleLog, _userDataStore, skillIconGrid,
-                unit, unitEntity);
+                unit, unitEntity, _gameDataStore);
             sceneCtrl.Start();
             loop.Add(sceneCtrl);
 

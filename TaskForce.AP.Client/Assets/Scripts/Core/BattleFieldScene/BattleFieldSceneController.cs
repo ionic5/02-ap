@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Linq; // Add Linq
 using TaskForce.AP.Client.Core.View.BattleFieldScene;
 using TaskForce.AP.Client.Core.View.Scenes;
 
@@ -17,6 +18,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private readonly BattleLog _battleLog;
         private readonly UserDataStore _userDataStore;
         private readonly View.BattleFieldScene.ISkillIconGrid _skillIconGrid;
+        private readonly GameDataStore _gameDataStore; // Added GameDataStore
 
         private bool _isDestroyed;
         private IUnit _unit;
@@ -28,7 +30,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             WindowOpener windowOpener, ILogger logger, Core.Timer timer,
             Action onGoToLobbyEvent, BattleLog battleLog, UserDataStore userDataStore,
             View.BattleFieldScene.ISkillIconGrid skillIconGrid,
-            IUnit unit, Entity.Unit unitEntity)
+            IUnit unit, Entity.Unit unitEntity, GameDataStore gameDataStore) // Added GameDataStore
         {
             _scene = scene;
             _world = world;
@@ -43,6 +45,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             _skillIconGrid = skillIconGrid;
             _unit = unit;
             _unitEntity = unitEntity;
+            _gameDataStore = gameDataStore;
         }
 
         public void Update()
@@ -85,7 +88,17 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private void OnLevelUpEvent(object sender, EventArgs e)
         {
             UpdateLevel();
-            _levelUpQueue.Enqueue(_unit.GetLevel());
+            
+            // Update slots based on PlayerRank data for the new level
+            int currentLevel = _unit.GetLevel();
+            var rankData = _gameDataStore.GetPlayerRanks().FirstOrDefault(r => r.Rank == currentLevel);
+            if (rankData != null)
+            {
+                _unitEntity.SetMaxSkillCount(rankData.SlotNum);
+                _skillIconGrid.SetIconSlots(rankData.SlotNum);
+            }
+
+            _levelUpQueue.Enqueue(currentLevel);
             TryOpenNextLevelUpWindow();
         }
 

@@ -563,6 +563,7 @@ GameObject:
   - component: {fileID: 323972135}
   - component: {fileID: 323972134}
   - component: {fileID: 323972136}
+  - component: {fileID: 323972137}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -611,7 +612,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: PRESS_TO_START
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 19b5273719ccc6a46bf86c521f7c5e46, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f11cb2bd7c26e42fc8f6e9a5bc53bf57, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -702,6 +703,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.View.LocalizedText
   _text: {fileID: 323972134}
+--- !u!95 &323972137
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 323972132}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d717e691624e3ed4fa7649e27f9235f6, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &333142738
 GameObject:
   m_ObjectHideFlags: 0

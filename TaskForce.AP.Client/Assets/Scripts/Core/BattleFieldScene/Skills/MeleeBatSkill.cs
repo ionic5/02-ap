@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using log4net.Appender;
 using TaskForce.AP.Client.Core.Entity;
@@ -16,6 +17,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
         private UseSkillArgs _useSkillArgs;
         private State _state;
         private ILogger _logger;
+        private Vector2 _attackDirection;
         private readonly Func<IUnit, SkillEffectMelee> _createSkillEffectBat;
 
         private enum State
@@ -44,19 +46,23 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
 
         public override void Use(UseSkillArgs args)
         {
-            _state = State.Using;
-            
             var user = GetOwner();
-            var target = args.Target;
-            var attackTime = GetAttribute(AttributeID.AttackTime).AsFloat();
-            
-            user.Attack(user.GetDirection(), attackTime);
+            var target = GetTargetsInRange(user)
+                .OrderBy(t => Vector2.DistanceSquared(user.GetPosition(), t.GetPosition()))
+                .FirstOrDefault();
+
+            if (target == null)
+                return;
+
+            _state = State.Using;
+            _attackDirection = Vector2.Normalize(target.GetPosition() - user.GetPosition());
+
             _impactTimer.Start(GetAttribute(AttributeID.AttackImpactTime).AsFloat(), OnAttackImpact);
             _cooldownTimer.Start(GetAttribute(AttributeID.AttackTime).AsFloat(), OnCooldownFinished);
-            
+
             var skillEffect = _createSkillEffectBat?.Invoke(user);
             skillEffect.SetFollow(user);
-            skillEffect.SetRotation(user.GetDirection());
+            skillEffect.SetRotation(_attackDirection);
             
             SetUseSkillArgs(args);
         }
@@ -95,11 +101,9 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
                 return;
             _state = State.Completed;
 
-            var user = GetOwner();
             var onCompleted = _useSkillArgs.OnCompleted;
             UnsetUseSkillArgs();
 
-            user.Wait();
             onCompleted?.Invoke();
         }
 
@@ -125,8 +129,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
             if (degree > 0)
             {
                 var position = user.GetPosition();
-                var direction = user.GetDirection();
-                var enemies = user.FindTargetsInSector(position, direction, degree, attackRange);
+                var enemies = user.FindTargetsInSector(position, _attackDirection, degree, attackRange);
 
                 targets.UnionWith(enemies);
             }
@@ -160,9 +163,6 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
             if (_state != State.Using)
                 return;
             _state = State.Canceled;
-
-            var user = GetOwner();
-            user.Wait();
 
             UnsetUseSkillArgs();
 

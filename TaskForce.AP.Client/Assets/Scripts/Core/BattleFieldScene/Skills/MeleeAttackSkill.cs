@@ -12,6 +12,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
         private readonly Core.Random _random;
         private UseSkillArgs _useSkillArgs;
         private State _state;
+        private Vector2 _attackDirection;
 
         private enum State
         {
@@ -40,10 +41,8 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
 
             var user = GetOwner();
             var target = args.Target;
-            var attackTime = GetAttribute(AttributeID.AttackTime).AsFloat();
+            _attackDirection = Vector2.Normalize(target.GetPosition() - user.GetPosition());
 
-            var attackDirection = Vector2.Normalize(target.GetPosition() - user.GetPosition());
-            user.Attack(attackDirection, attackTime);
             _cooldownTimer.Start(GetAttribute(AttributeID.AttackTime).AsFloat(), OnCooldownFinished);
             _impactTimer.Start(GetAttribute(AttributeID.AttackImpactTime).AsFloat(), OnAttackImpact);
 
@@ -82,11 +81,9 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
                 return;
             _state = State.Completed;
 
-            var user = GetOwner();
             var onCompleted = _useSkillArgs.OnCompleted;
             UnsetUseSkillArgs();
 
-            user.Wait();
             onCompleted?.Invoke();
         }
 
@@ -111,8 +108,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
             if (degree > 0)
             {
                 var position = user.GetPosition();
-                var direction = user.GetDirection();
-                var enemies = user.FindTargetsInSector(position, direction, degree, attackRange);
+                var enemies = user.FindTargetsInSector(position, _attackDirection, degree, attackRange);
 
                 targets.UnionWith(enemies);
             }
@@ -146,9 +142,6 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
             if (_state != State.Using)
                 return;
             _state = State.Canceled;
-
-            var user = GetOwner();
-            user.Wait();
 
             UnsetUseSkillArgs();
 

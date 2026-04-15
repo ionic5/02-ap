@@ -16,6 +16,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
         private ILogger _logger;
 
         private int _attackComboCount;
+        private Vector2 _attackDirection;
         private readonly Func<IUnit, SkillEffectMelee> _createSkillEffectDagger;
 
         private enum State
@@ -63,18 +64,16 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
         void StartAttackCombo(UseSkillArgs args)
         {
             _attackComboCount--;
-            
+
             var user = GetOwner();
             var target = args.Target;
-            var attackTime = GetAttribute(AttributeID.AttackTime).AsFloat();
+            _attackDirection = Vector2.Normalize(target.GetPosition() - user.GetPosition());
 
-            var attackDirection = Vector2.Normalize(target.GetPosition() - user.GetPosition());
-            user.Attack(attackDirection, attackTime);
             _impactTimer.Start(GetAttribute(AttributeID.AttackImpactTime).AsFloat(), OnAttackImpact);
 
             var skillEffect = _createSkillEffectDagger?.Invoke(user);
             skillEffect.SetFollow(user);
-            skillEffect.SetRotation(user.GetDirection());
+            skillEffect.SetRotation(_attackDirection);
             
             if (_attackComboCount > 0)
             {  
@@ -115,11 +114,9 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
                 return;
             _state = State.Completed;
 
-            var user = GetOwner();
             var onCompleted = _useSkillArgs.OnCompleted;
             UnsetUseSkillArgs();
 
-            user.Wait();
             onCompleted?.Invoke();
         }
 
@@ -154,8 +151,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
             if (degree > 0)
             {
                 var position = user.GetPosition();
-                var direction = user.GetDirection();
-                var enemies = user.FindTargetsInSector(position, direction, degree, attackRange);
+                var enemies = user.FindTargetsInSector(position, _attackDirection, degree, attackRange);
 
                 targets.UnionWith(enemies);
             }
@@ -189,9 +185,6 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
             if (_state != State.Using)
                 return;
             _state = State.Canceled;
-
-            var user = GetOwner();
-            user.Wait();
 
             UnsetUseSkillArgs();
 

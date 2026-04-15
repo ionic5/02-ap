@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
 using TaskForce.AP.Client.Core.BattleFieldScene.Skills;
 using TaskForce.AP.Client.Core.Entity;
@@ -15,8 +13,6 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private readonly UserDataStore _userDataStore;
 
         private UnitState _state = UnitState.Initial;
-        private Skills.ISkill _usingSkill;
-        private ITarget _lastTarget;
 
         public PlayerUnitLogic(ILoop loop, IJoystick joystick, IFieldObjectFinder fieldObjectFinder,
             UserDataStore userDataStore) : base(loop)
@@ -31,8 +27,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         {
             Initial,
             Wait,
-            Move,
-            UsingSkill
+            Move
         }
 
         protected override void OnUpdate()
@@ -45,13 +40,8 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
 
         private void UseInstantSkills()
         {
-            var defaultSkill = GetControlTarget().GetDefaultSkill();
             foreach (var skill in GetControlTarget().GetSkills())
             {
-                // 기본 스킬은 별도의 로직(TryUseDefaultSkill)에서 처리되므로 인스턴트 루프에서는 제외
-                if (skill == defaultSkill)
-                    continue;
-
                 if (skill.IsInstantSkill() && skill.IsCooldownFinished())
                     skill.Use(new UseSkillArgs());
             }
@@ -67,53 +57,8 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
 
         private void UpdateState()
         {
-            switch (_state)
-            {
-                case UnitState.Initial:
-                    Wait();
-                    break;
-
-                case UnitState.Wait:
-                    HandleWaitState();
-                    break;
-            }
-        }
-
-        private void TryUseDefaultSkill(ITarget target)
-        {
-            if (GetControlTarget().GetDefaultSkill() == null || !GetControlTarget().GetDefaultSkill().IsCooldownFinished())
-                return;
-
-            SetState(UnitState.UsingSkill);
-
-            _usingSkill = GetControlTarget().GetDefaultSkill();
-            SetLastTarget(target);
-
-            _usingSkill.Use(new UseSkillArgs
-            {
-                Target = _lastTarget,
-                OnCompleted = OnSkillCompleted
-            });
-        }
-
-        private void OnSkillCompleted()
-        {
-            if (IsLastTargetExist() && _lastTarget.IsAlive())
-                TryUseDefaultSkill(_lastTarget);
-            else
+            if (_state == UnitState.Initial)
                 Wait();
-        }
-
-        private void HandleWaitState()
-        {
-            var skill = GetControlTarget().GetDefaultSkill();
-            var targets = skill?.GetTargetsInRange(GetControlTarget());
-
-            if (targets != null && targets.Any())
-            {
-                var target = targets.OrderBy(t => Vector2.DistanceSquared(GetControlTarget().GetPosition(), t.GetPosition())).First();
-                TryUseDefaultSkill(target);
-            }
         }
 
         private void TryHandleFieldObjects()
@@ -175,7 +120,6 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
 
         void IFieldObjectHandler.Handle(RootBox box)
         {
-            TryUseDefaultSkill(box);
         }
 
         private void AbsorbExpOrb(ExpOrb orb)
@@ -198,52 +142,8 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
 
         private void SetState(UnitState state)
         {
-            var oldState = _state;
             _state = state;
-
-            if (oldState == UnitState.UsingSkill &&
-                _usingSkill != null && !_usingSkill.IsCompleted())
-            {
-                _usingSkill?.Cancel();
-                _usingSkill = null;
-
-                ClearLastTarget();
-            }
         }
 
-        private void SetLastTarget(ITarget target)
-        {
-            ClearLastTarget();
-
-            _lastTarget = target;
-            _lastTarget.DestroyEvent += OnDestroyLastTargetEvent;
-        }
-
-        private void ClearLastTarget()
-        {
-            if (_lastTarget == null)
-                return;
-
-            _lastTarget.DestroyEvent -= OnDestroyLastTargetEvent;
-            _lastTarget = null;
-        }
-
-        private void OnDestroyLastTargetEvent(object sender, EventArgs e)
-        {
-            ClearLastTarget();
-        }
-
-        private bool IsLastTargetExist()
-        {
-            return _lastTarget != null;
-        }
-
-        protected override void OnDestroy()
-        {
-            base.OnDestroy();
-
-            ClearLastTarget();
-            _usingSkill = null;
-        }
     }
 }

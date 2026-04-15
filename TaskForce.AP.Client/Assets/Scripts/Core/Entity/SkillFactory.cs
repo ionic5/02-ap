@@ -31,60 +31,33 @@ namespace TaskForce.AP.Client.Core.Entity
             var lvAttrs = _gameDataStore.GetSkillLevelAttributes(skillID);
             var skillDescs = _gameDataStore.GetSkillDescriptions(skillID);
 
+            ISkill skill;
+
             if (skillID == SkillID.MeleeAttack)
-                return new Entity.MeleeAttackSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs);
+                skill = new Entity.MeleeAttackSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs);
+            else if (skillID == SkillID.MeleeDagger)
+                skill = new Entity.MeleeDaggerSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs);
+            else if (skillID == SkillID.MeleeBat)
+                skill = new Entity.MeleeBatSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs);
+            else if (skillID == SkillID.Gloves)
+                skill = new Entity.Equipment.GlovesSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs, _modifyAttributeEffectFactory);
+            else if (skillID == SkillID.Armor)
+                skill = new Entity.Equipment.ArmorSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs, _modifyAttributeEffectFactory);
+            else if (skillID == SkillID.Helmet)
+                skill = new Entity.Equipment.HelmetSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs, _modifyAttributeEffectFactory);
+            else if (skillID == SkillID.Boots)
+                skill = new Entity.Equipment.BootsSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs, _modifyAttributeEffectFactory);
+            else if (skillID == SkillID.TacticalBackpack)
+                skill = new Entity.Equipment.TacticalBackpackSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs, _modifyAttributeEffectFactory);
+            else if (skillID == SkillID.ArmorPiercingBullet)
+                skill = new Entity.Equipment.ArmorPiercingBulletSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs, _modifyAttributeEffectFactory);
+            else if (skillID == SkillID.TacticalManual)
+                skill = new Entity.Equipment.TacticalManualSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs, _modifyAttributeEffectFactory);
+            else
+                skill = new ActiveSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs);
 
-            if (skillID == SkillID.MeleeDagger)
-            {
-                var skill = new Entity.MeleeDaggerSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs);
-                skill.SetLevel(1);
-                return skill;
-            }
-            
-            if (skillID == SkillID.MeleeBat)
-                return new Entity.MeleeBatSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs);
-
-            if (skillID == SkillID.Gloves)
-            {
-                return new Entity.Equipment.GlovesSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs, _modifyAttributeEffectFactory);
-            }
-
-            if (skillID == SkillID.Armor)
-            {
-                return new Entity.Equipment.ArmorSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs, _modifyAttributeEffectFactory);
-            }
-
-            if (skillID == SkillID.Helmet)
-            {
-                return new Entity.Equipment.HelmetSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs, _modifyAttributeEffectFactory);
-            }
-
-            if (skillID == SkillID.Boots)
-            {
-                return new Entity.Equipment.BootsSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs, _modifyAttributeEffectFactory);
-            }
-
-            if (skillID == SkillID.TacticalBackpack)
-            {
-                return new Entity.Equipment.TacticalBackpackSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs, _modifyAttributeEffectFactory);
-            }
-
-            if (skillID == SkillID.ArmorPiercingBullet)
-            {
-                return new Entity.Equipment.ArmorPiercingBulletSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs, _modifyAttributeEffectFactory);
-            }
-
-            if (skillID == SkillID.TacticalManual)
-            {
-                return new Entity.Equipment.TacticalManualSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs, _modifyAttributeEffectFactory);
-            }
-
-            if (skillID == SkillID.PistolAttack)
-            {
-                return new ActiveSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs);
-            }
-
-            return new ActiveSkill(skillData, _textStore, baseAttrs, lvAttrs, skillDescs);
+            skill.SetLevel(1);
+            return skill;
         }
     }
 }

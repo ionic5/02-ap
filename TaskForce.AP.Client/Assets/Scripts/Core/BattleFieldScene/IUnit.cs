@@ -40,5 +40,6 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         void AddExp(int exp);
 
         void SetHitTextColor(Color color);
+        void SetMockSoundPlayer(IMockSoundPlayer mockSoundPlayer);
     }
 }

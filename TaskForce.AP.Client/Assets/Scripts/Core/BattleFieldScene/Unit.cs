@@ -30,6 +30,8 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private IUnit _master;
         private IUnitLogic _unitLogic;
         private bool _isInvincible;
+        
+        private IMockSoundPlayer _mockSoundPlayer;
 
         public Unit(Core.View.BattleFieldScene.IUnit unitView, Entity.Unit unitEntity,
             ITargetFinder targetFinder, ITargetIdentifier targetIdentifier,
@@ -166,6 +168,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             float currentHp = _unitEntity.GetHP();
             _unitView.SetHpRatio(currentHp / maxHp);
 
+            _mockSoundPlayer?.PlaySfxPlayerHit();
             if (IsDead())
                 OnKilled(attacker);
         }
@@ -475,6 +478,11 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         public void SetHitTextColor(Color color)
         {
             _unitView?.SetHitTextColor(color);
+        }
+
+        public void SetMockSoundPlayer(IMockSoundPlayer mockSoundPlayer)
+        {
+            _mockSoundPlayer = mockSoundPlayer;
         }
     }
 }

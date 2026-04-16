@@ -297,6 +297,7 @@ namespace TaskForce.AP.Client.UnityWorld
                 _gameDataStore.GetConstant(ConstantID.SpawnMinRadius).AsFloat(),
                 _gameDataStore.GetConstant(ConstantID.SpawnMaxRadius).AsFloat());
             unit.SetHitTextColor(Color.Red);
+            unit.SetMockSoundPlayer(mockSoundPlayer);
             
             // 플레이어 유닛 식별을 위해 태그 부여
             var playerGo = GameObject.Find(((ITarget)unit).GetViewID());

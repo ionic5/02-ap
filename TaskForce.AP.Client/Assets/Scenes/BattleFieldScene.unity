@@ -36473,17 +36473,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4090185195542774, guid: 52631159c95f58848bbc1218d15c4ab9, type: 3}
   m_PrefabInstance: {fileID: 1269015582}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1278219422 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8311863435063198568, guid: 4be6bc33338c14ddeb637314902f5d35, type: 3}
-  m_PrefabInstance: {fileID: 7613678228376959027}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d17e24eecc0804f45af9048ddaccd355, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.SoundPlayer
 --- !u!1001 &1279449506
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -45935,6 +45924,135 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4927885140774250, guid: bee22ae23193b054ebfa20879947dc11, type: 3}
   m_PrefabInstance: {fileID: 1801148964}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1801695885
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1801695887}
+  - component: {fileID: 1801695886}
+  m_Layer: 0
+  m_Name: bgmAudioSource
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!82 &1801695886
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1801695885}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 69b540cf361744c26a23389ca66e7b6c, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!4 &1801695887
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1801695885}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 828060940035172465}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1810118438
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -48646,6 +48764,135 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4804458692648148, guid: e9c2e2eaa6afac348b2a54f892bfb1af, type: 3}
   m_PrefabInstance: {fileID: 2004920621}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2022367805
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2022367807}
+  - component: {fileID: 2022367806}
+  m_Layer: 0
+  m_Name: sfxAudioSource
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!82 &2022367806
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2022367805}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: -513638684883140372, guid: 693022598b5cc40648024b5e94d8a70f, type: 2}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!4 &2022367807
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2022367805}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 828060940035172465}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2023158019
 GameObject:
   m_ObjectHideFlags: 0
@@ -56372,6 +56619,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &828060940035172465
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5870012302909310017}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1801695887}
+  - {fileID: 2022367807}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &837569751376956258
 Transform:
   m_ObjectHideFlags: 0
@@ -59087,6 +59351,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6447650836077389807}
   m_CullTransparentMesh: 0
+--- !u!114 &1941213909151693659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5870012302909310017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d17e24eecc0804f45af9048ddaccd355, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.SoundPlayer
+  bgmAudioSource: {fileID: 1801695886}
+  sfxAudioSource: {fileID: 2022367806}
+  playerHitAudioClip: {fileID: 8300000, guid: 4ebb5e77eb33144468a58be4f4f266b6, type: 3}
+  audioMixer: {fileID: 24100000, guid: 693022598b5cc40648024b5e94d8a70f, type: 2}
 --- !u!1 &1949153176267649592
 GameObject:
   m_ObjectHideFlags: 0
@@ -59349,6 +59629,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.SkillIcon
   _iconImage: {fileID: 1593865376661973800}
   _levelText: {fileID: 3666345528466717028}
+  _iconBack: {fileID: 0}
 --- !u!224 &2123837830935097866
 RectTransform:
   m_ObjectHideFlags: 0
@@ -62223,6 +62504,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.SkillIcon
   _iconImage: {fileID: 5365658229309454143}
   _levelText: {fileID: 650890839037297591}
+  _iconBack: {fileID: 0}
 --- !u!4 &3282403015003932504
 Transform:
   m_ObjectHideFlags: 0
@@ -63349,6 +63631,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.SkillIcon
   _iconImage: {fileID: 1523744815826976907}
   _levelText: {fileID: 2629907174826976461}
+  _iconBack: {fileID: 0}
 --- !u!1 &3702710430611380686
 GameObject:
   m_ObjectHideFlags: 0
@@ -64470,6 +64753,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.SkillIcon
   _iconImage: {fileID: 5768716612498462067}
   _levelText: {fileID: 3189040886618237282}
+  _iconBack: {fileID: 0}
 --- !u!1 &4308162787855020667
 GameObject:
   m_ObjectHideFlags: 0
@@ -66476,6 +66760,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.SkillIcon
   _iconImage: {fileID: 3598417573358764831}
   _levelText: {fileID: 6595276780985523083}
+  _iconBack: {fileID: 0}
 --- !u!224 &5413750435460210949
 RectTransform:
   m_ObjectHideFlags: 0
@@ -66619,6 +66904,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.SkillIcon
   _iconImage: {fileID: 7891167150877839669}
   _levelText: {fileID: 1099342787230889618}
+  _iconBack: {fileID: 0}
 --- !u!224 &5486437371226224496
 RectTransform:
   m_ObjectHideFlags: 0
@@ -66679,6 +66965,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.SkillIcon
   _iconImage: {fileID: 5269253770289784185}
   _levelText: {fileID: 8652453635174525351}
+  _iconBack: {fileID: 0}
 --- !u!222 &5515933208193833098
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -67319,6 +67606,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 2
+--- !u!1 &5870012302909310017
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 828060940035172465}
+  - component: {fileID: 1941213909151693659}
+  m_Layer: 0
+  m_Name: SoundPlayer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!114 &5871274913375157537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67333,6 +67637,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.SkillIcon
   _iconImage: {fileID: 6583095658520319842}
   _levelText: {fileID: 1447478622668829004}
+  _iconBack: {fileID: 0}
 --- !u!114 &5890328846396197230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67547,6 +67852,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.SkillIcon
   _iconImage: {fileID: 6932982677413945632}
   _levelText: {fileID: 4918012092198880436}
+  _iconBack: {fileID: 0}
 --- !u!1 &5988250444593805808
 GameObject:
   m_ObjectHideFlags: 0
@@ -68320,6 +68626,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.SkillIcon
   _iconImage: {fileID: 18202330386936577}
   _levelText: {fileID: 9015115372001530741}
+  _iconBack: {fileID: 0}
 --- !u!114 &6551580262555665587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70902,63 +71209,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!1001 &7613678228376959027
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4098065743350709362, guid: 4be6bc33338c14ddeb637314902f5d35, type: 3}
-      propertyPath: m_Name
-      value: SoundPlayer
-      objectReference: {fileID: 0}
-    - target: {fileID: 7121568749871992898, guid: 4be6bc33338c14ddeb637314902f5d35, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7121568749871992898, guid: 4be6bc33338c14ddeb637314902f5d35, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7121568749871992898, guid: 4be6bc33338c14ddeb637314902f5d35, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7121568749871992898, guid: 4be6bc33338c14ddeb637314902f5d35, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7121568749871992898, guid: 4be6bc33338c14ddeb637314902f5d35, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7121568749871992898, guid: 4be6bc33338c14ddeb637314902f5d35, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7121568749871992898, guid: 4be6bc33338c14ddeb637314902f5d35, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7121568749871992898, guid: 4be6bc33338c14ddeb637314902f5d35, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7121568749871992898, guid: 4be6bc33338c14ddeb637314902f5d35, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7121568749871992898, guid: 4be6bc33338c14ddeb637314902f5d35, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 4be6bc33338c14ddeb637314902f5d35, type: 3}
 --- !u!222 &7620029881017188542
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -71163,7 +71413,7 @@ MonoBehaviour:
   _battleTimeText: {fileID: 119962857077377195}
   _goldText: {fileID: 4986165379531893810}
   _skillIconGrid: {fileID: 2977034438050309715}
-  _soundPlayer: {fileID: 1278219422}
+  _soundPlayer: {fileID: 1941213909151693659}
 --- !u!114 &7789730631134626840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72475,6 +72725,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TaskForce.AP.Client.UnityWorld.View.BattleFieldScene.SkillIcon
   _iconImage: {fileID: 2466255103259691325}
   _levelText: {fileID: 1363188961931829178}
+  _iconBack: {fileID: 0}
 --- !u!224 &8368816168677424316
 RectTransform:
   m_ObjectHideFlags: 0
@@ -75150,5 +75401,5 @@ SceneRoots:
   - {fileID: 465165121811384146}
   - {fileID: 5618680071112736950}
   - {fileID: 6988858356603993257}
-  - {fileID: 7613678228376959027}
+  - {fileID: 828060940035172465}
   - {fileID: 1196588551}

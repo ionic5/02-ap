@@ -6,7 +6,9 @@ namespace TaskForce.AP.Client.UnityWorld
 {
     public class SoundPlayer : MonoBehaviour, ISoundPlayer
     {
-        [SerializeField] AudioSource bgmAudioSource;
+        [SerializeField] private AudioSource bgmAudioSource;
+        [SerializeField] private AudioSource sfxAudioSource;
+        [SerializeField] public AudioClip playerHitAudioClip;
         [SerializeField] private AudioMixer audioMixer;
 
         private void Awake()
@@ -14,11 +16,16 @@ namespace TaskForce.AP.Client.UnityWorld
             bgmAudioSource.loop = true;
         }
         
-        public void Play()
+        public void PlayBgm()
         {
             bgmAudioSource.Play();
         }
 
+        public void PlayPlayerHitSfx()
+        {
+            sfxAudioSource.PlayOneShot(playerHitAudioClip);
+        }
+        
         public void SetBGMVolume(float volume)
         {
             bgmAudioSource.volume = volume;

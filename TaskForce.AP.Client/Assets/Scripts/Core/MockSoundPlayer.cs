@@ -19,7 +19,7 @@ namespace TaskForce.AP.Client.Core
         {
             _soundPlayer?.SetBGMVolume(_userDataStore.GetBgmVolume());
             _soundPlayer?.SetSFXVolume(_userDataStore.GetSfxVolume());
-            _soundPlayer?.Play();
+            _soundPlayer?.PlayBgm();
         }
         
         public float GetBGMVolume()
@@ -42,6 +42,11 @@ namespace TaskForce.AP.Client.Core
         {
             _userDataStore.SetSfxVolume(volume);
             _soundPlayer?.SetSFXVolume(volume);
+        }
+
+        public void PlaySfxPlayerHit()
+        {
+            _soundPlayer?.PlayPlayerHitSfx();
         }
     }
 }

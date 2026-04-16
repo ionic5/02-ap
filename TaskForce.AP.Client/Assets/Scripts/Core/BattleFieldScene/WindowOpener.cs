@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using TaskForce.AP.Client.Core.View.BattleFieldScene;
 using TaskForce.AP.Client.Core.View.BattleFieldScene.Windows;
 using TaskForce.AP.Client.Core.View.Windows;
@@ -63,7 +63,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             var window = _windowStack.OpenDeathWindow();
             TryPauseWorld();
 
-            var ctrl = new DeathWindowController(window, level, kills, survivalTime, onRestart, onRevive);
+            var ctrl = new DeathWindowController(window, level, kills, survivalTime, onRestart, onRevive, _advertisementPlayer);
             ctrl.Start();
         }
     }

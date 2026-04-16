@@ -56,15 +56,21 @@ namespace TaskForce.AP.Client.UnityWorld.View
 
         public void PlayDamageAnimation(int damage)
         {
+            PlayDamageAnimation(damage, Color.white);
+        }
+        
+        public void PlayDamageAnimation(int damage, Color color)
+        {
             var text = damage.ToString();
 
-            PlayAnimation(text, ClipName.Damage);
+            PlayAnimation(text, ClipName.Damage, color);
         }
 
-        private void PlayAnimation(string text, string clipName)
+        private void PlayAnimation(string text, string clipName, Color color)
         {
             _text.text = text;
-
+            _text.color = color;
+           
             _animator.Play(clipName, 0, 0f);
         }
 

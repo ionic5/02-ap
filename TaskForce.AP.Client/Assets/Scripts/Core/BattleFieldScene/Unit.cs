@@ -1,5 +1,6 @@
 ﻿﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Numerics;
 using TaskForce.AP.Client.Core.Entity;
 using TaskForce.AP.Client.Core.View.BattleFieldScene;
@@ -469,6 +470,11 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         public void PlayReviveEffect(Action onCompleted)
         {
             _unitView.PlayReviveEffect(onCompleted);
+        }
+        
+        public void SetHitTextColor(Color color)
+        {
+            _unitView?.SetHitTextColor(color);
         }
     }
 }

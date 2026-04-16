@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Numerics;
 
 namespace TaskForce.AP.Client.Core.BattleFieldScene
@@ -37,5 +38,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         void RecoverFullHP();
         void Heal(int healAmount);
         void AddExp(int exp);
+
+        void SetHitTextColor(Color color);
     }
 }

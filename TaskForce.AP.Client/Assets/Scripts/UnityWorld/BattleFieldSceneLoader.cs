@@ -9,6 +9,7 @@ using TaskForce.AP.Client.UnityWorld.BattleFieldScene;
 using TaskForce.AP.Client.UnityWorld.View;
 using TaskForce.AP.Client.UnityWorld.View.BattleFieldScene;
 using UnityEngine;
+using Color = System.Drawing.Color;
 
 namespace TaskForce.AP.Client.UnityWorld
 {
@@ -295,7 +296,8 @@ namespace TaskForce.AP.Client.UnityWorld
             world.SetSpawnRadius(
                 _gameDataStore.GetConstant(ConstantID.SpawnMinRadius).AsFloat(),
                 _gameDataStore.GetConstant(ConstantID.SpawnMaxRadius).AsFloat());
-
+            unit.SetHitTextColor(Color.Red);
+            
             // 플레이어 유닛 식별을 위해 태그 부여
             var playerGo = GameObject.Find(((ITarget)unit).GetViewID());
             if (playerGo != null)

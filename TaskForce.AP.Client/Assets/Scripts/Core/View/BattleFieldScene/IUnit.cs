@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Numerics;
 
 namespace TaskForce.AP.Client.Core.View.BattleFieldScene
@@ -27,5 +28,6 @@ namespace TaskForce.AP.Client.Core.View.BattleFieldScene
         void MoveTo(Vector2 position, float speed);
         void Stop();
         Vector2 GetMoveDirection();
+        void SetHitTextColor(Color color);
     }
 }

@@ -40,6 +40,8 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
         HPBarController _hpBarController;
         Core.ILogger _logger;
 
+        private Color _hitTextColor = Color.white;
+
         private IReadOnlyDictionary<UnitMotionID, string> _clipNameMap;
         private readonly string[] State = {
             "Attack",
@@ -227,7 +229,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
             var animator = CreateFloatingTextAnimator.Invoke();
             var offset = _effectAreaCenter.transform.localPosition;
             animator.Follow(this, offset);
-            animator.PlayDamageAnimation(damage);
+            animator.PlayDamageAnimation(damage, _hitTextColor);
             animator.BringToTop();
 
             EventHandler hdlr = null;
@@ -346,5 +348,10 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
             onCompleted?.Invoke();
         }
         // [REVIVE_EFFECT_TEST] END
+        
+        public void SetHitTextColor(System.Drawing.Color color)
+        {
+            _hitTextColor = new Color(color.R / 255f, color.G / 255f, color.B / 255f, color.A / 255f); 
+        }
     }
 }

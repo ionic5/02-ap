@@ -13,13 +13,11 @@
 
         public UserDataStore()
         {
-            // TODO: JW: 초기 지급 값 적용
             _gold = 0;
             _energy = 0;
             _rank = 0;
             _bgmVolume = 0f;
             _sfxVolume = 0f;
-            //
         }
 
         public void SetGold(int gold)

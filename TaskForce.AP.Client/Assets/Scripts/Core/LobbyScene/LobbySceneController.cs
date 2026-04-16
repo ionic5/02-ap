@@ -143,8 +143,7 @@ namespace TaskForce.AP.Client.Core.LobbyScene
                 _windowOpener.OpenCommonWindow(_textStore.GetText(TextID.EnergyMaxDesc));
                 return;
             }
-
-            // TODO: JW: 광고 보상 기능 적용 요
+            
             _windowOpener.OpenEnergyGetWindow(OnEnergyGetConfirmed, _textStore.GetText(TextID.AdsWatchDesc));
         }
 

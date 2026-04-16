@@ -135,16 +135,6 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills
             var minDmg = GetAttribute(AttributeID.MinDamage).AsInt();
             var maxDmg = GetAttribute(AttributeID.MaxDamage).AsInt();
             
-            var attackTime = GetAttribute(AttributeID.AttackTime).AsFloat();
-            var attackImpactTime = GetAttribute(AttributeID.AttackImpactTime).AsFloat();
-            var attackCombo = GetAttribute(AttributeID.AttackCombo).AsInt();
-            var attackComboTime = GetAttribute(AttributeID.AttackComboTime).AsFloat();
-            
-            // TODO: JW: test용 주석 삭제 요
-            // _logger.Info($"meleeDagger: OnAttackImpact: attackTime: {attackTime}, attackImpactTime:{attackImpactTime}," +
-            //              $"attackRange: {attackRange}, degree: {degree}, minDamage: {minDmg}, maxDamage: {maxDmg}, " +
-            //              $"attackCombo: {attackCombo}, attackComboTime: {attackComboTime}");
-            
             if (target.IsAlive() && IsTargetInRange(user, target))
                 targets.Add(target);
 

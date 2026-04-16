@@ -14,10 +14,10 @@ public class UserData
 
     public UserData()
     {
-        gold = -1;     // TODO: JW: 초기값 추후 개선
-        energy = -1;
-        rank = -1;
-        energyUpdateTime = -1;
+        gold = 0;    
+        energy = 5;
+        rank = 1;
+        energyUpdateTime = 0;
         bgmVolume = 1.0f;
         sfxVolume = 1.0f;
     }
@@ -48,6 +48,6 @@ public class FileService
     
     string GetDataUserFilePath()
     {
-        return Application.persistentDataPath + "/UserData.json";   // TODO: JW: 파일 경로를 다른 곳에 저장 요
+        return Application.persistentDataPath + "/UserData.json"; 
     }
 }

@@ -11,6 +11,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         event EventHandler RequireExpChangedEvent;
         event EventHandler LevelUpEvent;
         event EventHandler DeathAnimationCompletedEvent; // Add new event
+        event EventHandler HitEvent;
         void Die(); // Add new method
         void SetActive(bool active);
         void SetInvincible(bool isInvincible);

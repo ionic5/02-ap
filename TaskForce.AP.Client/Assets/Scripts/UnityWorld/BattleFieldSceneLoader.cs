@@ -309,7 +309,7 @@ namespace TaskForce.AP.Client.UnityWorld
             var sceneCtrl = new BattleFieldSceneController(scene, world, followCamera, winOpener,
                 _logger, createTimer(),
                 _onGoToLobbyEvent, battleLog, _userDataStore, skillIconGrid,
-                unit, unitEntity, _gameDataStore);
+                unit, unitEntity, _gameDataStore, _random);
             sceneCtrl.Start();
             loop.Add(sceneCtrl);
 

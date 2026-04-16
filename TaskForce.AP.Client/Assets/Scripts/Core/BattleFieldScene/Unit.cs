@@ -16,6 +16,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         public event EventHandler<DestroyEventArgs> DestroyEvent;
         public event EventHandler<DiedEventArgs> DiedEvent;
         public event EventHandler DeathAnimationCompletedEvent;
+        public event EventHandler HitEvent;
 
         private readonly Core.View.BattleFieldScene.IUnit _unitView;
         private readonly Entity.Unit _unitEntity;
@@ -169,6 +170,8 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             _unitView.SetHpRatio(currentHp / maxHp);
 
             _mockSoundPlayer?.PlaySfxPlayerHit();
+            HitEvent?.Invoke(this, null);
+            
             if (IsDead())
                 OnKilled(attacker);
         }

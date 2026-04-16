@@ -25,12 +25,13 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private Entity.Unit _unitEntity;
         private readonly Queue<int> _levelUpQueue = new Queue<int>();
         private bool _isLevelUpWindowOpen;
+        private Random _random;
 
         public BattleFieldSceneController(IBattleFieldScene scene, IWorld world, IFollowCamera followCamera,
             WindowOpener windowOpener, ILogger logger, Core.Timer timer,
             Action onGoToLobbyEvent, BattleLog battleLog, UserDataStore userDataStore,
             View.BattleFieldScene.ISkillIconGrid skillIconGrid,
-            IUnit unit, Entity.Unit unitEntity, GameDataStore gameDataStore) // Added GameDataStore
+            IUnit unit, Entity.Unit unitEntity, GameDataStore gameDataStore, Random random) // Added GameDataStore
         {
             _scene = scene;
             _world = world;
@@ -46,6 +47,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             _unit = unit;
             _unitEntity = unitEntity;
             _gameDataStore = gameDataStore;
+            _random = random;
         }
 
         public void Update()
@@ -68,6 +70,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             _unit.DestroyEvent += OnUnitDestroyEvent;
             _unitEntity.DiedEvent += OnUnitEntityDiedEvent; // Subscribe to Core.Entity.Unit's DiedEvent
             _unit.DeathAnimationCompletedEvent += OnUnitDeathAnimationCompletedEvent; // Subscribe to Unity Unit's death animation completion
+            _unit.HitEvent += OnUnitHitEvent;
 
             _followCamera.SetTarget(_unit);
 
@@ -172,6 +175,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
             _unit.DestroyEvent -= OnUnitDestroyEvent;
             _unitEntity.DiedEvent -= OnUnitEntityDiedEvent; // Unsubscribe from Core.Entity.Unit's DiedEvent
             _unit.DeathAnimationCompletedEvent -= OnUnitDeathAnimationCompletedEvent; // Unsubscribe from Unity Unit's death animation completion
+            _unit.HitEvent -= OnUnitHitEvent;
             _unit.Destroy();
             _unit = null;
         }
@@ -189,6 +193,17 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         {
             // Death animation finished, show the death popup
             _windowOpener.OpenDeathWindow(_unit.GetLevel(), _battleLog.KillCount, _battleLog.BattleTime, GoToLobby, OnReviveUnit);
+        }
+
+        private void OnUnitHitEvent(object sender, EventArgs e)
+        {
+            _unit.SetInvincible(true);
+            float invincibleTime = _random.NextFloat(0.5f, 1f);
+            
+            _timer.Start(invincibleTime, () => {
+                if (_unit != null && !_unit.IsDead())
+                    _unit.SetInvincible(false);
+            });
         }
 
         private void GoToLobby()

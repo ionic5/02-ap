@@ -81,7 +81,7 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
         {
             var candidate = Random.NextPosition(center, minDistance, maxDistance);
             var candidate3D = new Vector3(candidate.X, 0, candidate.Y);
-            if (NavMesh.SamplePosition(candidate3D, out var hit, 1f, NavMesh.AllAreas))
+            if (NavMesh.SamplePosition(candidate3D, out var hit, 5f, NavMesh.AllAreas))
             {
                 position = new System.Numerics.Vector2(hit.position.x, hit.position.z);
                 return true;

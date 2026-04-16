@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using TaskForce.AP.Client.Core.View.BattleFieldScene;
 using UnityEngine;
 
@@ -6,6 +6,8 @@ namespace TaskForce.AP.Client.UnityWorld.View
 {
     public class WindowStack : MonoBehaviour
     {
+        public event System.EventHandler WindowCountChangedEvent;
+
         private List<Window> _windows;
 
         [SerializeField]
@@ -42,6 +44,8 @@ namespace TaskForce.AP.Client.UnityWorld.View
 
         private void UpdateWindowBackground()
         {
+            WindowCountChangedEvent?.Invoke(this, System.EventArgs.Empty);
+
             if (!IsOpenedWindowExist())
             {
                 _windowBackground.SetActive(false);

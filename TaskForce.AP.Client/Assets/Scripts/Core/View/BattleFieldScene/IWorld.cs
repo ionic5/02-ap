@@ -13,5 +13,6 @@ namespace TaskForce.AP.Client.Core.View.BattleFieldScene
         bool IsOutOfCameraView(Vector2 vector2);
         void Pause();
         void Resume();
+        bool IsPaused();
     }
 }

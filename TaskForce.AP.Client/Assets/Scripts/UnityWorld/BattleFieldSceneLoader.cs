@@ -278,7 +278,7 @@ namespace TaskForce.AP.Client.UnityWorld
             }
 
             var pausePanel = scene.PausePanel;
-            var pausePanelCtrl = new PausePanelController(pausePanel, world);
+            var pausePanelCtrl = new PausePanelController(pausePanel, world, windowStack);
             pausePanelCtrl.Start();
 
             var unitEntity = unitEntityFactory.CreateUnitEntity("WARRIOR_0");

@@ -54,6 +54,11 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
             ResumedEvent?.Invoke(this, EventArgs.Empty);
         }
 
+        public bool IsPaused()
+        {
+            return _isPaused;
+        }
+
         public System.Numerics.Vector2 GetNextSpawnPoint()
         {
             var playerPos = _player.GetPosition();

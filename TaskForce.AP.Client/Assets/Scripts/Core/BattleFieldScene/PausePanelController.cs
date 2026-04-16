@@ -7,27 +7,31 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
     {
         private readonly IPausePanel _panel;
         private readonly IWorld _world;
+        private readonly IWindowStack _windowStack;
 
-        public PausePanelController(IPausePanel panel, IWorld world)
+        public PausePanelController(IPausePanel panel, IWorld world, IWindowStack windowStack)
         {
             _panel = panel;
             _world = world;
+            _windowStack = windowStack;
         }
 
         public void Start()
         {
             _world.PausedEvent += OnWorldPaused;
             _world.ResumedEvent += OnWorldResumed;
+            _windowStack.WindowCountChangedEvent += OnWindowCountChanged;
             _panel.ClickedEvent += OnPanelClicked;
             _panel.DestroyEvent += OnPanelDestroyed;
             
-            _panel.Hide();
+            UpdatePanelVisibility();
         }
 
         public void Stop()
         {
             _world.PausedEvent -= OnWorldPaused;
             _world.ResumedEvent -= OnWorldResumed;
+            _windowStack.WindowCountChangedEvent -= OnWindowCountChanged;
             _panel.ClickedEvent -= OnPanelClicked;
             _panel.DestroyEvent -= OnPanelDestroyed;
         }
@@ -49,7 +53,24 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
 
         private void OnWorldPaused(object sender, EventArgs e)
         {
-            _panel.Show();
+            UpdatePanelVisibility();
+        }
+
+        private void OnWindowCountChanged(object sender, EventArgs e)
+        {
+            UpdatePanelVisibility();
+        }
+
+        private void UpdatePanelVisibility()
+        {
+            if (_world.IsPaused() && _windowStack.GetOpenedWindowCount() == 0)
+            {
+                _panel.Show();
+            }
+            else
+            {
+                _panel.Hide();
+            }
         }
     }
 }

@@ -43,6 +43,12 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
             PausedEvent?.Invoke(this, EventArgs.Empty);
         }
 
+        private void Update()
+        {
+            if(!_isPaused)
+                UnityEngine.Time.timeScale = 1f;
+        }
+
         public void Resume()
         {
             if (!_isPaused)

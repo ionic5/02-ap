@@ -231,11 +231,9 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
                     _unit.Wait(); // Reset unit's visual state to idle animation
                     
                     _unit.SetInvincible(true); // 깜빡이는 동안에도 공격을 받지 않도록 즉시 무적 적용
-                    
+                    _world.Resume();
+
                     _unit.PlayReviveEffect(() => {
-                        _world.Resume(); // Resume game (여기서 몹들이 움직이기 시작함)
-                        
-                        // 3초 무적 상태 해제는 게임이 재개된 시점부터 3초 뒤에
                         _timer.Start(3.0f, () => {
                             if (_unit != null && !_unit.IsDead())
                                 _unit.SetInvincible(false);

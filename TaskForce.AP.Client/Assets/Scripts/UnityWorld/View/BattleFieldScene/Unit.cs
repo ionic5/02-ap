@@ -332,10 +332,6 @@ namespace TaskForce.AP.Client.UnityWorld.View.BattleFieldScene
 
             while (elapsed < duration)
             {
-                // 사용자가 화면을 클릭하여 일시정지가 해제되면 깜빡임 연출 즉시 중단
-                if (UnityEngine.Time.timeScale > 0f)
-                    break;
-
                 foreach (var r in renderers) { r.enabled = !r.enabled; }
                 yield return new WaitForSecondsRealtime(blinkInterval);
                 elapsed += blinkInterval;

@@ -21,7 +21,6 @@ namespace TaskForce.AP.Client.UnityWorld.BattleFieldScene
             var target = args.CreatedObject;
 
             _targets.Add(target);
-            target.DiedEvent += OnTargetDiedEvent;
             target.DestroyEvent += OnDestroyTargetEvent;
         }
 
@@ -30,7 +29,6 @@ namespace TaskForce.AP.Client.UnityWorld.BattleFieldScene
             var target = args.CreatedObject;
 
             _targets.Add(target);
-            target.DiedEvent += OnTargetDiedEvent;
             target.DestroyEvent += OnDestroyTargetEvent;
         }
 
@@ -106,22 +104,12 @@ namespace TaskForce.AP.Client.UnityWorld.BattleFieldScene
                 RemoveTarget(target);
         }
 
-        public void OnTargetDiedEvent(object sender, DiedEventArgs args)
-        {
-            var target = _targets.FirstOrDefault(entry => entry == args.DiedTarget);
-            if (target == null)
-                return;
-
-            RemoveTarget(target);
-        }
-
         private void RemoveTarget(ITarget target)
         {
             if (!_targets.Contains(target))
                 return;
 
             target.DestroyEvent -= OnDestroyTargetEvent;
-            target.DiedEvent -= OnTargetDiedEvent;
 
             _targets.Remove(target);
         }

@@ -111,7 +111,7 @@ namespace TaskForce.AP.Client.Core.BattleFieldScene
         private bool TrySetMainTarget()
         {
             var enemies = GetControlTarget().FindTargets(GetControlTarget().GetPosition(), GetControlTarget().GetAttribute(AttributeID.DetectRange).AsFloat());
-            var target = enemies.OrderBy(e => Vector2.Distance(GetControlTarget().GetPosition(), e.GetPosition())).FirstOrDefault();
+            var target = enemies.Where(e => !e.IsDead()).OrderBy(e => Vector2.Distance(GetControlTarget().GetPosition(), e.GetPosition())).FirstOrDefault();
 
             if (target == null)
                 return false;

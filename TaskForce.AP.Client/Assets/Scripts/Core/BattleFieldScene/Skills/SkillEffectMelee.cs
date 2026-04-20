@@ -1,6 +1,5 @@
 using System;
 using System.Numerics;
-using log4net.Util;
 using TaskForce.AP.Client.Core.View.BattleFieldScene;
 
 namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills

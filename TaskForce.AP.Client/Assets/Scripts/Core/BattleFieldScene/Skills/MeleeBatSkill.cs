@@ -1,9 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using log4net.Appender;
 using TaskForce.AP.Client.Core.Entity;
 
 namespace TaskForce.AP.Client.Core.BattleFieldScene.Skills

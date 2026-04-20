@@ -45,7 +45,11 @@ namespace TaskForce.AP.Client.UnityWorld
         private async void StartAsync()
         {
             var userDataStore = new UserDataStore();
-            var application = new EditorApplication();
+#if UNITY_EDITOR
+            IApplication application = new EditorApplication();
+#else
+            IApplication application = new StandaloneApplication();
+#endif
             var logger = new DebugLogger(application);
             var time = new Time();
             var random = new Core.Random();
